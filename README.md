@@ -1,12 +1,12 @@
-# Experimenter
+# Experimenter 🧪
+
+<img src="img/logo.png" alt="logo" width=200 />
 
 An Java-Android app that does experiments and tests.
 
 
 
 Docs holds basic info like team members and UML/Storyboard
-
-
 
 
 
