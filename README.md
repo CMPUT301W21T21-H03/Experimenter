@@ -6,7 +6,8 @@ An Java-Android app that does experiments and tests.
 
 
 
-Docs holds basic info like team members and UML/Storyboard
+Docs holds basic info like team members and UML/Storyboard    
+It's also inlcluded in Team Wiki
 
 
 
