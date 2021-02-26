@@ -10,13 +10,14 @@ Docs holds basic info like team members and UML/Storyboard
 
 
 
-### Issue Tracker
+### List of Issues
 
 https://github.com/CMPUT301W21T21-H03/DivineInspiration/issues    
-Can see a detailed flow of the product backlog in Project section
 
 
-### TODOs:
+
+### Issue Tracker    
+Can see a detailed flow of the product backlog in Project section   
 
 https://github.com/CMPUT301W21T21-H03/DivineInspiration/projects/1
 
