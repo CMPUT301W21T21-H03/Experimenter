@@ -25,7 +25,7 @@ jobs:
 
     # Execute unit tests (https://github.com/marketplace/actions/android-test-report-action)
     - name: Unit Test
-      run: ./gradlew test
+      run: ./app/gradlew test
 
     - name: Android Test Report
       uses: asadmansr/android-test-report-action@v1.2.0
