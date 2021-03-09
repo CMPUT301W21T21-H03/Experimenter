@@ -1,6 +1,8 @@
 package com.DivineInspiration.experimenter;
 
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -10,6 +12,8 @@ import com.google.firebase.installations.FirebaseInstallations;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class IdGen {
 
@@ -28,8 +32,11 @@ public class IdGen {
         License: Unknown
         Usage: Introduction to twitter snowflake, the below is a rough implementation similar to twitter snowflake.
          */
-        final long[] output = {0};
+
+        final AtomicLong output = new AtomicLong(0);
+        final AtomicBoolean done = new AtomicBoolean(false);
         FirebaseInstallations.getInstance().getId().addOnCompleteListener(task -> {
+            Log.d("stuff",task.toString());
             if (task.isSuccessful()){
                 String fid = task.getResult();
                 fid = fid.substring(0, 4).toUpperCase();
@@ -45,11 +52,16 @@ public class IdGen {
                 fid = temp.toString();
                 long fidVal = base36To10(fid);
                 //in base 36, the first 4 digits are the
-                output[0] = System.currentTimeMillis()  << 21;
-                output[0] = output[0]|fidVal;
+                output.set(System.currentTimeMillis()  << 21);
+                output.set(output.get()|fidVal);
             }
+            else{
+                output.set(-1);
+            }
+            done.set(true);
         });
-        return output[0];
+        while(!done.get());
+        return output.get();
     }
 
     public static long genExperimentId(int expCount, User user){
