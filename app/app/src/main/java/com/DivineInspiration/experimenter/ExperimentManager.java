@@ -3,7 +3,7 @@ package com.DivineInspiration.experimenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentList {
+public class ExperimentManager {
     private List<Experiment> experiments = new ArrayList<>();
 
     public void add(Experiment experiment) {
