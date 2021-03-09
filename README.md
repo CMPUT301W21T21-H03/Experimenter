@@ -2,7 +2,7 @@
 
 <img src="img/logo.png" alt="logo" width=200 />
 
-![badge](https://github.com/CMPUT301W21T21-H03/DivineInspiration/actions/workflows/AndroidTests/badge.svg)
+![badge](https://github.com/CMPUT301W21T21-H03/DivineInspiration/workflows/AndroidTests/badge.svg)
 
 An Java-Android app that does experiments and tests.
 
