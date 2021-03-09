@@ -2,25 +2,25 @@
 
 <img src="img/logo.png" alt="logo" width=200 />
 
+![badge](https://github.com/CMPUT301W21T21-H03/DivineInspiration/actions/workflows/AndroidTests/badge.svg)
+
 An Java-Android app that does experiments and tests.
 
 
 
-Docs holds basic info like team members and UML/Storyboard    
-It's also inlcluded in Team Wiki
+Docs holds basic info like team members and UML/Storyboard
+It's also included in Team Wiki
 
 
 
 ### List of Issues
 
-https://github.com/CMPUT301W21T21-H03/DivineInspiration/issues    
+A list of issues [here](https://github.com/CMPUT301W21T21-H03/DivineInspiration/issues ) 
 
 
 
 ### Issue Tracker    
-Can see a detailed flow of the product backlog in Project section   
-
-https://github.com/CMPUT301W21T21-H03/DivineInspiration/projects/1
+Can see a detailed flow of the product backlog in [Project section](https://github.com/CMPUT301W21T21-H03/DivineInspiration/projects/1)  
 
 
 
