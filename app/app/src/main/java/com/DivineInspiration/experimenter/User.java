@@ -2,19 +2,18 @@ package com.DivineInspiration.experimenter;
 
 import java.util.UUID;
 
-public class Person {
+public class User {
     private String uniqueID;
     private String namePerson;
-    private boolean typeOwner;
     private ContactPersonInfo contactPersonInfo;
 
 
     //constructor
 
-    public Person(String namePerson, boolean typeOwner, ContactPersonInfo contactPersonInfo) {
+    public User(String namePerson,ContactPersonInfo contactPersonInfo) {
         this.uniqueID = UUID.randomUUID().toString();
         this.namePerson = namePerson;
-        this.typeOwner = typeOwner;
+
         this.contactPersonInfo = contactPersonInfo;
     }
 
@@ -35,13 +34,9 @@ public class Person {
         this.namePerson = namePerson;
     }
 
-    public boolean isTypeOwner() {
-        return typeOwner;
-    }
 
-    public void setTypeOwner(boolean typeOwner) {
-        this.typeOwner = typeOwner;
-    }
+
+
 
     public String getUniqueID() {
         return uniqueID;
