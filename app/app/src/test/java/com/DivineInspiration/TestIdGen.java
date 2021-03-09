@@ -1,5 +1,7 @@
 package com.DivineInspiration;
 
+import android.util.Log;
+
 import com.DivineInspiration.experimenter.IdGen;
 
 import org.junit.Test;
@@ -14,5 +16,8 @@ public class TestIdGen {
     @Test
     public void testId(){
         //TODO not sure how to test this.
+        //This might help https://generate.plus/en/base64
+
+        //Log.d("stuff", String.valueOf(IdGen.genUserId()));
     }
 }
