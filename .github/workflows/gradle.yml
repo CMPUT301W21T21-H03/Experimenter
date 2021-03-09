@@ -5,15 +5,15 @@ name: AndroidTests
 
 on:
   push:
+
+    paths:
+    - './app'
     branches: [ master ]
   pull_request:
     branches: [ master ]
 
 jobs:
   build:
-
-    paths:
-    - './app'
 
     runs-on: ubuntu-latest
     
