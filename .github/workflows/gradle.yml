@@ -22,6 +22,15 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+
+    # Execute unit tests (https://github.com/marketplace/actions/android-test-report-action)
+    - name: Unit Test
+      run: ./app/gradlew test
+
+    - name: Android Test Report
+      uses: asadmansr/android-test-report-action@v1.2.0
+      if: ${{ always() }} # IMPORTANT: run Android Test Report regardless
+    # 
     - name: Grant execute permission for gradlew
       run: chmod +x app/gradlew
     - name: Build with Gradle

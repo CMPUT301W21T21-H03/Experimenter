@@ -1,4 +1,4 @@
-package com.DivineInspiration;
+package com.DivineInspiration.experimenter;
 
 import android.util.Log;
 
@@ -10,7 +10,7 @@ public class TestIdGen {
     @Test
     public void baseConversion(){
         long l = 1679616L;
-        assertEquals("10000", IdGen.base10To36(l));
+        assertEquals("10", IdGen.base10To36(l));
         assertEquals(1679616L, IdGen.base36To10(IdGen.base10To36(l)));
     }
     @Test
