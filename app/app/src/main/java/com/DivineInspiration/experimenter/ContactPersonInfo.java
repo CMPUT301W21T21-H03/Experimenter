@@ -5,6 +5,15 @@ public class ContactPersonInfo {
     private int phoneNumber;
     private String cityName;
 
+    /**
+     * Contact person info constructor
+     * @param address
+     * Physical address of person
+     * @param phoneNumber
+     * Phone number of person
+     * @param cityName
+     * City of person
+     */
     public ContactPersonInfo(String address, int phoneNumber, String cityName) {
         this.address = address;
         this.phoneNumber = phoneNumber;

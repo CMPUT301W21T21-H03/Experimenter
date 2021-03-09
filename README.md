@@ -8,8 +8,11 @@ An Java-Android app that does experiments and tests.
 
 
 
-Docs holds basic info like team members and UML/Storyboard
-It's also included in Team Wiki
+## Guide
+
+Use the [wiki](https://github.com/CMPUT301W21T21-H03/DivineInspiration/wiki) to guide you along the project. The wiki contains lot of useful links and info about the project
+
+JavaDoc for the project can be found [here](https://cmput301w21t21-h03.github.io/JavaDocs/)
 
 
 
@@ -19,7 +22,7 @@ A list of issues [here](https://github.com/CMPUT301W21T21-H03/DivineInspiration/
 
 
 
-### Issue Tracker    
+### Issue Tracker
 Can see a detailed flow of the product backlog in [Project section](https://github.com/CMPUT301W21T21-H03/DivineInspiration/projects/1)  
 
 
