@@ -29,27 +29,24 @@ public class IdGen {
         Usage: Introduction to twitter snowflake, the below is a rough implementation similar to twitter snowflake.
          */
         final long[] output = {0};
-        FirebaseInstallations.getInstance().getId().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if (task.isSuccessful()){
-                    String fid = task.getResult();
-                    fid = fid.substring(0, 4).toUpperCase();
-                    StringBuilder temp = new StringBuilder();
-                    for(int i = 0; i < 4; i ++){
-                        if(!inRange(fid.charAt(i), 65, 90) && !inRange(fid.charAt(i), 30, 39)){
-                            temp.append((fid.charAt(i) % 26)+65);
-                        }
-                        else{
-                            temp.append(fid.charAt(i));
-                        }
+        FirebaseInstallations.getInstance().getId().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                String fid = task.getResult();
+                fid = fid.substring(0, 4).toUpperCase();
+                StringBuilder temp = new StringBuilder();
+                for(int i = 0; i < 4; i ++){
+                    if(!inRange(fid.charAt(i), 65, 90) && !inRange(fid.charAt(i), 30, 39)){
+                        temp.append((fid.charAt(i) % 26)+65);
                     }
-                    fid = temp.toString();
-                    long fidVal = base36To10(fid);
-                    //in base 36, the first 4 digits are the
-                    output[0] = System.currentTimeMillis()  << 21;
-                    output[0] = output[0]|fidVal;
+                    else{
+                        temp.append(fid.charAt(i));
+                    }
                 }
+                fid = temp.toString();
+                long fidVal = base36To10(fid);
+                //in base 36, the first 4 digits are the
+                output[0] = System.currentTimeMillis()  << 21;
+                output[0] = output[0]|fidVal;
             }
         });
         return output[0];
