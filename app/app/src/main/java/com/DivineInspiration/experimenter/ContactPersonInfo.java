@@ -1,4 +1,4 @@
-package com.example.experimenter;
+package com.DivineInspiration.experimenter;
 
 public class ContactPersonInfo {
     private String address;

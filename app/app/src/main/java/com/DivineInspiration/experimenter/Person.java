@@ -1,4 +1,4 @@
-package com.example.experimenter;
+package com.DivineInspiration.experimenter;
 
 import java.util.UUID;
 
