@@ -1,39 +1,38 @@
 package com.DivineInspiration.experimenter;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class ContactPersonInfoTest {
+public class ContactPersonInfoTest {
 
     private ContactPersonInfo mockContactPersonInfo(String address, int phoneNumber, String cityName) {
         return new ContactPersonInfo(address, phoneNumber, cityName);
     }
 
     @Test
-    void getAddress() {
+    public void getAddress() {
         ContactPersonInfo mock = mockContactPersonInfo("100 Old St.", 1234, "Regina");
 
-        assertEquals("10 Old St.", mock.getAddress());
+        assertEquals("100 Old St.", mock.getAddress());
     }
 
     @Test
-    void setAddress() {
+    public void setAddress() {
     }
 
     @Test
-    void getPhoneNumber() {
+    public void getPhoneNumber() {
     }
 
     @Test
-    void setPhoneNumber() {
+    public void setPhoneNumber() {
     }
 
     @Test
-    void getCityName() {
+    public void getCityName() {
     }
 
     @Test
-    void setCityName() {
+    public void setCityName() {
     }
 }
