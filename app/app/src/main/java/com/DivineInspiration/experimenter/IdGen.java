@@ -15,7 +15,7 @@ public class IdGen {
 
 
     /**
-     * Generates a user id, a 51 bit long. Where the first 31 bits is epoch time, in seconds.
+     * Generates a user id, a 53 bit long. Where the first 32 bits is epoch time, in seconds.
      * The latter 20 bits are first 4 digit of firebase installation id(base 64) loosely converted to base 36
      * @return a unique user id
      */
@@ -47,7 +47,7 @@ public class IdGen {
                     fid = temp.toString();
                     long fidVal = base36To10(fid);
                     //in base 36, the first 4 digits are the
-                    output[0] = System.currentTimeMillis()  << 20;
+                    output[0] = System.currentTimeMillis()  << 21;
                     output[0] = output[0]|fidVal;
                 }
             }
