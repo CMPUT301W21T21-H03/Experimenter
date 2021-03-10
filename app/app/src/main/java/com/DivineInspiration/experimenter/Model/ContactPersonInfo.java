@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter;
+package com.DivineInspiration.experimenter.Model;
 
 public class ContactPersonInfo {
     private String address;

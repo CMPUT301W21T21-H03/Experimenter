@@ -1,5 +1,7 @@
 package com.DivineInspiration.experimenter;
 
+import com.DivineInspiration.experimenter.Model.Experiment;
+
 import junit.framework.TestCase;
 
 import java.util.ArrayList;

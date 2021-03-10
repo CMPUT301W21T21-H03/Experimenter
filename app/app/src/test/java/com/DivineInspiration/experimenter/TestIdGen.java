@@ -1,8 +1,6 @@
 package com.DivineInspiration.experimenter;
 
-import android.util.Log;
-
-import com.DivineInspiration.experimenter.IdGen;
+import com.DivineInspiration.experimenter.Model.IdGen;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

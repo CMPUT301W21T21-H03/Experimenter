@@ -1,4 +1,6 @@
-package com.DivineInspiration.experimenter;
+package com.DivineInspiration.experimenter.Controller;
+
+import com.DivineInspiration.experimenter.Model.Experiment;
 
 import java.util.ArrayList;
 import java.util.List;
