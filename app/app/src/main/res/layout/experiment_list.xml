@@ -1,7 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="#80D5D4FF"
+            android:orientation="horizontal">
+
+            <SearchView
+                android:id="@+id/experimentSearch"
+                android:layout_width="255dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="12dp"
+                android:layout_marginLeft="24dp"
+                android:autofillHints="Search"
+                android:background="@drawable/rounded_shape"
+                android:orientation="horizontal"
+                android:queryHint="Search">
+
+            </SearchView>
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                app:srcCompat="@drawable/setting" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/experimentList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
