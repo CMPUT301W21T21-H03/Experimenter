@@ -1,20 +1,51 @@
 package com.DivineInspiration.experimenter;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
-import java.util.List;
 
-public class ExperimentList {
-    private List<Experiment> experiments = new ArrayList<>();
+public class ExperimentList extends ArrayAdapter<Experiment> {
 
-    public void add(Experiment experiment) {
-        // TO DO
+    private ArrayList<Experiment> experiments;
+    private Context context;
+
+    /**
+     * Experiment list contructor
+     * @param context
+     * context view
+     * @param experiments
+     * array list of experiments
+     */
+    public ExperimentList(Context context, ArrayList<Experiment> experiments) {
+        super(context, 0, experiments);
+        this.experiments = experiments;
+        this.context = context;
     }
 
-    public void remove(Experiment experiment) {
-        // TO DO
-    }
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View view = convertView;
 
-    public void getExperiment(int position) {
-        // TO DO
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.experiment_list, parent, false);
+        }
+
+        Experiment experiment = experiments.get(position);
+
+        //*******
+        // TODO:
+        // ADD TEXT VIEW STUFF
+        //********
+
+        return view;
+
     }
 }
