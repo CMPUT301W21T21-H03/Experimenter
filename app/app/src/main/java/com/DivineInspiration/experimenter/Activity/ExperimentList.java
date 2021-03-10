@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter;
+package com.DivineInspiration.experimenter.Activity;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.DivineInspiration.experimenter.Model.Experiment;
+import com.DivineInspiration.experimenter.R;
 
 import java.util.ArrayList;
 

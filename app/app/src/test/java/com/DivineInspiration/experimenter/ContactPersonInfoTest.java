@@ -1,5 +1,7 @@
 package com.DivineInspiration.experimenter;
 
+import com.DivineInspiration.experimenter.Model.ContactPersonInfo;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
