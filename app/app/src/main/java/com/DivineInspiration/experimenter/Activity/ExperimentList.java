@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter;
+package com.DivineInspiration.experimenter.Activity;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,14 +9,24 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.DivineInspiration.experimenter.Model.Experiment;
+import com.DivineInspiration.experimenter.R;
+
 import java.util.ArrayList;
 
-public class CustomList extends ArrayAdapter<Experiment> {
+public class ExperimentList extends ArrayAdapter<Experiment> {
 
     private ArrayList<Experiment> experiments;
     private Context context;
 
-    public CustomList(Context context,  ArrayList<Experiment> experiments) {
+    /**
+     * Experiment list contructor
+     * @param context
+     * context view
+     * @param experiments
+     * array list of experiments
+     */
+    public ExperimentList(Context context, ArrayList<Experiment> experiments) {
         super(context, 0, experiments);
         this.experiments = experiments;
         this.context = context;
@@ -34,7 +44,7 @@ public class CustomList extends ArrayAdapter<Experiment> {
         Experiment experiment = experiments.get(position);
 
         //*******
-        // TO DO
+        // TODO:
         // ADD TEXT VIEW STUFF
         //********
 

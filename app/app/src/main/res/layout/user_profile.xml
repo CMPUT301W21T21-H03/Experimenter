@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,69 +10,69 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Profile"
-        android:textStyle="bold"
         android:textSize="48sp"
-        android:layout_centerHorizontal="true" />
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/backArrowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
-        android:src="@drawable/ic_baseline_arrow_back_24" />
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/userIdTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="User ID: "
         android:textSize="22sp"
-        android:paddingLeft="8dp"
-        android:layout_below="@id/profileTxt"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileTxt" />
 
     <TextView
         android:id="@+id/userIdInfoTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/contactInfoTxt"
-        android:layout_below="@+id/profileTxt"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
-        android:layout_toEndOf="@+id/userIdTxt"
-        android:layout_toRightOf="@id/userIdTxt"
-        android:gravity="center"
         android:paddingLeft="8dp"
         android:text="example User ID"
-        android:textSize="22sp" />
+        android:textSize="22sp"
+        app:layout_constraintLeft_toRightOf="@id/userIdTxt"
+        app:layout_constraintTop_toBottomOf="@id/profileTxt" />
 
     <TextView
         android:id="@+id/contactTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
         android:text="Contact Info: "
         android:textSize="22sp"
-        android:layout_below="@id/userIdTxt"
-        android:paddingLeft="8dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userIdTxt" />
 
     <TextView
         android:id="@+id/contactInfoTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
         android:text="email@gmail.com"
         android:textSize="22sp"
-        android:layout_toRightOf="@id/contactTxt"
-        android:layout_below="@id/userIdTxt"
-        android:paddingLeft="8dp"/>
+        app:layout_constraintLeft_toRightOf="@id/contactTxt"
+        app:layout_constraintTop_toBottomOf="@id/userIdTxt" />
 
     <Button
         android:id="@+id/editInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Contact"
-        android:layout_below="@id/contactTxt"
-        android:layout_centerHorizontal="true"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contactTxt" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

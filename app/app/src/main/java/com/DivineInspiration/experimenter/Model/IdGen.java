@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter;
+package com.DivineInspiration.experimenter.Model;
 
 
 import android.util.Log;
@@ -49,7 +49,7 @@ public class IdGen {
                 assert fid != null;
                 fid = fid.substring(0, 4).toUpperCase();
                 StringBuilder temp = new StringBuilder();
-                for(int i = 0; i < 4; i ++){
+                for(int i = 0; i < 4; i++){
                     if(!inRange(fid.charAt(i), 65, 90) && !inRange(fid.charAt(i), 30, 39)){
                         temp.append((fid.charAt(i) % 26)+65);
                     }
