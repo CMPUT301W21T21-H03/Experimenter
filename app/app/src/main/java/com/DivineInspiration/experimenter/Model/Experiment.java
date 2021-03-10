@@ -1,12 +1,15 @@
 package com.DivineInspiration.experimenter.Model;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Experiment {
     private String experimentName;
     private String experimentOwnerID;
+    private String experimentID;
     private String experimentDescription;
     private ArrayList<String> experimentSubscribers;
+
 
     /**
      * Experiment constructor
@@ -21,6 +24,7 @@ public class Experiment {
         this.experimentName = experimentName;
         this.experimentOwnerID = experimentOwnerID;
         this.experimentDescription = experimentDescription;
+        this.experimentID = UUID.randomUUID().toString();
     }
 
     /**
@@ -50,15 +54,14 @@ public class Experiment {
         return experimentOwnerID;
     }
 
-    // is this necessary? should be fine with just a constructor
-//    /**
-//     * Sets experiment owner (ID)
-//     * @param experimentName
-//     * name of experiment's owner
-//     */
-//    public void setExperimentOwnerID(String experimentOwnerID) {
-//        this.experimentOwnerID = experimentOwnerID;
-//    }
+    /**
+     * Gets owner of experiment
+     * @return
+     * experiment owner
+     */
+    public String getExperimentID() {
+        return experimentID;
+    }
 
     /**
      * Gets description of experiment
