@@ -33,11 +33,18 @@
         android:id="@+id/userIdInfoTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="example User ID"
-        android:textSize="22sp"
+        android:layout_above="@+id/contactInfoTxt"
+        android:layout_below="@+id/profileTxt"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/userIdTxt"
         android:layout_toRightOf="@id/userIdTxt"
-        android:layout_below="@id/profileTxt"
-        android:paddingLeft="8dp"/>
+        android:gravity="center"
+        android:paddingLeft="8dp"
+        android:text="example User ID"
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/contactTxt"
