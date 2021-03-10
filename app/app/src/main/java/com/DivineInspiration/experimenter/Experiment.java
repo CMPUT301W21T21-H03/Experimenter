@@ -50,7 +50,7 @@ public class Experiment {
         return experimentOwnerID;
     }
 
-    // is this nessary? should be fine with just a constructor
+    // is this necessary? should be fine with just a constructor
 //    /**
 //     * Sets experiment owner (ID)
 //     * @param experimentName
@@ -71,7 +71,7 @@ public class Experiment {
 
     /**
      * Sets experiment description
-     * @param experimentName
+     * @param experimentDescription
      * experiment description
      */
     public void setExperimentDescription(String experimentDescription) {
@@ -93,7 +93,7 @@ public class Experiment {
      * @param subscriberID
      * subsciber ID
      */
-    public void addSubscribers(String subscriberID){
+    public void addSubscriber(String subscriberID){
         ArrayList<String> experimentSubscribers = getExperimentSubscribers();
         experimentSubscribers.add(subscriberID);
     }
@@ -103,7 +103,7 @@ public class Experiment {
      * @param subscriberID
      * subsciber ID
      */
-    public void deleteSubscribers(String subscriberID){
+    public void deleteSubscriber(String subscriberID){
         ArrayList<String> experimentSubscribers = getExperimentSubscribers();
         experimentSubscribers.remove(subscriberID);
     }

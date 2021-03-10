@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements IdGen.IDCallBackable {
 
-    // on open
+    // on mount
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

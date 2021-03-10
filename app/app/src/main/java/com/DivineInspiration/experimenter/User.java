@@ -7,7 +7,6 @@ public class User {
     private String username;
     private ContactPersonInfo contactUserInfo;
 
-
     /**
      * User contructor
      * @param username
@@ -84,7 +83,7 @@ public class User {
      */
     public void subscribeExperiment(Experiment experiment){
         String subscriberID = getUniqueID();
-        experiment.addSubscribers(subscriberID);
+        experiment.addSubscriber(subscriberID);
     }
 
     /**
@@ -94,6 +93,6 @@ public class User {
      */
     public void unsubscribeExperiment(Experiment experiment){
         String subscriberID = getUniqueID();
-        experiment.deleteSubscribers(subscriberID);
+        experiment.deleteSubscriber(subscriberID);
     }
 }

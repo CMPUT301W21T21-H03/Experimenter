@@ -24,10 +24,10 @@
         android:id="@+id/userIdTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/profileTxt"
+        android:padding="8dp"
         android:text="User ID: "
-        android:textSize="22sp"
-        android:paddingLeft="8dp"
-        android:layout_below="@id/profileTxt"/>
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/userIdInfoTxt"
