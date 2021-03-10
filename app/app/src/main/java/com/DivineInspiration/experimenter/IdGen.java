@@ -17,14 +17,16 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class IdGen {
 
+    public interface IDCallBackable{
+        public void onIdReady(long id);
+    }
 
     /**
      * Generates a user id, a 53 bit long. Where the first 32 bits is epoch time, in seconds.
      * The latter 20 bits are first 4 digit of firebase installation id(base 64) loosely converted to base 36
-     * @return a unique user id
      */
     //TODO should userId be stored as long or a string?
-    public static long genUserId(){
+    public static void genUserId(IDCallBackable callable){
         /*
         Name: Rajeev Singh
         Link: https://www.callicoder.com/distributed-unique-id-sequence-number-generator/
@@ -32,13 +34,19 @@ public class IdGen {
         License: Unknown
         Usage: Introduction to twitter snowflake, the below is a rough implementation similar to twitter snowflake.
          */
-
-        final AtomicLong output = new AtomicLong(0);
-        final AtomicBoolean done = new AtomicBoolean(false);
+        /*
+        Name: MH.
+        Link: https://stackoverflow.com/a/8675243/12471420
+        Date: Dec 30, 2011
+        License: CC BY-SA 3.0
+        Usage: To use callback interface to handle async functions
+         */
         FirebaseInstallations.getInstance().getId().addOnCompleteListener(task -> {
-            Log.d("stuff",task.toString());
+            Log.d("stuff","entering gen user id");
+            long output = 0;
             if (task.isSuccessful()){
                 String fid = task.getResult();
+                assert fid != null;
                 fid = fid.substring(0, 4).toUpperCase();
                 StringBuilder temp = new StringBuilder();
                 for(int i = 0; i < 4; i ++){
@@ -52,16 +60,16 @@ public class IdGen {
                 fid = temp.toString();
                 long fidVal = base36To10(fid);
                 //in base 36, the first 4 digits are the
-                output.set(System.currentTimeMillis()  << 21);
-                output.set(output.get()|fidVal);
+                output=((System.currentTimeMillis()/1000)  << 21);
+                output=(output|fidVal);
             }
             else{
-                output.set(-1);
+                output=(-1);
             }
-            done.set(true);
+            Log.d("stuff","exiting genUser id");
+           callable.onIdReady(output);
         });
-        while(!done.get());
-        return output.get();
+
     }
 
     public static long genExperimentId(int expCount, User user){

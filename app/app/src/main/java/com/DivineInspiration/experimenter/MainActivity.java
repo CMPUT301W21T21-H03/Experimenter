@@ -10,41 +10,40 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.installations.FirebaseInstallations;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IdGen.IDCallBackable {
 
     // on open
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);
+
 
         // Add a new document with a generated ID
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("stuff", "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("stuff", "Error adding document", e);
-                    }
-                });
 
-        Log.d("stuff", "starting main");
-        Log.d("stuff", String.valueOf(IdGen.genUserId()));
-        Log.d("stuff", "main done.");
+//        FirebaseInstallations.getInstance().getId().addOnCompleteListener(task ->{
+//            if(task.isSuccessful()){
+//                Log.d("stuff", task.getResult() + "success results");
+//            }
+//            else{
+//                Log.d("stuff", "fail");
+//            }
+//        });
+        Log.d("stuff", "before function call");
+        IdGen.genUserId(this);
+        Log.d("stuff", "after function call");
+
+
+    }
+
+    public void onIdReady(long id){
+        Log.d("stuff", "Id generated: " + String.valueOf(id));
+        Log.d("stuff", "Id generated in base 36: " + IdGen.base10To36(id));
     }
 }
