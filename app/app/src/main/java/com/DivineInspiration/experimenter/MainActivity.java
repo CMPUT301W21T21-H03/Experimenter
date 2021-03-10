@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< Updated upstream
         Map<String, Object> user = new HashMap<>();
         user.put("first", "Ada");
         user.put("last", "Lovelace");
@@ -45,5 +46,17 @@ public class MainActivity extends AppCompatActivity {
         Log.d("stuff", "starting main");
         Log.d("stuff", String.valueOf(IdGen.genUserId()));
         Log.d("stuff", "main done.");
+=======
+        
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+
+    }
+
+    public void onIdReady(long id){
+        Log.d("stuff", "Id generated: " + String.valueOf(id));
+        Log.d("stuff", "Id generated in base 36: " + IdGen.base10To36(id));
+>>>>>>> Stashed changes
     }
 }
