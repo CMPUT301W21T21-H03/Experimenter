@@ -6,15 +6,35 @@ import java.util.List;
 public class ExperimentManager {
     private List<Experiment> experiments = new ArrayList<>();
 
+    /**
+     * Adds experiment to list
+     * @param experiment
+     */
     public void add(Experiment experiment) {
-        // TO DO
+        experiments.add(experiment);
+        // TODO:
     }
 
-    public void remove(Experiment experiment) {
+    /**
+     * Removes experiment from list
+     * @param experiment
+     * @return
+     * if removing the experiment is successful
+     */
+    public boolean remove(Experiment experiment) {
         // TO DO
+        return false;
     }
 
-    public void getExperiment(int position) {
+    /**
+     * Gets an experiment at position
+     * @param position
+     * position of experiment
+     * @return
+     * the individial experiment
+     */
+    public Experiment getExperiment(int position) {
         // TO DO
+        return experiments.get(position);
     }
 }

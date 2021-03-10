@@ -4,55 +4,94 @@ import java.util.UUID;
 
 public class User {
     private String uniqueID;
-    private String namePerson;
-    private ContactPersonInfo contactPersonInfo;
+    private String username;
+    private ContactPersonInfo contactUserInfo;
 
 
-    //constructor
-
-    public User(String namePerson,ContactPersonInfo contactPersonInfo) {
+    /**
+     * User contructor
+     * @param username
+     * name of the person
+     * @param contactUserInfo
+     * contact info on that person
+     */
+    public User(String username, ContactPersonInfo contactUserInfo) {
         this.uniqueID = UUID.randomUUID().toString();
-        this.namePerson = namePerson;
+        this.username = username;
 
-        this.contactPersonInfo = contactPersonInfo;
+        this.contactUserInfo = contactUserInfo;
     }
 
-    //getters and setter
-    public ContactPersonInfo getContactPersonInfo() {
-        return contactPersonInfo;
+    /**
+     * Gets contact info of user
+     * @return
+     * Contact person class of user
+     */
+    public ContactPersonInfo getContactUserInfo() {
+        return contactUserInfo;
     }
 
-    public void setContactPersonInfo(ContactPersonInfo contactPersonInfo) {
-        this.contactPersonInfo = contactPersonInfo;
+    /**
+     * Sets new contact info of person
+     * @param contactUserInfo
+     * new contact info
+     */
+    public void setContactUserInfo(ContactPersonInfo contactUserInfo) {
+        this.contactUserInfo = contactUserInfo;
     }
 
-    public String getNamePerson() {
-        return namePerson;
+    /**
+     * Gets name of user
+     * @return
+     * Username
+     */
+    public String getUsername() {
+        return username;
     }
 
-    public void setNamePerson(String namePerson) {
-        this.namePerson = namePerson;
+    /**
+     * Sets username
+     * @param username
+     * User name
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-
-
-
-
+    /**
+     * Gets ID of user
+     * @return
+     * User ID
+     */
     public String getUniqueID() {
         return uniqueID;
     }
-    //Create Event
+
+    /**
+     * Creates a new experiment under user => move to owner?
+     * @param experimentName
+     * @param experimentDescription
+     */
     public void createExperiment(String experimentName, String experimentDescription){
         String experimentOwnerID = getUniqueID();
         new Experiment(experimentName,experimentOwnerID,experimentDescription);
     }
 
-    // Subscribe to Event
+    /**
+     * Subscribes to an experiment
+     * @param experiment
+     * experiment to subscribe to
+     */
     public void subscribeExperiment(Experiment experiment){
         String subscriberID = getUniqueID();
         experiment.addSubscribers(subscriberID);
     }
-    //Unsubscribe to Event
+
+    /**
+     * Unsubscribes an experiment
+     * @param experiment
+     * experiment to unsubscribe to
+     */
     public void unsubscribeExperiment(Experiment experiment){
         String subscriberID = getUniqueID();
         experiment.deleteSubscribers(subscriberID);
