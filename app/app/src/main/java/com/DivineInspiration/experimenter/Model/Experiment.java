@@ -55,9 +55,9 @@ public class Experiment {
     }
 
     /**
-     * Gets owner of experiment
+     * Gets experiment ID
      * @return
-     * experiment owner
+     * experiment ID
      */
     public String getExperimentID() {
         return experimentID;

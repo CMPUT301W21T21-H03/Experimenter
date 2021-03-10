@@ -5,38 +5,33 @@ import com.DivineInspiration.experimenter.Model.Experiment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentManager {
-    private List<Experiment> experiments = new ArrayList<>();
+public class ExperimentManager extends ArrayList<Experiment> {
+    //Singleton ArrayList
+    private ArrayList<Experiment> experiments;
+    private ExperimentManager(){
+        experiments = new ArrayList<>();
+    }
+    public ArrayList<Experiment> getExperiments(){
+        return experiments;
+    }
+    private static ExperimentManager singleton;
 
-    /**
-     * Adds experiment to list
-     * @param experiment
-     */
-    public void add(Experiment experiment) {
-        experiments.add(experiment);
-        // TODO:
+    public static ExperimentManager getInstance(){
+        if(singleton ==null){
+            singleton = new ExperimentManager();
+        }
+        return singleton;
     }
 
-    /**
-     * Removes experiment from list
-     * @param experiment
-     * @return
-     * if removing the experiment is successful
-     */
-    public boolean remove(Experiment experiment) {
-        // TO DO
-        return false;
-    }
-
-    /**
-     * Gets an experiment at position
-     * @param position
-     * position of experiment
-     * @return
-     * the individial experiment
-     */
-    public Experiment getExperiment(int position) {
-        // TO DO
-        return experiments.get(position);
-    }
+//  Do we need it? I don't think position of experiments matter as we are dealing ID
+//    /**
+//     * Gets an experiment at position
+//     * @param position
+//     * position of experiment
+//     * @return
+//     * the individial experiment
+//     */
+//    public Experiment getExperiment(int position) {
+//        return experiments.get(position);
+//    }
 }
