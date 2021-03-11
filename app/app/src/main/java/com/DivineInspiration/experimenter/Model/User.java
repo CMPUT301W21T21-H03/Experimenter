@@ -1,11 +1,11 @@
 package com.DivineInspiration.experimenter.Model;
 
-import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
 public class User {
-    private String uniqueID;
-    private String username;
-    private ContactPersonInfo contactUserInfo;
+    private String userId;
+    private String userName;
+    private UserContactInfo contactInfo;
 
     /**
      * User contructor
@@ -14,11 +14,21 @@ public class User {
      * @param contactUserInfo
      * contact info on that person
      */
-    public User(String username, ContactPersonInfo contactUserInfo) {
-        this.uniqueID = UUID.randomUUID().toString();
-        this.username = username;
+    public User(String username, String userId, UserContactInfo contactUserInfo) {
+        this.userId = userId;
+        this.userName = username;
+        this.contactInfo = contactUserInfo;
+    }
+    public User(String userId){
+        this.userId = userId;
+        userName = "defaultName";
+        contactInfo = new UserContactInfo();
+    }
 
-        this.contactUserInfo = contactUserInfo;
+    public User(){
+        userId = "defaultId";
+        userName = "defaultName";
+        contactInfo = new UserContactInfo();
     }
 
     /**
@@ -26,17 +36,17 @@ public class User {
      * @return
      * Contact person class of user
      */
-    public ContactPersonInfo getContactUserInfo() {
-        return contactUserInfo;
+    public UserContactInfo getContactInfo() {
+        return contactInfo;
     }
 
     /**
      * Sets new contact info of person
-     * @param contactUserInfo
+     * @param contactInfo
      * new contact info
      */
-    public void setContactUserInfo(ContactPersonInfo contactUserInfo) {
-        this.contactUserInfo = contactUserInfo;
+    public void setContactInfo(UserContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
     }
 
     /**
@@ -44,17 +54,17 @@ public class User {
      * @return
      * Username
      */
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     /**
      * Sets username
-     * @param username
+     * @param userName
      * User name
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     /**
@@ -63,7 +73,7 @@ public class User {
      * User ID
      */
     public String getUniqueID() {
-        return uniqueID;
+        return userId;
     }
 
     /**
@@ -94,5 +104,11 @@ public class User {
     public void unsubscribeExperiment(Experiment experiment){
         String subscriberID = getUniqueID();
         experiment.deleteSubscriber(subscriberID);
+    }
+
+    @NotNull
+    @Override
+    public String toString(){
+        return String.format("User Name: %s, Id: %s", userName, userId);
     }
 }

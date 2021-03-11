@@ -1,9 +1,11 @@
 package com.DivineInspiration.experimenter.Model;
 
-public class ContactPersonInfo {
+public class UserContactInfo {
     private String address;
     private int phoneNumber;
     private String cityName;
+    private String email;
+
 
     /**
      * Contact person info constructor
@@ -14,19 +16,30 @@ public class ContactPersonInfo {
      * @param cityName
      * city of person
      */
-    public ContactPersonInfo(String address, int phoneNumber, String cityName) {
+    public UserContactInfo(String address, int phoneNumber, String cityName, String email) {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.cityName = cityName;
+        this.email = email;
     }
+
 
     /**
      * Default empty constructor for a person's contact
      */
-    public ContactPersonInfo() {
+    public UserContactInfo() {
         this.address = "";
         this.phoneNumber = 0;
         this.cityName = "";
+        this.email = "";
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
