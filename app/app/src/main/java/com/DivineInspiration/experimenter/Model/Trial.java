@@ -2,7 +2,7 @@ package com.DivineInspiration.experimenter.Model;
 
 import java.util.Date;
 
-public class Trial {
+public abstract class Trial {
     private String trialID;
     private Date trialDate;
 //    private String trialDescription;
