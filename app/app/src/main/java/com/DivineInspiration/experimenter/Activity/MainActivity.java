@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements LocalUserManager.
 
 
 
- 
+
         manager.setContext(this);
         manager.setReadyCallback(this);
 

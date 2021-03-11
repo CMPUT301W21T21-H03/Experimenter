@@ -54,7 +54,12 @@ Usage: android local storage
 
     public void setReadyCallback(UserReadyCallback callback){
         this.callback = callback;
-        initialize();
+
+        //if context, callback is set, but user is not loaded yet, then its time to initialize
+        if(user == null) {
+            initialize();
+            }
+
     }
 
     public void setContext(Context context)   {
