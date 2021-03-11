@@ -1,9 +1,21 @@
 package com.DivineInspiration.experimenter;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+import android.view.LayoutInflater;
 
 import com.DivineInspiration.experimenter.Model.IdGen;
+import com.DivineInspiration.experimenter.Model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LocalUserManager implements IdGen.IDCallBackable {
     public static class ContextAlreadyExistException extends RuntimeException{
@@ -14,6 +26,8 @@ public class LocalUserManager implements IdGen.IDCallBackable {
 
     }
 
+    public interface UserReadyCallback{
+        public void onUserReady();    }
 
 
 /*
@@ -23,14 +37,25 @@ Date:September 21, 2016
 License: unknown
 Usage: android local storage
  */
-    private SharedPreferences.Editor prefEditor;
+
     private SharedPreferences pref;
     private Context context;
     private static LocalUserManager local= null;
-    private String userId = "";
+    private User user;
+    private AlertDialog dialog;
+    private UserReadyCallback callback;
+
     private LocalUserManager()  {
-        pref = context.getSharedPreferences("USER_CONFIG",Context.MODE_PRIVATE);
-        prefEditor = pref.edit();
+
+
+    }
+
+    public User getUser(){
+        return user;
+    }
+
+    public void setReadyCallback(UserReadyCallback callback){
+        this.callback = callback;
         initialize();
     }
 
@@ -52,18 +77,65 @@ Usage: android local storage
         if(context == null){
             throw new ContextNotSetException();
         }
-        if(pref.contains("UserId")){
-            //default val is null
-            userId = pref.getString("UserId", null);
+        pref = context.getSharedPreferences("USER_CONFIG",Context.MODE_PRIVATE);
+
+        Log.d("stuff", String.valueOf(pref.contains("User")));
+        if(pref.contains("User")){
+            Gson gson = new Gson();
+            user = gson.fromJson(pref.getString("User", ""), User.class);
+
+            if(callback != null){
+                Log.d("stuff call back exist", user.toString());
+                callback.onUserReady();
+                callback = null;
+            }
         }
         else{
+            //initializing loading pop up
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            LayoutInflater inflater = LayoutInflater.from(context);
+            builder.setView(inflater.inflate(R.layout.loading,null));
+            builder.setCancelable(false);
+            dialog = builder.create();
             //no id currently exist, needs to create a new one
             IdGen.genUserId(this);
-
+            dialog.show();
         }
     }
     @Override
-    public void onIdReady(long id){
+    public void onIdReady(String id){
 
+        updateUser(new User(id));
     }
+
+    public void updateUser(User newUser){
+        user = newUser;
+        Gson gson = new Gson();
+        SharedPreferences.Editor prefEditor = pref.edit();
+        prefEditor.putString("User", gson.toJson(user));
+        prefEditor.commit();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("UserDescription", "default");
+        doc.put("UserName", "default");
+        Map<String, Object> contact = new HashMap<>();
+        contact.put("Address", user.getContactInfo().getAddress());
+        contact.put("CityName", user.getContactInfo().getCityName());
+        contact.put("Email", user.getContactInfo().getEmail());
+        contact.put("PhoneNumber", user.getContactInfo().getPhoneNumber());
+        doc.put("Contacts", contact);
+        db.collection("Users").document(user.getUniqueID()).set(doc).addOnSuccessListener(aVoid -> {
+            if(dialog != null){
+                dialog.hide();
+            }
+
+            if(callback != null){
+                callback.onUserReady();
+                callback = null;
+            }
+        });
+    }
+
+
 }
