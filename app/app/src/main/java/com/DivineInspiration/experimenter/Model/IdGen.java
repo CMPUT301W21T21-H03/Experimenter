@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class IdGen {
 
     public interface IDCallBackable{
-        public void onIdReady(long id);
+        public void onIdReady(String id);
     }
 
     /**
@@ -67,7 +67,7 @@ public class IdGen {
                 output=(-1);
             }
             Log.d("stuff","exiting genUser id");
-           callable.onIdReady(output);
+           callable.onIdReady(base10To36(output));
         });
 
     }
