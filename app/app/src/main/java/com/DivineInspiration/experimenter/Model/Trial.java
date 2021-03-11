@@ -3,19 +3,19 @@ package com.DivineInspiration.experimenter.Model;
 import java.util.Date;
 
 public class Trial {
-//    private String trialName;
+    private String trialID;
     private Date trialDate;
 //    private String trialDescription;
     private String trialUserID;
     private String trialExperimentID;
 
-//    /**
-//     * Gets the name of the trial
-//     * @return
-//     */
-//    public String getTrialName() {
-//        return trialName;
-//    }
+    /**
+     * Gets the ID of the trial
+     * @return
+     */
+    public String getTrialID() {
+        return trialID;
+    }
 
     /**
      * Trial date getter
