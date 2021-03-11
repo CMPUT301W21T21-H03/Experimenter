@@ -1,8 +1,12 @@
 package com.DivineInspiration.experimenter;
 
 import com.DivineInspiration.experimenter.Model.UserContactInfo;
-
+import android.util.Log;
+import com.google.firebase.installations.FirebaseInstallations;
 import org.junit.Test;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+
 import static org.junit.Assert.*;
 
 public class ContactPersonInfoTest {
@@ -55,4 +59,7 @@ public class ContactPersonInfoTest {
         mock.setCityName("Edmonton");
         assertEquals("Edmonton", mock.getCityName());
     }
+
+  
+    
 }
