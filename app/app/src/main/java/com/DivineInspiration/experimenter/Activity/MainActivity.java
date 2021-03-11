@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements LocalUserManager.
 
 
 
-
+        //setup local user
         manager.setContext(this);
         manager.setReadyCallback(this);
 
@@ -30,6 +30,6 @@ public class MainActivity extends AppCompatActivity implements LocalUserManager.
 
     @Override
     public void onUserReady() {
-        Log.d("stuff", manager.getUser().toString());
+
     }
 }

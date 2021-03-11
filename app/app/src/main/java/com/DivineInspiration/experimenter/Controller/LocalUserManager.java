@@ -1,14 +1,13 @@
 package com.DivineInspiration.experimenter.Controller;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-import android.view.LayoutInflater;
+
 
 import com.DivineInspiration.experimenter.Model.IdGen;
 import com.DivineInspiration.experimenter.Model.User;
-import com.DivineInspiration.experimenter.R;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
@@ -16,16 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LocalUserManager implements IdGen.IDCallBackable {
-    public static class ContextAlreadyExistException extends RuntimeException{
 
-    }
 
-    public static class ContextNotSetException extends RuntimeException{
 
-    }
 
     public interface UserReadyCallback{
-        public void onUserReady();    }
+         void onUserReady();    }
 
 
 /*
@@ -37,10 +32,11 @@ Usage: android local storage
  */
 
     private SharedPreferences pref;
-    private Context context;
+
+
     private static LocalUserManager local= null;
     private User user;
-    private AlertDialog dialog;
+
     private UserReadyCallback callback;
 
     private LocalUserManager()  {
@@ -63,12 +59,10 @@ Usage: android local storage
     }
 
     public void setContext(Context context)   {
-        if(this.context != null){
-            throw new ContextAlreadyExistException();
-        }
-        else{
-            this.context = context;
-        }
+
+
+            pref = context.getSharedPreferences("USER_CONFIG", Context.MODE_PRIVATE);
+
     }
     public static LocalUserManager getInstance(){
         if (local == null){
@@ -77,12 +71,9 @@ Usage: android local storage
         return local;
     }
     private void initialize()   {
-        if(context == null){
-            throw new ContextNotSetException();
-        }
-        pref = context.getSharedPreferences("USER_CONFIG",Context.MODE_PRIVATE);
 
-        Log.d("stuff", String.valueOf(pref.contains("User")));
+
+
         if(pref.contains("User")){
             Gson gson = new Gson();
             user = gson.fromJson(pref.getString("User", ""), User.class);
@@ -93,15 +84,10 @@ Usage: android local storage
             }
         }
         else{
-            //initializing loading pop up
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            LayoutInflater inflater = LayoutInflater.from(context);
-            builder.setView(inflater.inflate(R.layout.loading,null));
-            builder.setCancelable(false);
-            dialog = builder.create();
+
             //no id currently exist, needs to create a new one
             IdGen.genUserId(this);
-            dialog.show();
+
         }
     }
     @Override
@@ -115,7 +101,7 @@ Usage: android local storage
         Gson gson = new Gson();
         SharedPreferences.Editor prefEditor = pref.edit();
         prefEditor.putString("User", gson.toJson(user));
-        prefEditor.commit();
+        prefEditor.apply();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> doc = new HashMap<>();
@@ -128,9 +114,7 @@ Usage: android local storage
         contact.put("PhoneNumber", user.getContactInfo().getPhoneNumber());
         doc.put("Contacts", contact);
         db.collection("Users").document(user.getUniqueID()).set(doc).addOnSuccessListener(aVoid -> {
-            if(dialog != null){
-                dialog.hide();
-            }
+
 
             if(callback != null){
                 callback.onUserReady();
