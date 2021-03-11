@@ -3,7 +3,9 @@ package com.DivineInspiration.experimenter;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class LocalUserManager {
+import com.DivineInspiration.experimenter.Model.IdGen;
+
+public class LocalUserManager implements IdGen.IDCallBackable {
     public static class ContextAlreadyExistException extends RuntimeException{
 
     }
@@ -51,7 +53,17 @@ Usage: android local storage
             throw new ContextNotSetException();
         }
         if(pref.contains("UserId")){
+            //default val is null
+            userId = pref.getString("UserId", null);
+        }
+        else{
+            //no id currently exist, needs to create a new one
+            IdGen.genUserId(this);
 
         }
+    }
+    @Override
+    public void onIdReady(long id){
+
     }
 }
