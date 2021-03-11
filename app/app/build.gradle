@@ -37,6 +37,11 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.6.0')
     implementation("com.google.firebase:firebase-analytics")
     implementation 'com.google.firebase:firebase-firestore:22.1.1'
+    implementation 'androidx.navigation:navigation-fragment:2.3.3'
+    implementation 'androidx.navigation:navigation-ui:2.3.3'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.mediarouter:mediarouter:1.2.2'
 
     //uses these!
     testImplementation 'junit:junit:4.13.2'
@@ -51,4 +56,8 @@ dependencies {
     //store objects in json and convert back
     //source https://stackoverflow.com/a/18463758/12471420
     implementation 'com.google.code.gson:gson:2.8.6'
+
+
+    //gui stuff
+    implementation 'com.google.android.material:material:1.3.0'
 }
