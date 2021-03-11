@@ -1,1 +1,7 @@
 com.DivineInspiration.experimenter
+com.DivineInspiration.experimenter.Activity
+com.DivineInspiration.experimenter.Activity.BottomNavigation.Home
+com.DivineInspiration.experimenter.Activity.BottomNavigation.MyExperiment
+com.DivineInspiration.experimenter.Activity.BottomNavigation.Subscription
+com.DivineInspiration.experimenter.Controller
+com.DivineInspiration.experimenter.Model
