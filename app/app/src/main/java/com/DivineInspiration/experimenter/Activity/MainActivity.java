@@ -5,14 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.DivineInspiration.experimenter.LocalUserManager;
-import com.DivineInspiration.experimenter.Model.IdGen;
+import com.DivineInspiration.experimenter.Controller.LocalUserManager;
 import com.DivineInspiration.experimenter.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.installations.FirebaseInstallations;
 
 public class MainActivity extends AppCompatActivity implements LocalUserManager.UserReadyCallback {
 
@@ -24,8 +19,7 @@ public class MainActivity extends AppCompatActivity implements LocalUserManager.
 
 
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+ 
         manager.setContext(this);
         manager.setReadyCallback(this);
 

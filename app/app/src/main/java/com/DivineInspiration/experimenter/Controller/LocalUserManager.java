@@ -1,8 +1,6 @@
-package com.DivineInspiration.experimenter;
+package com.DivineInspiration.experimenter.Controller;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -10,7 +8,7 @@ import android.view.LayoutInflater;
 
 import com.DivineInspiration.experimenter.Model.IdGen;
 import com.DivineInspiration.experimenter.Model.User;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.DivineInspiration.experimenter.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
@@ -85,7 +83,6 @@ Usage: android local storage
             user = gson.fromJson(pref.getString("User", ""), User.class);
 
             if(callback != null){
-                Log.d("stuff call back exist", user.toString());
                 callback.onUserReady();
                 callback = null;
             }
