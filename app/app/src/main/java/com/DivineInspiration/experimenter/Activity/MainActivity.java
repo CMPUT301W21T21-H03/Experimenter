@@ -14,42 +14,30 @@ import android.util.Log;
 import com.DivineInspiration.experimenter.Controller.LocalUserManager;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity implements LocalUserManager.UserReadyCallback {
 
-    LocalUserManager manager =LocalUserManager.getInstance();
+    LocalUserManager manager = LocalUserManager.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        BottomNavigationView nav = findViewById(R.id.bottom_navigation);
-
-        /*
-        https://www.section.io/engineering-education/bottom-navigation-bar-in-android/
-         */
-
-
-        //Initialize NavController.
-        NavHostFragment navHostFragment =
-                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host);
-        NavController navController = navHostFragment.getNavController();
-        //Pass the ID's of Different destinations
+        BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-               navController.getGraph())
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
-
-    //    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(nav, navController);
-        //setup local user
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
         manager.setContext(this);
         manager.setReadyCallback(this);
 
-
-
     }
-
 
     @Override
     public void onUserReady() {
