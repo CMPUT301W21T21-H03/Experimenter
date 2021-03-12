@@ -3,23 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
-
+    app:startDestination="@id/fragment2">
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.DivineInspiration.experimenter.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
+        android:id="@+id/fragment2"
+        android:name="com.DivineInspiration.experimenter.fragment2"
+        android:label="fragment2"
+        tools:layout="@layout/fragment2" >
+        <action
+            android:id="@+id/action_fragment2_to_blankFragment"
+            app:destination="@id/blankFragment" />
+        <action
+            android:id="@+id/action_fragment2_to_blankFragment2"
+            app:destination="@id/blankFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.DivineInspiration.experimenter.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
+        android:id="@+id/fragment3"
+        android:name="com.DivineInspiration.experimenter.fragment3"
+        android:label="fragment3"
+        tools:layout="@layout/fragment3" >
+        <action
+            android:id="@+id/action_fragment3_to_fragment2"
+            app:destination="@id/fragment2" />
+        <action
+            android:id="@+id/action_fragment3_to_fragment22"
+            app:destination="@id/fragment2" />
+        <action
+            android:id="@+id/action_fragment3_to_blankFragment"
+            app:destination="@id/blankFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.DivineInspiration.experimenter.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/blankFragment"
+        android:name="com.DivineInspiration.experimenter.BlankFragment"
+        android:label="fragment1"
+        tools:layout="@layout/fragment1" >
+        <action
+            android:id="@+id/action_blankFragment_to_fragment3"
+            app:destination="@id/fragment3" />
+        <action
+            android:id="@+id/action_blankFragment_to_fragment2"
+            app:destination="@id/fragment2" />
+    </fragment>
 </navigation>
