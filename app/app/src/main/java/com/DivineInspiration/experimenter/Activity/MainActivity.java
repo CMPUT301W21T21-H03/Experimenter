@@ -21,14 +21,6 @@ public class MainActivity extends AppCompatActivity implements LocalUserManager.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-          R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this,R.id.mainFrag);
-        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView,navController);
-
 
         manager.setContext(this);
         manager.setReadyCallback(this);
