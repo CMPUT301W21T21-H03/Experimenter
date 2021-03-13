@@ -3,23 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
-
+    app:startDestination="@id/navigation_home">
     <fragment
         android:id="@+id/navigation_home"
+<<<<<<< HEAD
         android:name="com.DivineInspiration.experimenter.Activity.UI.Home.HomeFragment"
+=======
+        android:name="com.DivineInspiration.experimenter.Activity.ui.profile.HomeFragment"
+>>>>>>> Aniket
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
+<<<<<<< HEAD
         android:id="@+id/navigation_dashboard"
         android:name="com.DivineInspiration.experimenter.Activity.UI.Dashboard.DashboardFragment"
+=======
+        android:id="@+id/navigation_scan"
+        android:name="com.DivineInspiration.experimenter.Activity.ui.scan.ScanFragment"
+>>>>>>> Aniket
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_scan" />
 
     <fragment
+<<<<<<< HEAD
         android:id="@+id/navigation_notifications"
         android:name="com.DivineInspiration.experimenter.Activity.UI.Notifications.NotificationsFragment"
+=======
+        android:id="@+id/navigation_explore"
+        android:name="com.DivineInspiration.experimenter.Activity.ui.explore.ExploreFragment"
+>>>>>>> Aniket
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_explore" />
 </navigation>

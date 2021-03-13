@@ -5,7 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD:app/app/src/main/res/layout/fragment_notifications.xml
     tools:context=".Activity.UI.Notifications.NotificationsFragment" >
+=======
+    tools:context=".Activity.ui.explore.ExploreFragment" >
+>>>>>>> Aniket:app/app/src/main/res/layout/fragment_explore.xml
 
     <TextView
         android:id="@+id/text_notifications"

@@ -11,11 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Experimenter"
-        tools:targetApi="q" >
-        <activity
-            android:name=".uwu"
-            android:label="@string/title_activity_uwu" >
-        </activity>
+
+        tools:targetApi="q"
+        >
+
         <activity android:name=".Activity.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
