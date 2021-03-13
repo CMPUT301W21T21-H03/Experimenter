@@ -1,8 +1,4 @@
-<<<<<<< HEAD:app/app/src/main/java/com/DivineInspiration/experimenter/Activity/UI/Notifications/NotificationsFragment.java
-package com.DivineInspiration.experimenter.Activity.UI.Notifications;
-=======
 package com.DivineInspiration.experimenter.Activity.ui.explore;
->>>>>>> Aniket:app/app/src/main/java/com/DivineInspiration/experimenter/Activity/ui/explore/ExploreFragment.java
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,7 +17,7 @@ public class ExploreFragment extends Fragment {
     private NotificationsViewModel notificationsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-            ViewGroup container, Bundle savedInstanceState) {
+                             ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
                 new ViewModelProvider(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_explore, container, false);

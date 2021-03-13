@@ -4,12 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
-    tools:context=".Activity.UI.Home.HomeFragment" >
-=======
     android:fitsSystemWindows="true"
     tools:context=".Activity.ui.profile.HomeFragment">
->>>>>>> Aniket
 
 
     <com.google.android.material.appbar.AppBarLayout

@@ -1,8 +1,4 @@
-<<<<<<< HEAD:app/app/src/main/java/com/DivineInspiration/experimenter/Activity/UI/Dashboard/DashboardFragment.java
-package com.DivineInspiration.experimenter.Activity.UI.Dashboard;
-=======
 package com.DivineInspiration.experimenter.Activity.ui.scan;
->>>>>>> Aniket:app/app/src/main/java/com/DivineInspiration/experimenter/Activity/ui/scan/ScanFragment.java
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,7 +17,7 @@ public class ScanFragment extends Fragment {
     private DashboardViewModel dashboardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-            ViewGroup container, Bundle savedInstanceState) {
+                             ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_scan, container, false);

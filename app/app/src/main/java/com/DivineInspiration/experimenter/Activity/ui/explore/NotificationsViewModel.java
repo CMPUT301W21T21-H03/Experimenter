@@ -1,8 +1,4 @@
-<<<<<<< HEAD:app/app/src/main/java/com/DivineInspiration/experimenter/Activity/UI/Notifications/NotificationsViewModel.java
-package com.DivineInspiration.experimenter.Activity.UI.Notifications;
-=======
 package com.DivineInspiration.experimenter.Activity.ui.explore;
->>>>>>> Aniket:app/app/src/main/java/com/DivineInspiration/experimenter/Activity/ui/explore/NotificationsViewModel.java
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
