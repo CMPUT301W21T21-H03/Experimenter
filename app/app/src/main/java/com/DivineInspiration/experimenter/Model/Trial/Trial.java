@@ -1,13 +1,13 @@
-package com.DivineInspiration.experimenter.Model;
+package com.DivineInspiration.experimenter.Model.Trial;
 
 import java.util.Date;
 
 public abstract class Trial {
-    protected String trialID;
-    protected Date trialDate;
+    String trialID;
+    Date trialDate;
 //    private String trialDescription;
-    protected String trialUserID;
-    protected String trialExperimentID;
+    String trialUserID;
+    String trialExperimentID;
 
     /**
      * Gets the ID of the trial
