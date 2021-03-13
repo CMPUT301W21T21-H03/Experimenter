@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Activity.ui.home.HomeFragment">
+    tools:context=".Activity.ui.profile.HomeFragment">
 
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/app_bar"
+        android:background="#28282B"
         android:fitsSystemWindows="true"
         >
 
@@ -28,40 +29,22 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="UserName - ABC123ID(TODO, Add edit button)"
+                    android:text="UserName"
+                    android:textAlignment="center"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     tools:textStyle="bold" />
-                <View
 
-                    android:layout_width="match_parent"
-                    android:layout_height="1.5dp"
-                    android:background="@android:color/white" />
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Email: email@email.com"
-                    android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Phone#: 123123123"
-                    android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Address: Woah St, 22022, unit 5"
+                    android:text="email@email.com"
+                    android:textAlignment="center"
                     android:textColor="#FFFFFF" />
 
                 <TextView
@@ -69,9 +52,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="City: WoahCity"
+                    android:textAlignment="center"
+                    android:text="City"
                     android:textColor="#FFFFFF" />
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="userID"
+                    android:textAlignment="textEnd"
+                    android:textColor="#FFFFFF" />
+
                 <View
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="1.5dp"
                     android:background="@android:color/white" />
@@ -81,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="About: Here is a very looooooooooooooooooooooooooooooooooooooooooooooong user description."
+                    android:text="Here is a very looooooooooooooooooooooooooooooooooooooooooooooong user description."
                     android:textColor="#FFFFFF" />
 
             </LinearLayout>

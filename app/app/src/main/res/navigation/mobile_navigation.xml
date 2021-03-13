@@ -6,19 +6,19 @@
     app:startDestination="@id/navigation_home">
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.DivineInspiration.experimenter.Activity.ui.home.HomeFragment"
+        android:name="com.DivineInspiration.experimenter.Activity.ui.profile.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.DivineInspiration.experimenter.Activity.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_scan"
+        android:name="com.DivineInspiration.experimenter.Activity.ui.scan.ScanFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_scan" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.DivineInspiration.experimenter.Activity.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_explore"
+        android:name="com.DivineInspiration.experimenter.Activity.ui.explore.ExploreFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_explore" />
 </navigation>
