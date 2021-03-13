@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.ui.dashboard;
+package com.DivineInspiration.experimenter.Activity.UI.Dashboard;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.ui.home;
+package com.DivineInspiration.experimenter.Activity.UI.Home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
