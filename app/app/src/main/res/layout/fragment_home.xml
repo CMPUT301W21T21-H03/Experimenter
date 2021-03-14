@@ -33,6 +33,13 @@
             app:contentScrim="#28282B"
             android:overScrollMode="never">
 
+            <androidx.appcompat.widget.Toolbar
+
+                android:id="@+id/innerToolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,13 +50,22 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                   >
 
-
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|end"
+                        android:layout_weight="0"
+                        android:text="Edit"
+                        />
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -66,13 +82,7 @@
                             android:textSize="18sp" />
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|end"
-                        android:layout_weight="0"
-                        android:text="Edit" />
+
 
                 </FrameLayout>
 
@@ -97,7 +107,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Phone#: 123123123" />
+                    android:text="Phone#: 123123123"
+                   />
 
                 <TextView
                     android:id="@+id/textView1"
@@ -123,43 +134,52 @@
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.Toolbar
-
-                android:id="@+id/innerToolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/Tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-            app:tabIndicatorColor="#ea6962"
-            app:tabIndicatorAnimationMode="linear"
-            android:backgroundTint="@color/black1"
-            app:tabTextColor="@color/beige1">
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Experiment" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Subscription" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Trial" />
-        </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
 
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/Tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+        app:tabIndicatorColor="#ea6962"
+        app:tabIndicatorAnimationMode="linear"
+        android:backgroundTint="@color/black1"
+        app:tabTextColor="@color/beige1"
+        app:layout_anchor="@id/appBar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+        >
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Experiment" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subscription" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trial" />
+    </com.google.android.material.tabs.TabLayout>
+
+
+<!--    <androidx.viewpager2.widget.ViewPager2-->
+<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        android:id="@+id/pager"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -172,4 +192,5 @@
         android:src="@drawable/ic_home_black_24dp"
         app:borderWidth="0dp"
         app:tint="@color/white" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
