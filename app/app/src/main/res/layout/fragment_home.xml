@@ -31,14 +31,11 @@
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="#28282B"
-            android:overScrollMode="never">
+            android:overScrollMode="never"
+            >
 
-            <androidx.appcompat.widget.Toolbar
 
-                android:id="@+id/innerToolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,6 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
+
                    >
 
                     <Button
@@ -133,8 +131,15 @@
                     android:text="About: This is a user description. It describes the user. It might be quite long, containing multiple lines. So basically a small paragraph. Blah." />
 
             </LinearLayout>
+            <com.DivineInspiration.experimenter.Activity.ui.NonClickableToolbar
+
+                android:id="@+id/innerToolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
 
 
+                />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
@@ -175,11 +180,12 @@
     </com.google.android.material.tabs.TabLayout>
 
 
-<!--    <androidx.viewpager2.widget.ViewPager2-->
-<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--        android:id="@+id/pager"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_anchor="@+id/appBar"
+        app:layout_anchorGravity="bottom|center" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -192,5 +198,7 @@
         android:src="@drawable/ic_home_black_24dp"
         app:borderWidth="0dp"
         app:tint="@color/white" />
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
