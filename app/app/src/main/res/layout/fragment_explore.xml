@@ -24,18 +24,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/include2"
+        android:id="@+id/explore_searchbar"
         layout="@layout/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/explore_experiment"
+        android:id="@+id/explore_experiments"
         layout="@layout/experimenters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/include2" />
+        app:layout_constraintTop_toBottomOf="@+id/explore_searchbar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_experiment"
