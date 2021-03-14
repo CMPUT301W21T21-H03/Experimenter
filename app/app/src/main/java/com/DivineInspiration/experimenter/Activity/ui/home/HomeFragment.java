@@ -19,6 +19,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -29,15 +30,14 @@ public class HomeFragment extends Fragment {
         super(R.layout.fragment_home);
     }
 
-   Toolbar innerToolBar;
+   CollapsingToolbarLayout toolbar;
     AppBarLayout appBar;
     FloatingActionButton fab;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        innerToolBar = (Toolbar)view.findViewById(R.id.innerToolBar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(innerToolBar);
+    toolbar = (CollapsingToolbarLayout) view.findViewById(R.id.CollaspingToolBar);
         fab = (FloatingActionButton)view.findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener(){
@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
 
         appBar = (AppBarLayout)view.findViewById(R.id.appBar);
         appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean showing = false;
+            boolean showing = true;
             int scrollRange = -1;
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -59,10 +59,11 @@ public class HomeFragment extends Fragment {
                 }
                 if(scrollRange + verticalOffset == 0){
                     showing = true;
-                    //scrolling up
+                    toolbar.setTitle("Put user here");
                 }
-                else{
-                    //scrolling down
+                else if (showing){
+                    showing = false;
+                 toolbar.setTitle(" ");
                 }
             }
         });
