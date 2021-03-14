@@ -9,13 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.DivineInspiration.experimenter.R;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 public class HomeFragment extends Fragment {
 
@@ -24,29 +29,42 @@ public class HomeFragment extends Fragment {
         super(R.layout.fragment_home);
     }
 
+   Toolbar innerToolBar;
+    AppBarLayout appBar;
+    FloatingActionButton fab;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        innerToolBar = (Toolbar)view.findViewById(R.id.innerToolBar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(innerToolBar);
+        fab = (FloatingActionButton)view.findViewById(R.id.fab);
 
-    }
+        fab.setOnClickListener(new View.OnClickListener(){
 
-    /*
-    https://stackoverflow.com/questions/31231609/creating-a-button-in-android-toolbar
-     */
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.profile_menu, menu);
-    }
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(view, "Woah dude", Snackbar.LENGTH_LONG).show();
+            }
+        });
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.editProfileButt:
-                Toast.makeText(getContext(), "stuff", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                break;
-        }
-        return true;
+        appBar = (AppBarLayout)view.findViewById(R.id.appBar);
+        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean showing = false;
+            int scrollRange = -1;
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if(scrollRange == -1){
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if(scrollRange + verticalOffset == 0){
+                    showing = true;
+                    //scrolling up
+                }
+                else{
+                    //scrolling down
+                }
+            }
+        });
     }
 }
