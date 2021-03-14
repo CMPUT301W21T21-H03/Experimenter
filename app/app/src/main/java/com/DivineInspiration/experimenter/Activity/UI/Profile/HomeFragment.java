@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.ui.profile;
+package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.os.Bundle;
 
@@ -11,18 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.DivineInspiration.experimenter.Controller.LocalUserManager;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-
-import org.w3c.dom.Text;
 
 public class HomeFragment extends Fragment {
 
@@ -50,7 +45,8 @@ public class HomeFragment extends Fragment {
         editProfileButton = (Button)view.findViewById(R.id.edit_profile_button);
 
         // title is transparent when expanded
-        toolbar.setTitle(LocalUserManager.getInstance().getUser().getUserName());
+        // FIX: below code crashes everything
+//        toolbar.setTitle(LocalUserManager.getInstance().getUser().getUserName());
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
@@ -67,7 +63,7 @@ public class HomeFragment extends Fragment {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new editProfileDialogFragment().show(getChildFragmentManager(),editProfileDialogFragment.TAG);
+                new EditProfileDialogFragment().show(getChildFragmentManager(), EditProfileDialogFragment.TAG);
             }
         });
 

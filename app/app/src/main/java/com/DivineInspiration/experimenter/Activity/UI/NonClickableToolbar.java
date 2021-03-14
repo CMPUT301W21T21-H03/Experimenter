@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.ui;
+package com.DivineInspiration.experimenter.Activity.UI;
 
 import android.content.Context;
 import android.util.AttributeSet;

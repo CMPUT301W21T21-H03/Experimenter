@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.ui.scan;
+package com.DivineInspiration.experimenter.Activity.UI.Scan;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

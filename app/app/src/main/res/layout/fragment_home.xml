@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Activity.ui.profile.HomeFragment">
+    tools:context=".Activity.UI.Profile.HomeFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -139,7 +139,7 @@
 
                 </LinearLayout>
 
-                <com.DivineInspiration.experimenter.Activity.ui.NonClickableToolbar
+                <com.DivineInspiration.experimenter.Activity.UI.NonClickableToolbar
 
                     android:id="@+id/innerToolBar"
                     android:layout_width="match_parent"

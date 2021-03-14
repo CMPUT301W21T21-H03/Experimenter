@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.ui.explore;
+package com.DivineInspiration.experimenter.Activity.UI.Explore;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
