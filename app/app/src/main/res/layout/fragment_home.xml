@@ -36,7 +36,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:orientation="vertical"
                 app:layout_collapseMode="none">
 
@@ -44,7 +44,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
-
 
 
                     <LinearLayout
@@ -63,9 +62,8 @@
                             android:id="@+id/textView6"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="IDIDIDID"
-                            android:textSize="18sp"
-                            tools:textStyle="bold" />
+                            android:text="XCXRM55OLE"
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                     <Button
@@ -78,13 +76,6 @@
 
                 </FrameLayout>
 
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ABC123ID"
-                    android:textSize="18sp" />
 
                 <View
 
