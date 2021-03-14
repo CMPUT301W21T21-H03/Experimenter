@@ -51,7 +51,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="UserName"
-                            android:textColor="#FFFFFF"
                             android:textSize="18sp"
                             tools:textStyle="bold" />
 
@@ -60,7 +59,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="IDIDIDID"
-                            android:textColor="#FFFFFF"
                             android:textSize="18sp"
                             tools:textStyle="bold" />
                     </LinearLayout>
@@ -81,87 +79,51 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ABC123ID"
-                    android:textColor="#FFFFFF"
                     android:textSize="18sp" />
 
-                <LinearLayout
+                <View
+
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="1.5dp"
                     android:layout_marginVertical="4dp"
-                    android:orientation="horizontal">
-
-                    <View
-
-                        android:layout_width="match_parent"
-                        android:layout_height="1.5dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/white" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-                </LinearLayout>
+                    android:layout_weight="1"
+                    android:background="@color/gray" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Email: email@email.com"
-                    android:textColor="#FFFFFF" />
+                    android:text="Email: email@email.com" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Phone#: 123123123"
-                    android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Address: Woah St, 22022, unit 5"
-                    android:textColor="#FFFFFF" />
+                    android:text="Phone#: 123123123" />
 
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="City: WoahCity"
-                    android:textColor="#FFFFFF" />
+                    android:text="City: WoahCity" />
 
-                <LinearLayout
+                <View
+
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="1.5dp"
                     android:layout_marginVertical="4dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <View
-
-                        android:layout_width="match_parent"
-                        android:layout_height="1.5dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/white" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-                </LinearLayout>
+                    android:background="@color/gray" />
 
                 <TextView
                     android:id="@+id/textView7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="About: Here is a very looooooooooooooooooooooooooooooooooooooooooooooong user description."
-                    android:textColor="#FFFFFF" />
+                    android:text="About: Here is a very stuffstu stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuffffstuffstuff stuff stuff  user description." />
 
             </LinearLayout>
 
@@ -178,7 +140,11 @@
             android:id="@+id/Tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget">
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+            app:tabIndicatorColor="#ea6962"
+            app:tabIndicatorAnimationMode="linear"
+            android:backgroundTint="@color/black1"
+            app:tabTextColor="@color/beige1">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -222,5 +188,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/red1"
+        android:src="@drawable/ic_home_black_24dp"
+        app:borderWidth="0dp"
+        app:tint="@color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
