@@ -72,7 +72,7 @@ public class User {
      * @return
      * User ID
      */
-    public String getUniqueID() {
+    public String getUserId() {
         return userId;
     }
 
@@ -82,7 +82,7 @@ public class User {
      * @param experimentDescription
      */
     public void createExperiment(String experimentName, String experimentDescription){
-        String experimentOwnerID = getUniqueID();
+        String experimentOwnerID = getUserId();
         new Experiment(experimentName,experimentOwnerID,experimentDescription);
     }
 
@@ -92,7 +92,7 @@ public class User {
      * experiment to subscribe to
      */
     public void subscribeExperiment(Experiment experiment){
-        String subscriberID = getUniqueID();
+        String subscriberID = getUserId();
         experiment.addSubscriber(subscriberID);
     }
 
@@ -102,7 +102,7 @@ public class User {
      * experiment to unsubscribe to
      */
     public void unsubscribeExperiment(Experiment experiment){
-        String subscriberID = getUniqueID();
+        String subscriberID = getUserId();
         experiment.deleteSubscriber(subscriberID);
     }
 
@@ -110,5 +110,9 @@ public class User {
     @Override
     public String toString(){
         return String.format("User Name: %s, Id: %s", userName, userId);
+    }
+
+    public String getDescription() {
+        return null;
     }
 }
