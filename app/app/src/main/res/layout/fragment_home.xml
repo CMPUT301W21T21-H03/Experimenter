@@ -11,29 +11,66 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/app_bar"
+        android:id="@+id/appBar"
+
         android:fitsSystemWindows="true"
         >
+
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:fitsSystemWindows="true">
+            android:id="@+id/CollaspingToolBar"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_collapseMode="parallax">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UserName - ABC123ID(TODO, Add edit button)"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    tools:textStyle="bold" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="UserName"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            tools:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="IDIDIDID"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            tools:textStyle="bold" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|end"
+                        android:layout_weight="0"
+                        android:text="Edit" />
+
+                </FrameLayout>
+
                 <View
 
                     android:layout_width="match_parent"
@@ -86,13 +123,20 @@
 
             </LinearLayout>
 
+            <androidx.appcompat.widget.Toolbar
+
+                android:id="@+id/innerToolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/Tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-            >
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -110,10 +154,31 @@
                 android:text="Trial" />
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_anchorGravity="bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:text="As the rhythm of the bassline emits from the gigantic sound system of the arena, her heart rages against her ribcage. Their lead guitarist, Mordekaiser, plucks the strings of his instrument as he breaks out to accompany their bassist with an earsplittingly loud riff from his electric guitar. Whenever Yorick, the bassist, plays the opening notes to Lightbringer, Katarina goes wild.
+“Fellow armsmen, I ask you; will you follow me tonight to break their spine?” Karthus, the lead singer of the metal band Pentakill, shrieks into his microphone, melodic and soulful, eliciting echoes of the lyrics from the rockers in the front row, Katarina included.
+“And reclaim what once was mine!” she screams along to his wailing vocals, her voice accompanied by the concertgoers that surround her as she jumps up and down, losing herself in the song. She headbangs to the beat of the aggressive bassline and the distorted riffs emitting from Mordekaiser’s electric guitar. Katarina feels as if this is where she belongs, in the front row of an arena, her heartbeat pounding to the beat and the bassline of the song her favorite band is playing.
+Katarina affords a glance at her younger sister Cassiopeia. Her arms are folded, and she appears to care extraordinarily little for the show, but she has her cellphone raised to take a video of the performance, and that’s all Katarina really needs her to do.
+Long before Pentakill became the most popular metal band in all of Valoran, Katarina had been a fan. Their first album, Smite and Ignite, was released seven years ago, but she had listened to them when they were only playing in small venues in the city, like bars and nightclubs. All of which Katarina had had to sneak into, seeing as she was just a teenager.
+" />
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
