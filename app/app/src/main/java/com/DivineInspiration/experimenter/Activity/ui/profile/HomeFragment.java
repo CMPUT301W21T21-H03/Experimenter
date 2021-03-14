@@ -26,7 +26,9 @@ import org.w3c.dom.Text;
 
 public class HomeFragment extends Fragment {
 
-    /*view pager madness*
+    // TODO: switch pager programmatically
+
+    /* view pager madness
     https://developer.android.com/guide/navigation/navigation-swipe-view-2
     */
 
@@ -35,7 +37,7 @@ public class HomeFragment extends Fragment {
         super(R.layout.fragment_home);
     }
 
-   CollapsingToolbarLayout toolbar;
+    CollapsingToolbarLayout toolbar;
     AppBarLayout appBar;
     FloatingActionButton fab;
     Button editProfileButton;
@@ -47,12 +49,12 @@ public class HomeFragment extends Fragment {
         fab = (FloatingActionButton)view.findViewById(R.id.fab);
         editProfileButton = (Button)view.findViewById(R.id.edit_profile_button);
 
-        //title is transparent when expanded
+        // title is transparent when expanded
         toolbar.setTitle(LocalUserManager.getInstance().getUser().getUserName());
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
-        //fab onclick
+        // fab onclick
         fab.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -119,7 +121,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private class TestFrag extends Fragment{
+    private class TestFrag extends Fragment {
         public TestFrag(){
             super(R.layout.id_popup);
         }

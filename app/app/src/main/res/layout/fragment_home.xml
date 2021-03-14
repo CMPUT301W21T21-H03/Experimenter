@@ -8,184 +8,190 @@
     tools:context=".Activity.ui.profile.HomeFragment">
 
 
-    <com.google.android.material.appbar.AppBarLayout
-
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent">
 
-
-        android:background="#28282B"
-
-        android:id="@+id/appBar"
-
-
-        android:fitsSystemWindows="true"
-        >
-
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/Tablayout">
+
+        </androidx.viewpager2.widget.ViewPager2>
+
+        <com.google.android.material.appbar.AppBarLayout
+
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+
+
             android:layout_height="wrap_content"
-            android:id="@+id/CollaspingToolBar"
+
+            android:background="#28282B"
+
+
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="#28282B"
-            android:overScrollMode="never"
-            >
+            app:layout_constraintTop_toTopOf="parent">
 
 
+            <com.google.android.material.appbar.CollapsingToolbarLayout
 
-
-            <LinearLayout
+                android:id="@+id/CollaspingToolBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:orientation="vertical"
-                app:layout_collapseMode="none">
+                android:fitsSystemWindows="true"
+                android:overScrollMode="never"
+                app:contentScrim="#28282B"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <FrameLayout
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="none">
 
-                   >
-
-                    <Button
-                        android:id="@+id/edit_profile_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|end"
-                        android:layout_weight="0"
-                        android:text="Edit"
-                        />
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
+
                         >
 
-                        <TextView
+                        <Button
+                            android:id="@+id/edit_profile_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="UserName"
-                            android:textSize="18sp"
-                            tools:textStyle="bold" />
+                            android:layout_gravity="right|end"
+                            android:layout_weight="0"
+                            android:text="Edit" />
 
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="XCXRM55OLE"
-                            android:textSize="18sp" />
-                    </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="UserName"
+                                android:textSize="24sp"
+                                tools:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/textView6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="XCXRM55OLE"
+                                android:textSize="18sp" />
+                        </LinearLayout>
 
 
+                    </FrameLayout>
 
-                </FrameLayout>
 
+                    <View
 
-                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:layout_marginVertical="4dp"
+                        android:layout_weight="1"
+                        android:background="@color/gray" />
 
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Email: email@email.com" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Phone#: 123123123" />
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="City: WoahCity" />
+
+                    <View
+
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:layout_marginVertical="4dp"
+                        android:layout_weight="1"
+                        android:background="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="About: This is a user description. It describes the user. It might be quite long, containing multiple lines. So basically a small paragraph. Blah."
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <com.DivineInspiration.experimenter.Activity.ui.NonClickableToolbar
+
+                    android:id="@+id/innerToolBar"
                     android:layout_width="match_parent"
-                    android:layout_height="1.5dp"
-                    android:layout_marginVertical="4dp"
-                    android:layout_weight="1"
-                    android:background="@color/gray" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Email: email@email.com" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Phone#: 123123123"
-                   />
-
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="City: WoahCity" />
-
-                <View
-
-                    android:layout_width="match_parent"
-                    android:layout_height="1.5dp"
-                    android:layout_marginVertical="4dp"
-                    android:layout_weight="1"
-                    android:background="@color/gray" />
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="About: This is a user description. It describes the user. It might be quite long, containing multiple lines. So basically a small paragraph. Blah." />
-
-            </LinearLayout>
-            <com.DivineInspiration.experimenter.Activity.ui.NonClickableToolbar
-
-                android:id="@+id/innerToolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
 
 
-                />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+                    />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
+        </com.google.android.material.appbar.AppBarLayout>
 
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/Tablayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabIndicatorColor="#ea6962"
-        app:tabIndicatorAnimationMode="linear"
-        android:backgroundTint="@color/black1"
-        app:tabTextColor="@color/beige1"
-        app:layout_anchor="@id/appBar"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-
-        >
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/Tablayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Experiment" />
+            android:backgroundTint="@color/black1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintTop_toBottomOf="@+id/appBar"
+            app:tabIndicatorAnimationMode="linear"
+            app:tabIndicatorColor="#ea6962"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
+            app:tabTextColor="@color/beige1">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Experiment" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subscription" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trial" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <include
+            android:id="@+id/subscription_experiment_list"
+            layout="@layout/experiment_list"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Subscription" />
+            android:visibility="invisible"
+            tools:layout_editor_absoluteY="212dp" />
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trial" />
-    </com.google.android.material.tabs.TabLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_anchor="@+id/appBar"
-        app:layout_anchorGravity="bottom|center" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

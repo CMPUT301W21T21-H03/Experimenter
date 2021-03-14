@@ -27,7 +27,7 @@
             android:layout_height="164dp"
             android:clipChildren="false"
             android:scrollbars="vertical"
-            tools:listitem="@layout/text_item">
+            tools:listitem="@layout/list_item">
 
         </androidx.recyclerview.widget.RecyclerView>
 
