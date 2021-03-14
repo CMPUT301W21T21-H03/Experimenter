@@ -1,16 +1,13 @@
 package com.DivineInspiration.experimenter.Activity.ui.profile;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+
 import android.view.View;
-import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.R;
@@ -35,7 +32,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     toolbar = (CollapsingToolbarLayout) view.findViewById(R.id.CollaspingToolBar);
         fab = (FloatingActionButton)view.findViewById(R.id.fab);
-
+        toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
+        toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
         fab.setOnClickListener(new View.OnClickListener(){
 
             @Override

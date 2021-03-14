@@ -30,7 +30,7 @@
             android:id="@+id/CollaspingToolBar"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="@color/design_default_color_primary"
+            app:contentScrim="#28282B"
             android:overScrollMode="never">
 
             <LinearLayout
