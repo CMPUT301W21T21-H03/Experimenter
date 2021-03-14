@@ -3,13 +3,15 @@ package com.DivineInspiration.experimenter.Activity.ui.profile;
 import android.os.Bundle;
 
 import android.view.View;
-import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.AppBarLayout;
@@ -19,6 +21,10 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class HomeFragment extends Fragment {
 
+    /*view pager madness*
+    https://developer.android.com/guide/navigation/navigation-swipe-view-2
+    */
+
 
     public HomeFragment(){
         super(R.layout.fragment_home);
@@ -27,17 +33,18 @@ public class HomeFragment extends Fragment {
    CollapsingToolbarLayout toolbar;
     AppBarLayout appBar;
     FloatingActionButton fab;
-    FloatingActionButton edit;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    toolbar = (CollapsingToolbarLayout) view.findViewById(R.id.CollaspingToolBar);
+        toolbar = (CollapsingToolbarLayout) view.findViewById(R.id.CollaspingToolBar);
         fab = (FloatingActionButton)view.findViewById(R.id.fab);
-        edit = (FloatingActionButton) view.findViewById(R.id.edit);
-
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
+
+
+
+
         fab.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -46,14 +53,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new editProfileDialogFragment().show(getChildFragmentManager(),lol.TAG);
-            }
-        });
 
 
+        /*
+        appbar stuff
+        https://stackoverflow.com/questions/31662416/show-collapsingtoolbarlayout-title-only-when-collapsed
+         */
         appBar = (AppBarLayout)view.findViewById(R.id.appBar);
         appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean showing = true;
@@ -74,4 +79,31 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    private class PagerAdapter extends FragmentStateAdapter {
+
+        public PagerAdapter(Fragment frag){
+            super(frag);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            Fragment frag = new TestFrag();
+            Bundle args = new Bundle();
+            args .putString("stuff", String.valueOf((position + 1) * 1000));
+            return null;
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
+    }
+
+    private class TestFrag extends Fragment{
+
+    }
 }
+
