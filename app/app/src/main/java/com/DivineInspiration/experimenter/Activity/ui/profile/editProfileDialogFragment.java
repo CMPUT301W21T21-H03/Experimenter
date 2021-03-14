@@ -18,21 +18,14 @@ import com.DivineInspiration.experimenter.R;
 
 
 public class editProfileDialogFragment extends DialogFragment {
-    private EditText demo;
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_profile_dialog_fragment, null);
-        demo = view.findViewById(R.id.demo);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        return builder
-                .setView(view)
-                .setTitle("Demo")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("OK", null).create();
-
+        return new AlertDialog.Builder(requireContext())
+                .setMessage("Woahhh dude it works")
+                .setPositiveButton("ok",null)
+                .setNegativeButton("cancel",null)
+                .create();
     }
-    public static String TAG = "lol";
-
+    public static String TAG = "editProfileDialog";
 }

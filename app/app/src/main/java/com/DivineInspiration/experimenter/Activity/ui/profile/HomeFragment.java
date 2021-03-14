@@ -3,6 +3,7 @@ package com.DivineInspiration.experimenter.Activity.ui.profile;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.Button;
 
 
 import androidx.annotation.NonNull;
@@ -33,12 +34,14 @@ public class HomeFragment extends Fragment {
    CollapsingToolbarLayout toolbar;
     AppBarLayout appBar;
     FloatingActionButton fab;
+    Button editProfileButton;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar = (CollapsingToolbarLayout) view.findViewById(R.id.CollaspingToolBar);
         fab = (FloatingActionButton)view.findViewById(R.id.fab);
+        editProfileButton = (Button)view.findViewById(R.id.edit_profile_button);
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
@@ -50,6 +53,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Snackbar.make(view, "Woah dude", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new editProfileDialogFragment().show(getChildFragmentManager(),editProfileDialogFragment.TAG);
             }
         });
 
