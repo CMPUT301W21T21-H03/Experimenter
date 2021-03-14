@@ -21,8 +21,10 @@ public class editProfileDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_profile_dialog_fragment, null);
         return new AlertDialog.Builder(requireContext())
-                .setMessage("Woahhh dude it works")
+                .setView(view)
+                .setMessage("Edit Profile")
                 .setPositiveButton("ok",null)
                 .setNegativeButton("cancel",null)
                 .create();
