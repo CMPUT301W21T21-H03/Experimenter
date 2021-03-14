@@ -3,6 +3,7 @@ package com.DivineInspiration.experimenter.Activity.ui.profile;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -26,12 +27,15 @@ public class HomeFragment extends Fragment {
    CollapsingToolbarLayout toolbar;
     AppBarLayout appBar;
     FloatingActionButton fab;
+    FloatingActionButton edit;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     toolbar = (CollapsingToolbarLayout) view.findViewById(R.id.CollaspingToolBar);
         fab = (FloatingActionButton)view.findViewById(R.id.fab);
+        edit = (FloatingActionButton) view.findViewById(R.id.edit);
+
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
         fab.setOnClickListener(new View.OnClickListener(){
@@ -41,6 +45,14 @@ public class HomeFragment extends Fragment {
                 Snackbar.make(view, "Woah dude", Snackbar.LENGTH_LONG).show();
             }
         });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new editProfileDialogFragment().show(getChildFragmentManager(),lol.TAG);
+            }
+        });
+
 
         appBar = (AppBarLayout)view.findViewById(R.id.appBar);
         appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {

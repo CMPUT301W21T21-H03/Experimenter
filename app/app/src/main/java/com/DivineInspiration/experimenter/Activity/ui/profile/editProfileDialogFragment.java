@@ -19,21 +19,7 @@ import com.DivineInspiration.experimenter.R;
 
 public class editProfileDialogFragment extends DialogFragment {
     private EditText demo;
-    private OnFragmentInteractionListener listener;
 
-    public interface OnFragmentInteractionListener {
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener){
-            listener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -46,8 +32,7 @@ public class editProfileDialogFragment extends DialogFragment {
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", null).create();
 
-
-
     }
+    public static String TAG = "lol";
 
 }
