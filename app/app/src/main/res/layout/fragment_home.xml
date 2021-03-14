@@ -9,36 +9,58 @@
 
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/app_bar"
-        android:fitsSystemWindows="true"
-        >
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
             android:fitsSystemWindows="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_collapseMode="parallax">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="UserName - ABC123ID(TODO, Add edit button)"
+                    android:text="UserName"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     tools:textStyle="bold" />
-                <View
 
+                <TextView
+                    android:id="@+id/textView8"
                     android:layout_width="match_parent"
-                    android:layout_height="1.5dp"
-                    android:background="@android:color/white" />
+                    android:layout_height="wrap_content"
+                    android:text="ABC123ID"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="4dp"
+                    android:orientation="horizontal">
+
+                    <View
+
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textView2"
@@ -71,10 +93,26 @@
                     android:layout_weight="1"
                     android:text="City: WoahCity"
                     android:textColor="#FFFFFF" />
-                <View
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1.5dp"
-                    android:background="@android:color/white" />
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="4dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <View
+
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textView7"
@@ -91,8 +129,7 @@
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-            >
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -110,6 +147,7 @@
                 android:text="Trial" />
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
