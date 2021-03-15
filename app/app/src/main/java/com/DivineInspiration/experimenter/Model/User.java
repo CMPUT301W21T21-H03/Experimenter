@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 public class User {
     private String userId;
     private String userName;
+    private String description;
     private UserContactInfo contactInfo;
 
     /**
@@ -14,21 +15,25 @@ public class User {
      * @param contactUserInfo
      * contact info on that person
      */
-    public User(String username, String userId, UserContactInfo contactUserInfo) {
+    public User(String username, String userId, UserContactInfo contactUserInfo, String description) {
         this.userId = userId;
         this.userName = username;
         this.contactInfo = contactUserInfo;
+        this.description = description;
     }
     public User(String userId){
         this.userId = userId;
         userName = "defaultName";
         contactInfo = new UserContactInfo();
+        description = "no description yet";
+
     }
 
     public User(){
         userId = "defaultId";
         userName = "defaultName";
         contactInfo = new UserContactInfo();
+        description = "no description yet";
     }
 
     /**
@@ -72,7 +77,7 @@ public class User {
      * @return
      * User ID
      */
-    public String getUniqueID() {
+    public String getUserId() {
         return userId;
     }
 
@@ -82,7 +87,7 @@ public class User {
      * @param experimentDescription
      */
     public void createExperiment(String experimentName, String experimentDescription){
-        String experimentOwnerID = getUniqueID();
+        String experimentOwnerID = getUserId();
         new Experiment(experimentName,experimentOwnerID,experimentDescription);
     }
 
@@ -92,7 +97,7 @@ public class User {
      * experiment to subscribe to
      */
     public void subscribeExperiment(Experiment experiment){
-        String subscriberID = getUniqueID();
+        String subscriberID = getUserId();
         experiment.addSubscriber(subscriberID);
     }
 
@@ -102,7 +107,7 @@ public class User {
      * experiment to unsubscribe to
      */
     public void unsubscribeExperiment(Experiment experiment){
-        String subscriberID = getUniqueID();
+        String subscriberID = getUserId();
         experiment.deleteSubscriber(subscriberID);
     }
 
@@ -110,5 +115,12 @@ public class User {
     @Override
     public String toString(){
         return String.format("User Name: %s, Id: %s", userName, userId);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String newDescription){
+        this.description = newDescription;
     }
 }

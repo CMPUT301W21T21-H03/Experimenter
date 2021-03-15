@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.ui.notifications;
+package com.DivineInspiration.experimenter.Activity.UI.Explore;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
