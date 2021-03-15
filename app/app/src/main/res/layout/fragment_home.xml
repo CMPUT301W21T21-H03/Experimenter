@@ -8,29 +8,13 @@
     tools:context=".Activity.UI.Profile.HomeFragment">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/Tablayout">
-
-        </androidx.viewpager2.widget.ViewPager2>
 
         <com.google.android.material.appbar.AppBarLayout
-
             android:id="@+id/appBar"
             android:layout_width="match_parent"
-
-
             android:layout_height="wrap_content"
-
             android:background="#28282B"
-
-
             android:fitsSystemWindows="true"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -51,13 +35,12 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:orientation="vertical"
-                    app:layout_collapseMode="none">
+                    app:layout_collapseMode="parallax">
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-
                         >
 
                         <Button
@@ -87,13 +70,9 @@
                                 android:text="XCXRM55OLE"
                                 android:textSize="18sp" />
                         </LinearLayout>
-
-
                     </FrameLayout>
 
-
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1.5dp"
                         android:layout_marginVertical="4dp"
@@ -122,7 +101,6 @@
                         android:text="City: WoahCity" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1.5dp"
                         android:layout_marginVertical="4dp"
@@ -135,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="About: This is a user description. It describes the user. It might be quite long, containing multiple lines. So basically a small paragraph. Blah."
-                        android:visibility="gone" />
+                      />
 
                 </LinearLayout>
 
@@ -144,15 +122,21 @@
                     android:id="@+id/innerToolBar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:visibility="gone"
-
-
                     app:layout_collapseMode="pin" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
         </com.google.android.material.appbar.AppBarLayout>
 
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/Tablayout">
+
+    </androidx.viewpager2.widget.ViewPager2>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/Tablayout"
             android:layout_width="match_parent"
@@ -182,15 +166,14 @@
                 android:text="Trial" />
         </com.google.android.material.tabs.TabLayout>
 
-        <include
-            android:id="@+id/subscription_experiment_list"
-            layout="@layout/experiment_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            tools:layout_editor_absoluteY="212dp" />
+<!--        <include-->
+<!--            android:id="@+id/subscription_experiment_list"-->
+<!--            layout="@layout/experiment_list"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="invisible"-->
+<!--            tools:layout_editor_absoluteY="212dp" />-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

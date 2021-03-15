@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.DivineInspiration.experimenter.Controller.LocalUserManager;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -45,8 +46,7 @@ public class HomeFragment extends Fragment {
         editProfileButton = (Button)view.findViewById(R.id.edit_profile_button);
 
         // title is transparent when expanded
-        // FIX: below code crashes everything
-//        toolbar.setTitle(LocalUserManager.getInstance().getUser().getUserName());
+        toolbar.setTitle(LocalUserManager.getInstance().getUser().getUserName());
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
