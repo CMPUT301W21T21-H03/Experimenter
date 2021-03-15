@@ -74,6 +74,27 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
             }
         }).attach();
 
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                /*
+                how to select
+                https://stackoverflow.com/a/34397481/12471420
+                 */
+                pager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
 
         //setup local user
         manager.setContext(getContext());

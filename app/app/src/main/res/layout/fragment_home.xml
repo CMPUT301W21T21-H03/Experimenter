@@ -131,7 +131,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black1"
-                app:tabIndicatorAnimationMode="linear"
                 app:tabIndicatorColor="#ea6962"
                 app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                 app:tabTextColor="@color/beige1"/>
