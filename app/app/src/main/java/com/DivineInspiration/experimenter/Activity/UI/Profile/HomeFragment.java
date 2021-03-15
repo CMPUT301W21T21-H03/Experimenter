@@ -2,6 +2,7 @@ package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements  LocalUserManager.UserReadyCallback {
 
     // TODO: switch pager programmatically
 
@@ -31,22 +32,30 @@ public class HomeFragment extends Fragment {
 
     public HomeFragment(){
         super(R.layout.fragment_home);
+        Log.d("stuff", "fragment, constructor");
     }
 
     CollapsingToolbarLayout toolbar;
     AppBarLayout appBar;
     FloatingActionButton fab;
     Button editProfileButton;
-
+    LocalUserManager manager = LocalUserManager.getInstance();
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar = (CollapsingToolbarLayout) view.findViewById(R.id.CollaspingToolBar);
-        fab = (FloatingActionButton)view.findViewById(R.id.fab);
-        editProfileButton = (Button)view.findViewById(R.id.edit_profile_button);
+
+        toolbar = view.findViewById(R.id.CollaspingToolBar);
+        fab = view.findViewById(R.id.fab);
+        editProfileButton = view.findViewById(R.id.edit_profile_button);
+
+
+
+        //setup local user
+        manager.setContext(getContext());
+        manager.setReadyCallback(this);
+
 
         // title is transparent when expanded
-        toolbar.setTitle(LocalUserManager.getInstance().getUser().getUserName());
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
@@ -92,6 +101,11 @@ public class HomeFragment extends Fragment {
 //                }
 //            }
 //        });
+    }
+
+    @Override
+    public void onUserReady() {
+        toolbar.setTitle(manager.getUser().getUserName());
     }
 
     private class PagerAdapter extends FragmentStateAdapter {

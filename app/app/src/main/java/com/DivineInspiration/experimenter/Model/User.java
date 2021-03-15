@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 public class User {
     private String userId;
     private String userName;
+    private String description;
     private UserContactInfo contactInfo;
 
     /**
@@ -14,21 +15,25 @@ public class User {
      * @param contactUserInfo
      * contact info on that person
      */
-    public User(String username, String userId, UserContactInfo contactUserInfo) {
+    public User(String username, String userId, UserContactInfo contactUserInfo, String description) {
         this.userId = userId;
         this.userName = username;
         this.contactInfo = contactUserInfo;
+        this.description = description;
     }
     public User(String userId){
         this.userId = userId;
         userName = "defaultName";
         contactInfo = new UserContactInfo();
+        description = "no description yet";
+
     }
 
     public User(){
         userId = "defaultId";
         userName = "defaultName";
         contactInfo = new UserContactInfo();
+        description = "no description yet";
     }
 
     /**
@@ -113,6 +118,9 @@ public class User {
     }
 
     public String getDescription() {
-        return null;
+        return description;
+    }
+    public void setDescription(String newDescription){
+        this.description = newDescription;
     }
 }

@@ -44,7 +44,7 @@ Usage: android local storage
      */
     public User getUser(){
         if(user == null){
-                initialize();
+            initialize();
         }
         return user;
     }
@@ -90,6 +90,9 @@ Usage: android local storage
         if(pref.contains("User")){
             Gson gson = new Gson();
             user = gson.fromJson(pref.getString("User", ""), User.class);
+            //TODO when to call back here??
+            updateUser(user);
+            Log.d("stuff", user.toString());
             if(callback != null){
                 callback.onUserReady();
                 callback = null;
@@ -108,7 +111,6 @@ Usage: android local storage
      */
     @Override
     public void onIdReady(String id){
-
         updateUser(new User(id));
     }
 

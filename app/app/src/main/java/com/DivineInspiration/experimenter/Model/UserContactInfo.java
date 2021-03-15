@@ -9,15 +9,14 @@ public class UserContactInfo {
 
     /**
      * Contact person info constructor
-     * @param address
      * physical address of person
      * @param phoneNumber
      * phone number of person
      * @param cityName
      * city of person
      */
-    public UserContactInfo(String address, int phoneNumber, String cityName, String email) {
-        this.address = address;
+    public UserContactInfo(int phoneNumber, String cityName, String email) {
+
         this.phoneNumber = phoneNumber;
         this.cityName = cityName;
         this.email = email;

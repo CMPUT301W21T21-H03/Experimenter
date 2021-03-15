@@ -15,26 +15,18 @@ import com.DivineInspiration.experimenter.Model.UserContactInfo;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements LocalUserManager.UserReadyCallback {
+public class MainActivity extends AppCompatActivity {
 
-    LocalUserManager manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        manager = LocalUserManager.getInstance();
 
-        manager.setContext(this); //needed for reading local profile
-        manager.setReadyCallback(this);//set which class to call back when user is made
-
-    }
-
-    @Override
-    public void onUserReady() {
-        //TODO test with new client install
-
+        Log.d("stuff", "main, onCreate");
+        Log.d("stuff", "main, user ready");
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_scan, R.id.navigation_explore)
@@ -44,5 +36,7 @@ public class MainActivity extends AppCompatActivity implements LocalUserManager.
         NavigationUI.setupWithNavController(navView, navController);
 
     }
+
+
 
 }
