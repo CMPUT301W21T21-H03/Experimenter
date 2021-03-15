@@ -3,30 +3,35 @@ package com.DivineInspiration.experimenter.Activity.UI.Profile;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.DivineInspiration.experimenter.Controller.LocalUserManager;
 import com.DivineInspiration.experimenter.R;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class HomeFragment extends Fragment implements  LocalUserManager.UserReadyCallback {
 
-    // TODO: switch pager programmatically
 
     /* view pager madness
     https://developer.android.com/guide/navigation/navigation-swipe-view-2
+
     */
 
 
@@ -36,10 +41,17 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
     }
 
     CollapsingToolbarLayout toolbar;
-    AppBarLayout appBar;
+
     FloatingActionButton fab;
     Button editProfileButton;
     LocalUserManager manager = LocalUserManager.getInstance();
+    ViewPager2 pager;
+    HomeFragmentAdapter adapter;
+    TabLayout tabLayout;
+
+    private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -48,6 +60,19 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         fab = view.findViewById(R.id.fab);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
 
+        //viewpager
+        pager = view.findViewById(R.id.pager);
+        adapter = new HomeFragmentAdapter(this);
+        pager.setAdapter(adapter);
+
+        tabLayout = view.findViewById(R.id.Tablayout);
+
+        new TabLayoutMediator(tabLayout, pager,true, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(tabNames[position]);
+            }
+        }).attach();
 
 
         //setup local user
@@ -108,9 +133,13 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         toolbar.setTitle(manager.getUser().getUserName());
     }
 
-    private class PagerAdapter extends FragmentStateAdapter {
+    public  class HomeFragmentAdapter extends FragmentStateAdapter {
 
-        public PagerAdapter(Fragment frag){
+        public HomeFragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+            super(fragmentManager, lifecycle);
+        }
+
+        public HomeFragmentAdapter(Fragment frag){
             super(frag);
         }
 
@@ -118,9 +147,6 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         @Override
         public Fragment createFragment(int position) {
             Fragment frag = new TestFrag();
-            Bundle args = new Bundle();
-            args .putString("stuff", String.valueOf((position + 1) * 1000));
-            frag.setArguments(args);
             return frag;
         }
 
@@ -131,15 +157,19 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         }
     }
 
-    private class TestFrag extends Fragment {
-        public TestFrag(){
-            super(R.layout.id_popup);
+    public static class TestFrag extends Fragment {
+
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.loading, container, false);
         }
 
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            ( (TextView)view.findViewById(R.id.main_title)).setText(savedInstanceState.getString("stuff"));
+            Log.d("stuff", "page frag created");
+
         }
     }
 }
