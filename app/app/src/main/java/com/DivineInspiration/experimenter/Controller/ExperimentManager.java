@@ -81,7 +81,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * Checks if an experiment is in the database and if it is it deletes it
      * @param experiment
      */
-    public void delete(Experiment experiment) {
+    public void deleteExperiment(Experiment experiment) {
         if (hasExperiment(experiment) == false) {
             throw new IllegalArgumentException();
         }
