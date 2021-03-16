@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -18,13 +19,14 @@ public class ExperimentManager extends ArrayList<Experiment> {
     //Singleton ArrayList
     private ArrayList<Experiment> experiments;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    final String TAG = "Sample";
 
     private ExperimentManager(){
         experiments = new ArrayList<>();
     }
 
     public ArrayList<Experiment> getExperiments(){
+        //TODO
         return experiments;
     }
 
@@ -44,10 +46,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
         doc.put("Description", experiment.getExperimentDescription());
         Map<String, Object> Subscribers = new HashMap<>();
         Subscribers.put("0", experiment.getExperimentOwnerID() );
-        final String TAG = "Sample";
 
         db.collection("Experiments")
-                .document(experiment.getExperimentOwnerID())
+                .document(experiment.getExperimentID())
                 .set(doc)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -84,18 +85,14 @@ public class ExperimentManager extends ArrayList<Experiment> {
         if (hasExperiment(experiment) == false) {
             throw new IllegalArgumentException();
         }
+        db.collection("Experiments").document(experiment.getExperimentID())
+                .delete().addOnSuccessListener(new OnSuccessListener < Void > () {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Experiment has been Deleted Successfully");
+            }
+        });
+
     }
 
-
-//  Do we need it? I don't think position of experiments matter as we are dealing ID
-//    /**
-//     * Gets an experiment at position
-//     * @param position
-//     * position of experiment
-//     * @return
-//     * the individial experiment
-//     */
-//    public Experiment getExperiment(int position) {
-//        return experiments.get(position);
-//    }
 }
