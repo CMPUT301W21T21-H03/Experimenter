@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
+<!--https://www.geeksforgeeks.org/cardview-in-android-with-example/
+on usage of card view
+-->
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp"
+    app:cardPreventCornerOverlap="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/black3"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="12dp">
+
 
         <TextView
-            android:id="@+id/experiment_name"
-            android:layout_width="match_parent"
+            android:id="@+id/expListTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="ExperimentA"
-            android:textColor="#000000"
-            android:textSize="30sp"></TextView>
+            android:text="Experiment Title"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/experiment_owner"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:padding="10dp"
-            android:text="From: Owner1"
-            android:textColor="#175EB5"
-            android:textSize="18sp"></TextView>
-    </LinearLayout>
-
-
-</LinearLayout>
+            android:text="Owner: user"
+            app:layout_constraintStart_toStartOf="@+id/expListTitle"
+            app:layout_constraintTop_toBottomOf="@+id/expListTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

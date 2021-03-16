@@ -42,13 +42,13 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
             view = LayoutInflater.from(context).inflate(R.layout.search_bar, parent, false);
         }
 
-        Experiment experiment = experiments.get(position);
-
-        TextView experimentName = view.findViewById(R.id.experiment_name);
-        TextView experimentOwner = view.findViewById(R.id.experiment_owner);
-
-        experimentName.setText(experiment.getExperimentName());
-        experimentOwner.setText(experiment.getExperimentOwnerID());
+//        Experiment experiment = experiments.get(position);
+//
+//        TextView experimentName = view.findViewById(R.id.experiment_name);
+//        TextView experimentOwner = view.findViewById(R.id.experiment_owner);
+//
+//        experimentName.setText(experiment.getExperimentName());
+//        experimentOwner.setText(experiment.getExperimentOwnerID());
 
         return view;
 
