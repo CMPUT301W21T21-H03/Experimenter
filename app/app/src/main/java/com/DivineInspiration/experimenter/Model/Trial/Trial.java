@@ -1,12 +1,12 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
+import com.DivineInspiration.experimenter.Model.User;
 import java.util.Date;
 
 public abstract class Trial {
     String trialID;
     Date trialDate;
-//    private String trialDescription;
-    String trialUserID;
+    User trialUser;
     String trialExperimentID;
 
     /**
@@ -26,22 +26,13 @@ public abstract class Trial {
         return trialDate;
     }
 
-//    /**
-//     * Gets the trial description
-//     * @return
-//     * description of trial
-//     */
-//    public String getTrialDescription() {
-//        return trialDescription;
-//    }
-
     /**
      * Gets the person doing the trial
      * @return
      * ID of the trial's user
      */
-    public String getTrialUserID() {
-        return trialUserID;
+    public User getTrialUser() {
+        return trialUser;
     }
 
     /**
