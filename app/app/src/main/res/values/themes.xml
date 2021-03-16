@@ -10,7 +10,8 @@
         <item name="colorSecondary">#fb4934</item>
         <item name="colorSecondaryVariant">#fb4934</item>
         <item name="colorOnSecondary">#fb4934</item>
-        <item name="android:textColor">#fefae7</item>
+        <item name="android:textColor">@color/beige1</item>
+
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
@@ -21,4 +22,6 @@
     <color name="beige1">#fbf1c7</color>
     <color name="black1">#3c3836</color>
     <color name="gray">#928374</color>
+    <color name="black2">#3c3836</color>
+    <color name="black3">#504945</color>
 </resources>
