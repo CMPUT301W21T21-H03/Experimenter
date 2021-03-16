@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -169,13 +171,19 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.id_popup, container, false);
+            return inflater.inflate(R.layout.test, container, false);
         }
 
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            ((TextView)view.findViewById(R.id.main_title)).setText(getArguments().getString("stuff"));
+            ListView list = view.findViewById(R.id.testList);
+
+            String[] items= {"Starting", "with", "the", "real", "numbers,", "the", "corresponding", "projective",  "is", "geometrically", "a", "circle,", "and", "then", "the", "extra", "point", "0/0", "gives", "the", "shape", "that", "is", "the", "source", "of", "the", "term", "wheel", "Or", "starting", "with", "the", "complex", "numbers", "instead,", "the", "corresponding", "projective", "line", "is", "a", "sphere", "(the", "Riemann", "sphere),", "and", "then", "the", "extra", "point", "gives", "a", "3-dimensional", "version", "of", "a", "wheel"};
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
+
+            list.setAdapter(adapter);
 
         }
     }
