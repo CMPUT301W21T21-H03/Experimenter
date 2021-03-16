@@ -8,6 +8,5 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/experiment_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/list_item" />
+        android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,7 @@
         android:textSize="30sp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/experimentist"
+        android:id="@+id/expList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/list_item" />

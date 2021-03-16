@@ -5,7 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black1">
-
+    <androidx.viewpager2.widget.ViewPager2
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:accessibilityHeading="false"
-            android:autoText="false"
+
             android:text="ID: S3U8i9"
             android:textAlignment="center"
             android:textSize="36sp"
@@ -30,10 +34,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:accessibilityHeading="false"
-            android:autoText="false"
+
             android:text="Please remember this to log in later"
             android:textAlignment="center"
             android:textSize="36sp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
