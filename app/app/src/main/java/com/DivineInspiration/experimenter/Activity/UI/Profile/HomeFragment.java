@@ -179,8 +179,7 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
             super.onViewCreated(view, savedInstanceState);
             ListView list = view.findViewById(R.id.testList);
 
-            String[] items= {"Starting", "with", "the", "real", "numbers,", "the", "corresponding", "projective",  "is", "geometrically", "a", "circle,", "and", "then", "the", "extra", "point", "0/0", "gives", "the", "shape", "that", "is", "the", "source", "of", "the", "term", "wheel", "Or", "starting", "with", "the", "complex", "numbers", "instead,", "the", "corresponding", "projective", "line", "is", "a", "sphere", "(the", "Riemann", "sphere),", "and", "then", "the", "extra", "point", "gives", "a", "3-dimensional", "version", "of", "a", "wheel"};
-
+         String[] items = {"Russell’s", "Paradox", "tells", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
 
             list.setAdapter(adapter);

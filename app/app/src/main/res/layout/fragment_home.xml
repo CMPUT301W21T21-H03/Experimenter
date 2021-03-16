@@ -40,8 +40,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/edit_profile_button"
@@ -112,8 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="About: This is a user description. It describes the user. It might be quite long, containing multiple lines. So basically a small paragraph. Blah."
-                    />
+                    android:text="About: This is a user description. It describes the user. It might be quite long, containing multiple lines. So basically a small paragraph. Blah." />
 
             </LinearLayout>
 
@@ -126,16 +124,6 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        >
         <com.google.android.material.tabs.TabLayout
             app:layout_constraintTop_toBottomOf="@+id/appBar"
             android:id="@+id/Tablayout"
@@ -146,8 +134,13 @@
             app:tabIndicatorColor="#ea6962"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
             app:tabTextColor="@color/beige1"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
             />
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
@@ -155,8 +148,6 @@
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 
