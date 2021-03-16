@@ -1,15 +1,33 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
+import com.DivineInspiration.experimenter.Model.User;
+
 import java.util.Date;
+import java.util.UUID;
 
 public class NonNegativeTrial extends Trial {
     public int count;
 
-    public NonNegativeTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, int count) {
-        this.trialID = trialID;
-        this.trialDate = trialDate;
-        this.trialUserID = trialUserID;
+    public NonNegativeTrial(User trialUser, String trialExperimentID) {
+        this.trialID = UUID.randomUUID().toString();
+        this.trialDate = new Date();
+        this.trialUser = trialUser;
         this.trialExperimentID = trialExperimentID;
-        this.count = count;
+        this.count = 0;
+    }
+
+    /**
+     * Increments count by one
+     */
+    public void addCount() {
+        ++count;
+    }
+
+    /**
+     * Gets current count
+     * @return: count
+     */
+    public int getCount() {
+        return count;
     }
 }
