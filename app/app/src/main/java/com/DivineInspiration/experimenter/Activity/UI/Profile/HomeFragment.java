@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -74,26 +75,7 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
             }
         }).attach();
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                /*
-                how to select
-                https://stackoverflow.com/a/34397481/12471420
-                 */
-                pager.setCurrentItem(tab.getPosition());
-            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
 
 
         //setup local user
@@ -168,6 +150,10 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         @Override
         public Fragment createFragment(int position) {
             Fragment frag = new TestFrag();
+            Bundle args = new Bundle();
+            args.putString("stuff", String.valueOf((position+1) * 100));
+            frag.setArguments(args);
+
             return frag;
         }
 
@@ -183,13 +169,13 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.loading, container, false);
+            return inflater.inflate(R.layout.id_popup, container, false);
         }
 
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            Log.d("stuff", "page frag created");
+            ((TextView)view.findViewById(R.id.main_title)).setText(getArguments().getString("stuff"));
 
         }
     }
