@@ -125,13 +125,12 @@ public class HomeFragment extends Fragment implements LocalUserManager.UserReady
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                manager.setReadyCallback(HomeFragment.this);
                 new EditProfileDialogFragment().show(getChildFragmentManager(),"Edit Profile");
             }
         });
 
 
-        // Display User when fragment is changed
-//        displayUserToolbar();
 
 
         /*
@@ -157,6 +156,15 @@ public class HomeFragment extends Fragment implements LocalUserManager.UserReady
 //                }
 //            }
 //        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(manager.getUser() != null){
+            displayUserToolbar();
+        }
+
     }
 
     private void displayUserToolbar() {
@@ -203,9 +211,7 @@ public class HomeFragment extends Fragment implements LocalUserManager.UserReady
     @Override
     public void onUserReady() {
         // Display user information on toolbar
-        User myUser = manager.getUser();
-//        manager.updateUser(new User(myUser.getUserName(),myUser.getUserId(),myUser.getContactInfo(),myUser.getDescription()));
-//        displayUserToolbar();
+        displayUserToolbar();
     }
 
 
