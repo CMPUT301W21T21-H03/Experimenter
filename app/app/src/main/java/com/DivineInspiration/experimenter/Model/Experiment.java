@@ -9,6 +9,7 @@ public class Experiment {
     private final String experimentID;
     private String experimentDescription;
     private ArrayList<User> experimentSubscribers = new ArrayList<User>();
+    private DiscussionForum discussionForum = new DiscussionForum();
 
 
     /**
