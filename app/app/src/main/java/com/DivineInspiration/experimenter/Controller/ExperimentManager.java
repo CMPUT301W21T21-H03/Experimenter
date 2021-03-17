@@ -42,10 +42,10 @@ public class ExperimentManager extends ArrayList<Experiment> {
     public void addExperiment(Experiment experiment) {
         Map<String, Object> doc = new HashMap<>();
         doc.put("Name", experiment.getExperimentName());
-        doc.put("ownerId", experiment.getExperimentOwnerID());
+        doc.put("ownerId", experiment.getExperimentOwner().getUserId());
         doc.put("Description", experiment.getExperimentDescription());
         Map<String, Object> Subscribers = new HashMap<>();
-        Subscribers.put("0", experiment.getExperimentOwnerID() );
+        Subscribers.put("0", experiment.getExperimentOwner().getUserId() );
 
         db.collection("Experiments")
                 .document(experiment.getExperimentID())
