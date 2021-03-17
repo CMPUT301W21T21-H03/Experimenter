@@ -51,23 +51,24 @@
                         android:text="Edit" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="255dp"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/userName_Home"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="UserName"
                             android:textSize="24sp"
                             tools:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView6"
+                            android:id="@+id/userID_Home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="XCXRM55OLE"
-                            android:textSize="18sp" />
+                            android:text="userId"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </FrameLayout>
 
@@ -79,25 +80,25 @@
                     android:background="@color/gray" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/email_Home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Email: email@email.com" />
+                    android:text="Email" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView3"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="Phone#: 123123123" />-->
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/userCity_home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Phone#: 123123123" />
-
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="City: WoahCity" />
+                    android:text="City" />
 
                 <View
                     android:layout_width="match_parent"
@@ -107,11 +108,11 @@
                     android:background="@color/gray" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/userDescription_home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="About: This is a user description. It describes the user. It might be quite long, containing multiple lines. So basically a small paragraph. Blah." />
+                    android:text="About" />
 
             </LinearLayout>
 

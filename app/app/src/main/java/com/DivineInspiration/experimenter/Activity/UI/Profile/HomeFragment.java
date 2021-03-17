@@ -29,6 +29,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+
+
 public class HomeFragment extends Fragment implements  LocalUserManager.UserReadyCallback {
 
 
@@ -51,6 +53,8 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
+    TextView userID_home;
+
 
     private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
 
@@ -62,6 +66,7 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         toolbar = view.findViewById(R.id.CollaspingToolBar);
         fab = view.findViewById(R.id.fab);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
+        userID_home = view.findViewById(R.id.userID_Home);
 
         //viewpager
         pager = view.findViewById(R.id.pager);
@@ -89,6 +94,9 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
+
+
+
         // fab onclick
         fab.setOnClickListener(new View.OnClickListener(){
 
@@ -105,6 +113,10 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
                 new EditProfileDialogFragment().show(getChildFragmentManager(), EditProfileDialogFragment.TAG);
             }
         });
+
+
+
+
 
 
 
@@ -136,6 +148,10 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
     @Override
     public void onUserReady() {
         toolbar.setTitle(manager.getUser().getUserName());
+
+        // Displaying User iD
+        userID_home.setText(manager.getUser().getUserId());
+
     }
 
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
@@ -143,6 +159,7 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         public HomeFragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
             super(fragmentManager, lifecycle);
         }
+
 
         public HomeFragmentAdapter(Fragment frag){
             super(frag);
