@@ -73,34 +73,36 @@
                 </FrameLayout>
 
                 <View
+                    android:id="@+id/sectionDivideLineName_home"
                     android:layout_width="match_parent"
                     android:layout_height="1.5dp"
                     android:layout_marginVertical="4dp"
                     android:layout_weight="1"
                     android:background="@color/gray" />
 
-                <TextView
-                    android:id="@+id/email_Home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Email" />
+                    <TextView
+                        android:id="@+id/email_Home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Email" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textView3"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:text="Phone#: 123123123" />-->
+    <!--                <TextView-->
+    <!--                    android:id="@+id/textView3"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_weight="1"-->
+    <!--                    android:text="Phone#: 123123123" />-->
 
-                <TextView
-                    android:id="@+id/userCity_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="City" />
+                    <TextView
+                        android:id="@+id/userCity_home"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="City" />
 
                 <View
+                    android:id="@+id/sectionDivideLineAbout_home"
                     android:layout_width="match_parent"
                     android:layout_height="1.5dp"
                     android:layout_marginVertical="4dp"

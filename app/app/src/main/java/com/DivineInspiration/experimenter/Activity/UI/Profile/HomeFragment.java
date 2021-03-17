@@ -30,16 +30,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-
-
 public class HomeFragment extends Fragment implements  LocalUserManager.UserReadyCallback {
-
 
     /* view pager madness
     https://developer.android.com/guide/navigation/navigation-swipe-view-2
 
     */
-
 
     public HomeFragment(){
         super(R.layout.fragment_home);
@@ -54,12 +50,15 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
+
+    // Declaring TextView
     TextView userID_home;
     TextView userName_home;
     TextView userCity_home;
     TextView userEmail_home;
     TextView userDescription_home;
-
+    View dividerLineName_home;
+    View dividerLineAbout_home;
 
     private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
 
@@ -71,11 +70,15 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         toolbar = view.findViewById(R.id.CollaspingToolBar);
         fab = view.findViewById(R.id.fab);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
+
+        // Setting up the Text View in ToolBar
+        userName_home = view.findViewById(R.id.userName_Home);
         userID_home = view.findViewById(R.id.userID_Home);
         userEmail_home = view.findViewById(R.id.email_Home);
         userCity_home = view.findViewById(R.id.userCity_home);
         userDescription_home = view.findViewById(R.id.userDescription_home);
-
+        dividerLineName_home = view.findViewById(R.id.sectionDivideLineName_home);
+        dividerLineAbout_home = view.findViewById(R.id.sectionDivideLineAbout_home);
         //viewpager
         pager = view.findViewById(R.id.pager);
         adapter = new HomeFragmentAdapter(this);
@@ -122,10 +125,8 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
             }
         });
 
-
-
-
-
+        // Display user information on toolbar
+        displayUserToolbar();
 
 
         /*
@@ -153,15 +154,49 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
 //        });
     }
 
-    @Override
-    public void onUserReady() {
+    private void displayUserToolbar() {
+        // Displaying User iD
         manager.updateUser(new User(manager.getUser().getUserId()));
-
         toolbar.setTitle(manager.getUser().getUserName());
 
-        // Displaying User iD
         userID_home.setText(manager.getUser().getUserId());
+        userCity_home.setText(manager.getUser().getContactInfo().getCityName());
+        userEmail_home.setText(manager.getUser().getContactInfo().getEmail());
+        userDescription_home.setText(manager.getUser().getDescription());
+        userName_home.setText(manager.getUser().getUserName());
 
+        // Setting Visibility of text Views
+        // Visibility for City and Email
+        String cityText = manager.getUser().getContactInfo().getCityName().toString();
+        if(cityText.isEmpty()){
+            userCity_home.setVisibility(View.GONE);
+        }else {
+            userCity_home.setVisibility(View.VISIBLE);
+        }
+        String emailText = manager.getUser().getContactInfo().getEmail().toString();
+        if(emailText.isEmpty()){
+            userEmail_home.setVisibility(View.GONE);
+        }else{
+            userEmail_home.setVisibility(View.VISIBLE);
+        }
+        if(cityText.isEmpty() && emailText.isEmpty()){
+            dividerLineName_home.setVisibility(View.GONE);
+        }else {
+            dividerLineName_home.setVisibility(View.VISIBLE);
+        }
+        // Setting Visibility of User Description
+        String descriptionText = manager.getUser().getDescription().toString();
+        if(descriptionText.isEmpty()){
+            userDescription_home.setVisibility(View.GONE);
+            dividerLineAbout_home.setVisibility(View.GONE);
+        }else{
+            userDescription_home.setVisibility(View.VISIBLE);
+            dividerLineAbout_home.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onUserReady() {
     }
 
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
@@ -213,5 +248,7 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
 
         }
     }
+
+
 }
 
