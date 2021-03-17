@@ -57,12 +57,12 @@ public class ExploreFragment extends Fragment {
 
         return root;
     }
-
-    /**
-     * After clicking on settings in the explore menu
-     */
-    public void settings() {
-        // TODO: new profile view??
-        Log.v("Change to settings", " Success");
-    }
+//      There shouldn't be any explore button in explore frag
+//    /**
+//     * After clicking on settings in the explore menu
+//     */
+//    public void settings() {
+//        // TODO: new profile view??
+//        Log.v("Change to settings", " Success");
+//    }
 }
