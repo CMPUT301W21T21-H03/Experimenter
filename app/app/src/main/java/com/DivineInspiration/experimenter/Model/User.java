@@ -23,17 +23,17 @@ public class User {
     }
     public User(String userId){
         this.userId = userId;
-        userName = "defaultName";
+        userName = "UserName";
         contactInfo = new UserContactInfo();
-        description = "no description yet";
+        description = "";
 
     }
 
     public User(){
         userId = "defaultId";
-        userName = "defaultName";
+        userName = "UserName";
         contactInfo = new UserContactInfo();
-        description = "no description yet";
+        description = "";
     }
 
     /**

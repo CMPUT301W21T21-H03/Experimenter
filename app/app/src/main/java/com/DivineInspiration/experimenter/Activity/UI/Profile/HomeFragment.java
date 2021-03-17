@@ -22,6 +22,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.DivineInspiration.experimenter.Controller.LocalUserManager;
+import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,6 +55,10 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
     TextView userID_home;
+    TextView userName_home;
+    TextView userCity_home;
+    TextView userEmail_home;
+    TextView userDescription_home;
 
 
     private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
@@ -67,6 +72,9 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         fab = view.findViewById(R.id.fab);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
         userID_home = view.findViewById(R.id.userID_Home);
+        userEmail_home = view.findViewById(R.id.email_Home);
+        userCity_home = view.findViewById(R.id.userCity_home);
+        userDescription_home = view.findViewById(R.id.userDescription_home);
 
         //viewpager
         pager = view.findViewById(R.id.pager);
@@ -147,6 +155,8 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
 
     @Override
     public void onUserReady() {
+        manager.updateUser(new User(manager.getUser().getUserId()));
+
         toolbar.setTitle(manager.getUser().getUserName());
 
         // Displaying User iD
