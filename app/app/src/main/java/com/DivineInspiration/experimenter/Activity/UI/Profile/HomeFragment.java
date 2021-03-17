@@ -1,5 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
@@ -30,7 +32,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class HomeFragment extends Fragment implements  LocalUserManager.UserReadyCallback {
+public class HomeFragment extends Fragment implements LocalUserManager.UserReadyCallback {
 
     /* view pager madness
     https://developer.android.com/guide/navigation/navigation-swipe-view-2
@@ -79,6 +81,8 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         userDescription_home = view.findViewById(R.id.userDescription_home);
         dividerLineName_home = view.findViewById(R.id.sectionDivideLineName_home);
         dividerLineAbout_home = view.findViewById(R.id.sectionDivideLineAbout_home);
+
+
         //viewpager
         pager = view.findViewById(R.id.pager);
         adapter = new HomeFragmentAdapter(this);
@@ -121,12 +125,13 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new EditProfileDialogFragment().show(getChildFragmentManager(), EditProfileDialogFragment.TAG);
+                new EditProfileDialogFragment().show(getChildFragmentManager(),"Edit Profile");
             }
         });
 
-        // Display user information on toolbar
-        displayUserToolbar();
+
+        // Display User when fragment is changed
+//        displayUserToolbar();
 
 
         /*
@@ -156,7 +161,7 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
 
     private void displayUserToolbar() {
         // Displaying User iD
-        manager.updateUser(new User(manager.getUser().getUserId()));
+
         toolbar.setTitle(manager.getUser().getUserName());
 
         userID_home.setText(manager.getUser().getUserId());
@@ -197,7 +202,12 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
 
     @Override
     public void onUserReady() {
+        // Display user information on toolbar
+        User myUser = manager.getUser();
+//        manager.updateUser(new User(myUser.getUserName(),myUser.getUserId(),myUser.getContactInfo(),myUser.getDescription()));
+//        displayUserToolbar();
     }
+
 
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
 
