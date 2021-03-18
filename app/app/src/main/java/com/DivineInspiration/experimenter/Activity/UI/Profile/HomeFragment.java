@@ -150,7 +150,7 @@ public class HomeFragment extends Fragment implements UserManager.LocalUserCallb
             @Override
             public void onClick(View v) {
               Snackbar.make(view, "Woaaaaaah dude!!!", Snackbar.LENGTH_LONG).show();
-              manager.queryUser("XDASQK0FE7", HomeFragment.this);
+              manager.queryUser(manager.getLocalUser().getUserId(), HomeFragment.this);
             }
         });
 
