@@ -11,34 +11,44 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import com.DivineInspiration.experimenter.Controller.LocalUserManager;
+import com.DivineInspiration.experimenter.Controller.UserManager;
+
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 
 
 
 public class EditProfileDialogFragment extends DialogFragment {
-    LocalUserManager newManager = LocalUserManager.getInstance();
+    UserManager newManager = UserManager.getInstance();
     TextView editName;
     TextView editAbout;
     TextView editCity;
     TextView editEmail;
+    UserManager.UserReadyCallback callback;
+
+    public EditProfileDialogFragment(UserManager.UserReadyCallback callback){
+        super();
+        this.callback = callback;
+    }
+
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_profile_dialog_fragment, null);
-        User newUser = newManager.getUser();
+        User newUser = newManager.getLocalUser();
 
         editName = view.findViewById(R.id.editUserName);
         editAbout = view.findViewById(R.id.editAbout);
         editCity = view.findViewById(R.id.editCity);
         editEmail = view.findViewById(R.id.editEmail);
 
-        editName.setText(newManager.getUser().getUserName());
-        editAbout.setText(newManager.getUser().getDescription());
-        editCity.setText(newManager.getUser().getContactInfo().getCityName());
-        editEmail.setText(newManager.getUser().getContactInfo().getEmail());
+        editName.setText(newUser.getUserName());
+        editAbout.setText(newUser.getDescription());
+        editCity.setText(newUser.getContactInfo().getCityName());
+        editEmail.setText(newUser.getContactInfo().getEmail());
 
 
         return new AlertDialog.Builder(getContext())
@@ -52,12 +62,12 @@ public class EditProfileDialogFragment extends DialogFragment {
                         String editCityText = editCity.getText().toString();
                         String editEmailText = editEmail.getText().toString();
 
-                        newManager.getUser().setUserName(editNameText);
-                        newManager.getUser().setDescription(editAboutText);
-                        newManager.getUser().getContactInfo().setCityName(editCityText);
-                        newManager.getUser().getContactInfo().setEmail(editEmailText);
+                        newUser.setUserName(editNameText);
+                        newUser.setDescription(editAboutText);
+                        newUser.getContactInfo().setCityName(editCityText);
+                        newUser.getContactInfo().setEmail(editEmailText);
 
-                        newManager.updateUser(new User(newUser.getUserName(),newUser.getUserId(),newUser.getContactInfo(),newUser.getDescription()));
+                        newManager.updateUser(new User(newUser.getUserName(),newUser.getUserId(),newUser.getContactInfo(),newUser.getDescription()), callback);
 
                     }
                 })

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -34,7 +35,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
 
 
 
-    */
+
 
     public HomeFragment(){
         super(R.layout.fragment_home);
@@ -142,8 +143,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                manager.setReadyCallback(HomeFragment.this);
-                new EditProfileDialogFragment().show(getChildFragmentManager(),"Edit Profile");
+                new EditProfileDialogFragment(HomeFragment.this).show(getChildFragmentManager(),"Edit Profile");
             }
         });
 
@@ -178,8 +178,8 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
     @Override
     public void onResume() {
         super.onResume();
-        if(manager.getUser() != null){
-            displayUserToolbar(manager.getUser());
+        if(manager.getLocalUser() != null){
+            displayUserToolbar(manager.getLocalUser());
         }
 
     }
@@ -276,7 +276,6 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
 
         }
     }
-
 
 }
 

@@ -44,9 +44,7 @@ Usage: android local storage
      * @return the current user
      */
     public User getLocalUser(){
-        if(user == null){
-            throw new RuntimeException("user is not initialized yet");
-        }
+
         return user;
     }
 
