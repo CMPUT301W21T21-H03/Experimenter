@@ -59,7 +59,7 @@ Usage: android local storage
         //if context, callback is set, but user is not loaded yet, then its time to initialize
         if(user == null) {
             initialize();
-            }
+        }
 
     }
 
@@ -88,6 +88,7 @@ Usage: android local storage
             throw new ContextNotSetException();
         }
         if(pref.contains("User")){
+
             Gson gson = new Gson();
             user = gson.fromJson(pref.getString("User", ""), User.class);
             //TODO when to call back here??
