@@ -94,6 +94,20 @@ public class Experiment {
      * @param experimentDescription
      * description of experiment
      */
+    public Experiment(String experimentName, String ownerID, String experimentDescription, int trialType, String region, int minimumTrials) {
+
+        // TODO Generate id that is not already in the database
+        // TODO Get user from id database
+        this.experimentName = experimentName;
+        this.experimentID = IdGen.genExperimentId(ownerID);
+        this.ownerID = ownerID;
+        this.trialType = trialType;
+        this.region = region;
+        this.minimumTrials = minimumTrials;
+        this.experimentDescription = experimentDescription;
+
+
+    }
     public Experiment(String experimentID, String experimentName, String ownerID, String experimentDescription, int trialType, String region, int minimumTrials) {
 
         // TODO Generate id that is not already in the database
