@@ -5,24 +5,24 @@ import java.util.UUID;
 
 public class Experiment {
     private String experimentName;
-    private String experimentOwnerID;
-    private String experimentID;
+    private final User experimentOwner;
+    private final String experimentID;
     private String experimentDescription;
-    private ArrayList<String> experimentSubscribers;
+    private ArrayList<User> experimentSubscribers = new ArrayList<User>();
 
 
     /**
      * Experiment constructor
      * @param experimentName
      * name of experiment
-     * @param experimentOwnerID
+     * @param experimentOwner
      * owner ID of experiment
      * @param experimentDescription
      * description of experiment
      */
-    public Experiment(String experimentName, String experimentOwnerID, String experimentDescription) {
+    public Experiment(String experimentName, User experimentOwner, String experimentDescription) {
         this.experimentName = experimentName;
-        this.experimentOwnerID = experimentOwnerID;
+        this.experimentOwner = experimentOwner;
         this.experimentDescription = experimentDescription;
         this.experimentID = UUID.randomUUID().toString();
     }
@@ -50,8 +50,8 @@ public class Experiment {
      * @return
      * experiment owner
      */
-    public String getExperimentOwnerID() {
-        return experimentOwnerID;
+    public User getExperimentOwner() {
+        return experimentOwner;
     }
 
     /**
@@ -86,29 +86,25 @@ public class Experiment {
      * @return
      * array of user subscribed to the experiment
      */
-    public ArrayList<String> getExperimentSubscribers() {
+    public ArrayList<User> getExperimentSubscribers() {
         return experimentSubscribers;
     }
 
-
     /**
      * Adds a subscriber to the list
-     * @param subscriberID
+     * @param subscriber
      * subsciber ID
      */
-    public void addSubscriber(String subscriberID){
-        ArrayList<String> experimentSubscribers = getExperimentSubscribers();
-        experimentSubscribers.add(subscriberID);
+    public void addSubscriber(User subscriber) {
+        experimentSubscribers.add(subscriber);
     }
 
     /**
      * Removes a subscriber from the list
-     * @param subscriberID
+     * @param subscriber
      * subsciber ID
      */
-    public void deleteSubscriber(String subscriberID){
-        ArrayList<String> experimentSubscribers = getExperimentSubscribers();
-        experimentSubscribers.remove(subscriberID);
+    public void deleteSubscriber(User subscriber) {
+        experimentSubscribers.remove(subscriber);
     }
-
 }

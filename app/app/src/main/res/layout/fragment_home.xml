@@ -51,55 +51,58 @@
                         android:text="Edit" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="255dp"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/userName_Home"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="UserName"
+                            android:text="yourName"
                             android:textSize="24sp"
                             tools:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView6"
+                            android:id="@+id/userID_Home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="XCXRM55OLE"
-                            android:textSize="18sp" />
+                            android:text="userId"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </FrameLayout>
 
                 <View
+                    android:id="@+id/sectionDivideLineName_home"
                     android:layout_width="match_parent"
                     android:layout_height="1.5dp"
                     android:layout_marginVertical="4dp"
                     android:layout_weight="1"
                     android:background="@color/gray" />
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Email: email@email.com" />
+                    <TextView
+                        android:id="@+id/email_Home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Email" />
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Phone#: 123123123" />
+    <!--                <TextView-->
+    <!--                    android:id="@+id/textView3"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_weight="1"-->
+    <!--                    android:text="Phone#: 123123123" />-->
 
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="City: WoahCity" />
+                    <TextView
+                        android:id="@+id/userCity_home"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="City" />
 
                 <View
+                    android:id="@+id/sectionDivideLineAbout_home"
                     android:layout_width="match_parent"
                     android:layout_height="1.5dp"
                     android:layout_marginVertical="4dp"
@@ -107,11 +110,11 @@
                     android:background="@color/gray" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/userDescription_home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="About: This is a user description. It describes the user. It might be quite long, containing multiple lines. So basically a small paragraph. Blah." />
+                    android:text="About" />
 
             </LinearLayout>
 

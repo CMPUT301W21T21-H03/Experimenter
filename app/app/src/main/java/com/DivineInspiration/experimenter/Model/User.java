@@ -23,17 +23,17 @@ public class User {
     }
     public User(String userId){
         this.userId = userId;
-        userName = "defaultName";
+        userName = "UserName";
         contactInfo = new UserContactInfo();
-        description = "no description yet";
+        description = "";
 
     }
 
     public User(){
         userId = "defaultId";
-        userName = "defaultName";
+        userName = "UserName";
         contactInfo = new UserContactInfo();
-        description = "no description yet";
+        description = "";
     }
 
     /**
@@ -88,7 +88,7 @@ public class User {
      */
     public void createExperiment(String experimentName, String experimentDescription){
         String experimentOwnerID = getUserId();
-        new Experiment(experimentName,experimentOwnerID,experimentDescription);
+        new Experiment(experimentName, this, experimentDescription);
     }
 
     /**
@@ -98,7 +98,7 @@ public class User {
      */
     public void subscribeExperiment(Experiment experiment){
         String subscriberID = getUserId();
-        experiment.addSubscriber(subscriberID);
+        experiment.addSubscriber(this);
     }
 
     /**
@@ -108,7 +108,7 @@ public class User {
      */
     public void unsubscribeExperiment(Experiment experiment){
         String subscriberID = getUserId();
-        experiment.deleteSubscriber(subscriberID);
+        experiment.deleteSubscriber(this);
     }
 
     @NotNull

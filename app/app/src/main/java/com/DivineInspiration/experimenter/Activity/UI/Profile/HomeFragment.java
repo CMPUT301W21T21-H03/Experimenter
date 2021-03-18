@@ -1,5 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -27,14 +29,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+
 public class HomeFragment extends Fragment implements  UserManager.UserReadyCallback {
 
 
-    /* view pager madness
-    https://developer.android.com/guide/navigation/navigation-swipe-view-2
 
     */
-
 
     public HomeFragment(){
         super(R.layout.fragment_home);
@@ -50,6 +50,15 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
 
+    // Declaring TextView
+    TextView userID_home;
+    TextView userName_home;
+    TextView userCity_home;
+    TextView userEmail_home;
+    TextView userDescription_home;
+    View dividerLineName_home;
+    View dividerLineAbout_home;
+
     private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
 
 
@@ -60,6 +69,16 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
         toolbar = view.findViewById(R.id.CollaspingToolBar);
         fab = view.findViewById(R.id.fab);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
+
+        // Setting up the Text View in ToolBar
+        userName_home = view.findViewById(R.id.userName_Home);
+        userID_home = view.findViewById(R.id.userID_Home);
+        userEmail_home = view.findViewById(R.id.email_Home);
+        userCity_home = view.findViewById(R.id.userCity_home);
+        userDescription_home = view.findViewById(R.id.userDescription_home);
+        dividerLineName_home = view.findViewById(R.id.sectionDivideLineName_home);
+        dividerLineAbout_home = view.findViewById(R.id.sectionDivideLineAbout_home);
+
 
         //viewpager
         pager = view.findViewById(R.id.pager);
@@ -107,6 +126,9 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
+
+
+
         // fab onclick
         fab.setOnClickListener(new View.OnClickListener(){
 
@@ -120,9 +142,11 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new EditProfileDialogFragment().show(getChildFragmentManager(), EditProfileDialogFragment.TAG);
+                manager.setReadyCallback(HomeFragment.this);
+                new EditProfileDialogFragment().show(getChildFragmentManager(),"Edit Profile");
             }
         });
+
 
 
 
@@ -152,9 +176,61 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
     }
 
     @Override
-    public void onUserReady(User user) {
-        toolbar.setTitle(user.getUserName());
+    public void onResume() {
+        super.onResume();
+        if(manager.getUser() != null){
+            displayUserToolbar(manager.getUser());
+        }
+
     }
+
+    private void displayUserToolbar(User user) {
+        // Displaying User iD
+
+        toolbar.setTitle(user.getUserName());
+
+        userID_home.setText(user.getUserId());
+        userCity_home.setText(user.getContactInfo().getCityName());
+        userEmail_home.setText(user.getContactInfo().getEmail());
+        userDescription_home.setText(user.getDescription());
+        userName_home.setText(user.getUserName());
+
+        // Setting Visibility of text Views
+        // Visibility for City and Email
+        String cityText = user.getContactInfo().getCityName();
+        if(cityText.isEmpty()){
+            userCity_home.setVisibility(View.GONE);
+        }else {
+            userCity_home.setVisibility(View.VISIBLE);
+        }
+        String emailText =user.getContactInfo().getEmail();
+        if(emailText.isEmpty()){
+            userEmail_home.setVisibility(View.GONE);
+        }else{
+            userEmail_home.setVisibility(View.VISIBLE);
+        }
+        if(cityText.isEmpty() && emailText.isEmpty()){
+            dividerLineName_home.setVisibility(View.GONE);
+        }else {
+            dividerLineName_home.setVisibility(View.VISIBLE);
+        }
+        // Setting Visibility of User Description
+        String descriptionText = user.getDescription();
+        if(descriptionText.isEmpty()){
+            userDescription_home.setVisibility(View.GONE);
+            dividerLineAbout_home.setVisibility(View.GONE);
+        }else{
+            userDescription_home.setVisibility(View.VISIBLE);
+            dividerLineAbout_home.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onUserReady(User user) {
+        // Display user information on toolbar
+        displayUserToolbar(user);
+    }
+
 
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
 
@@ -200,5 +276,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
 
         }
     }
+
+
 }
 
