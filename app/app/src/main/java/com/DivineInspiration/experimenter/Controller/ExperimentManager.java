@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ExperimentManager extends ArrayList<Experiment> {
     //Singleton ArrayList
@@ -100,8 +101,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
         experiments = new ArrayList<>();
     }
 
-    public void queryUserExperiments(String userId, ExperimentReadyCallback callback){
-        db.collection("Experiments").whereEqualTo("OwnerID", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+    public void queryUserSubs(String userId, ExperimentReadyCallback callback){
+        db.collection("Experiments").whereArrayContains("SubscriberID", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
@@ -296,6 +298,30 @@ public class ExperimentManager extends ArrayList<Experiment> {
 //    }
 //
 //
+                        callback.onExperimentReady(output);
+                    }
+                }
+                else{
+                    Log.d("stuff", "query user experiments failed!");
+                }
+            }
+        });
+    }
+
+    private Experiment expFromSnapshot(QueryDocumentSnapshot snapshot){
+        return new Experiment(
+                snapshot.getString("ExperimentID"),
+                snapshot.getString("ExperimentName"),
+                snapshot.getString("OwnerID"),
+                snapshot.getString("ExperimentDescription"),
+                Objects.requireNonNull(snapshot.getLong("TrialType")).intValue(),
+                snapshot.getString("Region"),
+                Objects.requireNonNull(snapshot.getLong("MinimumTrials")).intValue()
+        );
+
+    }
+
+    
 
 
 //    public ArrayList<Experiment> getExperiments1(){
@@ -345,7 +371,13 @@ public class ExperimentManager extends ArrayList<Experiment> {
 //        return experiments;
 //    }
 //
-
+//    public static ExperimentManager getInstance(){
+//        if(singleton == null){
+//            singleton = new ExperimentManager();
+//        }
+//
+//        return singleton;
+//    }
 //
 //    /**
 //    * Adds an experiment to the database
@@ -416,7 +448,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
 //        Log.d(TAG, "working Has experiment2");
 //        return queryTask.isSuccessful();
 //    }
->>>>>>> Stashed changes
 
 //    /**
 //     * Checks if an experiment is in the database and if it is it deletes it

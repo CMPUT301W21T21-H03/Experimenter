@@ -8,7 +8,11 @@
         android:id="@+id/navigation_home"
         android:name="com.DivineInspiration.experimenter.Activity.UI.Profile.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_experimentFragment"
+            app:destination="@id/navigation_experimentFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_scan"
@@ -21,4 +25,9 @@
         android:name="com.DivineInspiration.experimenter.Activity.UI.Explore.ExploreFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_explore" />
+    <fragment
+        android:id="@+id/navigation_experimentFragment"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.Profile.navigation_experimentFragment"
+        android:label="fragment_navigation_experiment"
+        tools:layout="@layout/fragment_navigation_experiment" />
 </navigation>

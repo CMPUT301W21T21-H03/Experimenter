@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -139,6 +140,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
             @Override
             public void onClick(View v) {
                 Snackbar.make(view, "Woah dude", Snackbar.LENGTH_LONG).show();
+
             }
         });
 
