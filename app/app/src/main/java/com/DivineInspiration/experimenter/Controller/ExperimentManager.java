@@ -3,7 +3,6 @@ package com.DivineInspiration.experimenter.Controller;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.User;
@@ -12,12 +11,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
+
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
+
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -74,7 +72,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
             String email = userQuery.get("Email").toString();
             String phone = userQuery.get("PhoneNumber").toString();
 
-            UserContactInfo contactInfo = new UserContactInfo(Integer.parseInt(phone) , city, email);
+            UserContactInfo contactInfo = new UserContactInfo(city, email);
             User owner = new User(username, oID, contactInfo, userDescription);
 
             Experiment experiment = new Experiment(name, owner, description, eID);
@@ -209,7 +207,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
             String email = query.get("Email").toString();
             String phone = query.get("PhoneNumber").toString();
 
-            UserContactInfo contactInfo = new UserContactInfo(Integer.parseInt(phone) , city, email);
+            UserContactInfo contactInfo = new UserContactInfo(city, email);
             User owner = new User(username, oID, contactInfo, userDescription);
             experiment = new Experiment(name, owner, description, eID);
         }

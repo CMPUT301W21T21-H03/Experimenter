@@ -119,7 +119,7 @@ Usage: android local storage
      * @throws ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
      * @param newUser user to be made or updated.
      */
-    public void updateUser(User newUser , UserReadyCallback callback){
+    public void updateUser(User newUser, UserReadyCallback callback){
         if(pref == null){
             throw new ContextNotSetException();
         }
@@ -142,7 +142,6 @@ Usage: android local storage
         db.collection("Users").document(user.getUserId()).set(doc).addOnSuccessListener(aVoid -> {
             if(callback != null){
                 callback.onUserReady(user);
-
             }
         });
     }
