@@ -1,5 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,14 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.ViewHolder> {
 
     /*
     https://developer.android.com/guide/topics/ui/layout/recyclerview
      */
-
+    final Bundle args = new Bundle();
     private List<Experiment> experiments = new ArrayList<>();
 
     public ExperimentAdapter(){}
@@ -41,12 +44,15 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         holder.getTextView().setText(experiments.get(position).getExperimentName());
         holder.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Red is kinda Sus
-                Navigation.findNavController(v).navigate(R.id.navigation_experimentFragment);
+                Bundle bundle = new Bundle();
+                bundle.putInt("lol",position);
+                Navigation.findNavController(v).navigate(R.id.navigation_experimentFragment, bundle);
             }
         });
     }

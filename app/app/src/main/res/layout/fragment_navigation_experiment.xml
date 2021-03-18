@@ -7,4 +7,11 @@
     android:fitsSystemWindows="true"
     tools:context=".Activity.UI.Profile.HomeFragment"
     android:background="@color/black2">
+
+    <TextView
+        android:id="@+id/demo"
+        android:layout_width="261dp"
+        android:layout_height="150dp"
+        android:textSize="50dp"
+        android:text="TextView" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
