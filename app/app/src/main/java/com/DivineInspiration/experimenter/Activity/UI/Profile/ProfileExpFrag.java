@@ -9,10 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileExpFrag extends Fragment
 {
+    List<Experiment> expList;
 
     @Nullable
     @Override
@@ -23,6 +28,8 @@ public class ProfileExpFrag extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        expList = new ArrayList<>(); //to be filled with experiments of the current user, somehow
 
     }
 }

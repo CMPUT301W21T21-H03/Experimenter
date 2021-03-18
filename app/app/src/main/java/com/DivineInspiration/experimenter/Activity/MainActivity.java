@@ -9,9 +9,6 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.DivineInspiration.experimenter.Controller.LocalUserManager;
-import com.DivineInspiration.experimenter.Model.User;
-import com.DivineInspiration.experimenter.Model.UserContactInfo;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

@@ -9,19 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.DivineInspiration.experimenter.Controller.LocalUserManager;
+import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,7 +27,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class HomeFragment extends Fragment implements  LocalUserManager.UserReadyCallback {
+public class HomeFragment extends Fragment implements  UserManager.UserReadyCallback {
 
 
     /* view pager madness
@@ -47,7 +45,7 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
 
     FloatingActionButton fab;
     Button editProfileButton;
-    LocalUserManager manager = LocalUserManager.getInstance();
+    UserManager manager = UserManager.getInstance();
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
@@ -77,12 +75,32 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
             }
         }).attach();
 
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            //hide fab when on trials or subscriptions
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition() == 0){
+                    fab.show();
+                }
+                else{
+                    fab.hide();
+                }
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         //setup local user
         manager.setContext(getContext());
-        manager.setReadyCallback(this);
+        manager.initializeLocalUser(this);
 
 
         // title is transparent when expanded
@@ -134,15 +152,11 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
     }
 
     @Override
-    public void onUserReady() {
-        toolbar.setTitle(manager.getUser().getUserName());
+    public void onUserReady(User user) {
+        toolbar.setTitle(user.getUserName());
     }
 
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
-
-        public HomeFragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
-            super(fragmentManager, lifecycle);
-        }
 
         public HomeFragmentAdapter(Fragment frag){
             super(frag);
