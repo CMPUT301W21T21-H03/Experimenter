@@ -85,6 +85,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
         if(singleton == null){
             singleton = new ExperimentManager();
         }
+
         return singleton;
     }
 
@@ -97,6 +98,8 @@ public class ExperimentManager extends ArrayList<Experiment> {
      */
     public boolean addExperiment(Experiment experiment) {
 
+        Log.d(TAG, "addExperiment: Working");
+
         boolean successful = true;
         Map<String, Object> doc = new HashMap<>();
         doc.put("Name", experiment.getExperimentName());
@@ -106,27 +109,20 @@ public class ExperimentManager extends ArrayList<Experiment> {
         Map<String, Object> Subscribers = new HashMap<>();
         Subscribers.put("0", experiment.getExperimentOwner().getUserId() );
 
-        if (!hasExperiment(experiment.getExperimentID())) {
-            db.collection("Experiments")
+        Log.d(TAG, "working 2");
+
+        db.collection("Experiments")
                     .document(experiment.getExperimentID())
                     .set(doc)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "Experiment has been added successfully");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "Experiment could not be added!" + e.toString());
+                            Log.d(TAG, "working 4");
                         }
                     });
+
+
             return true;
-        }
-        else {
-            return false;
-        }
     }
 
     /**
@@ -154,10 +150,12 @@ public class ExperimentManager extends ArrayList<Experiment> {
      *      returns false if the experiment does not exist in the database
      */
     public boolean hasExperiment(String experimentID) {
-
+        Log.d(TAG, "working Has experiment");
         Task<DocumentSnapshot> queryTask = db.collection("Experiments").document(experimentID).get();
+        Log.d(TAG, "working Has experiment Task");
         while(!queryTask.isComplete()) { }
 
+        Log.d(TAG, "working Has experiment2");
         return queryTask.isSuccessful();
     }
 
