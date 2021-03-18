@@ -1,7 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.Explore;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +51,7 @@ public class ExploreFragment extends Fragment {
         experimentList = root.findViewById(R.id.explore_experiments);
 
         // get recycler list
-        experimentList.findViewById(R.id.experiment_list);
+        experimentList.findViewById(R.id.experimentList);
         // TODO: recycler item
 
         return root;

@@ -5,11 +5,21 @@ import java.util.UUID;
 
 public class Experiment {
     private String experimentName;
-    private final User experimentOwner;
-    private final String experimentID;
+    private  User experimentOwner;
+    private  String experimentID;
     private String experimentDescription;
     private ArrayList<User> experimentSubscribers = new ArrayList<User>();
 
+
+
+    //default constructor
+    public Experiment(){
+        experimentName = "defaultExpName";
+        experimentOwner = null;
+        experimentID = "defaultExpID";
+        experimentDescription = "defaultDescrip";
+
+    }
 
     /**
      * Experiment constructor

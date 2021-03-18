@@ -241,12 +241,19 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            Fragment frag = new TestFrag();
-            Bundle args = new Bundle();
-            args.putString("stuff", String.valueOf((position+1) * 100));
-            frag.setArguments(args);
 
-            return frag;
+
+            switch (position){
+                case 0:
+                    return  new ProfileExpFrag();
+                case 1:
+                    return new TestFrag();
+                case 2:
+                    return  new TestFrag();
+                default:
+                    return  new TestFrag();
+            }
+
         }
 
 

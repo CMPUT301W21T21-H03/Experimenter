@@ -6,7 +6,9 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/experiment_list"
+        android:id="@+id/experimentList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
