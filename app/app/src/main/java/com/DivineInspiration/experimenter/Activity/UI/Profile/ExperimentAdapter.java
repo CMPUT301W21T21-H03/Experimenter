@@ -52,7 +52,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
                 // Red is kinda Sus
                 Bundle bundle = new Bundle();
                 bundle.putInt("lol",position);
-                Navigation.findNavController(v).navigate(R.id.navigation_experimentFragment, bundle);
+                Navigation.findNavController(v).navigate(R.id.homeToExp, bundle);
             }
         });
     }
