@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
 
             @Override
             public void onClick(View v) {
-                Snackbar.make(view, "Woah dude", Snackbar.LENGTH_LONG).show();
+              Snackbar.make(view, "Woah dude", Snackbar.LENGTH_LONG).show();
 
             }
         });
