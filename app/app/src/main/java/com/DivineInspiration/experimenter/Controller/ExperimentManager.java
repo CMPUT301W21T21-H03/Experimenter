@@ -30,11 +30,38 @@ public class ExperimentManager extends ArrayList<Experiment> {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     final String TAG = "ExperimentManager";
 
+    public interface ExperimentReadyCallback{
+         void onExperimentReady();
+    }
+
+
+
+
+
+
+
+
+    public ArrayList<Experiment> getList(){
+        return experiments;
+    }
+
     private ExperimentManager(){
         experiments = new ArrayList<>();
     }
 
-    public ArrayList<Experiment> getExperiments(){
+    public void queryUserExperiments(String userId, ExperimentReadyCallback callback){
+        db.collection("Experiments").whereEqualTo("OwnerID", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+
+                }
+            }
+        });
+    }
+
+
+    public ArrayList<Experiment> getExperiments1(){
 
         Task<QuerySnapshot> queryTask = db.collection("Experiments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -96,7 +123,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      *      returns true if the experiment is added successfully
      *      returns false if the experiment is not added successfully
      */
-    public boolean addExperiment(Experiment experiment) {
+    public boolean addExperiment1(Experiment experiment) {
 
         Log.d(TAG, "addExperiment: Working");
 
@@ -132,7 +159,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      *      returns true if that experiment exists in the database
      *      returns false if the experiment does not exist in the database
      */
-    public boolean hasExperiment(Experiment experiment) {
+    public boolean hasExperiment1(Experiment experiment) {
 
         String experimentID = experiment.getExperimentID();
         Task<DocumentSnapshot> queryTask = db.collection("Experiments").document(experimentID).get();
@@ -149,7 +176,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      *      returns true if that experiment exists in the database
      *      returns false if the experiment does not exist in the database
      */
-    public boolean hasExperiment(String experimentID) {
+    public boolean hasExperiment1(String experimentID) {
         Log.d(TAG, "working Has experiment");
         Task<DocumentSnapshot> queryTask = db.collection("Experiments").document(experimentID).get();
         Log.d(TAG, "working Has experiment Task");
@@ -159,57 +186,57 @@ public class ExperimentManager extends ArrayList<Experiment> {
         return queryTask.isSuccessful();
     }
 
-    /**
-     * Checks if an experiment is in the database and if it is it deletes it
-     * @param experiment
-     */
-    public void deleteExperiment(Experiment experiment) {
-        if (hasExperiment(experiment) == false) {
-            throw new IllegalArgumentException();
-        }
-        db.collection("Experiments").document(experiment.getExperimentID())
-                .delete().addOnSuccessListener(new OnSuccessListener < Void > () {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "Experiment has been Deleted Successfully");
-            }
-        });
-
-    }
-
-    public Experiment getExperiment(String experimentID) {
-
-        Experiment experiment = null;
-
-        if (hasExperiment(experimentID)) {
-
-            Task<DocumentSnapshot> queryTask = db.collection("Experiments").document(experimentID).get();
-            while(!queryTask.isComplete()) { }
-
-            DocumentSnapshot query = queryTask.getResult();
-
-            String name = query.get("Name").toString();
-            String oID = query.get("OwnerID").toString();
-            String description = query.get("Description").toString();
-            String eID = query.get("ExperimentID").toString();
-
-            queryTask = db.collection("Users").document(oID).get();
-            while(!queryTask.isComplete()) { }
-
-            query = queryTask.getResult();
-
-            String username = query.get("UserName").toString();
-            String userDescription = query.get("UserDescription").toString();
-            String address = query.get("Address").toString();
-            String city = query.get("CityName").toString();
-            String email = query.get("Email").toString();
-            String phone = query.get("PhoneNumber").toString();
-
-            UserContactInfo contactInfo = new UserContactInfo(city, email);
-            User owner = new User(username, oID, contactInfo, userDescription);
-            experiment = new Experiment(name, owner, description, eID);
-        }
-
-        return experiment;
-    }
+//    /**
+//     * Checks if an experiment is in the database and if it is it deletes it
+//     * @param experiment
+//     */
+//    public void deleteExperiment(Experiment experiment) {
+//        if (hasExperiment(experiment) == false) {
+//            throw new IllegalArgumentException();
+//        }
+//        db.collection("Experiments").document(experiment.getExperimentID())
+//                .delete().addOnSuccessListener(new OnSuccessListener < Void > () {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Log.d(TAG, "Experiment has been Deleted Successfully");
+//            }
+//        });
+//
+//    }
+//
+//    public Experiment getExperiment(String experimentID) {
+//
+//        Experiment experiment = null;
+//
+//        if (hasExperiment(experimentID)) {
+//
+//            Task<DocumentSnapshot> queryTask = db.collection("Experiments").document(experimentID).get();
+//            while(!queryTask.isComplete()) { }
+//
+//            DocumentSnapshot query = queryTask.getResult();
+//
+//            String name = query.get("Name").toString();
+//            String oID = query.get("OwnerID").toString();
+//            String description = query.get("Description").toString();
+//            String eID = query.get("ExperimentID").toString();
+//
+//            queryTask = db.collection("Users").document(oID).get();
+//            while(!queryTask.isComplete()) { }
+//
+//            query = queryTask.getResult();
+//
+//            String username = query.get("UserName").toString();
+//            String userDescription = query.get("UserDescription").toString();
+//            String address = query.get("Address").toString();
+//            String city = query.get("CityName").toString();
+//            String email = query.get("Email").toString();
+//            String phone = query.get("PhoneNumber").toString();
+//
+//            UserContactInfo contactInfo = new UserContactInfo(city, email);
+//            User owner = new User(username, oID, contactInfo, userDescription);
+//            experiment = new Experiment(name, owner, description, eID);
+//        }
+//
+//        return experiment;
+//    }
 }

@@ -150,7 +150,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
             }
         });
 
-        experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
+    //    experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
 
 
         /*
