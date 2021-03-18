@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
 
 public class ContactPersonInfoTest {
 
-    private UserContactInfo mockContactPersonInfo(String address, int phoneNumber, String cityName) {
+    private UserContactInfo mockContactPersonInfo(String address, String cityName) {
         // TODO Incorrect parameters
-        return new UserContactInfo(address, phoneNumber, cityName);
+        return new UserContactInfo(address,  cityName);
     }
 
     @Test
