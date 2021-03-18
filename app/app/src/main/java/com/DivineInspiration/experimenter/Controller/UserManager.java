@@ -87,7 +87,7 @@ Usage: android local storage
 
             Gson gson = new Gson();
             user = gson.fromJson(pref.getString("User", ""), User.class);
-            updateUser(user, null);
+//            updateUser(user, null);
             Log.d("stuff", user.toString());
             if(callback != null){
                 callback.onUserReady(user);
