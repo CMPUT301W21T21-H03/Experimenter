@@ -6,10 +6,18 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 
+import androidx.annotation.NonNull;
+
 import com.DivineInspiration.experimenter.Model.IdGen;
 import com.DivineInspiration.experimenter.Model.User;
 
+import com.DivineInspiration.experimenter.Model.UserContactInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -125,10 +133,10 @@ Usage: android local storage
             doc.put("UserDescription", user.getDescription());
             doc.put("UserName", user.getUserName());
                 Map<String, Object> contact = new HashMap<>();
-                        contact.put("Address", user.getContactInfo().getAddress());
+
                         contact.put("CityName", user.getContactInfo().getCityName());
                         contact.put("Email", user.getContactInfo().getEmail());
-                        contact.put("PhoneNumber", user.getContactInfo().getPhoneNumber());
+
         doc.put("Contacts", contact);
         db.collection("Users").document(user.getUserId()).set(doc).addOnSuccessListener(aVoid -> {
             if(callback != null){
@@ -137,4 +145,34 @@ Usage: android local storage
             }
         });
     }
+
+
+    public void queryUser(String id, UserReadyCallback callback){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference doc = db.collection("Users").document(id);
+        doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
+                        String description = document.getString("UserDecription");
+                        String name = document.getString("UserName");
+                        callback.onUserReady(new User(name, id,
+                                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
+                        ), description));
+
+                    }
+
+                }
+                else{
+                    callback.onUserReady(null);
+                }
+            }
+        });
+    }
+
+
 }

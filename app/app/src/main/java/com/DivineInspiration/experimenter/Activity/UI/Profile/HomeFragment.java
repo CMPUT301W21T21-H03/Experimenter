@@ -264,6 +264,9 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
             return inflater.inflate(R.layout.test, container, false);
         }
 
+
+
+
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
