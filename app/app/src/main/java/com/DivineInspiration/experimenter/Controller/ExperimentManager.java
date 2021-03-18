@@ -34,11 +34,20 @@ public class ExperimentManager extends ArrayList<Experiment> {
          void onExperimentsReady(List<Experiment> experiments);
 
     }
-
-
     private ExperimentManager(){
         experiments = new ArrayList<>();
     }
+
+
+    public static ExperimentManager getInstance(){
+        if(singleton == null){
+            singleton = new ExperimentManager();
+        }
+
+        return singleton;
+    }
+
+
 
     public void unSubFromExperiment(String userId, String experimentId){
         db.collection("Experiments").document(experimentId).update("SubscriberIDs", FieldValue.arrayRemove(userId)).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -76,10 +85,10 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     //TODO handle on add failed?
-    public void addExperiment(Experiment experiment){
+    public void addExperiment(Experiment experiment) {
         Map<String, Object> doc = new HashMap<>();
         doc.put("ExperimentName", experiment.getExperimentName());
-        doc.put("OwnerID",experiment.getOwnerID());
+        doc.put("OwnerID", experiment.getOwnerID());
         doc.put("ExperimentDescription", experiment.getExperimentDescription());
         doc.put("TrialType", experiment.getTrialType());
         doc.put("Region", experiment.getRegion());
@@ -89,27 +98,14 @@ public class ExperimentManager extends ArrayList<Experiment> {
         db.collection("Experiments").document(IdGen.genExperimentId(experiment.getOwnerID())).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(!task.isSuccessful()){
+                if (!task.isSuccessful()) {
                     Log.d("stuff", "add new experiment failed!");
                 }
             }
         });
-
-
-
-    private ExperimentManager(){
-        experiments = new ArrayList<>();
     }
 
 
-    public void queryUserSubs(String userId, ExperimentReadyCallback callback){
-        db.collection("Experiments").whereArrayContains("SubscriberID", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-
-
-    }
 
     public void querySearch(String keywords, ExperimentReadyCallback callback){
         //TODO to be implemented
@@ -135,6 +131,40 @@ public class ExperimentManager extends ArrayList<Experiment> {
             }
         });
     }
+
+    public void queryUserExperiment(String userId, ExperimentReadyCallback callback){
+        db.collection("Experiments").whereEqualTo("OwnerID", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    if(callback!=null){
+                        List<Experiment> output = new ArrayList<>();
+                        for (QueryDocumentSnapshot snapshot: task.getResult()){
+                            output.add(expFromSnapshot(snapshot));
+                        }
+                        callback.onExperimentsReady(output);
+                    }
+                }
+                else{
+                    Log.d("stuff", "query user subscriptions failed!");
+                }
+            }
+        });
+    }
+
+    private Experiment expFromSnapshot(QueryDocumentSnapshot snapshot){
+        return new Experiment(
+                snapshot.getString("ExperimentID"),
+                snapshot.getString("ExperimentName"),
+                snapshot.getString("OwnerID"),
+                snapshot.getString("ExperimentDescription"),
+                Objects.requireNonNull(snapshot.getLong("TrialType")).intValue(),
+                snapshot.getString("Region"),
+                Objects.requireNonNull(snapshot.getLong("MinimumTrials")).intValue()
+        );
+
+    }
+
 
 
 //    public ArrayList<Experiment> getExperiments1(){
@@ -198,14 +228,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
 //        return experiments;
 //    }
 //
-
-    public static ExperimentManager getInstance(){
-        if(singleton == null){
-            singleton = new ExperimentManager();
-        }
-
-        return singleton;
-    }
 
 //    /**
 //    * Adds an experiment to the database
@@ -298,30 +320,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
 //    }
 //
 //
-                        callback.onExperimentReady(output);
-                    }
-                }
-                else{
-                    Log.d("stuff", "query user experiments failed!");
-                }
-            }
-        });
-    }
 
-    private Experiment expFromSnapshot(QueryDocumentSnapshot snapshot){
-        return new Experiment(
-                snapshot.getString("ExperimentID"),
-                snapshot.getString("ExperimentName"),
-                snapshot.getString("OwnerID"),
-                snapshot.getString("ExperimentDescription"),
-                Objects.requireNonNull(snapshot.getLong("TrialType")).intValue(),
-                snapshot.getString("Region"),
-                Objects.requireNonNull(snapshot.getLong("MinimumTrials")).intValue()
-        );
 
-    }
 
-    
 
 
 //    public ArrayList<Experiment> getExperiments1(){
