@@ -68,13 +68,15 @@ public class HomeFragment extends Fragment implements UserManager.LocalUserCallb
     public void onLocalUserReady(User user) {
         // Display user information on toolbar
         displayUserToolbar(user);
+
+
 //        experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
     }
 
     @Override
     public void onQueryUserReady(User user) {
-        Experiment testExp = new Experiment("Testing exp", user.getUserId(), "woah dude!", 1, "testing region", 20);
-        experimentManager.addExperiment(testExp);
+//        Experiment testExp = new Experiment("Testing exp", user.getUserId(), "woah dude!", 1, "testing region", 20);
+//        experimentManager.addExperiment(testExp);
     }
 
     @Override
@@ -149,8 +151,9 @@ public class HomeFragment extends Fragment implements UserManager.LocalUserCallb
 
             @Override
             public void onClick(View v) {
-              Snackbar.make(view, "Woaaaaaah dude!!!", Snackbar.LENGTH_LONG).show();
-              manager.queryUser(manager.getLocalUser().getUserId(), HomeFragment.this);
+//              Snackbar.make(view, "Woaaaaaah dude!!!", Snackbar.LENGTH_LONG).show();
+//              manager.queryUser(manager.getLocalUser().getUserId(), HomeFragment.this);
+                new CreateExperimentDialogFragment(HomeFragment.this).show(getChildFragmentManager(),"create experiment");
             }
         });
 

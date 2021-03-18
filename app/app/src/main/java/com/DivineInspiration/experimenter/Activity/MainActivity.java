@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements  ExperimentManage
 
 
         //testing
-        Experiment testExp = new Experiment("Woah exp name", "ownerID", "woah dude!", 1, "testing region", 20);
+//        Experiment testExp = new Experiment("Woah exp name", "ownerID", "woah dude!", 1, "testing region", 20);
 
 //        ExperimentManager manager = ExperimentManager.getInstance();
 //

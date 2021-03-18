@@ -40,10 +40,10 @@ public class EditProfileDialogFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_profile_dialog_fragment, null);
         User newUser = newManager.getLocalUser();
 
-        editName = view.findViewById(R.id.editUserName);
-        editAbout = view.findViewById(R.id.editAbout);
-        editCity = view.findViewById(R.id.editCity);
-        editEmail = view.findViewById(R.id.editEmail);
+        editName = view.findViewById(R.id.editExperimentName);
+        editAbout = view.findViewById(R.id.editExperimentAbout);
+        editCity = view.findViewById(R.id.editExperimentCity);
+        editEmail = view.findViewById(R.id.editTrialType);
 
         editName.setText(newUser.getUserName());
         editAbout.setText(newUser.getDescription());

@@ -25,7 +25,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
     /*
     https://developer.android.com/guide/topics/ui/layout/recyclerview
      */
-    final Bundle args = new Bundle();
+
     private List<Experiment> experiments = new ArrayList<>();
 
     public ExperimentAdapter(){}

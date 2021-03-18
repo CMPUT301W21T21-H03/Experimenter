@@ -35,14 +35,20 @@ public class ProfileExpFrag extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Experiment[] exps = {new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment()};
+        Experiment[] exps = {};
         adapter = new ExperimentAdapter(Arrays.asList(exps));
         RecyclerView recycler = view.findViewById(R.id.experimentList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
         Log.d("stuff", "onViewCreated");
 
+
+
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
 }
