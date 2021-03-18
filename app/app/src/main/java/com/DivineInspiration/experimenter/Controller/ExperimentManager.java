@@ -6,11 +6,11 @@ import androidx.annotation.NonNull;
 
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.IdGen;
-import com.DivineInspiration.experimenter.Model.UserContactInfo;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -95,7 +95,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
         doc.put("MinimumTrials", experiment.getMinimumTrials());
         doc.put("SubscriberIDs", new String[0]);
 
-        db.collection("Experiments").document(IdGen.genExperimentId(experiment.getOwnerID())).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments").document(experiment.getExperimentID()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
@@ -154,7 +154,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     private Experiment expFromSnapshot(QueryDocumentSnapshot snapshot){
         return new Experiment(
-                snapshot.getString("ExperimentID"),
+                snapshot.getId(),
                 snapshot.getString("ExperimentName"),
                 snapshot.getString("OwnerID"),
                 snapshot.getString("ExperimentDescription"),
