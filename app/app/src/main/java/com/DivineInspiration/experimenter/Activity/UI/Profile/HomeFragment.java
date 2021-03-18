@@ -1,5 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -15,13 +16,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.DivineInspiration.experimenter.Controller.LocalUserManager;
+import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -30,12 +32,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class HomeFragment extends Fragment implements  LocalUserManager.UserReadyCallback {
 
-    /* view pager madness
-    https://developer.android.com/guide/navigation/navigation-swipe-view-2
+public class HomeFragment extends Fragment implements  UserManager.UserReadyCallback {
 
-    */
+
+
+
 
     public HomeFragment(){
         super(R.layout.fragment_home);
@@ -46,7 +48,8 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
 
     FloatingActionButton fab;
     Button editProfileButton;
-    LocalUserManager manager = LocalUserManager.getInstance();
+    UserManager manager = UserManager.getInstance();
+    ExperimentManager experiments = ExperimentManager.getInstance();
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
@@ -79,6 +82,8 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         userDescription_home = view.findViewById(R.id.userDescription_home);
         dividerLineName_home = view.findViewById(R.id.sectionDivideLineName_home);
         dividerLineAbout_home = view.findViewById(R.id.sectionDivideLineAbout_home);
+
+
         //viewpager
         pager = view.findViewById(R.id.pager);
         adapter = new HomeFragmentAdapter(this);
@@ -93,12 +98,32 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
             }
         }).attach();
 
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            //hide fab when on trials or subscriptions
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition() == 0){
+                    fab.show();
+                }
+                else{
+                    fab.hide();
+                }
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         //setup local user
         manager.setContext(getContext());
-        manager.setReadyCallback(this);
+        manager.initializeLocalUser(this);
 
 
         // title is transparent when expanded
@@ -121,12 +146,11 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new EditProfileDialogFragment().show(getChildFragmentManager(), EditProfileDialogFragment.TAG);
+                new EditProfileDialogFragment(HomeFragment.this).show(getChildFragmentManager(),"Edit Profile");
             }
         });
 
-        // Display user information on toolbar
-        displayUserToolbar();
+    //    experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
 
 
         /*
@@ -154,26 +178,35 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
 //        });
     }
 
-    private void displayUserToolbar() {
-        // Displaying User iD
-        manager.updateUser(new User(manager.getUser().getUserId()));
-        toolbar.setTitle(manager.getUser().getUserName());
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(manager.getLocalUser() != null){
+            displayUserToolbar(manager.getLocalUser());
+        }
 
-        userID_home.setText(manager.getUser().getUserId());
-        userCity_home.setText(manager.getUser().getContactInfo().getCityName());
-        userEmail_home.setText(manager.getUser().getContactInfo().getEmail());
-        userDescription_home.setText(manager.getUser().getDescription());
-        userName_home.setText(manager.getUser().getUserName());
+    }
+
+    private void displayUserToolbar(User user) {
+        // Displaying User iD
+
+        toolbar.setTitle(user.getUserName());
+
+        userID_home.setText(user.getUserId());
+        userCity_home.setText(user.getContactInfo().getCityName());
+        userEmail_home.setText(user.getContactInfo().getEmail());
+        userDescription_home.setText(user.getDescription());
+        userName_home.setText(user.getUserName());
 
         // Setting Visibility of text Views
         // Visibility for City and Email
-        String cityText = manager.getUser().getContactInfo().getCityName().toString();
+        String cityText = user.getContactInfo().getCityName();
         if(cityText.isEmpty()){
             userCity_home.setVisibility(View.GONE);
         }else {
             userCity_home.setVisibility(View.VISIBLE);
         }
-        String emailText = manager.getUser().getContactInfo().getEmail().toString();
+        String emailText =user.getContactInfo().getEmail();
         if(emailText.isEmpty()){
             userEmail_home.setVisibility(View.GONE);
         }else{
@@ -185,7 +218,7 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
             dividerLineName_home.setVisibility(View.VISIBLE);
         }
         // Setting Visibility of User Description
-        String descriptionText = manager.getUser().getDescription().toString();
+        String descriptionText = user.getDescription();
         if(descriptionText.isEmpty()){
             userDescription_home.setVisibility(View.GONE);
             dividerLineAbout_home.setVisibility(View.GONE);
@@ -196,15 +229,14 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
     }
 
     @Override
-    public void onUserReady() {
+    public void onUserReady(User user) {
+        // Display user information on toolbar
+        displayUserToolbar(user);
+//        experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
     }
 
+
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
-
-        public HomeFragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
-            super(fragmentManager, lifecycle);
-        }
-
 
         public HomeFragmentAdapter(Fragment frag){
             super(frag);
@@ -213,12 +245,19 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            Fragment frag = new TestFrag();
-            Bundle args = new Bundle();
-            args.putString("stuff", String.valueOf((position+1) * 100));
-            frag.setArguments(args);
 
-            return frag;
+
+            switch (position){
+                case 0:
+                    return  new ProfileExpFrag();
+                case 1:
+                    return new TestFrag();
+                case 2:
+                    return  new TestFrag();
+                default:
+                    return  new TestFrag();
+            }
+
         }
 
 
@@ -236,6 +275,9 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
             return inflater.inflate(R.layout.test, container, false);
         }
 
+
+
+
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
@@ -248,7 +290,6 @@ public class HomeFragment extends Fragment implements  LocalUserManager.UserRead
 
         }
     }
-
 
 }
 

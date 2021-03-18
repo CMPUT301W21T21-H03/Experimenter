@@ -8,11 +8,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ProfileExpFrag extends Fragment
 {
+    private ExperimentAdapter adapter;
 
     @Nullable
     @Override
@@ -23,6 +31,13 @@ public class ProfileExpFrag extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Experiment[] exps = {new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment(), new Experiment()};
+        adapter = new ExperimentAdapter(Arrays.asList(exps));
+        RecyclerView recycler = view.findViewById(R.id.experimentList);
+        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        recycler.setAdapter(adapter);
+
 
     }
 }

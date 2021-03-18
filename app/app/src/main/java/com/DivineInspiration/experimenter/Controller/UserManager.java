@@ -6,21 +6,29 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 
+import androidx.annotation.NonNull;
+
 import com.DivineInspiration.experimenter.Model.IdGen;
 import com.DivineInspiration.experimenter.Model.User;
 
+import com.DivineInspiration.experimenter.Model.UserContactInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class LocalUserManager implements IdGen.IDCallBackable {
+public class UserManager implements IdGen.IDCallBackable {
 
     public class ContextNotSetException extends RuntimeException{}
 
     public interface UserReadyCallback{
-         void onUserReady();
+         void onUserReady(User user);
     }
 
 /*
@@ -31,37 +39,25 @@ License: unknown
 Usage: android local storage
  */
     private SharedPreferences pref;
-    private static LocalUserManager local= null;
+    private static UserManager local= null;
+    private UserReadyCallback callbackHolder; //janky solution 101
     private User user;
-    private UserReadyCallback callback;
 
-    private LocalUserManager()  {
+
+    private UserManager()  {
     }
 
     /**
      * Gets the current user
      * @return the current user
      */
-    public User getUser(){
-        if(user == null){
-            initialize();
-        }
+    public User getLocalUser(){
+
         return user;
     }
 
-    /**
-     * Registers a class that is ready to be called back when an asynchronous operation is done on a user record(such as making a new user, or changing user id).
-     * All other changes to user are safe to do without registering callback.
-     * @param callback class to be called when user is ready.
-     */
-    public void setReadyCallback(UserReadyCallback callback){
-        this.callback = callback;
-        //if context, callback is set, but user is not loaded yet, then its time to initialize
-        if(user == null) {
-            initialize();
-            }
 
-    }
+
 
     /**
      * Provide context so that LocalUserManager can fetch the sharedPreference
@@ -73,33 +69,33 @@ Usage: android local storage
 
     /**
      * Makes an instances of LocalUserManager
-     * <b>Note:</b> if making an instance of this class for the first time, initialize it via {@link #setContext(Context context)}, and if needed register callback via {@link #setReadyCallback(UserReadyCallback callback)}
+     * <b>Note:</b> if making an instance of this class for the first time, initialize it via {@link #setContext(Context context)}, and if needed register callback via
      * @return an instance of LocalUserManager
      */
-    public static LocalUserManager getInstance(){
+    public static UserManager getInstance(){
         if (local == null){
-            local = new LocalUserManager();
+            local = new UserManager();
         }
         return local;
     }
 
-    private void initialize()  {
+    public void initializeLocalUser(UserReadyCallback callback)  {
         if(pref == null){
             throw new ContextNotSetException();
         }
         if(pref.contains("User")){
+
             Gson gson = new Gson();
             user = gson.fromJson(pref.getString("User", ""), User.class);
-            //TODO when to call back here??
-            updateUser(user);
+            updateUser(user, null);
             Log.d("stuff", user.toString());
             if(callback != null){
-                callback.onUserReady();
-                callback = null;
+                callback.onUserReady(user);
             }
         }
         else{
             //no id currently exist, needs to create a new one
+            callbackHolder = callback;
             IdGen.genUserId(this);
         }
     }
@@ -111,7 +107,7 @@ Usage: android local storage
      */
     @Override
     public void onIdReady(String id){
-        updateUser(new User(id));
+        updateUser(new User(id), callbackHolder);
     }
 
 
@@ -123,7 +119,7 @@ Usage: android local storage
      * @throws ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
      * @param newUser user to be made or updated.
      */
-    public void updateUser(User newUser){
+    public void updateUser(User newUser, UserReadyCallback callback){
         if(pref == null){
             throw new ContextNotSetException();
         }
@@ -138,16 +134,45 @@ Usage: android local storage
             doc.put("UserDescription", user.getDescription());
             doc.put("UserName", user.getUserName());
                 Map<String, Object> contact = new HashMap<>();
-                        contact.put("Address", user.getContactInfo().getAddress());
+
                         contact.put("CityName", user.getContactInfo().getCityName());
                         contact.put("Email", user.getContactInfo().getEmail());
-                        contact.put("PhoneNumber", user.getContactInfo().getPhoneNumber());
+
         doc.put("Contacts", contact);
         db.collection("Users").document(user.getUserId()).set(doc).addOnSuccessListener(aVoid -> {
             if(callback != null){
-                callback.onUserReady();
-                callback = null;
+                callback.onUserReady(user);
             }
         });
     }
+
+
+    public void queryUser(String id, UserReadyCallback callback){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference doc = db.collection("Users").document(id);
+        doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
+                        String description = document.getString("UserDecription");
+                        String name = document.getString("UserName");
+                        callback.onUserReady(new User(name, id,
+                                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
+                        ), description));
+
+                    }
+
+                }
+                else{
+                    callback.onUserReady(null);
+                }
+            }
+        });
+    }
+
+
 }

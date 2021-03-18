@@ -72,8 +72,8 @@ public class IdGen {
 
     }
 
-    public static long genExperimentId(int expCount, User user){
-        return 0L;
+    public static String genExperimentId(User user){
+        return "EXP" + base10To36((System.currentTimeMillis()/1000)) + user.getUserId().substring(3);
     }
 
     public static long genTrialsId(User user, int trialsCount){

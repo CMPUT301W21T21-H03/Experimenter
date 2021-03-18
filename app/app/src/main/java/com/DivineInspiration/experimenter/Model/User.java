@@ -81,36 +81,6 @@ public class User {
         return userId;
     }
 
-    /**
-     * Creates a new experiment under user => move to owner?
-     * @param experimentName
-     * @param experimentDescription
-     */
-    public void createExperiment(String experimentName, String experimentDescription){
-        String experimentOwnerID = getUserId();
-        new Experiment(experimentName, this, experimentDescription);
-    }
-
-    /**
-     * Subscribes to an experiment
-     * @param experiment
-     * experiment to subscribe to
-     */
-    public void subscribeExperiment(Experiment experiment){
-        String subscriberID = getUserId();
-        experiment.addSubscriber(this);
-    }
-
-    /**
-     * Unsubscribes an experiment
-     * @param experiment
-     * experiment to unsubscribe to
-     */
-    public void unsubscribeExperiment(Experiment experiment){
-        String subscriberID = getUserId();
-        experiment.deleteSubscriber(this);
-    }
-
     @NotNull
     @Override
     public String toString(){
