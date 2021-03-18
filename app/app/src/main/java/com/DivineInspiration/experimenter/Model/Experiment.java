@@ -9,6 +9,7 @@ public class Experiment {
     private  String experimentID;
     private String experimentDescription;
     private ArrayList<User> experimentSubscribers = new ArrayList<User>();
+    private enum Status {ONGOING, CANCELLED, COMPLETE};
 
 
 
@@ -31,10 +32,32 @@ public class Experiment {
      * description of experiment
      */
     public Experiment(String experimentName, User experimentOwner, String experimentDescription) {
+
+        // TODO Generate id that is not already in the database
+        // TODO Get user from id database
         this.experimentName = experimentName;
         this.experimentOwner = experimentOwner;
         this.experimentDescription = experimentDescription;
         this.experimentID = UUID.randomUUID().toString();
+    }
+
+    /**
+     * Experiment constructor
+     * @param experimentName
+     * name of experiment
+     * @param experimentOwner
+     * owner ID of experiment
+     * @param experimentDescription
+     * description of experiment
+     * @param experimentID
+     * the id of the experiment
+     */
+    public Experiment(String experimentName, User experimentOwner, String experimentDescription, String experimentID) {
+        // TODO Get user from id database
+        this.experimentName = experimentName;
+        this.experimentOwner = experimentOwner;
+        this.experimentDescription = experimentDescription;
+        this.experimentID = experimentID;
     }
 
     /**
