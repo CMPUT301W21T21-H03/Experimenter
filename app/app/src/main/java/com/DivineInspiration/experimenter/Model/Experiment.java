@@ -13,8 +13,7 @@ public class Experiment {
     private String region;
     private int minimumTrials;
     private String experimentDescription;
-    private ArrayList<User> experimentSubscribers = new ArrayList<User>();
-        private enum Status {ONGOING, CANCELLED, COMPLETE};
+
 
     public static final int ONGOING = 10;
     public static final int ENDED = 11;

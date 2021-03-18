@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.DivineInspiration.experimenter.Model.Experiment;
@@ -44,7 +45,8 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
         holder.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("stuff", "woah");
+                // Red is kinda Sus
+                Navigation.findNavController(v).navigate(R.id.navigation_experimentFragment);
             }
         });
     }
