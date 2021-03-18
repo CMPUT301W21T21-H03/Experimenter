@@ -53,9 +53,8 @@ public class CreateExperimentDialogFragment extends DialogFragment {
 
                     String editCityText = editCity.getText().toString();
                     String editExperimentAboutText = editExperimentAbout.getText().toString();
-
-                    ExperimentManager.getInstance().addExperiment(new Experiment(editExperimentNameText, newUser.getUserId(),editExperimentAboutText,1,editCityText,20));
-
+                    Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(),editExperimentAboutText,1,editCityText,20);
+                    ExperimentManager.getInstance().addExperiment(temp);
 
                   }
               })

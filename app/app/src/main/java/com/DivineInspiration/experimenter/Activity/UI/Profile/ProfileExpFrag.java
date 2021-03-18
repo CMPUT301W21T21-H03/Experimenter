@@ -46,9 +46,5 @@ public class ProfileExpFrag extends Fragment
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
-    }
+
 }
