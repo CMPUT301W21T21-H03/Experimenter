@@ -27,8 +27,13 @@ public class UserManager implements IdGen.IDCallBackable {
 
     public class ContextNotSetException extends RuntimeException{}
 
-    public interface UserReadyCallback{
-         void onUserReady(User user);
+    public interface LocalUserCallback {
+         void onLocalUserReady(User user);
+    }
+
+    public interface QuerySingleUserCallback{
+        void onQueryUserReady(User user);
+
     }
 
 /*
@@ -40,7 +45,7 @@ Usage: android local storage
  */
     private SharedPreferences pref;
     private static UserManager local= null;
-    private UserReadyCallback callbackHolder; //janky solution 101
+    private LocalUserCallback callbackHolder; //janky solution 101
     private User user;
 
 
@@ -79,7 +84,7 @@ Usage: android local storage
         return local;
     }
 
-    public void initializeLocalUser(UserReadyCallback callback)  {
+    public void initializeLocalUser(LocalUserCallback callback)  {
         if(pref == null){
             throw new ContextNotSetException();
         }
@@ -89,7 +94,7 @@ Usage: android local storage
             user = gson.fromJson(pref.getString("User", ""), User.class);
             Log.d("stuff", user.toString());
             if(callback != null){
-                callback.onUserReady(user);
+                callback.onLocalUserReady(user);
             }
         }
         else{
@@ -118,7 +123,7 @@ Usage: android local storage
      * @throws ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
      * @param newUser user to be made or updated.
      */
-    public void updateUser(User newUser, UserReadyCallback callback){
+    public void updateUser(User newUser, LocalUserCallback callback){
         if(pref == null){
             throw new ContextNotSetException();
         }
@@ -140,7 +145,7 @@ Usage: android local storage
         doc.put("Contacts", contact);
         db.collection("Users").document(user.getUserId()).set(doc).addOnSuccessListener(aVoid -> {
             if(callback != null){
-                callback.onUserReady(user);
+                callback.onLocalUserReady(user);
             }
         });
     }
@@ -148,7 +153,7 @@ Usage: android local storage
 
 
     @SuppressWarnings("unchecked")
-    public void queryUser(String id, UserReadyCallback callback){
+    public void queryUser(String id, QuerySingleUserCallback callback){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference doc = db.collection("Users").document(id);
         doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -161,14 +166,14 @@ Usage: android local storage
                         String description = document.getString("UserDecription");
                         String name = document.getString("UserName");
                         assert contact != null;
-                        callback.onUserReady(new User(name, id,
+                        callback.onQueryUserReady(new User(name, id,
                                 new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
                         ), description));
                     }
 
                 }
                 else{
-                    callback.onUserReady(null);
+                    callback.onQueryUserReady(null);
                 }
             }
         });
