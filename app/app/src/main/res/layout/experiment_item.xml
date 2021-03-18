@@ -10,16 +10,15 @@ on usage of card view
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:clickable="true"
         android:id="@+id/experimentItemCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@android:style/Widget.Material.Button.Borderless"
-    android:focusable="true"
         app:cardPreventCornerOverlap="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:backgroundTint="@color/black3"
-
+        android:foreground="?android:attr/selectableItemBackground"
+        android:focusable="true"
+        android:clickable="true"
+        android:backgroundTint="@color/black3"
       >
 
         <androidx.constraintlayout.widget.ConstraintLayout
