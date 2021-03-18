@@ -84,6 +84,7 @@ Usage: android local storage
             throw new ContextNotSetException();
         }
         if(pref.contains("User")){
+
             Gson gson = new Gson();
             user = gson.fromJson(pref.getString("User", ""), User.class);
             updateUser(user, null);
