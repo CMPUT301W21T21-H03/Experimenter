@@ -84,13 +84,6 @@ public class Experiment {
         this.experimentDescription = experimentDescription;
     }
 
-    public ArrayList<User> getExperimentSubscribers() {
-        return experimentSubscribers;
-    }
-
-    public void setExperimentSubscribers(ArrayList<User> experimentSubscribers) {
-        this.experimentSubscribers = experimentSubscribers;
-    }
 
     /**
      * Experiment constructor
