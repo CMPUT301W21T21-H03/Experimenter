@@ -1,6 +1,5 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -16,9 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -34,7 +31,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 
-public class HomeFragment extends Fragment implements  UserManager.UserReadyCallback {
+public class HomeFragment extends Fragment implements UserManager.LocalUserCallback, UserManager.QuerySingleUserCallback {
 
 
 
@@ -50,7 +47,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
     FloatingActionButton fab;
     Button editProfileButton;
     UserManager manager = UserManager.getInstance();
-    ExperimentManager experiments = ExperimentManager.getInstance();
+    ExperimentManager experimentManager = ExperimentManager.getInstance();
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
@@ -66,6 +63,19 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
 
     private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
 
+
+    @Override
+    public void onLocalUserReady(User user) {
+        // Display user information on toolbar
+        displayUserToolbar(user);
+//        experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
+    }
+
+    @Override
+    public void onQueryUserReady(User user) {
+        Experiment testExp = new Experiment("Testing exp", user.getUserId(), "woah dude!", 1, "testing region", 20);
+        experimentManager.addExperiment(testExp);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -139,9 +149,8 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
 
             @Override
             public void onClick(View v) {
-//                Snackbar.make(view, "Woah dude", Snackbar.LENGTH_LONG).show();
-                experiments.addExperiment(new Experiment());
-
+              Snackbar.make(view, "Woaaaaaah dude!!!", Snackbar.LENGTH_LONG).show();
+              manager.queryUser("XDASQK0FE7", HomeFragment.this);
             }
         });
 
@@ -153,7 +162,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
             }
         });
 
-
+    //    experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
 
 
         /*
@@ -231,12 +240,6 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
         }
     }
 
-    @Override
-    public void onUserReady(User user) {
-        // Display user information on toolbar
-        displayUserToolbar(user);
-//        experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
-    }
 
 
     public  class HomeFragmentAdapter extends FragmentStateAdapter {

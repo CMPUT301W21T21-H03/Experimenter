@@ -9,10 +9,16 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Experiment;
+import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements  ExperimentManager.ExperimentReadyCallback{
 
 
     @Override
@@ -32,8 +38,25 @@ public class MainActivity extends AppCompatActivity {
         //  NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+
+        //testing
+        Experiment testExp = new Experiment("Woah exp name", "ownerID", "woah dude!", 1, "testing region", 20);
+
+//        ExperimentManager manager = ExperimentManager.getInstance();
+//
+//       manager.queryUserSubs("user Id", this);
+//
+
+
+
+
+
     }
 
-
-
+    @Override
+    public void onExperimentsReady(List<Experiment> experiments) {
+        for(Experiment e : experiments){
+            Log.d("stuff", e.getExperimentID());
+        }
+    }
 }
