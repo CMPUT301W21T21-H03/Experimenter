@@ -9,6 +9,11 @@ public abstract class Trial {
     User trialUser;
     String trialExperimentID;
 
+    public static final int COUNT = 0;
+    public static final int BINOMIAL = 1;
+    public static final int NONNEGATIVE = -1;
+    public static final int MEASURE = 3;
+
     /**
      * Gets the ID of the trial
      * @return

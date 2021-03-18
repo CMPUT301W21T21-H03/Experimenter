@@ -1,6 +1,7 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,9 @@ public class ProfileExpFrag extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("stuff", "onCreateView");
         return inflater.inflate(R.layout.experiment_list, container, false);
+
     }
 
     @Override
@@ -37,7 +40,9 @@ public class ProfileExpFrag extends Fragment
         RecyclerView recycler = view.findViewById(R.id.experimentList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
-
+        Log.d("stuff", "onViewCreated");
 
     }
+
+
 }

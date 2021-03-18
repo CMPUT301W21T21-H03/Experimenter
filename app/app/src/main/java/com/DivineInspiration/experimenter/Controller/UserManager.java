@@ -87,7 +87,6 @@ Usage: android local storage
 
             Gson gson = new Gson();
             user = gson.fromJson(pref.getString("User", ""), User.class);
-//            updateUser(user, null);
             Log.d("stuff", user.toString());
             if(callback != null){
                 callback.onUserReady(user);
@@ -147,23 +146,24 @@ Usage: android local storage
     }
 
 
+
+    @SuppressWarnings("unchecked")
     public void queryUser(String id, UserReadyCallback callback){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         DocumentReference doc = db.collection("Users").document(id);
         doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
-                    if(document.exists()){
+                    if(document!=null &&document.exists() && document.get("Contacts") instanceof Map){
                         Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
                         String description = document.getString("UserDecription");
                         String name = document.getString("UserName");
+                        assert contact != null;
                         callback.onUserReady(new User(name, id,
                                 new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
                         ), description));
-
                     }
 
                 }
