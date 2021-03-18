@@ -21,7 +21,9 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -47,6 +49,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
     FloatingActionButton fab;
     Button editProfileButton;
     UserManager manager = UserManager.getInstance();
+    ExperimentManager experiments = ExperimentManager.getInstance();
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
@@ -147,7 +150,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
             }
         });
 
-
+        experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
 
 
         /*
@@ -229,6 +232,7 @@ public class HomeFragment extends Fragment implements  UserManager.UserReadyCall
     public void onUserReady(User user) {
         // Display user information on toolbar
         displayUserToolbar(user);
+//        experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
     }
 
 
