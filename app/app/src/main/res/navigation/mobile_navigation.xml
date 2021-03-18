@@ -10,12 +10,11 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_navigation_home_to_navigation_experimentFragment"
+            android:id="@+id/homeToExp"
             app:destination="@id/navigation_experimentFragment"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
+
     </fragment>
 
     <fragment
