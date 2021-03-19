@@ -59,7 +59,7 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
                 // Red is kinda Sus
                 Bundle bundle = new Bundle();
                 bundle.putInt("lol",position);
-                Navigation.findNavController(v).navigate(R.id.homeToExp, bundle);
+                Navigation.findNavController(v).navigate(R.id.exploreToEx, bundle);
             }
         });
     }
