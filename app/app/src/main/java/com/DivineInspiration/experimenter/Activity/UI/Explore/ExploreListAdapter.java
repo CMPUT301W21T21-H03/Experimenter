@@ -28,11 +28,18 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
 
     private List<Experiment> experiments = new ArrayList<>();
 
-    public ExploreListAdapter(){}
+    // ??
+    public ExploreListAdapter() {}
     public ExploreListAdapter(List<Experiment> exp){
         this.experiments = exp;
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

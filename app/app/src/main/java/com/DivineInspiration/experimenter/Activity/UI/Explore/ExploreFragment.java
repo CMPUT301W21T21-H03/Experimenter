@@ -29,6 +29,10 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
     public ExploreListAdapter exploreListAdapter;
     public List<Experiment> dataList = new ArrayList<>();
 
+    /**
+     * Fragment initializer
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,14 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
         this.dataList = new ArrayList<>();
     }
 
+    /**
+     * When view is created
+     * @param inflater
+     * @param container
+     * Container containing fragment
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -59,6 +71,8 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
 
         // Assign the listener to the recycler view
         // experimentList.setOnItemClickListener(itemClickListener);
+
+        // TODO: search -> filter results
 
         return root;
     }
