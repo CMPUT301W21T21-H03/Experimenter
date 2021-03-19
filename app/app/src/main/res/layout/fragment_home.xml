@@ -168,7 +168,6 @@
     <!--            tools:layout_editor_absoluteY="212dp" />-->
 
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -177,9 +176,9 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/red1"
-        android:src="@drawable/ic_home_black_24dp"
-        app:rippleColor="@color/beige1"
+        android:src="@android:drawable/ic_input_add"
         app:borderWidth="0dp"
+        app:rippleColor="@color/beige1"
         app:tint="@color/white" />
 
 
