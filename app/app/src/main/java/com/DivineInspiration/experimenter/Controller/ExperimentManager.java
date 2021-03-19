@@ -93,6 +93,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
         doc.put("TrialType", experiment.getTrialType());
         doc.put("Region", experiment.getRegion());
         doc.put("MinimumTrials", experiment.getMinimumTrials());
+        doc.put("RequireGeo", experiment.isRequireGeo());
         doc.put("SubscriberIDs", new ArrayList<>());
 
         db.collection("Experiments").document(experiment.getExperimentID()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -162,7 +163,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
                 snapshot.getString("ExperimentDescription"),
                 Objects.requireNonNull(snapshot.getLong("TrialType")).intValue(),
                 snapshot.getString("Region"),
-                Objects.requireNonNull(snapshot.getLong("MinimumTrials")).intValue()
+                Objects.requireNonNull(snapshot.getLong("MinimumTrials")).intValue(),
+                snapshot.getBoolean("RequireGeo")
+
         );
 
     }

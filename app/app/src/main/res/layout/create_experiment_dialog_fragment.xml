@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/editExperimentName"
@@ -13,10 +14,7 @@
         android:layout_marginRight="10dp"
         android:ems="10"
         android:hint="Experiment Name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editExperimentCity"
@@ -26,40 +24,39 @@
         android:layout_marginRight="10dp"
         android:ems="10"
         android:hint="City"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTrial" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editExperimentAbout"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="About"
         android:inputType="textMultiLine"
-        android:maxLength="500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editExperimentCity" />
+        android:maxLength="500" />
+
+    <Spinner
+        android:id="@+id/editExperimentSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <CheckBox
+        android:id="@+id/editExperimentGeo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Require geolocation" />
 
     <EditText
-        android:id="@+id/editTrial"
-        android:layout_width="match_parent"
+        android:id="@+id/editExperimentMin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-
         android:ems="10"
-        android:hint="Trial Type"
-        android:inputType="numberSigned"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editExperimentName" />
+        android:hint="minimum trial count"
+        android:inputType="textPersonName"
+        tools:inputType="numberSigned" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

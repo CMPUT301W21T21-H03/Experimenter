@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
 
@@ -19,10 +21,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProfileExpFrag extends Fragment
+public class ProfileExpFrag extends Fragment implements CreateExperimentDialogFragment.ExperimentAddedCallback, ExperimentManager.ExperimentReadyCallback
 {
     private ExperimentAdapter adapter;
-
+    ArrayList<Experiment> exps = new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,16 +37,28 @@ public class ProfileExpFrag extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Experiment[] exps = {};
-        adapter = new ExperimentAdapter(Arrays.asList(exps));
+
+        adapter = new ExperimentAdapter(exps);
         RecyclerView recycler = view.findViewById(R.id.experimentList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
-        Log.d("stuff", "onViewCreated");
+        ExperimentManager.getInstance().queryUserExperiment(UserManager.getInstance().getLocalUser().getUserId(), this);
 
 
 
     }
 
 
+    @Override
+    public void experimentAdded(Experiment experiment) {
+        exps.add(0,experiment);
+        adapter.notifyItemChanged(0);
+    }
+
+    @Override
+    public void onExperimentsReady(List<Experiment> experiments) {
+        exps.clear();
+        exps.addAll(experiments);
+        adapter.notifyDataSetChanged();
+    }
 }

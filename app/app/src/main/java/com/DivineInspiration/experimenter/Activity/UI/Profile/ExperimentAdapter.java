@@ -1,7 +1,7 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,6 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
 
 public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.ViewHolder> {
 
@@ -38,7 +37,6 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.experiment_item, parent, false);
-
         return new ViewHolder(v);
     }
 
@@ -64,7 +62,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
 
 
 
-    public static class ViewHolder extends  RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView text;
         private final CardView card;
 

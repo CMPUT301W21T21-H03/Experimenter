@@ -153,7 +153,7 @@ public class HomeFragment extends Fragment implements UserManager.LocalUserCallb
             public void onClick(View v) {
 //              Snackbar.make(view, "Woaaaaaah dude!!!", Snackbar.LENGTH_LONG).show();
 //              manager.queryUser(manager.getLocalUser().getUserId(), HomeFragment.this);
-                new CreateExperimentDialogFragment(HomeFragment.this).show(getChildFragmentManager(),"create experiment");
+                new CreateExperimentDialogFragment((CreateExperimentDialogFragment.ExperimentAddedCallback)getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(),"create experiment");
             }
         });
 
