@@ -6,7 +6,7 @@
     app:startDestination="@id/navigation_home">
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.DivineInspiration.experimenter.Activity.UI.Profile.HomeFragment"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.Profile.ProfileFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
