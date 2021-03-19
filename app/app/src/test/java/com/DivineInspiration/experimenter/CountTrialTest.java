@@ -6,6 +6,10 @@ import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.Model.UserContactInfo;
 
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 public class CountTrialTest {
 
     private CountTrial mockCountTrial() {
@@ -33,4 +37,42 @@ public class CountTrialTest {
     private UserContactInfo mockContactInfo() {
         return new UserContactInfo("Edmonton", "abcd@gmail.com");
     }
+
+    @Test
+    public void addCountTest() {
+        CountTrial trial = mockCountTrial();
+        assertEquals(0, trial.getCount());
+
+        trial.addCount();
+        assertEquals(1, trial.getCount());
+
+        trial.addCount();
+        assertEquals(2, trial.getCount());
+    }
+
+    @Test
+    public void decrementCountTest() {
+        CountTrial trial = mockCountTrial();
+        assertEquals(0, trial.getCount());
+
+        trial.addCount();
+        assertEquals(1, trial.getCount());
+
+        trial.addCount();
+        assertEquals(2, trial.getCount());
+
+        trial.decrementCount();
+        assertEquals(1, trial.getCount());
+
+        trial.decrementCount();
+        assertEquals(0, trial.getCount());
+
+        trial.decrementCount();
+        assertEquals(-1, trial.getCount());
+
+        trial.decrementCount();
+        assertEquals(-2, trial.getCount());
+    }
+
+
 }
