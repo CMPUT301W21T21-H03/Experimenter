@@ -1,55 +1,78 @@
 package com.DivineInspiration.experimenter.Activity.UI.Explore;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentAdapter;
+import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ExploreFragment extends Fragment {
+public class ExploreFragment extends Fragment implements ExperimentManager.ExperimentReadyCallback {
+
+    public ExperimentAdapter experimentAdapter;
+    public List<Experiment> dataList = new ArrayList<>();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        this.experimentAdapter = new ExperimentAdapter();
+        this.dataList = new ArrayList<>();
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_explore, container, false);
 
-        populate(root);
+        Log.d("ExploreFragment", "Begin queryAll");
+
+        ExperimentManager.getInstance().queryAll(this);
+        View root = inflater.inflate(R.layout.fragment_explore, container, false);
+        EditText search = root.findViewById(R.id.explore_search_bar);
+
+        RecyclerView experimentListView = root.findViewById(R.id.list_experiments);
+        experimentListView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        experimentListView.setAdapter(experimentAdapter);
+
+        // Create the listener
+//        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
+//            public void onItemClick(AdapterView<?> listDrinks, View itemView, int position, long id) {
+//                // TODO: What happens when we click?
+//            }
+//        };
+
+        // Assign the listener to the recycler view
+        // experimentList.setOnItemClickListener(itemClickListener);
 
         return root;
     }
 
-    private void populate(View root) {
-        // Get search bar
-        EditText search = root.findViewById(R.id.editText_searchBar);
+    @Override
+    public void onExperimentsReady(List<Experiment> queryList) {
 
-        // debug items
-        String testItems[] = {"Experiment A", "Experiment B", "Experiment C"};
+        Log.d("ExploreFragment", "Experiment query ready");
+        for (Experiment experiment : queryList) {
+            Log.d("ExploreFragment", experiment.getExperimentID());
+        }
 
-        //Get the List
-        ListView experimentList = root.findViewById(R.id.list_experiments);
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, testItems);
-        experimentList.setAdapter(listAdapter);
-
-        // Create the listener
-        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
-                    public void onItemClick(AdapterView<?> listDrinks, View itemView, int position, long id) {
-                        // TODO: What happens when we click?
-                    }
-                };
-        //Assign the listener to the list view
-        experimentList.setOnItemClickListener(itemClickListener);
+        dataList = queryList;
+        experimentAdapter.setData(dataList);
+        Log.d("ExploreFragment", dataList.toString());
     }
 }
