@@ -25,7 +25,7 @@ public class MeasurementTrialTest {
         User user = mockExperimentOwner();
         Experiment experiment = new Experiment("EXPQQ7FKJB9CVDUE", "Pass or Fail",
                 user.getUserId(), user.getUserName(), "keeps count if you failed or passed",
-                3, "Edmonton", 10, true);
+                "Measurement trial", "Edmonton", 10, true);
         return experiment;
     }
     private User mockTrialOwner() {

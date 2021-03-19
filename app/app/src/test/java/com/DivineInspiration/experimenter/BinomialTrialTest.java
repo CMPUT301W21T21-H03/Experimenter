@@ -22,7 +22,7 @@ public class BinomialTrialTest {
         User user = mockExperimentOwner();
         Experiment experiment = new Experiment("EXPQQ7FKJB9CVDUE", "Pass or Fail",
                 user.getUserId(), user.getUserName(), "keeps count if you failed or passed",
-                1, "Edmonton", 10, true);
+                "Binomial trial", "Edmonton", 10, true);
         return experiment;
     }
     private User mockTrialOwner() {
