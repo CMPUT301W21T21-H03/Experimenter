@@ -26,14 +26,14 @@ import java.util.List;
 
 public class ExploreFragment extends Fragment implements ExperimentManager.ExperimentReadyCallback {
 
-    public ExperimentAdapter experimentAdapter;
+    public ExploreListAdapter exploreListAdapter;
     public List<Experiment> dataList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.experimentAdapter = new ExperimentAdapter();
+        this.exploreListAdapter = new ExploreListAdapter();
         this.dataList = new ArrayList<>();
     }
 
@@ -48,7 +48,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
 
         RecyclerView experimentListView = root.findViewById(R.id.list_experiments);
         experimentListView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        experimentListView.setAdapter(experimentAdapter);
+        experimentListView.setAdapter(exploreListAdapter);
 
         // Create the listener
 //        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
@@ -72,7 +72,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
         }
 
         dataList = queryList;
-        experimentAdapter.setData(dataList);
+        exploreListAdapter.setData(dataList);
         Log.d("ExploreFragment", dataList.toString());
     }
 }
