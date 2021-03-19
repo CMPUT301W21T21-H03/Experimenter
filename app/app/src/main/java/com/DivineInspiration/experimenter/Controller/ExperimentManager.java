@@ -89,6 +89,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
         Map<String, Object> doc = new HashMap<>();
         doc.put("ExperimentName", experiment.getExperimentName());
         doc.put("OwnerID", experiment.getOwnerID());
+        doc.put("OwnerName", experiment.getOwnerName());
         doc.put("ExperimentDescription", experiment.getExperimentDescription());
         doc.put("TrialType", experiment.getTrialType());
         doc.put("Region", experiment.getRegion());
@@ -178,6 +179,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
                 snapshot.getId(),
                 snapshot.getString("ExperimentName"),
                 snapshot.getString("OwnerID"),
+                snapshot.getString("OwnerName"),
                 snapshot.getString("ExperimentDescription"),
                 Objects.requireNonNull(snapshot.getLong("TrialType")).intValue(),
                 snapshot.getString("Region"),

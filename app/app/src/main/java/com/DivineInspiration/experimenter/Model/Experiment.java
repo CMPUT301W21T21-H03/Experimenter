@@ -2,10 +2,11 @@ package com.DivineInspiration.experimenter.Model;
 
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Experiment {
+public class Experiment implements Serializable {
     private String experimentID;
     private String experimentName;
     private  String ownerID;
@@ -14,6 +15,7 @@ public class Experiment {
     private int minimumTrials;
     private String experimentDescription;
     private  boolean requireGeo;
+    private String ownerName;
 
 
     public static final int ONGOING = 10;
@@ -25,6 +27,7 @@ public class Experiment {
      */
     public Experiment() {
         experimentName = "defaultExpName";
+        ownerName="defaultOwnerName";
         ownerID = "null";
         experimentID = "defaultExpID";
         experimentDescription = "defaultDescrip";
@@ -49,13 +52,14 @@ public class Experiment {
      * @param requireGeo
      * boolean value of if the geolocation is required
      */
-    public Experiment(String experimentID, String experimentName, String ownerID, String experimentDescription, int trialType, String region, int minimumTrials, boolean requireGeo) {
+    public Experiment(String experimentID, String experimentName, String ownerID,String ownerName, String experimentDescription, int trialType, String region, int minimumTrials, boolean requireGeo) {
 
         // TODO Generate id that is not already in the database
         // TODO Get user from id database
         this.experimentName = experimentName;
         this.experimentID = experimentID;
         this.ownerID = ownerID;
+        this.ownerName = ownerName;
         this.trialType = trialType;
         this.region = region;
         this.minimumTrials = minimumTrials;
@@ -97,6 +101,15 @@ public class Experiment {
      */
     public String getOwnerID() {
         return ownerID;
+    }
+
+    /**
+     * Gets owner Name
+     * @return
+     * the owner name
+     */
+    public String getOwnerName() {
+        return ownerName;
     }
 
     /**
@@ -174,13 +187,14 @@ public class Experiment {
      * @param experimentDescription
      * description of experiment
      */
-    public Experiment(String experimentName, String ownerID, String experimentDescription, int trialType, String region, int minimumTrials, boolean requireGeo) {
+    public Experiment(String experimentName, String ownerID,String ownerName ,String experimentDescription, int trialType, String region, int minimumTrials, boolean requireGeo) {
 
         // TODO Generate id that is not already in the database
         // TODO Get user from id database
         this.experimentName = experimentName;
         this.experimentID = IdGen.genExperimentId(ownerID);
         this.ownerID = ownerID;
+        this.ownerName = ownerName;
         this.trialType = trialType;
         this.region = region;
         this.minimumTrials = minimumTrials;
