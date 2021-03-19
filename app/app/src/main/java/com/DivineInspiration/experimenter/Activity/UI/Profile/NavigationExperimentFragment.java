@@ -25,7 +25,6 @@ public class NavigationExperimentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments()!=null){
-
         }
 
     }
@@ -40,7 +39,7 @@ public class NavigationExperimentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        demo = view.findViewById(R.id.demo);
+        demo = view.findViewById(R.id.experimentName_expFrag);
         demo.setText(String.valueOf(getArguments().getInt("lol")));
     }
 }
