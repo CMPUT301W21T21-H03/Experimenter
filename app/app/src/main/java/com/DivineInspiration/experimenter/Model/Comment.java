@@ -58,7 +58,7 @@ public class Comment {
 
     /**
      * Edits the comment
-     * @param : comment:String
+     * @param : commentString
      */
     public void setComment(String comment) {
         this.comment = comment;

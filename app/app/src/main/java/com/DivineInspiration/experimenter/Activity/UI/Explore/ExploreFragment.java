@@ -102,6 +102,9 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
         return root;
     }
 
+    /**
+     * Simple filter function that updates the array list
+     */
     public void filter() {
         // if string is empty, reinit with all data
         if (searchText.length() == 0) {
@@ -118,7 +121,6 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
          exploreListAdapter.setData(shownList);
          exploreListAdapter.notifyDataSetChanged();
         }
-
     }
 
     @Override
@@ -131,8 +133,6 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
 
         dataList = queryList;
         shownList = queryList;
-        dataList.add(new Experiment());
-        dataList.add(new Experiment());
         exploreListAdapter.setData(shownList);
         Log.d("ExploreFragment", shownList.toString());
     }

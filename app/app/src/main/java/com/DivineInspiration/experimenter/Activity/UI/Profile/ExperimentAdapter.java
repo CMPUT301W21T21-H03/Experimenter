@@ -49,7 +49,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
             public void onClick(View v) {
                 // Red is kinda Sus
                 Bundle bundle = new Bundle();
-                bundle.putInt("lol",position);
+                bundle.putSerializable("experiment",experiments.get(position));
                 Navigation.findNavController(v).navigate(R.id.homeToExp, bundle);
             }
         });

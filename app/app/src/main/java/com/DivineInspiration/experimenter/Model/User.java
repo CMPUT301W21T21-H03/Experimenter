@@ -21,6 +21,13 @@ public class User {
         this.contactInfo = contactUserInfo;
         this.description = description;
     }
+
+
+    /**
+     * Default constructor when initing user
+     * @param userId
+     * userID
+     */
     public User(String userId){
         this.userId = userId;
         userName = "UserName";
@@ -29,7 +36,10 @@ public class User {
 
     }
 
-    public User(){
+    /**
+     * Default constructor when no arguments are given, mostly for testing
+     */
+    public User() {
         userId = "defaultId";
         userName = "UserName";
         contactInfo = new UserContactInfo();
@@ -57,7 +67,7 @@ public class User {
     /**
      * Gets name of user
      * @return
-     * Username
+     * username
      */
     public String getUserName() {
         return userName;
@@ -66,7 +76,7 @@ public class User {
     /**
      * Sets username
      * @param userName
-     * User name
+     * username
      */
     public void setUserName(String userName) {
         this.userName = userName;
@@ -75,21 +85,37 @@ public class User {
     /**
      * Gets ID of user
      * @return
-     * User ID
+     * user ID
      */
     public String getUserId() {
         return userId;
     }
 
+    /**
+     * Returns a formatted user string
+     * @return
+     * formatted string
+     */
     @NotNull
     @Override
     public String toString(){
         return String.format("User Name: %s, Id: %s", userName, userId);
     }
 
+    /**
+     * Gets the User description
+     * @return
+     * the user description
+     */
     public String getDescription() {
         return description;
     }
+
+    /**
+     * Sets the user description
+     * @param newDescription
+     * the new user description
+     */
     public void setDescription(String newDescription){
         this.description = newDescription;
     }

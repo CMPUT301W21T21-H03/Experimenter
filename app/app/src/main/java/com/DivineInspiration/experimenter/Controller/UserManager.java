@@ -25,10 +25,26 @@ import java.util.Map;
 
 public class UserManager implements IdGen.IDCallBackable {
 
-    public class ContextNotSetException extends RuntimeException{}
+    /*
+    Name:Obaro Ogbo
+    Link:https://www.androidauthority.com/how-to-store-data-locally-in-android-app-717190/
+    Date:September 21, 2016
+    License: unknown
+    Usage: android local storage
+     */
+    private SharedPreferences pref;
+    private static UserManager local= null;
+    private LocalUserCallback callbackHolder; // janky solution 101
+    private User user;
 
+    /**
+     * Required extends
+     */
+    public class ContextNotSetException extends RuntimeException {}
+
+    // required interfaces
     public interface LocalUserCallback {
-         void onLocalUserReady(User user);
+        void onLocalUserReady(User user);
     }
 
     public interface QuerySingleUserCallback{
@@ -36,33 +52,16 @@ public class UserManager implements IdGen.IDCallBackable {
 
     }
 
-/*
-Name:Obaro Ogbo
-Link:https://www.androidauthority.com/how-to-store-data-locally-in-android-app-717190/
-Date:September 21, 2016
-License: unknown
-Usage: android local storage
- */
-    private SharedPreferences pref;
-    private static UserManager local= null;
-    private LocalUserCallback callbackHolder; //janky solution 101
-    private User user;
-
-
-    private UserManager()  {
-    }
+//    private UserManager()  {
+//    }
 
     /**
      * Gets the current user
      * @return the current user
      */
     public User getLocalUser(){
-
         return user;
     }
-
-
-
 
     /**
      * Provide context so that LocalUserManager can fetch the sharedPreference
@@ -84,6 +83,11 @@ Usage: android local storage
         return local;
     }
 
+    /**
+     * Initializes a local user
+     * @param callback
+     * callback
+     */
     public void initializeLocalUser(LocalUserCallback callback)  {
         if(pref == null){
             throw new ContextNotSetException();
@@ -98,20 +102,44 @@ Usage: android local storage
             }
         }
         else{
-            //no id currently exist, needs to create a new one
+            // no id currently exist, needs to create a new one
             callbackHolder = callback;
             IdGen.genUserId(this);
         }
     }
 
-
     /**
-     * Please dont call this method owo
+     * Gets user from firebase
      * @param id
+     * ID of the user
+     * @param callback
+     * callback
      */
-    @Override
-    public void onIdReady(String id){
-        updateUser(new User(id), callbackHolder);
+    @SuppressWarnings("unchecked")
+    public void queryUser(String id, QuerySingleUserCallback callback){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference doc = db.collection("Users").document(id);
+        doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document!=null &&document.exists() && document.get("Contacts") instanceof Map){
+                        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
+                        String description = document.getString("UserDecription");
+                        String name = document.getString("UserName");
+                        assert contact != null;
+                        callback.onQueryUserReady(new User(name, id,
+                                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
+                                ), description));
+                    }
+
+                }
+                else{
+                    callback.onQueryUserReady(null);
+                }
+            }
+        });
     }
 
 
@@ -121,7 +149,10 @@ Usage: android local storage
      * <b>Note:</b> Changing user id or creating new users requires UserReadyCalled to be registered to LocalUserManager
      * <b>Note2:</b> Upon changing user id, user should be given the option to permanently delete the old profile. Then be switched to the new profile
      * @throws ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
-     * @param newUser user to be made or updated.
+     * @param newUser
+     * user to be made or updated
+     * @param callback
+     * callback
      */
     public void updateUser(User newUser, LocalUserCallback callback){
         if(pref == null){
@@ -150,34 +181,13 @@ Usage: android local storage
         });
     }
 
-
-
-    @SuppressWarnings("unchecked")
-    public void queryUser(String id, QuerySingleUserCallback callback){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference doc = db.collection("Users").document(id);
-        doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    if(document!=null &&document.exists() && document.get("Contacts") instanceof Map){
-                        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
-                        String description = document.getString("UserDecription");
-                        String name = document.getString("UserName");
-                        assert contact != null;
-                        callback.onQueryUserReady(new User(name, id,
-                                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
-                        ), description));
-                    }
-
-                }
-                else{
-                    callback.onQueryUserReady(null);
-                }
-            }
-        });
+    /**
+     * Please don't call this method although it is necessary so don't delete me
+     * @param id
+     * ID of the user
+     */
+    @Override
+    public void onIdReady(String id){
+        updateUser(new User(id), callbackHolder);
     }
-
-
 }

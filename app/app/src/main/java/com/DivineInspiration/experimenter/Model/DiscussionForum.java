@@ -7,7 +7,6 @@ public class DiscussionForum {
 
     /**
      * Constructor: creates an ArrayList to store the comments
-     * @param : None
      */
     public DiscussionForum() {
         comments = new ArrayList<>();
@@ -15,7 +14,8 @@ public class DiscussionForum {
 
     /**
      * Adds a comment to the forum
-     * @param: comment:Comment
+     * @param: comment
+     * discussion comment
      */
     public void addComment(Comment comment) {
         comments.add(comment);
@@ -23,7 +23,8 @@ public class DiscussionForum {
 
     /**
      * Gets all the comments made in the forum
-     * @return: comments:ArrayList<Comment>
+     * @return:
+     * discussion comment
      */
     public ArrayList<Comment> getComments() {
         return comments;
@@ -31,8 +32,10 @@ public class DiscussionForum {
 
     /**
      * Gets a particular comments made in the forum given the position
-     * @param: position:Integer
-     * @return: comments:Comment
+     * @param position
+     * position of the comment
+     * @return
+     * the comment itself
      */
     public Comment getComment(int position) {
         return comments.get(position);
@@ -40,7 +43,8 @@ public class DiscussionForum {
 
     /**
      * Removes a particular comments made in the forum given the position. This is an overloaded method.
-     * @param: position:Integer
+     * @param:
+     * position of comment to be removed
      */
     public void removeComment(int position) {
         comments.remove(position);
@@ -48,7 +52,8 @@ public class DiscussionForum {
 
     /**
      * Removes a particular comments made in the forum given the Comment object. This is an overloaded method.
-     * @param: comment:Comment
+     * @param:
+     * comment to remove by comment
      */
     public void removeComment(Comment comment) {
         comments.remove(comment);

@@ -17,13 +17,18 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class IdGen {
 
-    public interface IDCallBackable{
+    /**
+     * Event listener
+     */
+    public interface IDCallBackable {
         public void onIdReady(String id);
     }
 
     /**
      * Generates a user id, a 53 bit long. Where the first 32 bits is epoch time, in seconds.
      * The latter 20 bits are first 4 digit of firebase installation id(base 64) loosely converted to base 36
+     * @param callable
+     * ????
      */
     //TODO should userId be stored as long or a string?
     public static void genUserId(IDCallBackable callable){
@@ -72,12 +77,28 @@ public class IdGen {
 
     }
 
+    /**
+     * Generates the experiment ID
+     * @param userId
+     * experiment belonging to this user
+     * @return
+     * the experiment ID string
+     */
     public static String genExperimentId(String userId){
 
         // TODO This is not necessarilly unique. Should it be?
         return "EXP" + base10To36((System.currentTimeMillis()/1000)) +userId.substring(3);
     }
 
+    /**
+     * Generates the trial ID
+     * @param user
+     * trial belong to this user
+     * @param trialsCount
+     * the number of trials
+     * @return
+     * a large int
+     */
     public static long genTrialsId(User user, int trialsCount){
         return 0L;
     }
@@ -125,6 +146,17 @@ public class IdGen {
         return output;
     }
 
+    /**
+     * Checks if val is in range of min and max
+     * @param val
+     * value to be compared
+     * @param min
+     * min value
+     * @param max
+     * max value
+     * @return
+     * if the val is in range
+     */
     private static boolean inRange(int val, int min, int max){
         return val >= min && val <= max;
     }

@@ -86,7 +86,7 @@ trialSpinner.setAdapter( adapter);
                     String editExperimentNameText = editExperimentName.getText().toString();
                     String editCityText = editCity.getText().toString();
                     String editExperimentAboutText = editExperimentAbout.getText().toString();
-                    Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(),editExperimentAboutText,currentSelection,editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked());
+                    Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(),newUser.getUserName(),editExperimentAboutText,currentSelection,editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked());
                     ExperimentManager.getInstance().addExperiment(temp);
                     callback.experimentAdded(temp);
                   }
