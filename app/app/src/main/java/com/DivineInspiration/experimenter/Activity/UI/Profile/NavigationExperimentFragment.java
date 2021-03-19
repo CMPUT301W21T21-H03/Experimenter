@@ -51,7 +51,7 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
 
-
+    
     String[] tabNames = {"Trials", "Comments", "Stats"};
     private ArrayList<User> subscribers  = new ArrayList<>();
 
@@ -60,8 +60,6 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         super.onCreate(savedInstanceState);
         if(getArguments()!=null){
         }
-        Log.d("TAGGGGGG", "THIS IS IT");
-
     }
 
     @Override
@@ -83,8 +81,6 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         expCity = view.findViewById(R.id.experimentRegion_expFrag);
         subSwitch = view.findViewById(R.id.subscribeSwitch);
 
-
-
         Experiment exp = (Experiment)getArguments().getSerializable("experiment");
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
@@ -92,8 +88,6 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         trialNumber.setText(String.valueOf(exp.getMinimumTrials())+" trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
-
-
 
         //view pager
         pager = view.findViewById(R.id.expPager);
@@ -106,9 +100,6 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
                 tab.setText(tabNames[position]);
             }
         }).attach();
-
-
-
 
         UserManager.getInstance().queryExperimentSubs(exp.getExperimentID(), this);
 
@@ -124,8 +115,8 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         });
 
 
-        View setting =   view.findViewById(R.id.setting);
-        View profile =  view.findViewById(R.id.profile);
+        View setting = view.findViewById(R.id.setting);
+        View profile = view.findViewById(R.id.profile);
         if(UserManager.getInstance().getLocalUser().getUserId().equals(exp.getOwnerID())){
           profile.setVisibility(View.GONE);
           setting.setOnClickListener(new View.OnClickListener() {
@@ -150,14 +141,13 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
     public void onQueryUserSubsReady(ArrayList<User> users) {
         subscribers.clear();
         subscribers.addAll(users);
-        for(int i = 0;i<subscribers.size();i++){
+        for(int i = 0; i < subscribers.size(); i++){
             if(UserManager.getInstance().getLocalUser().getUserId().equals(subscribers.get(i).getUserId())){
                 subSwitch.setChecked(true);
             }
-
         }
 
-        ((TextView) getView().findViewById(R.id.expFragSubCount)).setText(subscribers.size()+" subscribers");
+        ((TextView) getView().findViewById(R.id.expFragSubCount)).setText(subscribers.size() + " subscribers");
     }
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
 
@@ -169,8 +159,7 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         @Override
         public Fragment createFragment(int position) {
 
-
-            switch (position){
+            switch (position) {
                 case 0:
                     return new TestFrag();
                 case 1:
@@ -180,9 +169,7 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
                 default:
                     return  new TestFrag();
             }
-
         }
-
 
         @Override
         public int getItemCount() {
@@ -198,9 +185,6 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
             return inflater.inflate(R.layout.test, container, false);
         }
 
-
-
-
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
@@ -210,7 +194,6 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
             ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
 
             list.setAdapter(adapter);
-
         }
     }
 }
