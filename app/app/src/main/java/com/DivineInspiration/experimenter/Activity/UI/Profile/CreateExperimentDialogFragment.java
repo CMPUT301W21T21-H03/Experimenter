@@ -42,8 +42,8 @@ public class CreateExperimentDialogFragment extends DialogFragment  implements A
     CheckBox requireGeo;
 
     private String[] options = {"Counting", "Biomial", "NonNegative", "Measuring"};
-    private int[] values = {Trial.COUNT, Trial.BINOMIAL, Trial.NONNEGATIVE, Trial.MEASURE };
-    private int currentSelection;
+    private String[] values = {Trial.COUNT, Trial.BINOMIAL, Trial.NONNEGATIVE, Trial.MEASURE };
+    private String currentSelection;
 
   public CreateExperimentDialogFragment( ExperimentAddedCallback callback){
       super();

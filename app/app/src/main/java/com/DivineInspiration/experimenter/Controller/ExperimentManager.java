@@ -181,7 +181,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
                 snapshot.getString("OwnerID"),
                 snapshot.getString("OwnerName"),
                 snapshot.getString("ExperimentDescription"),
-                Objects.requireNonNull(snapshot.getLong("TrialType")).intValue(),
+                Objects.requireNonNull(snapshot.getString("TrialType")),
                 snapshot.getString("Region"),
                 Objects.requireNonNull(snapshot.getLong("MinimumTrials")).intValue(),
                 snapshot.getBoolean("RequireGeo")
