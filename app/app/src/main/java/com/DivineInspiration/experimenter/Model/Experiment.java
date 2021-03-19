@@ -23,7 +23,7 @@ public class Experiment implements Serializable {
     private String experimentID;
     private String experimentName;
     private  String ownerID;
-    private int trialType;
+    private String trialType;
     private String region;
     private int minimumTrials;
     private String experimentDescription;
@@ -65,7 +65,7 @@ public class Experiment implements Serializable {
      * @param requireGeo
      * boolean value of if the geolocation is required
      */
-    public Experiment(String experimentID, String experimentName, String ownerID,String ownerName, String experimentDescription, int trialType, String region, int minimumTrials, boolean requireGeo) {
+    public Experiment(String experimentID, String experimentName, String ownerID,String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo) {
 
         // TODO Generate id that is not already in the database
         // TODO Get user from id database
@@ -130,7 +130,7 @@ public class Experiment implements Serializable {
      * @return
      * type of experiment where the mappings are ... TODO:
      */
-    public int getTrialType() {
+    public String getTrialType() {
         return trialType;
     }
 
@@ -200,7 +200,7 @@ public class Experiment implements Serializable {
      * @param experimentDescription
      * description of experiment
      */
-    public Experiment(String experimentName, String ownerID,String ownerName ,String experimentDescription, int trialType, String region, int minimumTrials, boolean requireGeo) {
+    public Experiment(String experimentName, String ownerID,String ownerName ,String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo) {
 
         // TODO Generate id that is not already in the database
         // TODO Get user from id database

@@ -2,6 +2,7 @@ package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.User;
 import java.util.Date;
+import java.util.Map;
 
 public abstract class Trial {
     String trialID;
@@ -9,13 +10,13 @@ public abstract class Trial {
     User trialUser;
     String trialExperimentID;
 
-    public static final int COUNT = 0;
-    public static final int BINOMIAL = 1;
-    public static final int NONNEGATIVE = -1;
-    public static final int MEASURE = 3;
+    public static final String COUNT = "Count trial";
+    public static final String BINOMIAL = "Binomial trial";
+    public static final String NONNEGATIVE = "Non nagative trial";
+    public static final String MEASURE = "Measurement trial";
 
 
-    public static final String[] Type2String = {"Count Trial", "Binomial Trial", "Non Negative Trial", "Measurement Trial"};
+
     /**
      * Gets the ID of the trial
      * @return
