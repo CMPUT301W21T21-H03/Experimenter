@@ -1,4 +1,4 @@
-+package com.DivineInspiration.experimenter.Activity.UI.Profile;
+package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.os.Bundle;
 
@@ -65,7 +65,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
         experiments.addAll(experimentData);
         notifyDataSetChanged();
 
-        Log.d("ExperimentAdapter", "New Data -> " + experiments.toString());
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
