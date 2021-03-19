@@ -66,7 +66,7 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         ownerName.setText(exp.getOwnerName());
         expCity.setText(exp.getRegion());
         trialNumber.setText(String.valueOf(exp.getMinimumTrials())+" trials needed");
-        trialType.setText("temp");
+        trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
 
         UserManager.getInstance().queryExperimentSubs(exp.getExperimentID(), this);

@@ -164,7 +164,7 @@ public class UserManager implements IdGen.IDCallBackable {
                         if(task.isSuccessful()){
                              ArrayList<String> userIds = (ArrayList<String>)task.getResult().get("SubscriberIDs");
 
-                             if(userIds.size() ==0){
+                             if(userIds == null || userIds.size() ==0){
                                  callback.onQueryUserSubsReady(new ArrayList<User>());
                              }
                              else{
