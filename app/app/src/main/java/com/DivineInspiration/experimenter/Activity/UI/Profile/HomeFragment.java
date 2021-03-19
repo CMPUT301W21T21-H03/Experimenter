@@ -33,10 +33,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class HomeFragment extends Fragment implements UserManager.LocalUserCallback, UserManager.QuerySingleUserCallback {
 
-
-
-
-
     public HomeFragment() {
         super(R.layout.fragment_home);
         Log.d("stuff", "fragment, constructor");

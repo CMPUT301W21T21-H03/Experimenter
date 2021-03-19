@@ -26,40 +26,50 @@ public class CreateExperimentDialogFragment extends DialogFragment {
     TextView editCity;
     TextView editExperimentAbout;
 
-  public CreateExperimentDialogFragment(UserManager.LocalUserCallback callback){
-      super();
-      this.callback = callback;
-  }
+    public static String TAG = "create experiment";
 
+    /**
+     * Fragment constructor
+     * @param callback
+     */
+      public CreateExperimentDialogFragment(UserManager.LocalUserCallback callback){
+          super();
+          this.callback = callback;
+      }
+
+    /**
+     *
+     * @param savedInstanceState
+     * @return
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-      View view = LayoutInflater.from(getActivity()).inflate(R.layout.create_experiment_dialog_fragment,null);
-      User newUser = UserManager.getInstance().getLocalUser();
+          View view = LayoutInflater.from(getActivity()).inflate(R.layout.create_experiment_dialog_fragment,null);
+          User newUser = UserManager.getInstance().getLocalUser();
 
 
-      editExperimentName = view.findViewById(R.id.editExperimentName);
-      editTrialType = view.findViewById(R.id.editTrial);
-      editCity = view.findViewById(R.id.editExperimentCity);
-      editExperimentAbout = view.findViewById(R.id.editExperimentAbout);
+          editExperimentName = view.findViewById(R.id.editExperimentName);
+          editTrialType = view.findViewById(R.id.editTrial);
+          editCity = view.findViewById(R.id.editExperimentCity);
+          editExperimentAbout = view.findViewById(R.id.editExperimentAbout);
 
-      return new AlertDialog.Builder(getContext())
-              .setView(view)
-              .setMessage("Create Experiment")
-              .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                  @Override
-                  public void onClick(DialogInterface dialog, int which) {
-                    String editExperimentNameText = editExperimentName.getText().toString();
+          return new AlertDialog.Builder(getContext())
+                  .setView(view)
+                  .setMessage("Create Experiment")
+                  .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                        String editExperimentNameText = editExperimentName.getText().toString();
 
-                    String editCityText = editCity.getText().toString();
-                    String editExperimentAboutText = editExperimentAbout.getText().toString();
-                    Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(),editExperimentAboutText,1,editCityText,20);
-                    ExperimentManager.getInstance().addExperiment(temp);
+                        String editCityText = editCity.getText().toString();
+                        String editExperimentAboutText = editExperimentAbout.getText().toString();
+                        Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(),editExperimentAboutText,1,editCityText,20);
+                        ExperimentManager.getInstance().addExperiment(temp);
 
-                  }
-              })
-              .setNegativeButton("cancel",null)
-              .create();
+                      }
+                  })
+                  .setNegativeButton("cancel",null)
+                  .create();
     }
-    public static String TAG = "create experiment";
 }
