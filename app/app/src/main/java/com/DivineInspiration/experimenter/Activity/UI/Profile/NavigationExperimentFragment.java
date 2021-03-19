@@ -6,20 +6,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
-
-import static android.content.ContentValues.TAG;
 
 
 public class NavigationExperimentFragment extends Fragment {
-    private TextView demo;
+    private TextView experimentName;
+    private TextView ownerName;
+    private TextView subNumber;
+    private TextView trialNumber;
+    private TextView trialType;
+    private  TextView expAbout;
+    private TextView expCity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,20 @@ public class NavigationExperimentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        demo = view.findViewById(R.id.experimentName_expFrag);
-        demo.setText(String.valueOf(getArguments().getInt("lol")));
+        experimentName = view.findViewById(R.id.experimentName_expFrag);
+        ownerName = view.findViewById(R.id.ownerName_expFrag);
+        subNumber = view.findViewById(R.id.subscribersNumber_expFrag);
+        trialNumber = view.findViewById(R.id.trialNumber_expFrag);
+        trialType = view.findViewById(R.id.trialType_expFrag);
+        expAbout = view.findViewById(R.id.experimentDescription_expFrag);
+        expCity = view.findViewById(R.id.experimentRegion_expFrag);
+
+        Experiment exp = (Experiment)getArguments().getSerializable("experiment");
+        experimentName.setText(exp.getExperimentName());
+        ownerName.setText(exp.getOwnerName());
+        expCity.setText(exp.getRegion());
+        trialNumber.setText(String.valueOf(exp.getMinimumTrials()));
+        trialType.setText(String.valueOf(exp.getTrialType()));
+        expAbout.setText(exp.getExperimentDescription());
     }
 }
