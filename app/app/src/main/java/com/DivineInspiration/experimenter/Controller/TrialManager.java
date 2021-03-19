@@ -11,6 +11,8 @@ public class TrialManager extends ArrayList<Trial> {
     private ArrayList<Trial> trials;
     private FirebaseFirestore db;
 
+    // TODO Talk to firebase
+
     // maybe better to do in experiments class
 //    private int[] blocklist;
     private String trialType;

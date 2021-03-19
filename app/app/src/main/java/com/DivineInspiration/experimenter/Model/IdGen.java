@@ -73,6 +73,8 @@ public class IdGen {
     }
 
     public static String genExperimentId(String userId){
+
+        // TODO This is not necessarilly unique. Should it be?
         return "EXP" + base10To36((System.currentTimeMillis()/1000)) +userId.substring(3);
     }
 
