@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MeasurementTrialTest {
 
@@ -25,7 +26,7 @@ public class MeasurementTrialTest {
         User user = mockExperimentOwner();
         Experiment experiment = new Experiment("EXPQQ7FKJB9CVDUE", "Pass or Fail",
                 user.getUserId(), user.getUserName(), "keeps count if you failed or passed",
-                3, "Edmonton", 10, true);
+                "Measurement trial", "Edmonton", 10, true);
         return experiment;
     }
     private User mockTrialOwner() {
@@ -63,7 +64,8 @@ public class MeasurementTrialTest {
     @Test
     public void averageMeasureumentTest() {
         MeasurementTrial trial = mockMeasurementTrial();
-        assertEquals(0, trial.getAverageMeasurement(), 0.01);
+        boolean isNan = Double.isNaN(trial.getAverageMeasurement());
+        assertTrue(isNan);
 
         trial.addMeasurement((float)6.3);
         assertEquals(6.3, trial.getAverageMeasurement(), 0.01);
