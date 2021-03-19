@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MeasurementTrialTest {
 
@@ -63,7 +64,8 @@ public class MeasurementTrialTest {
     @Test
     public void averageMeasureumentTest() {
         MeasurementTrial trial = mockMeasurementTrial();
-        assertEquals(0, trial.getAverageMeasurement(), 0.01);
+        boolean isNan = Double.isNaN(trial.getAverageMeasurement());
+        assertTrue(isNan);
 
         trial.addMeasurement((float)6.3);
         assertEquals(6.3, trial.getAverageMeasurement(), 0.01);
