@@ -256,7 +256,7 @@ public class HomeFragment extends Fragment implements UserManager.LocalUserCallb
                 case 0:
                     return new ProfileExpFrag();
                 case 1:
-                    return new TestFrag();
+                    return new ProfileSubFrag();
                 case 2:
                     return  new TestFrag();
                 default:
