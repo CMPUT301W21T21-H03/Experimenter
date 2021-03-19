@@ -18,7 +18,7 @@ import com.DivineInspiration.experimenter.R;
 import static android.content.ContentValues.TAG;
 
 
-public class navigation_experimentFragment extends Fragment {
+public class NavigationExperimentFragment extends Fragment {
     private TextView demo;
 
     @Override
