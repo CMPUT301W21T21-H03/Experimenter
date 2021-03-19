@@ -20,8 +20,10 @@ public class Experiment {
     public static final int ENDED = 11;
     public static final int HIDDEN = 12; //unpublished
 
-    //default constructor
-    public Experiment(){
+    /**
+     * default constructor when no arguments are given, mostly for testing
+     */
+    public Experiment() {
         experimentName = "defaultExpName";
         ownerID = "null";
         experimentID = "defaultExpID";
@@ -29,12 +31,13 @@ public class Experiment {
 
     }
 
+    /**
+     * Gets the ID of the experiment
+     * @return
+     * the ID of the experiment
+     */
     public String getExperimentID() {
         return experimentID;
-    }
-
-    public void setExperimentID(String experimentID) {
-        this.experimentID = experimentID;
     }
 
     public String getExperimentName() {

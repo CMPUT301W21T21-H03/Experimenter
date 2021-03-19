@@ -16,11 +16,9 @@ public class UserContactInfo {
      */
     public UserContactInfo(String cityName, String email) {
 
-
         this.cityName = cityName;
         this.email = email;
     }
-
 
     /**
      * Default empty constructor for a person's contact
@@ -30,15 +28,23 @@ public class UserContactInfo {
         this.email = "";
     }
 
+    /**
+     * Gets the user email
+     * @return
+     * email string
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Set the user email
+     * @param email
+     * user email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
-
-
 
     /**
      * Gets city name
