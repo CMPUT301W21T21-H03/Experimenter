@@ -99,6 +99,6 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         subscribers.clear();
         subscribers.addAll(users);
 
-        ((TextView) getView().findViewById(R.id.expFragSubCount)).setText(subscribers.size()+"subscribers");
+        ((TextView) getView().findViewById(R.id.expFragSubCount)).setText(subscribers.size()+" subscribers");
     }
 }
