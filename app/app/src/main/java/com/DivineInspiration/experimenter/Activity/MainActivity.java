@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements  ExperimentManage
 
     }
 
+    // TODO REMOVE
     @Override
     public void onExperimentsReady(List<Experiment> experiments) {
         for(Experiment e : experiments){

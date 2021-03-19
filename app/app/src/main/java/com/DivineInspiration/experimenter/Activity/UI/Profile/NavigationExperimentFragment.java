@@ -60,6 +60,7 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         super.onCreate(savedInstanceState);
         if(getArguments()!=null){
         }
+        Log.d("TAGGGGGG", "THIS IS IT");
 
     }
 
