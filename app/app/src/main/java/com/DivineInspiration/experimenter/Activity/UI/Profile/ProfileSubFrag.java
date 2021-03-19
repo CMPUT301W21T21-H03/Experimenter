@@ -43,7 +43,7 @@ public class ProfileSubFrag extends Fragment implements ExperimentManager.Experi
         RecyclerView recycler = view.findViewById(R.id.experimentList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
-       ExperimentManager.getInstance().queryUserSubs(UserManager.getInstance().getLocalUser().getUserId(), this);
+        ExperimentManager.getInstance().queryUserSubs(UserManager.getInstance().getLocalUser().getUserId(), this);
 
 
 

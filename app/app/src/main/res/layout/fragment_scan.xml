@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.UI.Scan.ScanFragment" >
+    android:fitsSystemWindows="true"
+    tools:context=".Activity.UI.Profile.ProfileFragment"
+    android:background="@color/black2">
 
     <TextView
         android:id="@+id/text_dashboard"
@@ -15,7 +17,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/beige1"
         android:textSize="20sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +33,7 @@
         android:layout_marginEnd="8dp"
         android:text="Scan the QR code:"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/beige1"
         android:textSize="30sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
