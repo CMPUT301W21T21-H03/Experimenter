@@ -28,7 +28,39 @@ public class Experiment {
         ownerID = "null";
         experimentID = "defaultExpID";
         experimentDescription = "defaultDescrip";
+    }
 
+    /**
+     * Main experiment constructor
+     * @param experimentID
+     * experiment ID (unique)
+     * @param experimentName
+     * experiment name
+     * @param ownerID
+     * owner of the experiment (ID)
+     * @param experimentDescription
+     * description of the experiment
+     * @param trialType
+     * type of the trial
+     * @param region
+     * region on which the experiment is performed
+     * @param minimumTrials
+     * minimal number of trial for the experiment to be completed
+     * @param requireGeo
+     * boolean value of if the geolocation is required
+     */
+    public Experiment(String experimentID, String experimentName, String ownerID, String experimentDescription, int trialType, String region, int minimumTrials, boolean requireGeo) {
+
+        // TODO Generate id that is not already in the database
+        // TODO Get user from id database
+        this.experimentName = experimentName;
+        this.experimentID = experimentID;
+        this.ownerID = ownerID;
+        this.trialType = trialType;
+        this.region = region;
+        this.minimumTrials = minimumTrials;
+        this.experimentDescription = experimentDescription;
+        this.requireGeo = requireGeo;
     }
 
     /**
@@ -40,54 +72,98 @@ public class Experiment {
         return experimentID;
     }
 
+    /**
+     * Gets the name of the experiment
+     * @return
+     * experiment name
+     */
     public String getExperimentName() {
         return experimentName;
     }
 
+    /**
+     * Sets the experiment name
+     * @param experimentName
+     * experiment name
+     */
     public void setExperimentName(String experimentName) {
         this.experimentName = experimentName;
     }
 
+    /**
+     * Gets owner ID of experiment
+     * @return
+     * the owner ID
+     */
     public String getOwnerID() {
         return ownerID;
     }
 
-    public void setOwnerID(String ownerID) {
-        this.ownerID = ownerID;
-    }
-
+    /**
+     * The type of the experiment
+     * @return
+     * type of experiment where the mappings are ... TODO:
+     */
     public int getTrialType() {
         return trialType;
     }
 
-    public void setTrialType(int trialType) {
-        this.trialType = trialType;
-    }
+//    public void setTrialType(int trialType) {
+//        this.trialType = trialType;
+//    }
 
+    /**
+     * Gets the region of this particular experiment
+     * @return
+     */
     public String getRegion() {
         return region;
     }
 
+    /**
+     * Sets the region of this experiment
+     * @param region
+     * the new region
+     */
     public void setRegion(String region) {
         this.region = region;
     }
 
+    /**
+     * Gets the minimum number of trials
+     * @return
+     * the minimum number of trials
+     */
     public int getMinimumTrials() {
         return minimumTrials;
     }
 
+    /**
+     * Sets the minimum number of trials
+     * @param minimumTrials
+     * new minimum
+     */
     public void setMinimumTrials(int minimumTrials) {
         this.minimumTrials = minimumTrials;
     }
 
+    /**
+     * gets experiment description
+     * @return
+     * the experiment description string
+     */
     public String getExperimentDescription() {
         return experimentDescription;
     }
 
+    /**
+     * Sets a new experiment description
+     * @param experimentDescription
+     * the new experiment description
+     */
     public void setExperimentDescription(String experimentDescription) {
         this.experimentDescription = experimentDescription;
     }
-
 
     /**
      * Experiment constructor
@@ -114,29 +190,20 @@ public class Experiment {
 
     }
 
+    /**
+     * Geological region required state
+     * @return
+     * state of geological requirement
+     */
     public boolean isRequireGeo() {
         return requireGeo;
     }
 
+    /**
+     * Sets if geological region is required
+     * @param requireGeo
+     */
     public void setRequireGeo(boolean requireGeo) {
         this.requireGeo = requireGeo;
     }
-
-    public Experiment(String experimentID, String experimentName, String ownerID, String experimentDescription, int trialType, String region, int minimumTrials, boolean requireGeo) {
-
-        // TODO Generate id that is not already in the database
-        // TODO Get user from id database
-        this.experimentName = experimentName;
-        this.experimentID = experimentID;
-        this.ownerID = ownerID;
-        this.trialType = trialType;
-        this.region = region;
-        this.minimumTrials = minimumTrials;
-        this.experimentDescription = experimentDescription;
-        this.requireGeo = requireGeo;
-
-    }
-
-
-
 }
