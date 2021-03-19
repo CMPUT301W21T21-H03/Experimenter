@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment implements UserManager.LocalUserCallb
 
 
 
-    public HomeFragment(){
+    public HomeFragment() {
         super(R.layout.fragment_home);
         Log.d("stuff", "fragment, constructor");
     }
@@ -258,7 +258,7 @@ public class HomeFragment extends Fragment implements UserManager.LocalUserCallb
 
             switch (position){
                 case 0:
-                    return  new ProfileExpFrag();
+                    return new ProfileExpFrag();
                 case 1:
                     return new TestFrag();
                 case 2:
