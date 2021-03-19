@@ -35,7 +35,7 @@ public class ProfileExpFrag extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Experiment[] exps = {};
+        Experiment[] exps = {new Experiment()};
         adapter = new ExperimentAdapter(Arrays.asList(exps));
         RecyclerView recycler = view.findViewById(R.id.experimentList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));

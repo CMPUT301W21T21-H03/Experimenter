@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_explore" />
     <fragment
         android:id="@+id/navigation_experimentFragment"
-        android:name="com.DivineInspiration.experimenter.Activity.UI.Profile.navigation_experimentFragment"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.Profile.NavigationExperimentFragment"
         android:label="fragment_navigation_experiment"
         tools:layout="@layout/fragment_navigation_experiment" />
 </navigation>

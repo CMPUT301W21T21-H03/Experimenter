@@ -18,14 +18,13 @@ import com.DivineInspiration.experimenter.R;
 import static android.content.ContentValues.TAG;
 
 
-public class navigation_experimentFragment extends Fragment {
+public class NavigationExperimentFragment extends Fragment {
     private TextView demo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments()!=null){
-
         }
 
     }
@@ -40,7 +39,7 @@ public class navigation_experimentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        demo = view.findViewById(R.id.demo);
+        demo = view.findViewById(R.id.experimentName_expFrag);
         demo.setText(String.valueOf(getArguments().getInt("lol")));
     }
 }
