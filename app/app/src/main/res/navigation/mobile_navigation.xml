@@ -27,10 +27,21 @@
         android:id="@+id/navigation_explore"
         android:name="com.DivineInspiration.experimenter.Activity.UI.Explore.ExploreFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_explore" />
+        tools:layout="@layout/fragment_explore" >
+        <action
+            android:id="@+id/exploreToEx"
+            app:destination="@id/navigationExploreExperimentFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_experimentFragment"
         android:name="com.DivineInspiration.experimenter.Activity.UI.Profile.NavigationExperimentFragment"
         android:label="fragment_navigation_experiment"
         tools:layout="@layout/fragment_navigation_experiment" />
+    <fragment
+        android:id="@+id/navigationExploreExperimentFragment"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.Explore.NavigationExploreExperimentFragment"
+        android:label="fragment_navigation_explore_experiment"
+        tools:layout="@layout/fragment_navigation_explore_experiment" />
 </navigation>
