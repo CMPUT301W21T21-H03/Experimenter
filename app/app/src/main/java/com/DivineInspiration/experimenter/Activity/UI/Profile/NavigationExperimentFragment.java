@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -13,9 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
@@ -29,6 +32,8 @@ import java.util.ArrayList;
 
 
 public class NavigationExperimentFragment extends Fragment implements  UserManager.QueryExpSubCallback{
+    ExperimentManager experimentManager = ExperimentManager.getInstance();
+    UserManager userManager = UserManager.getInstance();
     private TextView experimentName;
     private TextView ownerName;
     private TextView subNumber;
@@ -36,6 +41,7 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
     private TextView trialType;
     private  TextView expAbout;
     private TextView expCity;
+    private SwitchCompat subSwitch;
 
 
     ViewPager2 pager;
@@ -71,6 +77,7 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         trialType = view.findViewById(R.id.trialType_expFrag);
         expAbout = view.findViewById(R.id.experimentDescription_expFrag);
         expCity = view.findViewById(R.id.experimentRegion_expFrag);
+        subSwitch = view.findViewById(R.id.subscribeSwitch);
 
 
 
@@ -99,6 +106,17 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
 
 
         UserManager.getInstance().queryExperimentSubs(exp.getExperimentID(), this);
+
+        subSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    experimentManager.subToExperiment(userManager.getLocalUser().getUserId(),exp.getExperimentID());
+                }else{
+                    experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(),exp.getExperimentID());
+                }
+            }
+        });
 
 
         View setting =   view.findViewById(R.id.setting);
