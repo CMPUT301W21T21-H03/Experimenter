@@ -4,35 +4,31 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Switch;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
-
 
 public class NavigationExperimentFragment extends Fragment implements  UserManager.QueryExpSubCallback{
-    ExperimentManager experimentManager = ExperimentManager.getInstance();
-    UserManager userManager = UserManager.getInstance();
     private TextView experimentName;
     private TextView ownerName;
     private TextView subNumber;
@@ -40,8 +36,14 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
     private TextView trialType;
     private  TextView expAbout;
     private TextView expCity;
-    private SwitchCompat subSwitch;
 
+
+    ViewPager2 pager;
+    HomeFragmentAdapter adapter;
+    TabLayout tabLayout;
+
+
+    String[] tabNames = {"Trials", "Comments", "Stats"};
     private ArrayList<User> subscribers  = new ArrayList<>();
 
     @Override
@@ -69,7 +71,6 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         trialType = view.findViewById(R.id.trialType_expFrag);
         expAbout = view.findViewById(R.id.experimentDescription_expFrag);
         expCity = view.findViewById(R.id.experimentRegion_expFrag);
-        subSwitch = view.findViewById(R.id.subscribeSwitch);
 
 
 
@@ -81,20 +82,23 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
 
-        subSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
+        //view pager
+        pager = view.findViewById(R.id.expPager);
+        adapter = new HomeFragmentAdapter(this);
+        pager.setAdapter(adapter);
+        tabLayout = view.findViewById(R.id.Tablayout);
+        new TabLayoutMediator(tabLayout, pager,true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.d(TAG, "stuff");
-                if(isChecked){
-                    experimentManager.subToExperiment(userManager.getLocalUser().getUserId(),exp.getExperimentID());
-                }else{
-                    experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(),exp.getExperimentID());
-                }
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(tabNames[position]);
             }
-        });
+        }).attach();
+
+
 
         UserManager.getInstance().queryExperimentSubs(exp.getExperimentID(), this);
-
 
 
         View setting =   view.findViewById(R.id.setting);
@@ -125,5 +129,59 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         subscribers.addAll(users);
 
         ((TextView) getView().findViewById(R.id.expFragSubCount)).setText(subscribers.size()+" subscribers");
+    }
+    public  class HomeFragmentAdapter extends FragmentStateAdapter {
+
+        public HomeFragmentAdapter(Fragment frag){
+            super(frag);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+
+
+            switch (position){
+                case 0:
+                    return new TestFrag();
+                case 1:
+                    return new TestFrag();
+                case 2:
+                    return  new TestFrag();
+                default:
+                    return  new TestFrag();
+            }
+
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return 3;
+        }
+    }
+
+    public static class TestFrag extends Fragment {
+
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.test, container, false);
+        }
+
+
+
+
+        @Override
+        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            ListView list = view.findViewById(R.id.testList);
+
+            String[] items = {"Russell’s", "Paradox", "tells", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
+
+            list.setAdapter(adapter);
+
+        }
     }
 }

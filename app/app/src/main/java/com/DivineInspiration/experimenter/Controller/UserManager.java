@@ -102,7 +102,7 @@ public class UserManager implements IdGen.IDCallBackable {
 
             Gson gson = new Gson();
             user = gson.fromJson(pref.getString("User", ""), User.class);
-            Log.d("stuff", user.toString());
+            updateUser(user, null);
             if(callback != null){
                 callback.onLocalUserReady(user);
             }
@@ -213,7 +213,7 @@ public class UserManager implements IdGen.IDCallBackable {
         SharedPreferences.Editor prefEditor = pref.edit();
         prefEditor.putString("User", gson.toJson(user));
         prefEditor.apply();
-        Log.d("inside manager", user.toString());
+
 
         Map<String, Object> doc = new HashMap<>();
             doc.put("UserDescription", user.getDescription());

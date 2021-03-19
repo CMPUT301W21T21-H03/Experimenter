@@ -159,32 +159,7 @@ public class ProfileFragment extends Fragment implements UserManager.LocalUserCa
             }
         });
 
-    //    experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
 
-
-        /*
-        appbar stuff
-        https://stackoverflow.com/questions/31662416/show-collapsingtoolbarlayout-title-only-when-collapsed
-         */
-//        appBar = (AppBarLayout)view.findViewById(R.id.appBar);
-//        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            boolean showing = true;
-//            int scrollRange = -1;
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                if(scrollRange == -1){
-//                    scrollRange = appBarLayout.getTotalScrollRange();
-//                }
-//                if(scrollRange + verticalOffset == 0){
-//                    showing = true;
-//                    toolbar.setTitle("Put user here");
-//                }
-//                else if (showing){
-//                    showing = false;
-//                 toolbar.setTitle(" ");
-//                }
-//            }
-//        });
     }
 
     @Override
@@ -252,9 +227,9 @@ public class ProfileFragment extends Fragment implements UserManager.LocalUserCa
 
             switch (position){
                 case 0:
-                    return new ProfileExpFrag();
+                    return new ExperimentTabFragment();
                 case 1:
-                    return new ProfileSubFrag();
+                    return new SubscriptionTabFragment();
                 case 2:
                     return  new TestFrag();
                 default:
