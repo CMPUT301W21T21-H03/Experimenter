@@ -29,13 +29,10 @@
         android:name="com.DivineInspiration.experimenter.Activity.UI.Explore.ExploreFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_explore" >
-
-
         <action
             android:id="@+id/exploreToEx"
-            app:destination="@id/navigationExploreExperimentFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit" />
+            app:destination="@id/navigation_experimentFragment"
+            app:enterAnim="@anim/fragment_open_enter" />
     </fragment>
     <fragment
         android:id="@+id/navigation_experimentFragment"
@@ -44,9 +41,4 @@
         tools:layout="@layout/fragment_navigation_experiment" />
 
     <!-- TODO Implement back button -->
-    <fragment
-        android:id="@+id/navigationExploreExperimentFragment"
-        android:name="com.DivineInspiration.experimenter.Activity.UI.Explore.NavigationExploreExperimentFragment"
-        android:label="fragment_navigation_explore_experiment"
-        tools:layout="@layout/fragment_navigation_explore_experiment" />
 </navigation>

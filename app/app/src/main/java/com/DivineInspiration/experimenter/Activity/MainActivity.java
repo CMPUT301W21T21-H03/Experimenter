@@ -16,9 +16,10 @@ import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements  ExperimentManager.ExperimentReadyCallback{
+public class MainActivity extends AppCompatActivity implements  ExperimentManager.ExperimentReadyCallback, UserManager.QueryExpSubCallback{
 
 
     @Override
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements  ExperimentManage
 //        manager.addExperiment(testExp);
 //
 //
+//        UserManager.getInstance().queryExperimentSubs("EXPQQ7LRLL0BHLTB", this);
 
 
 
@@ -57,6 +59,14 @@ public class MainActivity extends AppCompatActivity implements  ExperimentManage
     public void onExperimentsReady(List<Experiment> experiments) {
         for(Experiment e : experiments){
             Log.d("stuff", e.getExperimentID());
+        }
+    }
+
+    @Override
+    public void onQueryUserSubsReady(ArrayList<User> users) {
+        Log.d("stuff", "check");
+        for(User u : users){
+            Log.d("stuff", "User from sub id:" + u.getUserId());
         }
     }
 }

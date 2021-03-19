@@ -57,7 +57,9 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
             @Override
             public void onClick(View v) {
                 // Explore is kinda Sus
-                Navigation.findNavController(v).navigate(R.id.exploreToEx);
+                Bundle args = new Bundle();
+                args.putSerializable("experiment", experiments.get(position));
+                Navigation.findNavController(v).navigate(R.id.exploreToEx, args);
             }
         });
     }

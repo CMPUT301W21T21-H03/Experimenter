@@ -17,9 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +38,7 @@ public class UserManager implements IdGen.IDCallBackable {
     private static UserManager local= null;
     private LocalUserCallback callbackHolder; // janky solution 101
     private User user;
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     /**
      * Required extends
      */
@@ -50,6 +52,10 @@ public class UserManager implements IdGen.IDCallBackable {
     public interface QuerySingleUserCallback{
         void onQueryUserReady(User user);
 
+    }
+
+    public interface QueryExpSubCallback {
+        void onQueryUserSubsReady(ArrayList<User> users);
     }
 
 //    private UserManager()  {
@@ -117,7 +123,7 @@ public class UserManager implements IdGen.IDCallBackable {
      */
     @SuppressWarnings("unchecked")
     public void queryUser(String id, QuerySingleUserCallback callback){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         DocumentReference doc = db.collection("Users").document(id);
         doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -125,13 +131,8 @@ public class UserManager implements IdGen.IDCallBackable {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     if(document!=null &&document.exists() && document.get("Contacts") instanceof Map){
-                        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
-                        String description = document.getString("UserDecription");
-                        String name = document.getString("UserName");
-                        assert contact != null;
-                        callback.onQueryUserReady(new User(name, id,
-                                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
-                                ), description));
+
+                        callback.onQueryUserReady(userFromSnapshot(document));
                     }
 
                 }
@@ -141,6 +142,55 @@ public class UserManager implements IdGen.IDCallBackable {
             }
         });
     }
+
+    private User userFromSnapshot(DocumentSnapshot document){
+        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
+        String description = document.getString("UserDecription");
+        String name = document.getString("UserName");
+
+        assert contact != null;
+        User temp = new User(name, document.getId(),
+                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
+                ), description);
+        return  temp;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void queryExperimentSubs(String expId, QueryExpSubCallback callback){
+        db.collection("Experiments").document(expId).get().addOnCompleteListener(
+                new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                             ArrayList<String> userIds = (ArrayList<String>)task.getResult().get("SubscriberIDs");
+
+                             if(userIds.size() ==0){
+                                 callback.onQueryUserSubsReady(new ArrayList<User>());
+                             }
+                             else{
+                                 db.collection("Users").whereIn("__name__", userIds).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                     @Override
+                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                         ArrayList<User> output = new ArrayList<>();
+                                         if(task.isSuccessful()){
+                                             for(DocumentSnapshot snap: task.getResult()){
+                                                 output.add(userFromSnapshot(snap));
+                                             }
+                                             callback.onQueryUserSubsReady(output);
+                                         }
+                                     }
+                                 });
+                             }
+
+                        }else
+                        {
+                            Log.d("stuff", "oh no!");
+                        }
+                    }
+                }
+        );
+    }
+
 
 
     /**
@@ -164,7 +214,7 @@ public class UserManager implements IdGen.IDCallBackable {
         prefEditor.putString("User", gson.toJson(user));
         prefEditor.apply();
         Log.d("inside manager", user.toString());
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         Map<String, Object> doc = new HashMap<>();
             doc.put("UserDescription", user.getDescription());
             doc.put("UserName", user.getUserName());
