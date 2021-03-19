@@ -28,7 +28,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
     private static ExperimentManager singleton;
     private ArrayList<Experiment> experiments;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final String TAG = "ExperimentManager";
 
     public interface ExperimentReadyCallback{
          void onExperimentsReady(List<Experiment> experiments);
@@ -46,6 +45,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
         return singleton;
     }
+
 
 
 

@@ -21,19 +21,17 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
-import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 
-public class HomeFragment extends Fragment implements UserManager.LocalUserCallback, UserManager.QuerySingleUserCallback {
+public class ProfileFragment extends Fragment implements UserManager.LocalUserCallback, UserManager.QuerySingleUserCallback {
 
-    public HomeFragment() {
+    public ProfileFragment() {
         super(R.layout.fragment_home);
         Log.d("stuff", "fragment, constructor");
     }
@@ -157,7 +155,7 @@ public class HomeFragment extends Fragment implements UserManager.LocalUserCallb
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new EditProfileDialogFragment(HomeFragment.this).show(getChildFragmentManager(),"Edit Profile");
+                new EditProfileDialogFragment(ProfileFragment.this).show(getChildFragmentManager(),"Edit Profile");
             }
         });
 
