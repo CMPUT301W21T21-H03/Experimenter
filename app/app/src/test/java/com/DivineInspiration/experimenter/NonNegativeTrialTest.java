@@ -21,17 +21,18 @@ public class NonNegativeTrialTest {
 
 
     private Experiment mockExperiment() {
+        User user = mockExperimentOwner();
         Experiment experiment = new Experiment("EXPQQ7FKJB9CVDUE", "Pass or Fail",
-                mockExperimentOwner().getUserId() , "keeps count if you failed or passed",
-                1, "Edmonton", 10, true);
+                user.getUserId(), user.getUserName(), "keeps count if you failed or passed",
+                -1, "Edmonton", 10, true);
         return experiment;
     }
     private User mockTrialOwner() {
-        User user = new User("Edmonton", "XDC23ABC9K", mockContactInfo(), "test description!!!!");
+        User user = new User("Sheldon", "XDC23ABC9K", mockContactInfo(), "test description!!!!");
         return user;
     }
     private User mockExperimentOwner() {
-        User user = new User("Calgary", "XDC23DEF9K", mockContactInfo(), "aoooga");
+        User user = new User("Bob", "XDC23DEF9K", mockContactInfo(), "aoooga");
         return user;
     }
 
