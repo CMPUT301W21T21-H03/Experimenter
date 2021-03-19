@@ -14,6 +14,8 @@ public abstract class Trial {
     public static final int NONNEGATIVE = -1;
     public static final int MEASURE = 3;
 
+
+    public static final String[] Type2String = {"Count Trial", "Binomial Trial", "Non Negative Trial", "Measurement Trial"};
     /**
      * Gets the ID of the trial
      * @return

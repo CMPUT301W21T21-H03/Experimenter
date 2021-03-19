@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment implements UserManager.LocalUserCa
 
 
         //viewpager
-        pager = view.findViewById(R.id.pager);
+        pager = view.findViewById(R.id.expPager);
         adapter = new HomeFragmentAdapter(this);
         pager.setAdapter(adapter);
 

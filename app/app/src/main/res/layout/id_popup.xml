@@ -7,7 +7,7 @@
     android:background="@color/black1">
     <androidx.viewpager2.widget.ViewPager2
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pager"
+        android:id="@+id/expPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <LinearLayout
