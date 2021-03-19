@@ -50,88 +50,100 @@
                         android:orientation="vertical"
                         android:layout_weight="2">
 
-                        <TextView
-                            android:id="@+id/experimentName_expFrag"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Experiment Name"
-                            android:textSize="24sp"
-                            tools:textStyle="bold" />
-
-                        <View
-                            android:id="@+id/sectionDivideLineName_expFrag2"
-                            android:layout_width="match_parent"
-                            android:layout_height="1.5dp"
-                            android:layout_marginVertical="4dp"
-                            android:layout_weight="1"
-                            android:background="@color/gray" />
-
                         <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:orientation="vertical">
-
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/subscribeSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:background="@drawable/rounded_button"
-                            android:backgroundTint="@color/black1"
-                            android:text="Subscribe"
-                            android:textAlignment="center"
-                            android:textColor="@color/beige1"
-                            android:layout_gravity="center|left"/>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="right">
+                            android:layout_height="match_parent">
 
-                            <androidx.appcompat.widget.AppCompatImageButton
-                                android:id="@+id/profile"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginEnd="10dp"
-                                android:background="@drawable/user"
+                            <TextView
+                                android:id="@+id/experimentName_expFrag"
+                                android:layout_width="326dp"
+                                android:layout_height="wrap_content"
+                                android:text="Experiment Name"
+                                android:textSize="24sp"
+                                tools:textStyle="bold" />
 
-                                android:backgroundTint="@color/beige1"
-                                android:clickable="true"
-                                app:layout_constraintEnd_toStartOf="@+id/setting"
-                                app:layout_constraintTop_toTopOf="parent" />
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right">
 
-                            <androidx.appcompat.widget.AppCompatImageButton
-                                android:id="@+id/setting"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginEnd="10dp"
-                                android:background="@drawable/settings"
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/profile"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="top|right"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/user"
+                                    android:backgroundTint="@color/beige1"
+                                    android:clickable="true"
+                                    app:layout_constraintEnd_toStartOf="@+id/setting"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/setting"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/settings"
 
 
-                                android:backgroundTint="@color/beige1"
-                                android:clickable="true"
-                                android:defaultFocusHighlightEnabled="false"
-                                android:focusable="true"
-                                android:visibility="visible"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                                    android:backgroundTint="@color/beige1"
+                                    android:clickable="true"
+                                    android:defaultFocusHighlightEnabled="false"
+                                    android:focusable="true"
+                                    android:visibility="visible"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </FrameLayout>
 
-
-                    </FrameLayout>
 
                         <TextView
                             android:id="@+id/ownerName_expFrag"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
                             android:text="owner Name"
                             android:textSize="15sp" />
-                        <TextView
-                            android:id="@+id/experimentRegion_expFrag"
+
+                        <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Region" />
+
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:id="@+id/expFragSubCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_weight="1"
+                                android:text="#subscribersNum" />
+
+                            <TextView
+                                android:id="@+id/experimentRegion_expFrag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginTop="20dp"
+                                android:layout_weight="1"
+                                android:text="Region" />
+
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/subscribeSwitch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center|right"
+                                android:background="@drawable/rounded_button"
+                                android:backgroundTint="@color/black1"
+                                android:text="Subscribe"
+                                android:textAlignment="center"
+                                android:textColor="@color/beige1" />
+
+
+                        </FrameLayout>
+
                         <View
                             android:id="@+id/sectionDivideLineName_expFrag"
                             android:layout_width="match_parent"
@@ -150,13 +162,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-
-                    <TextView
-                        android:id="@+id/expFragSubCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="#subscribersNum" />
 
                     <TextView
                         android:id="@+id/trialNumber_expFrag"
@@ -199,7 +204,7 @@
 
                 android:id="@+id/expToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="48dp"
                 app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

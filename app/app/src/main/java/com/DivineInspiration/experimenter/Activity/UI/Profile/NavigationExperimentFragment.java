@@ -86,8 +86,8 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
 
         Experiment exp = (Experiment)getArguments().getSerializable("experiment");
         experimentName.setText(exp.getExperimentName());
-        ownerName.setText(exp.getOwnerName());
-        expCity.setText(exp.getRegion());
+        ownerName.setText("Created by " + exp.getOwnerName());
+        expCity.setText(exp.getRegion() +" city");
         trialNumber.setText(String.valueOf(exp.getMinimumTrials())+" trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
