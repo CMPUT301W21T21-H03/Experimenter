@@ -105,8 +105,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
-
-
     public void querySearch(String keywords, ExperimentReadyCallback callback){
         //TODO to be implemented
         callback.onExperimentsReady(null);
@@ -153,6 +151,26 @@ public class ExperimentManager extends ArrayList<Experiment> {
             }
         });
     }
+
+    public void queryAll(ExperimentReadyCallback callback) {
+        db.collection("Experiments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    if(callback!=null){
+                        List<Experiment> output = new ArrayList<>();
+                        for (QueryDocumentSnapshot snapshot: task.getResult()){
+                            output.add(expFromSnapshot(snapshot));
+                        }
+                        callback.onExperimentsReady(output);
+                    }
+                }
+                else{
+                    Log.d("stuff", "query user subscriptions failed!");
+                    callback.onExperimentsReady(null);
+                }
+            }
+        });    }
 
     private Experiment expFromSnapshot(QueryDocumentSnapshot snapshot){
         return new Experiment(
