@@ -8,34 +8,29 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="#80D5D4FF"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
-        <SearchView
-            android:id="@+id/experimentSearch"
-            android:layout_width="255dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="12dp"
-            android:layout_marginLeft="24dp"
-            android:autofillHints="Search"
-            android:background="@drawable/rounded_shape"
-            android:orientation="horizontal"
-            android:queryHint="Search">
-
-        </SearchView>
-
-        <ImageView
-            android:id="@+id/settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            app:srcCompat="@drawable/setting" />
-
     </LinearLayout>
+
+    <SearchView
+        android:id="@+id/experimentSearch"
+        android:layout_width="255dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="12dp"
+        android:autofillHints="Search"
+        android:background="@drawable/rounded_shape"
+        android:orientation="horizontal"
+        android:queryHint="Search"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </SearchView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,13 +62,19 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
         return experiments.size();
     }
 
+    public void setData(List<Experiment> experimentData) {
+        experiments.clear();
+        experiments.addAll(experimentData);
+        notifyDataSetChanged();
 
+        Log.d("ExperimentAdapter", "New Data -> " + experiments.toString());
+    }
 
-    public static class ViewHolder extends  RecyclerView.ViewHolder{
+    public static class ViewHolder extends  RecyclerView.ViewHolder {
         private final TextView text;
         private final CardView card;
 
-        public ViewHolder (View v){
+        public ViewHolder(View v) {
             super(v);
 
             text = v.findViewById(R.id.expListTitle);
@@ -78,7 +84,9 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
         public TextView getTextView() {
             return text;
         }
-        public CardView getCardView(){return card;}
-    }
 
+        public CardView getCardView() {
+            return card;
+        }
+    }
 }
