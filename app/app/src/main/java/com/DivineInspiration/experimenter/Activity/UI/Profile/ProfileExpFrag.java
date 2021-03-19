@@ -52,7 +52,7 @@ public class ProfileExpFrag extends Fragment implements CreateExperimentDialogFr
     @Override
     public void experimentAdded(Experiment experiment) {
         exps.add(0,experiment);
-        adapter.notifyItemChanged(0);
+        adapter.notifyItemInserted(0);
     }
 
     @Override
