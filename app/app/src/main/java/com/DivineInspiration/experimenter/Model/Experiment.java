@@ -13,6 +13,7 @@ public class Experiment {
     private String region;
     private int minimumTrials;
     private String experimentDescription;
+    private  boolean requireGeo;
 
 
     public static final int ONGOING = 10;
@@ -94,7 +95,7 @@ public class Experiment {
      * @param experimentDescription
      * description of experiment
      */
-    public Experiment(String experimentName, String ownerID, String experimentDescription, int trialType, String region, int minimumTrials) {
+    public Experiment(String experimentName, String ownerID, String experimentDescription, int trialType, String region, int minimumTrials, boolean requireGeo) {
 
         // TODO Generate id that is not already in the database
         // TODO Get user from id database
@@ -105,10 +106,20 @@ public class Experiment {
         this.region = region;
         this.minimumTrials = minimumTrials;
         this.experimentDescription = experimentDescription;
+        this.requireGeo = requireGeo;
 
 
     }
-    public Experiment(String experimentID, String experimentName, String ownerID, String experimentDescription, int trialType, String region, int minimumTrials) {
+
+    public boolean isRequireGeo() {
+        return requireGeo;
+    }
+
+    public void setRequireGeo(boolean requireGeo) {
+        this.requireGeo = requireGeo;
+    }
+
+    public Experiment(String experimentID, String experimentName, String ownerID, String experimentDescription, int trialType, String region, int minimumTrials, boolean requireGeo) {
 
         // TODO Generate id that is not already in the database
         // TODO Get user from id database
@@ -119,7 +130,7 @@ public class Experiment {
         this.region = region;
         this.minimumTrials = minimumTrials;
         this.experimentDescription = experimentDescription;
-
+        this.requireGeo = requireGeo;
 
     }
 

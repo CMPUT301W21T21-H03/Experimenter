@@ -39,14 +39,14 @@ public class MainActivity extends AppCompatActivity implements  ExperimentManage
         NavigationUI.setupWithNavController(navView, navController);
 
 
-        //testing
-//        Experiment testExp = new Experiment("Woah exp name", "ownerID", "woah dude!", 1, "testing region", 20);
-
+//        
+//        Experiment testExp = new Experiment("Test", "ownerID", "woah dude!", 1, "testing region", 20, false);
+//
 //        ExperimentManager manager = ExperimentManager.getInstance();
 //
-//       manager.queryUserSubs("user Id", this);
+//        manager.addExperiment(testExp);
 //
-
+//
 
 
 
