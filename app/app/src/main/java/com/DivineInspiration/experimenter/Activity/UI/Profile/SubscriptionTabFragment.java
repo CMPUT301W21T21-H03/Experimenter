@@ -20,7 +20,7 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileSubFrag extends Fragment implements ExperimentManager.ExperimentReadyCallback {
+public class SubscriptionTabFragment extends Fragment implements ExperimentManager.ExperimentReadyCallback {
 
     private ExperimentAdapter adapter;
     ArrayList<Experiment> subExps = new ArrayList<>();

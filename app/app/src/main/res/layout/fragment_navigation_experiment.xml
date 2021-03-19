@@ -58,45 +58,35 @@
                             android:textSize="24sp"
                             tools:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/ownerName_expFrag"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="owner Name"
-                            android:textSize="15sp" />
-                        <TextView
-                            android:id="@+id/experimentRegion_expFrag"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Region" />
                         <View
-                            android:id="@+id/sectionDivideLineName_expFrag"
+                            android:id="@+id/sectionDivideLineName_expFrag2"
                             android:layout_width="match_parent"
                             android:layout_height="1.5dp"
                             android:layout_marginVertical="4dp"
                             android:layout_weight="1"
                             android:background="@color/gray" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+
+                        <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
                         android:orientation="vertical">
 
-                        <androidx.appcompat.widget.SwitchCompat
+                        <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/subscribeSwitch"
                             android:layout_width="wrap_content"
-                            android:layout_height="40dp"
+                            android:layout_height="35dp"
                             android:background="@drawable/rounded_button"
                             android:backgroundTint="@color/black1"
                             android:text="Subscribe"
                             android:textAlignment="center"
-                            android:textColor="@color/beige1" />
+                            android:textColor="@color/beige1"
+                            android:layout_gravity="center|left"/>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right">
 
                             <androidx.appcompat.widget.AppCompatImageButton
                                 android:id="@+id/profile"
@@ -128,7 +118,30 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+                    </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/ownerName_expFrag"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="owner Name"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:id="@+id/experimentRegion_expFrag"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Region" />
+                        <View
+                            android:id="@+id/sectionDivideLineName_expFrag"
+                            android:layout_width="match_parent"
+                            android:layout_height="1.5dp"
+                            android:layout_marginVertical="4dp"
+                            android:layout_weight="1"
+                            android:background="@color/gray" />
+
                     </LinearLayout>
+
                 </LinearLayout>
 
 
@@ -206,21 +219,11 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-
-
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/expPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
-
-
-
-
-
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
     <!--        <include-->

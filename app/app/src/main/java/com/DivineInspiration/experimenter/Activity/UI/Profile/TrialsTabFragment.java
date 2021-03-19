@@ -1,4 +1,4 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
-public class ProfileTrialFrag {
+public class TrialsTabFragment {
 }
