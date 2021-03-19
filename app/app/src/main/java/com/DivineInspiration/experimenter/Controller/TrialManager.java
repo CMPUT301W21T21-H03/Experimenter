@@ -1,11 +1,16 @@
 package com.DivineInspiration.experimenter.Controller;
 
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+// Talks to firebase
 public class TrialManager extends ArrayList<Trial> {
+
     private ArrayList<Trial> trials;
+    private FirebaseFirestore db;
+
     // maybe better to do in experiments class
 //    private int[] blocklist;
     private String trialType;
