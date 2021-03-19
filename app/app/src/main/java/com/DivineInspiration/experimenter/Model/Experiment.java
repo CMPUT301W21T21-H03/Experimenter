@@ -4,9 +4,22 @@ import com.DivineInspiration.experimenter.Model.Trial.Trial;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.UUID;
 
 public class Experiment implements Serializable {
+
+    public static class sortByDescDate implements Comparator<Experiment> {
+
+
+        @Override
+        public int compare(Experiment o1, Experiment o2) {
+            return -(o1.getExperimentID().compareTo(o2.getExperimentID()));//since exp id is time sortable, reverse sorting gives the desired effect
+        }
+    }
+
+
+
     private String experimentID;
     private String experimentName;
     private  String ownerID;

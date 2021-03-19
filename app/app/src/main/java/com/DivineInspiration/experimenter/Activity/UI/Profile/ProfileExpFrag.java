@@ -19,6 +19,7 @@ import com.DivineInspiration.experimenter.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ProfileExpFrag extends Fragment implements CreateExperimentDialogFragment.ExperimentAddedCallback, ExperimentManager.ExperimentReadyCallback
@@ -59,6 +60,7 @@ public class ProfileExpFrag extends Fragment implements CreateExperimentDialogFr
     public void onExperimentsReady(List<Experiment> experiments) {
         exps.clear();
         exps.addAll(experiments);
+        Collections.sort(exps, new Experiment.sortByDescDate());
         adapter.notifyDataSetChanged();
     }
 }
