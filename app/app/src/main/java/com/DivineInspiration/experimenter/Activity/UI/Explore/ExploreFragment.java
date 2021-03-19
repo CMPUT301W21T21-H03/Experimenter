@@ -1,6 +1,8 @@
 package com.DivineInspiration.experimenter.Activity.UI.Explore;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,9 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
 
     public ExploreListAdapter exploreListAdapter;
     public List<Experiment> dataList = new ArrayList<>();
+    public List<Experiment> shownList = new ArrayList<>();
+
+    private CharSequence searchText;
 
     /**
      * Fragment initializer
@@ -39,6 +44,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
 
         this.exploreListAdapter = new ExploreListAdapter();
         this.dataList = new ArrayList<>();
+        this.shownList = new ArrayList<>();
     }
 
     /**
@@ -73,8 +79,46 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
         // experimentList.setOnItemClickListener(itemClickListener);
 
         // TODO: search -> filter results
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchText = charSequence;
+                Log.v("Thing:", charSequence.toString());
+                // filter text
+                filter();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         return root;
+    }
+
+    public void filter() {
+        // if string is empty, reinit with all data
+        if (searchText.length() == 0) {
+            exploreListAdapter.setData(dataList);
+        } else {
+            shownList = new ArrayList<>();
+            for (int i = 0; i < dataList.size(); i++) {
+                String name = dataList.get(i).getExperimentName().toLowerCase();
+                if (name.contains(searchText.toString().toLowerCase())) {
+                    shownList.add(dataList.get(i));
+
+                }
+            }
+         exploreListAdapter.setData(shownList);
+         exploreListAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -86,7 +130,10 @@ public class ExploreFragment extends Fragment implements ExperimentManager.Exper
         }
 
         dataList = queryList;
-        exploreListAdapter.setData(dataList);
-        Log.d("ExploreFragment", dataList.toString());
+        shownList = queryList;
+        dataList.add(new Experiment());
+        dataList.add(new Experiment());
+        exploreListAdapter.setData(shownList);
+        Log.d("ExploreFragment", shownList.toString());
     }
 }
