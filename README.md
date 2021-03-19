@@ -14,6 +14,8 @@ Use the [wiki](https://github.com/CMPUT301W21T21-H03/DivineInspiration/wiki) to 
 
 JavaDoc for the project can be found [here](https://cmput301w21t21-h03.github.io/JavaDocs/)
 
+[Figma](https://www.figma.com/file/fUZiC95RLebioQZ5b6f66J/301-Project?node-id=112%3A2)
+
 ### List of Issues
 
 A list of issues [here](https://github.com/CMPUT301W21T21-H03/DivineInspiration/issues ) 
