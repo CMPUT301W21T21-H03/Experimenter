@@ -6,133 +6,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+
+    <EditText
+        android:id="@+id/newExpName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/newExpText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newExpName" />
+
+    <Spinner
+        android:id="@+id/newExpTrialType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#80FFFFFF"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newExpText" />
 
-        <TextView
-            android:id="@+id/add_experiment_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Add Experiment"
-            android:textAlignment="center"
-            android:textSize="30sp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/experiment_page_options"
-            android:layout_width="match_parent"
-            android:layout_height="164dp"
-            android:clipChildren="false"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/list_item">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/trial_type_1"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="Binomial Trial"
-                        android:textSize="18sp" />
-
-                    <RadioButton
-                        android:id="@+id/trial_type_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="0+ Count Trial"
-                        android:textSize="18sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/trial_type_3"
-                        android:layout_width="411dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:text="Count Trial"
-                        android:textSize="18sp" />
-
-                    <RadioButton
-                        android:id="@+id/trial_type_4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:text="Measurement"
-                        android:textSize="18sp" />
-                </LinearLayout>
-
-            </RadioGroup>
-
-            <CheckBox
-                android:id="@+id/require_geo_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="Require Geo Location"
-                android:textAlignment="inherit"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/newExpRegion"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newExpTrialType" />
 
-        <Button
-            android:id="@+id/cancel_temp_epxeriment"
-            android:layout_width="171dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="8dp"
-            android:backgroundTint="#FF4C4C"
-            android:padding="10dp"
-            android:text="Cancel"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+    <EditText
+        android:id="@+id/newExpMinTrials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newExpRegion" />
 
-        <Button
-            android:id="@+id/post_temp_epxeriment"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="8dp"
-            android:backgroundTint="#3C90DA"
-            android:padding="10dp"
-            android:text="Post"
-            android:textSize="18sp" />
+    <CheckBox
+        android:id="@+id/newExpGeo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Require geo location?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newExpMinTrials" />
 
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
