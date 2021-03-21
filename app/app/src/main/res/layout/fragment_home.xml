@@ -1,13 +1,14 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/black2"
+
     android:fitsSystemWindows="true"
-    tools:context=".Activity.UI.Profile.ProfileFragment"
-    android:background="@color/black2">
-
-
+    tools:context=".Activity.UI.Profile.ProfileFragment">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -80,26 +81,26 @@
                     android:layout_weight="1"
                     android:background="@color/gray" />
 
-                    <TextView
-                        android:id="@+id/email_Home"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Email" />
+                <TextView
+                    android:id="@+id/email_Home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Email" />
 
-    <!--                <TextView-->
-    <!--                    android:id="@+id/textView3"-->
-    <!--                    android:layout_width="match_parent"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_weight="1"-->
-    <!--                    android:text="Phone#: 123123123" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/textView3"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:text="Phone#: 123123123" />-->
 
-                    <TextView
-                        android:id="@+id/userCity_home"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="City" />
+                <TextView
+                    android:id="@+id/userCity_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="City" />
 
                 <View
                     android:id="@+id/sectionDivideLineAbout_home"
@@ -128,11 +129,11 @@
 
 
         <com.google.android.material.tabs.TabLayout
-            app:layout_constraintTop_toBottomOf="@+id/expAppbar"
             android:id="@+id/Tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black1"
+            app:layout_constraintTop_toBottomOf="@+id/expAppbar"
             app:tabIndicatorAnimationMode="linear"
             app:tabIndicatorColor="#ea6962"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
@@ -142,21 +143,11 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-
-
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/expPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            />
-
-
-
-
-
-
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/expPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
     <!--        <include-->
@@ -180,7 +171,6 @@
         app:borderWidth="0dp"
         app:rippleColor="@color/beige1"
         app:tint="@color/white" />
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

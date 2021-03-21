@@ -1,5 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
+import android.animation.LayoutTransition;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -90,6 +91,9 @@ public class ProfileFragment extends Fragment implements UserManager.LocalUserCa
         dividerLineName_home = view.findViewById(R.id.sectionDivideLineName_home);
         dividerLineAbout_home = view.findViewById(R.id.sectionDivideLineAbout_home);
 
+
+        //smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
+        ((ViewGroup)view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
         //viewpager
         pager = view.findViewById(R.id.expPager);
