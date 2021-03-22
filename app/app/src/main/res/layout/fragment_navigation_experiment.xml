@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/black2">
-
-
+    android:background="@color/black2"
+    android:fitsSystemWindows="true">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -34,115 +32,54 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:orientation="vertical"
+                android:weightSum="2"
                 app:layout_collapseMode="parallax">
 
-                <LinearLayout
+
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-
-
+                    android:layout_height="wrap_content">
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="2">
 
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <TextView
-                                android:id="@+id/experimentName_expFrag"
-                                android:layout_width="326dp"
-                                android:layout_height="wrap_content"
-                                android:text="Experiment Name"
-                                android:textSize="24sp"
-                                tools:textStyle="bold" />
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="right">
-
-                                <androidx.appcompat.widget.AppCompatImageButton
-                                    android:id="@+id/profile"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:layout_gravity="top|right"
-                                    android:layout_marginEnd="10dp"
-                                    android:background="@drawable/user"
-                                    android:backgroundTint="@color/beige1"
-                                    android:clickable="true"
-                                    app:layout_constraintEnd_toStartOf="@+id/setting"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <androidx.appcompat.widget.AppCompatImageButton
-                                    android:id="@+id/setting"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:background="@drawable/settings"
+                        android:orientation="vertical">
 
 
-                                    android:backgroundTint="@color/beige1"
-                                    android:clickable="true"
-                                    android:defaultFocusHighlightEnabled="false"
-                                    android:focusable="true"
-                                    android:visibility="visible"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </FrameLayout>
+                        <TextView
+                            android:id="@+id/experimentName_expFrag"
+                            android:layout_width="326dp"
+                            android:layout_height="wrap_content"
+                            android:text="Experiment Name"
+                            android:textSize="24sp"
+                            tools:textStyle="bold" />
 
 
                         <TextView
                             android:id="@+id/ownerName_expFrag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:text="owner Name"
                             android:textSize="15sp" />
 
-                        <FrameLayout
-                            android:layout_width="match_parent"
+
+                        <TextView
+                            android:id="@+id/expFragSubCount"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="#subscribersNum" />
 
-                            android:orientation="vertical">
-
-
-                            <TextView
-                                android:id="@+id/expFragSubCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:layout_weight="1"
-                                android:text="#subscribersNum" />
-
-                            <TextView
-                                android:id="@+id/experimentRegion_expFrag"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginTop="20dp"
-                                android:layout_weight="1"
-                                android:text="Region" />
-
-                            <com.google.android.material.switchmaterial.SwitchMaterial
-                                android:id="@+id/subscribeSwitch"
-                                android:layout_width="wrap_content"
-                                android:layout_height="35dp"
-                                android:layout_gravity="center|right"
-                                android:background="@drawable/rounded_button"
-                                android:backgroundTint="@color/black1"
-                                android:text="Subscribe"
-                                android:textAlignment="center"
-                                android:textColor="@color/beige1" />
+                        <TextView
+                            android:id="@+id/experimentRegion_expFrag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Region" />
 
 
-                        </FrameLayout>
+
+
 
                         <View
                             android:id="@+id/sectionDivideLineName_expFrag"
@@ -153,8 +90,63 @@
                             android:background="@color/gray" />
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|right"
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            >
+
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/profile"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="top|right"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/user"
+                                android:backgroundTint="@color/beige1"
+                                android:clickable="true"
+                                app:layout_constraintEnd_toStartOf="@+id/setting"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/setting"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/settings"
+
+
+                                android:backgroundTint="@color/beige1"
+                                android:clickable="true"
+                                android:defaultFocusHighlightEnabled="false"
+                                android:focusable="true"
+                                android:visibility="visible"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/subscribeSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+
+                            android:background="@drawable/rounded_button"
+                            android:backgroundTint="@color/black1"
+                            android:text="Subscribe"
+                            android:textAlignment="center"
+                            android:textColor="@color/beige1" />
+                    </LinearLayout>
+                </FrameLayout>
+
+
+
+
 
 
                 <LinearLayout
@@ -172,7 +164,6 @@
                         android:text="#trialsNum" />
 
 
-
                     <TextView
                         android:id="@+id/trialType_expFrag"
                         android:layout_width="wrap_content"
@@ -180,7 +171,6 @@
                         android:layout_weight="1"
                         android:text="Trial Type" />
                 </LinearLayout>
-
 
 
                 <View
@@ -210,11 +200,11 @@
 
 
         <com.google.android.material.tabs.TabLayout
-            app:layout_constraintTop_toBottomOf="@+id/expAppbar"
             android:id="@+id/Tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black1"
+            app:layout_constraintTop_toBottomOf="@+id/expAppbar"
             app:tabIndicatorAnimationMode="linear"
             app:tabIndicatorColor="#ea6962"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
@@ -240,20 +230,18 @@
     <!--            tools:layout_editor_absoluteY="212dp" />-->
 
 
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|right"-->
-<!--        android:layout_marginRight="10dp"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:backgroundTint="@color/red1"-->
-<!--        android:src="@drawable/ic_home_black_24dp"-->
-<!--        app:rippleColor="@color/beige1"-->
-<!--        app:borderWidth="0dp"-->
-<!--        app:tint="@color/white" />-->
-
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fab"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="bottom|right"-->
+    <!--        android:layout_marginRight="10dp"-->
+    <!--        android:layout_marginBottom="10dp"-->
+    <!--        android:backgroundTint="@color/red1"-->
+    <!--        android:src="@drawable/ic_home_black_24dp"-->
+    <!--        app:rippleColor="@color/beige1"-->
+    <!--        app:borderWidth="0dp"-->
+    <!--        app:tint="@color/white" />-->
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
