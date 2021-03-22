@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,7 +63,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
         RecyclerView experimentListView = root.findViewById(R.id.list_experiments);
         experimentListView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         experimentListView.setAdapter(exploreListAdapter);
-
+        experimentListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         // Create the listener
 //        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
 //            public void onItemClick(AdapterView<?> listDrinks, View itemView, int position, long id) {

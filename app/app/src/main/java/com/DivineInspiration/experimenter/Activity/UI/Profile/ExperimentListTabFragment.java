@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +43,7 @@ public class ExperimentListTabFragment extends Fragment implements CreateExperim
         RecyclerView recycler = view.findViewById(R.id.experimentList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
+        recycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         ExperimentManager.getInstance().queryUserExperiment(UserManager.getInstance().getLocalUser().getUserId(), new ExperimentManager.OnExperimentListReadyListener() {
             @Override
             public void onExperimentsReady(List<Experiment> experiments) {
