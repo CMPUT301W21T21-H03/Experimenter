@@ -7,18 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentAdapter;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
@@ -26,7 +21,7 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExploreFragment extends Fragment implements ExperimentManager.ExperimentReadyCallback {
+public class ExploreFragment extends Fragment implements ExperimentManager.OnExperimentListReadyListener {
 
     public ExploreListAdapter exploreListAdapter;
     public List<Experiment> dataList = new ArrayList<>();

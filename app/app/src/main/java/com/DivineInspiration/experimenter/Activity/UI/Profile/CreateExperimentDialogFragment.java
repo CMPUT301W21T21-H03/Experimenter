@@ -3,11 +3,9 @@ package com.DivineInspiration.experimenter.Activity.UI.Profile;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -27,12 +25,12 @@ import com.DivineInspiration.experimenter.R;
 
 public class CreateExperimentDialogFragment extends DialogFragment  implements AdapterView.OnItemSelectedListener {
 
-    public interface ExperimentAddedCallback{
-        public void experimentAdded(Experiment experiment);
+    public interface OnExperimentAddedListener {
+         void onExperimentAdded(Experiment experiment);
     }
 
 
-    ExperimentAddedCallback callback;
+    OnExperimentAddedListener callback;
     ExperimentManager newExperiment = ExperimentManager.getInstance();
     TextView editExperimentName;
     Spinner trialSpinner;
@@ -45,7 +43,7 @@ public class CreateExperimentDialogFragment extends DialogFragment  implements A
     private String[] values = {Trial.COUNT, Trial.BINOMIAL, Trial.NONNEGATIVE, Trial.MEASURE };
     private String currentSelection;
 
-  public CreateExperimentDialogFragment( ExperimentAddedCallback callback){
+  public CreateExperimentDialogFragment( OnExperimentAddedListener callback){
       super();
       this.callback = callback;
   }
@@ -88,7 +86,7 @@ trialSpinner.setAdapter( adapter);
                     String editExperimentAboutText = editExperimentAbout.getText().toString();
                     Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(),newUser.getUserName(),editExperimentAboutText,currentSelection,editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked());
                     ExperimentManager.getInstance().addExperiment(temp);
-                    callback.experimentAdded(temp);
+                    callback.onExperimentAdded(temp);
                   }
               })
               .setNegativeButton("cancel",null)

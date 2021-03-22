@@ -10,7 +10,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
-import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -31,10 +29,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
 
-
-public class NavigationExperimentFragment extends Fragment implements  UserManager.QueryExpSubCallback{
+public class NavigationExperimentFragment extends Fragment  {
     ExperimentManager experimentManager = ExperimentManager.getInstance();
     UserManager userManager = UserManager.getInstance();
     private TextView experimentName;
@@ -101,7 +97,20 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
             }
         }).attach();
 
-        UserManager.getInstance().queryExperimentSubs(exp.getExperimentID(), this);
+        UserManager.getInstance().queryExperimentSubs(exp.getExperimentID(), new UserManager.OnUserListReadyListener() {
+            @Override
+            public void onUserListReady(ArrayList<User> users) {
+                subscribers.clear();
+                subscribers.addAll(users);
+                for(int i = 0; i < subscribers.size(); i++){
+                    if(UserManager.getInstance().getLocalUser().getUserId().equals(subscribers.get(i).getUserId())){
+                        subSwitch.setChecked(true);
+                    }
+                }
+
+                ((TextView) getView().findViewById(R.id.expFragSubCount)).setText(subscribers.size() + " subscribers");
+            }
+        });
 
         subSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -137,18 +146,6 @@ public class NavigationExperimentFragment extends Fragment implements  UserManag
         }
     }
 
-    @Override
-    public void onQueryUserSubsReady(ArrayList<User> users) {
-        subscribers.clear();
-        subscribers.addAll(users);
-        for(int i = 0; i < subscribers.size(); i++){
-            if(UserManager.getInstance().getLocalUser().getUserId().equals(subscribers.get(i).getUserId())){
-                subSwitch.setChecked(true);
-            }
-        }
-
-        ((TextView) getView().findViewById(R.id.expFragSubCount)).setText(subscribers.size() + " subscribers");
-    }
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
 
         public HomeFragmentAdapter(Fragment frag){

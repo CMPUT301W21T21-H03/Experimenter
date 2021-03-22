@@ -20,7 +20,7 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubscriptionTabFragment extends Fragment implements ExperimentManager.ExperimentReadyCallback {
+public class SubscriptionTabFragment extends Fragment{
 
     private ExperimentAdapter adapter;
     ArrayList<Experiment> subExps = new ArrayList<>();
@@ -43,7 +43,14 @@ public class SubscriptionTabFragment extends Fragment implements ExperimentManag
         RecyclerView recycler = view.findViewById(R.id.experimentList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
-        ExperimentManager.getInstance().queryUserSubs(UserManager.getInstance().getLocalUser().getUserId(), this);
+        ExperimentManager.getInstance().queryUserSubs(UserManager.getInstance().getLocalUser().getUserId(), new ExperimentManager.OnExperimentListReadyListener() {
+            @Override
+            public void onExperimentsReady(List<Experiment> experiments) {
+                subExps.clear();
+                subExps.addAll(experiments);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
 
 
@@ -51,11 +58,5 @@ public class SubscriptionTabFragment extends Fragment implements ExperimentManag
 
 
 
-    @Override
-    public void onExperimentsReady(List<Experiment> experiments) {
-        subExps.clear();
-        subExps.addAll(experiments);
-        adapter.notifyDataSetChanged();
 
-    }
 }

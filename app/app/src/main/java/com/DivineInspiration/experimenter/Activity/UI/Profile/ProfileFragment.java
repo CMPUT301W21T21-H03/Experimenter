@@ -30,7 +30,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 
-public class ProfileFragment extends Fragment implements UserManager.LocalUserCallback, UserManager.QuerySingleUserCallback {
+public class ProfileFragment extends Fragment {
 
     public ProfileFragment() {
         super(R.layout.fragment_home);
@@ -59,20 +59,9 @@ public class ProfileFragment extends Fragment implements UserManager.LocalUserCa
     private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
 
 
-    @Override
-    public void onLocalUserReady(User user) {
-        // Display user information on toolbar
-        displayUserToolbar(user);
 
 
-//        experiments.addExperiment(new Experiment("try1",manager.getLocalUser(),"lol") );
-    }
 
-    @Override
-    public void onQueryUserReady(User user) {
-//        Experiment testExp = new Experiment("Testing exp", user.getUserId(), "woah dude!", 1, "testing region", 20);
-//        experimentManager.addExperiment(testExp);
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -134,7 +123,12 @@ public class ProfileFragment extends Fragment implements UserManager.LocalUserCa
 
         //setup local user
         manager.setContext(getContext());
-        manager.initializeLocalUser(this);
+        manager.initializeLocalUser(new UserManager.OnUserReadyListener() {
+            @Override
+            public void onUserReady(User user) {
+                displayUserToolbar(user);
+            }
+        });
 
 
         // title is transparent when expanded
@@ -151,7 +145,7 @@ public class ProfileFragment extends Fragment implements UserManager.LocalUserCa
             public void onClick(View v) {
 //              Snackbar.make(view, "Woaaaaaah dude!!!", Snackbar.LENGTH_LONG).show();
 //              manager.queryUser(manager.getLocalUser().getUserId(), HomeFragment.this);
-                new CreateExperimentDialogFragment((CreateExperimentDialogFragment.ExperimentAddedCallback)getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(),"create experiment");
+                new CreateExperimentDialogFragment((CreateExperimentDialogFragment.OnExperimentAddedListener)getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(),"create experiment");
             }
         });
 
@@ -159,7 +153,12 @@ public class ProfileFragment extends Fragment implements UserManager.LocalUserCa
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new EditProfileDialogFragment(ProfileFragment.this).show(getChildFragmentManager(),"Edit Profile");
+                new EditProfileDialogFragment(new UserManager.OnUserReadyListener() {
+                    @Override
+                    public void onUserReady(User user) {
+                        displayUserToolbar(user);
+                    }
+                }).show(getChildFragmentManager(),"Edit Profile");
             }
         });
 
@@ -231,7 +230,7 @@ public class ProfileFragment extends Fragment implements UserManager.LocalUserCa
 
             switch (position){
                 case 0:
-                    return new ExperimentTabFragment();
+                    return new ExperimentListTabFragment();
                 case 1:
                     return new SubscriptionTabFragment();
                 case 2:

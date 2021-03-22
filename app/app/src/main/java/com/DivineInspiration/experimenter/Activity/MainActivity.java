@@ -19,7 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements  ExperimentManager.ExperimentReadyCallback, UserManager.QueryExpSubCallback{
+public class MainActivity extends AppCompatActivity  {
 
 
     @Override
@@ -40,34 +40,9 @@ public class MainActivity extends AppCompatActivity implements  ExperimentManage
         NavigationUI.setupWithNavController(navView, navController);
 
 
-//        
-//        Experiment testExp = new Experiment("Test", "ownerID", "woah dude!", 1, "testing region", 20, false);
-//
-//        ExperimentManager manager = ExperimentManager.getInstance();
-//
-//        manager.addExperiment(testExp);
-//
-//
-//        UserManager.getInstance().queryExperimentSubs("EXPQQ7LRLL0BHLTB", this);
-
-
 
 
     }
 
-    // TODO REMOVE
-    @Override
-    public void onExperimentsReady(List<Experiment> experiments) {
-        for(Experiment e : experiments){
-            Log.d("stuff", e.getExperimentID());
-        }
-    }
 
-    @Override
-    public void onQueryUserSubsReady(ArrayList<User> users) {
-        Log.d("stuff", "check");
-        for(User u : users){
-            Log.d("stuff", "User from sub id:" + u.getUserId());
-        }
-    }
 }

@@ -45,17 +45,14 @@ public class UserManager{
     public class ContextNotSetException extends RuntimeException {}
 
     // required interfaces
-    public interface LocalUserCallback {
-        void onLocalUserReady(User user);
+    public interface OnUserReadyListener {
+        void onUserReady(User user);
     }
 
-    public interface QuerySingleUserCallback{
-        void onQueryUserReady(User user);
 
-    }
 
-    public interface QueryExpSubCallback {
-        void onQueryUserSubsReady(ArrayList<User> users);
+    public interface OnUserListReadyListener {
+        void onUserListReady(ArrayList<User> users);
     }
 
 //    private UserManager()  {
@@ -94,7 +91,7 @@ public class UserManager{
      * @param callback
      * callback
      */
-    public void initializeLocalUser(LocalUserCallback callback)  {
+    public void initializeLocalUser(OnUserReadyListener callback)  {
         if(pref == null){
             throw new ContextNotSetException();
         }
@@ -104,13 +101,13 @@ public class UserManager{
             user = gson.fromJson(pref.getString("User", ""), User.class);
             updateUser(user, null);
             if(callback != null){
-                callback.onLocalUserReady(user);
+                callback.onUserReady(user);
             }
         }
         else{
             // no id currently exist, needs to create a new one
 
-            IdGen.genUserId(new IdGen.IDCallBackable(){
+            IdGen.genUserId(new IdGen.onIdReadyListener(){
                 @Override
                 public void onIdReady(String id) {
                     updateUser(new User(id), callback);
@@ -127,7 +124,7 @@ public class UserManager{
      * callback
      */
     @SuppressWarnings("unchecked")
-    public void queryUser(String id, QuerySingleUserCallback callback){
+    public void queryUser(String id, OnUserReadyListener callback){
 
         DocumentReference doc = db.collection("Users").document(id);
         doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -137,12 +134,12 @@ public class UserManager{
                     DocumentSnapshot document = task.getResult();
                     if(document!=null &&document.exists() && document.get("Contacts") instanceof Map){
 
-                        callback.onQueryUserReady(userFromSnapshot(document));
+                        callback.onUserReady(userFromSnapshot(document));
                     }
 
                 }
                 else{
-                    callback.onQueryUserReady(null);
+                    callback.onUserReady(null);
                 }
             }
         });
@@ -161,7 +158,7 @@ public class UserManager{
     }
 
     @SuppressWarnings("unchecked")
-    public void queryExperimentSubs(String expId, QueryExpSubCallback callback){
+    public void queryExperimentSubs(String expId, OnUserListReadyListener callback){
         db.collection("Experiments").document(expId).get().addOnCompleteListener(
                 new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -170,7 +167,7 @@ public class UserManager{
                              ArrayList<String> userIds = (ArrayList<String>)task.getResult().get("SubscriberIDs");
 
                              if(userIds == null || userIds.size() ==0){
-                                 callback.onQueryUserSubsReady(new ArrayList<User>());
+                                 callback.onUserListReady(new ArrayList<User>());
                              }
                              else{
                                  db.collection("Users").whereIn("__name__", userIds).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -181,7 +178,7 @@ public class UserManager{
                                              for(DocumentSnapshot snap: task.getResult()){
                                                  output.add(userFromSnapshot(snap));
                                              }
-                                             callback.onQueryUserSubsReady(output);
+                                             callback.onUserListReady(output);
                                          }
                                      }
                                  });
@@ -209,7 +206,7 @@ public class UserManager{
      * @param callback
      * callback
      */
-    public void updateUser(User newUser, LocalUserCallback callback){
+    public void updateUser(User newUser, OnUserReadyListener callback){
         if(pref == null){
             throw new ContextNotSetException();
         }
@@ -231,7 +228,7 @@ public class UserManager{
         doc.put("Contacts", contact);
         db.collection("Users").document(user.getUserId()).set(doc).addOnSuccessListener(aVoid -> {
             if(callback != null){
-                callback.onLocalUserReady(user);
+                callback.onUserReady(user);
             }
         });
     }

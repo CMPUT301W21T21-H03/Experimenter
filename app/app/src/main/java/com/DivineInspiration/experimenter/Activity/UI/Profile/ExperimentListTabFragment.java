@@ -5,15 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
@@ -21,11 +18,10 @@ import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class ExperimentTabFragment extends Fragment implements CreateExperimentDialogFragment.ExperimentAddedCallback, ExperimentManager.ExperimentReadyCallback
+public class ExperimentListTabFragment extends Fragment implements CreateExperimentDialogFragment.OnExperimentAddedListener
 {
     private ExperimentAdapter adapter;
     ArrayList<Experiment> exps = new ArrayList<>();
@@ -46,7 +42,15 @@ public class ExperimentTabFragment extends Fragment implements CreateExperimentD
         RecyclerView recycler = view.findViewById(R.id.experimentList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
-        ExperimentManager.getInstance().queryUserExperiment(UserManager.getInstance().getLocalUser().getUserId(), this);
+        ExperimentManager.getInstance().queryUserExperiment(UserManager.getInstance().getLocalUser().getUserId(), new ExperimentManager.OnExperimentListReadyListener() {
+            @Override
+            public void onExperimentsReady(List<Experiment> experiments) {
+                exps.clear();
+                exps.addAll(experiments);
+                exps.sort(new Experiment.sortByDescDate());
+                adapter.notifyDataSetChanged();
+            }
+        });
 
 
 
@@ -54,18 +58,11 @@ public class ExperimentTabFragment extends Fragment implements CreateExperimentD
 
 
     @Override
-    public void experimentAdded(Experiment experiment) {
+    public void onExperimentAdded(Experiment experiment) {
         exps.add(0,experiment);
         adapter.notifyItemInserted(0);
     }
 
-    @Override
-    public void onExperimentsReady(List<Experiment> experiments) {
-        exps.clear();
-        exps.addAll(experiments);
-        Collections.sort(exps, new Experiment.sortByDescDate());
-        adapter.notifyDataSetChanged();
-    }
 
 }
 

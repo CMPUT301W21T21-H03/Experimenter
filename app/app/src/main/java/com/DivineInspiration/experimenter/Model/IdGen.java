@@ -3,24 +3,14 @@ package com.DivineInspiration.experimenter.Model;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.installations.FirebaseInstallations;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class IdGen {
 
     /**
      * Event listener
      */
-    public interface IDCallBackable {
+    public interface onIdReadyListener {
         public void onIdReady(String id);
     }
 
@@ -31,7 +21,7 @@ public class IdGen {
      * ????
      */
     //TODO should userId be stored as long or a string?
-    public static void genUserId(IDCallBackable callable){
+    public static void genUserId(onIdReadyListener callable){
         /*
         Name: Rajeev Singh
         Link: https://www.callicoder.com/distributed-unique-id-sequence-number-generator/

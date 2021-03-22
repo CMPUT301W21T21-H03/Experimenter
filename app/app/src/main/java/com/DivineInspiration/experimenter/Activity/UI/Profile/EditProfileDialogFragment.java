@@ -24,9 +24,9 @@ public class EditProfileDialogFragment extends DialogFragment {
     TextView editAbout;
     TextView editCity;
     TextView editEmail;
-    UserManager.LocalUserCallback callback;
+    UserManager.OnUserReadyListener callback;
 
-    public EditProfileDialogFragment(UserManager.LocalUserCallback callback){
+    public EditProfileDialogFragment(UserManager.OnUserReadyListener callback){
         super();
         this.callback = callback;
     }

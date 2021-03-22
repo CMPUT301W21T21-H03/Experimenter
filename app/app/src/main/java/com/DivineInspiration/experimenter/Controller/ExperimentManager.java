@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.DivineInspiration.experimenter.Model.Experiment;
-import com.DivineInspiration.experimenter.Model.IdGen;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +28,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
     private ArrayList<Experiment> experiments;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public interface ExperimentReadyCallback{
+    public interface OnExperimentListReadyListener {
          void onExperimentsReady(List<Experiment> experiments);
 
     }
@@ -107,12 +106,12 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
-    public void querySearch(String keywords, ExperimentReadyCallback callback){
+    public void querySearch(String keywords, OnExperimentListReadyListener callback){
         //TODO to be implemented
         callback.onExperimentsReady(null);
     }
 
-    public void queryUserSubs(String userId, ExperimentReadyCallback callback){
+    public void queryUserSubs(String userId, OnExperimentListReadyListener callback){
         db.collection("Experiments").whereArrayContains("SubscriberIDs", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -133,7 +132,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
-    public void queryUserExperiment(String userId, ExperimentReadyCallback callback){
+    public void queryUserExperiment(String userId, OnExperimentListReadyListener callback){
         db.collection("Experiments").whereEqualTo("OwnerID", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -154,7 +153,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
-    public void queryAll(ExperimentReadyCallback callback) {
+    public void queryAll(OnExperimentListReadyListener callback) {
         db.collection("Experiments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
