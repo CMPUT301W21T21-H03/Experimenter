@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserManager implements IdGen.IDCallBackable {
+public class UserManager{
 
     /*
     Name:Obaro Ogbo
@@ -36,7 +36,7 @@ public class UserManager implements IdGen.IDCallBackable {
      */
     private SharedPreferences pref;
     private static UserManager local= null;
-    private LocalUserCallback callbackHolder; // janky solution 101
+
     private User user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     /**
@@ -109,8 +109,13 @@ public class UserManager implements IdGen.IDCallBackable {
         }
         else{
             // no id currently exist, needs to create a new one
-            callbackHolder = callback;
-            IdGen.genUserId(this);
+
+            IdGen.genUserId(new IdGen.IDCallBackable(){
+                @Override
+                public void onIdReady(String id) {
+                    updateUser(new User(id), callback);
+                }
+            });
         }
     }
 
@@ -236,8 +241,5 @@ public class UserManager implements IdGen.IDCallBackable {
      * @param id
      * ID of the user
      */
-    @Override
-    public void onIdReady(String id){
-        updateUser(new User(id), callbackHolder);
-    }
+
 }
