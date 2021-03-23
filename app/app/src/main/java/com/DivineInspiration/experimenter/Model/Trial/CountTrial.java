@@ -6,8 +6,15 @@ import java.util.Date;
 import java.util.UUID;
 
 public class CountTrial extends Trial {
-    public int count;
+    private int count;
 
+    /**
+     * Constructor
+     * @param trialUser
+     * user of this trial
+     * @param trialExperimentID
+     * id of experiment
+     */
     public CountTrial(User trialUser, String trialExperimentID) {
         this.trialID = UUID.randomUUID().toString();
         this.trialDate = new Date();

@@ -5,9 +5,16 @@ import java.util.Date;
 import java.util.UUID;
 
 public class BinomialTrial extends Trial {
-    public int success;
-    public int failure;
+    private int success;
+    private int failure;
 
+    /**
+     * Constructor
+     * @param trialUser
+     * user of this trial
+     * @param trialExperimentID
+     * id of experiment
+     */
     public BinomialTrial(User trialUser, String trialExperimentID) {
         this.trialID = UUID.randomUUID().toString();
         this.trialDate = new Date();

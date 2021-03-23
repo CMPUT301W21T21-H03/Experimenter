@@ -15,8 +15,6 @@ public abstract class Trial {
     public static final String NONNEGATIVE = "Non nagative trial";
     public static final String MEASURE = "Measurement trial";
 
-
-
     /**
      * Gets the ID of the trial
      * @return

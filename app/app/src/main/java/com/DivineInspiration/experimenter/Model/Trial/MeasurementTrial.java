@@ -9,6 +9,13 @@ import java.util.UUID;
 public class MeasurementTrial extends Trial {
     public ArrayList<Float> measurements = new ArrayList<Float>();
 
+    /**
+     * Constructor
+     * @param trialUser
+     * user of this trial
+     * @param trialExperimentID
+     * id of experiment
+     */
     public MeasurementTrial(User trialUser, String trialExperimentID) {
         this.trialID = UUID.randomUUID().toString();
         this.trialDate = new Date();
