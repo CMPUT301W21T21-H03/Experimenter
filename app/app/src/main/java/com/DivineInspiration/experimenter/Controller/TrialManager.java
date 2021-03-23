@@ -9,13 +9,24 @@ import java.util.ArrayList;
 public class TrialManager extends ArrayList<Trial> {
 
     private ArrayList<Trial> trials;
+    private String trialType;
     private FirebaseFirestore db;
 
     // TODO Talk to firebase
 
     // maybe better to do in experiments class
 //    private int[] blocklist;
-    private String trialType;
+
+    /**
+     * Constructor
+     * @param trialType
+     * type of trial
+     */
+    public TrialManager(String trialType) {
+        // inits
+        this.trials = new ArrayList<>();
+        this.trialType = trialType;
+    }
 
     /**
      * Gets the type of the trials

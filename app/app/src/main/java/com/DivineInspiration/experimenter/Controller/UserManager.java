@@ -28,14 +28,16 @@ import java.util.Map;
 public class UserManager{
 
     /*
-    Name:Obaro Ogbo
-    Link:https://www.androidauthority.com/how-to-store-data-locally-in-android-app-717190/
-    Date:September 21, 2016
+    Name: Obaro Ogbo
+    Link: https://www.androidauthority.com/how-to-store-data-locally-in-android-app-717190/
+    Date: September 21, 2016
     License: unknown
     Usage: android local storage
      */
     private SharedPreferences pref;
     private static UserManager local= null;
+
+    private String TAG = "USER";
 
     private User user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -49,8 +51,7 @@ public class UserManager{
         void onUserReady(User user);
     }
 
-
-
+    // when user is ready
     public interface OnUserListReadyListener {
         void onUserListReady(ArrayList<User> users);
     }
@@ -106,7 +107,6 @@ public class UserManager{
         }
         else{
             // no id currently exist, needs to create a new one
-
             IdGen.genUserId(new IdGen.onIdReadyListener(){
                 @Override
                 public void onIdReady(String id) {
@@ -145,28 +145,44 @@ public class UserManager{
         });
     }
 
+    /**
+     * Get user
+     * @param document
+     * document
+     * @return
+     * the user
+     */
     private User userFromSnapshot(DocumentSnapshot document){
         Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
+        // typo => update firebase and other stuff (lots of work)
         String description = document.getString("UserDecription");
         String name = document.getString("UserName");
 
+        // if no contacts assert error
         assert contact != null;
         User temp = new User(name, document.getId(),
-                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
+                    new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
                 ), description);
-        return  temp;
+        return temp;
     }
 
+    /**
+     * Query experiments from database
+     * @param expId
+     * experiment ID
+     * @param callback
+     * callback function
+     */
     @SuppressWarnings("unchecked")
     public void queryExperimentSubs(String expId, OnUserListReadyListener callback){
         db.collection("Experiments").document(expId).get().addOnCompleteListener(
                 new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()){
                              ArrayList<String> userIds = (ArrayList<String>)task.getResult().get("SubscriberIDs");
 
-                             if(userIds == null || userIds.size() ==0){
+                             if (userIds == null || userIds.size() ==0){
                                  callback.onUserListReady(new ArrayList<User>());
                              }
                              else{
@@ -184,16 +200,14 @@ public class UserManager{
                                  });
                              }
 
-                        }else
-                        {
-                            Log.d("stuff", "oh no!");
+                        } else {
+                            // TODO: error
+                            Log.d(TAG, "oh no!");
                         }
                     }
                 }
         );
     }
-
-
 
     /**
      * Updates the local user. This method will update the user stored in memory, locally, and in firebase.
@@ -232,11 +246,4 @@ public class UserManager{
             }
         });
     }
-
-    /**
-     * Please don't call this method although it is necessary so don't delete me
-     * @param id
-     * ID of the user
-     */
-
 }
