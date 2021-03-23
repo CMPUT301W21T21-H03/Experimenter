@@ -24,20 +24,28 @@ import java.util.List;
 
 public class ExploreFragment extends Fragment implements ExperimentManager.OnExperimentListReadyListener {
 
-    public ExploreListAdapter exploreListAdapter;
-    public List<Experiment> dataList = new ArrayList<>();
-    public List<Experiment> shownList = new ArrayList<>();
+    // adapter list of the experiments in the explore tab
+    private ExploreListAdapter exploreListAdapter;
+    // data list contains all the experiments in the database
+    private List<Experiment> dataList = new ArrayList<>();
+    // shown list only contains of experiments shown on screen
+    // TODO?: if there is time and for more efficiency, this could be an int list that only contain
+    // the indexes of the data list shown
+    private List<Experiment> shownList = new ArrayList<>();
 
+    // search text
     private CharSequence searchText;
 
     /**
      * Fragment initializer
      * @param savedInstanceState
+     * the bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // inits all three lists
         this.exploreListAdapter = new ExploreListAdapter();
         this.dataList = new ArrayList<>();
         this.shownList = new ArrayList<>();
@@ -49,17 +57,20 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
      * @param container
      * Container containing fragment
      * @param savedInstanceState
+     * the bundle
      * @return
+     * the view
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        Log.d("ExploreFragment", "Begin queryAll");
+        // Log.d("ExploreFragment", "Begin queryAll");
 
+        // query from database
         ExperimentManager.getInstance().queryAll(this);
         View root = inflater.inflate(R.layout.fragment_explore, container, false);
-        EditText search = root.findViewById(R.id.explore_search_bar);
 
+        // initing explore list
         RecyclerView experimentListView = root.findViewById(R.id.list_experiments);
         experimentListView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         experimentListView.setAdapter(exploreListAdapter);
@@ -71,27 +82,26 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
 //            }
 //        };
 
+
         // Assign the listener to the recycler view
         // experimentList.setOnItemClickListener(itemClickListener);
 
-        // TODO: search -> filter results
+        EditText search = root.findViewById(R.id.explore_search_bar);
+
+        // search -> filter results
         search.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 searchText = charSequence;
-                Log.v("Thing:", charSequence.toString());
+                // Debug
+                // Log.v("Thing:", charSequence.toString());
                 // filter text
                 filter();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
             }
         });
 
@@ -108,28 +118,33 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
         } else {
             shownList = new ArrayList<>();
             for (int i = 0; i < dataList.size(); i++) {
+                // checks if search text is in the experiment (case insensitive)
                 String name = dataList.get(i).getExperimentName().toLowerCase();
                 if (name.contains(searchText.toString().toLowerCase())) {
                     shownList.add(dataList.get(i));
-
                 }
             }
-         exploreListAdapter.setData(shownList);
-         exploreListAdapter.notifyDataSetChanged();
+            // store the new filtered result and refresh adapter
+            exploreListAdapter.setData(shownList);
+            exploreListAdapter.notifyDataSetChanged();
         }
     }
 
+    /**
+     * When experiment is ready from the database
+     * @param queryList
+     * list of experiment
+     */
     @Override
     public void onExperimentsReady(List<Experiment> queryList) {
+        // debug print
+//        for (Experiment experiment : queryList) {
+//            Log.d("ExploreFragment", experiment.getExperimentID());
+//        }
 
-        Log.d("ExploreFragment", "Experiment query ready");
-        for (Experiment experiment : queryList) {
-            Log.d("ExploreFragment", experiment.getExperimentID());
-        }
-
+        // store the data from the database
         dataList = queryList;
         shownList = queryList;
         exploreListAdapter.setData(shownList);
-        Log.d("ExploreFragment", shownList.toString());
     }
 }
