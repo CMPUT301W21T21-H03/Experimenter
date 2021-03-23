@@ -25,24 +25,39 @@ public class SubscriptionTabFragment extends Fragment{
     private ExperimentAdapter adapter;
     ArrayList<Experiment> subExps = new ArrayList<>();
 
-
+    /**
+     * On create
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("stuff", "onCreateView");
+        // Log.d("MESSAGE", "onCreateView");
         return inflater.inflate(R.layout.experiment_list, container, false);
 
     }
 
+    /**
+     * On view
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        // set experiment adapter
         adapter = new ExperimentAdapter(subExps);
+
+        // recycler list
         RecyclerView recycler = view.findViewById(R.id.experimentList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
+
+        // get subbed users
         ExperimentManager.getInstance().queryUserSubs(UserManager.getInstance().getLocalUser().getUserId(), new ExperimentManager.OnExperimentListReadyListener() {
             @Override
             public void onExperimentsReady(List<Experiment> experiments) {
@@ -51,12 +66,5 @@ public class SubscriptionTabFragment extends Fragment{
                 adapter.notifyDataSetChanged();
             }
         });
-
-
-
     }
-
-
-
-
 }

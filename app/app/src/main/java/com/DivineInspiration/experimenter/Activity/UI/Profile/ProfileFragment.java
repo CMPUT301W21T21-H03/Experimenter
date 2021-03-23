@@ -32,13 +32,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class ProfileFragment extends Fragment {
 
-    public ProfileFragment() {
-        super(R.layout.fragment_home);
-        Log.d("stuff", "fragment, constructor");
-    }
 
-    CollapsingToolbarLayout toolbar;
-
+    // Inits
     FloatingActionButton fab;
     Button editProfileButton;
     UserManager manager = UserManager.getInstance();
@@ -56,22 +51,33 @@ public class ProfileFragment extends Fragment {
     View dividerLineName_home;
     View dividerLineAbout_home;
 
+    // main page tab names
     private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
+    CollapsingToolbarLayout toolbar;
 
+    /**
+     * Constructor
+     */
+    public ProfileFragment() {
+        super(R.layout.fragment_home);
+        // Log.d("MESSAGE", "fragment, constructor");
+    }
 
-
-
-
-
+    /**
+     * When view is created
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // gets everything from view
         toolbar = view.findViewById(R.id.CollaspingToolBar);
         fab = view.findViewById(R.id.fab);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
 
-        // Setting up the Text View in ToolBar
+        // setting up the Text View in ToolBar
         userName_home = view.findViewById(R.id.userName_Home);
         userID_home = view.findViewById(R.id.userID_Home);
         userEmail_home = view.findViewById(R.id.email_Home);
@@ -81,16 +87,17 @@ public class ProfileFragment extends Fragment {
         dividerLineAbout_home = view.findViewById(R.id.sectionDivideLineAbout_home);
 
 
-        //smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
+        // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
         ((ViewGroup)view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
-        //viewpager
+        // viewpager
         pager = view.findViewById(R.id.expPager);
         adapter = new HomeFragmentAdapter(this);
         pager.setAdapter(adapter);
 
         tabLayout = view.findViewById(R.id.Tablayout);
 
+        // when new tab is selected
         new TabLayoutMediator(tabLayout, pager,true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
@@ -98,8 +105,14 @@ public class ProfileFragment extends Fragment {
             }
         }).attach();
 
+        // when a new tab is selected
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            //hide fab when on trials or subscriptions
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+
+            // hide fab when on trials or subscriptions
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition() == 0){
@@ -109,19 +122,9 @@ public class ProfileFragment extends Fragment {
                     fab.hide();
                 }
             }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
         });
 
-        //setup local user
+        // setup local user
         manager.setContext(getContext());
         manager.initializeLocalUser(new UserManager.OnUserReadyListener() {
             @Override
@@ -130,17 +133,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
         // title is transparent when expanded
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
-
-
-
         // fab onclick
         fab.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
 //              Snackbar.make(view, "Woaaaaaah dude!!!", Snackbar.LENGTH_LONG).show();
@@ -149,7 +147,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
+        // when edit profile button is clicker -> trigger dialog box
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,10 +159,11 @@ public class ProfileFragment extends Fragment {
                 }).show(getChildFragmentManager(),"Edit Profile");
             }
         });
-
-
     }
 
+    /**
+     * On resume
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -174,9 +173,13 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    /**
+     * Displaying the user info
+     * @param user
+     * user
+     */
     private void displayUserToolbar(User user) {
-        // Displaying User iD
-
+        // setting the user info in UI
         toolbar.setTitle(user.getUserName());
 
         userID_home.setText(user.getUserId());
@@ -185,86 +188,105 @@ public class ProfileFragment extends Fragment {
         userDescription_home.setText(user.getDescription());
         userName_home.setText(user.getUserName());
 
+        // TODO: optimize below?? (Low priority)
         // Setting Visibility of text Views
         // Visibility for City and Email
         String cityText = user.getContactInfo().getCityName();
-        if(cityText.isEmpty()){
+        if (cityText.isEmpty()){
             userCity_home.setVisibility(View.GONE);
-        }else {
+        } else {
             userCity_home.setVisibility(View.VISIBLE);
         }
         String emailText =user.getContactInfo().getEmail();
-        if(emailText.isEmpty()){
+        if (emailText.isEmpty()){
             userEmail_home.setVisibility(View.GONE);
-        }else{
+        } else{
             userEmail_home.setVisibility(View.VISIBLE);
         }
-        if(cityText.isEmpty() && emailText.isEmpty()){
+        if (cityText.isEmpty() && emailText.isEmpty()){
             dividerLineName_home.setVisibility(View.GONE);
-        }else {
+        } else {
             dividerLineName_home.setVisibility(View.VISIBLE);
         }
+
         // Setting Visibility of User Description
         String descriptionText = user.getDescription();
-        if(descriptionText.isEmpty()){
+        if (descriptionText.isEmpty()){
             userDescription_home.setVisibility(View.GONE);
             dividerLineAbout_home.setVisibility(View.GONE);
-        }else{
+        } else{
             userDescription_home.setVisibility(View.VISIBLE);
             dividerLineAbout_home.setVisibility(View.VISIBLE);
         }
     }
 
-
-
+    /**
+     * Home fragment
+     */
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
 
+        /**
+         * Constructor
+         * @param frag
+         */
         public HomeFragmentAdapter(Fragment frag){
             super(frag);
         }
 
+        /**
+         * When fragment is created
+         * @param position
+         * position in adapter
+         * @return
+         */
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-
-
             switch (position){
                 case 0:
                     return new ExperimentListTabFragment();
                 case 1:
                     return new SubscriptionTabFragment();
                 case 2:
-                    return  new TestFrag();
+                    return new TestFrag();
                 default:
-                    return  new TestFrag();
+                    return new TestFrag();
             }
-
         }
 
-
+        /**
+         * Get item count
+         * @return
+         * number of items in list
+         */
         @Override
         public int getItemCount() {
             return 3;
         }
     }
 
+    /**
+     * Test frag
+     */
     public static class TestFrag extends Fragment {
-
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             return inflater.inflate(R.layout.test, container, false);
         }
 
-
-
-
+        /**
+         * When view is created
+         * @param view
+         * @param savedInstanceState
+         */
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
             ListView list = view.findViewById(R.id.placeHolderList);
 
-         String[] items = {"Russell’s", "Paradox", "tells", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
+            // TEMP
+            String[] items = {"Russell’s", "Paradox", "tells", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
 
             list.setAdapter(adapter);

@@ -30,44 +30,65 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 
 
-public class NavigationExperimentFragment extends Fragment  {
-    ExperimentManager experimentManager = ExperimentManager.getInstance();
-    UserManager userManager = UserManager.getInstance();
+public class NavigationExperimentFragment extends Fragment {
+    // text views
     private TextView experimentName;
     private TextView ownerName;
     private TextView subNumber;
     private TextView trialNumber;
     private TextView trialType;
-    private  TextView expAbout;
+    private TextView expAbout;
     private TextView expCity;
     private SwitchCompat subSwitch;
 
+    // managers
+    ExperimentManager experimentManager = ExperimentManager.getInstance();
+    UserManager userManager = UserManager.getInstance();
 
+    // nav
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
 
-    
+    // tab names
     String[] tabNames = {"Trials", "Comments", "Stats"};
     private ArrayList<User> subscribers  = new ArrayList<>();
 
+    /**
+     * On create
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments()!=null){
+        if(getArguments()!=null) {
+            // ?
         }
     }
 
+    /**
+     * On create
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_navigation_experiment, container, false);
     }
 
+    /**
+     * On view
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // get text views
         experimentName = view.findViewById(R.id.experimentName_expFrag);
         ownerName = view.findViewById(R.id.ownerName_expFrag);
         subNumber = view.findViewById(R.id.expFragSubCount);
@@ -77,6 +98,7 @@ public class NavigationExperimentFragment extends Fragment  {
         expCity = view.findViewById(R.id.experimentRegion_expFrag);
         subSwitch = view.findViewById(R.id.subscribeSwitch);
 
+        // get experiment and set the text
         Experiment exp = (Experiment)getArguments().getSerializable("experiment");
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
@@ -85,11 +107,12 @@ public class NavigationExperimentFragment extends Fragment  {
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
 
-        //view pager
+        // view pager
         pager = view.findViewById(R.id.expPager);
         adapter = new HomeFragmentAdapter(this);
         pager.setAdapter(adapter);
         tabLayout = view.findViewById(R.id.Tablayout);
+        // set tab names
         new TabLayoutMediator(tabLayout, pager,true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
@@ -97,12 +120,13 @@ public class NavigationExperimentFragment extends Fragment  {
             }
         }).attach();
 
+        // get experiment that you subbed to
         UserManager.getInstance().queryExperimentSubs(exp.getExperimentID(), new UserManager.OnUserListReadyListener() {
             @Override
             public void onUserListReady(ArrayList<User> users) {
                 subscribers.clear();
                 subscribers.addAll(users);
-                for(int i = 0; i < subscribers.size(); i++){
+                for (int i = 0; i < subscribers.size(); i++){
                     if(UserManager.getInstance().getLocalUser().getUserId().equals(subscribers.get(i).getUserId())){
                         subSwitch.setChecked(true);
                     }
@@ -112,21 +136,24 @@ public class NavigationExperimentFragment extends Fragment  {
             }
         });
 
+        // toggle sub to experiment
         subSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    experimentManager.subToExperiment(userManager.getLocalUser().getUserId(),exp.getExperimentID());
-                }else{
-                    experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(),exp.getExperimentID());
+                if (isChecked) {
+                    experimentManager.subToExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID());
+                } else {
+                    experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID());
                 }
             }
         });
 
-
+        // setting and profile view
         View setting = view.findViewById(R.id.setting);
         View profile = view.findViewById(R.id.profile);
-        if(UserManager.getInstance().getLocalUser().getUserId().equals(exp.getOwnerID())){
+
+        // when local user is owner
+        if (UserManager.getInstance().getLocalUser().getUserId().equals(exp.getOwnerID())) {
           profile.setVisibility(View.GONE);
           setting.setOnClickListener(new View.OnClickListener() {
               @Override
@@ -134,9 +161,9 @@ public class NavigationExperimentFragment extends Fragment  {
                   Snackbar.make(view, "settings clicked", Snackbar.LENGTH_LONG).show();
               }
           });
-        }
-        else{
+        } else {
            setting.setVisibility(View.GONE);
+           // when the profile is clicked
             profile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -146,6 +173,9 @@ public class NavigationExperimentFragment extends Fragment  {
         }
     }
 
+    /**
+     * Home fragment
+     */
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
 
         public HomeFragmentAdapter(Fragment frag){
@@ -174,8 +204,10 @@ public class NavigationExperimentFragment extends Fragment  {
         }
     }
 
+    /**
+     * Placeholder fragment
+     */
     public static class PlaceHolderFragment extends Fragment {
-
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
