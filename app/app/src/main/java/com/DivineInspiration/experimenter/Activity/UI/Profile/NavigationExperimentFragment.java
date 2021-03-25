@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -158,7 +159,11 @@ public class NavigationExperimentFragment extends Fragment {
           setting.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                  Snackbar.make(view, "settings clicked", Snackbar.LENGTH_LONG).show();
+//                  Snackbar.make(view, "settings clicked", Snackbar.LENGTH_LONG).show();
+                  Bundle bundle = new Bundle();
+                  bundle.putSerializable("settingsExperiment", exp);
+                  Navigation.findNavController(view).navigate(R.id.settingsExperimentDialogFragment,bundle);
+
               }
           });
         } else {
@@ -167,7 +172,9 @@ public class NavigationExperimentFragment extends Fragment {
             profile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Snackbar.make(view, "profile clicked", Snackbar.LENGTH_LONG).show();
+//                    Snackbar.make(view, "profile clicked", Snackbar.LENGTH_LONG).show();
+                    Navigation.findNavController(view).navigate(R.id.expToUserProfile);
+
                 }
             });
         }
