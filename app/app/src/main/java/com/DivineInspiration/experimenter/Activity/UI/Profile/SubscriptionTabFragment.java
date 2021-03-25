@@ -16,6 +16,7 @@ import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
+import androidx.recyclerview.widget.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +54,15 @@ public class SubscriptionTabFragment extends Fragment{
         adapter = new ExperimentAdapter(subExps);
 
         // recycler list
+
         RecyclerView recycler = view.findViewById(R.id.experimentList);
+        recycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
 
         // get subbed users
         ExperimentManager.getInstance().queryUserSubs(UserManager.getInstance().getLocalUser().getUserId(), new ExperimentManager.OnExperimentListReadyListener() {
+
             @Override
             public void onExperimentsReady(List<Experiment> experiments) {
                 subExps.clear();
