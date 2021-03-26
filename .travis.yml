@@ -17,7 +17,6 @@ android:
     - build-tools-23.0.3
 
     # The SDK version used to compile your project
-    # TODO: why is this here explicitly in addition to $ANDROID_TARGET below
     - android-23
     
     # Additional components
@@ -42,7 +41,9 @@ before_install:
   - yes | sdkmanager "platforms;android-29"
 
   # Get gradle
+  - cd app
   - chmod +x gradlew
+  # - chmod +x app/gradlew
   - wget https://services.gradle.org/distributions/gradle-5.3-bin.zip
   - unzip -qq gradle-5.3-bin.zip
   - export GRADLE_HOME=$PWD/gradle-5.3

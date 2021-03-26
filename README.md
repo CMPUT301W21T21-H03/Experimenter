@@ -2,7 +2,13 @@
 
 <img src="img/logo.png" alt="logo" width=200 />
 
+Build:
+
 ![badge](https://github.com/CMPUT301W21T21-H03/DivineInspiration/workflows/AndroidTests/badge.svg)
+
+Testing:
+
+![badge](https://api.travis-ci.com/CMPUT301W21T21-H03/DivineInspiration.svg?branch=master&status=created)
 
 An Java-Android app that does experiments and tests.
 
