@@ -41,21 +41,26 @@
     <Spinner
         android:id="@+id/editExperimentSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
     <CheckBox
         android:id="@+id/editExperimentGeo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Require geolocation" />
+        android:text="Require Geolocation"
+        android:layout_marginLeft="10dp" />
 
     <EditText
         android:id="@+id/editExperimentMin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:ems="10"
-        android:hint="minimum trial count"
+        android:hint="Minimum Trial Count"
         android:inputType="textPersonName"
         tools:inputType="numberSigned" />
 

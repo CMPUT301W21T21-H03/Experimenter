@@ -85,8 +85,8 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
 
         trialSpinner.setOnItemSelectedListener(this);
 
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, options);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.create_experiment_spinner_item, options);
+        adapter.setDropDownViewResource(R.layout.create_experiment_spinner_item);
         trialSpinner.setAdapter(adapter);
 
         return new AlertDialog.Builder(getContext())
