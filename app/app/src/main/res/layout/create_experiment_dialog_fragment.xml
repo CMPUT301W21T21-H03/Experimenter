@@ -16,6 +16,15 @@
         android:hint="Experiment Name"
         android:inputType="textPersonName" />
 
+    <TextView
+        android:id="@+id/experimentNameError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="Invalid experiment name"
+        android:textColor="#FF2929"
+        android:visibility="invisible" />
+
     <EditText
         android:id="@+id/editExperimentCity"
         android:layout_width="match_parent"

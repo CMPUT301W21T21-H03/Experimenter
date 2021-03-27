@@ -23,6 +23,8 @@ import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 
+import org.w3c.dom.Text;
+
 public class CreateExperimentDialogFragment extends DialogFragment implements AdapterView.OnItemSelectedListener {
 
 
@@ -30,6 +32,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
     OnExperimentAddedListener callback;
     ExperimentManager newExperiment = ExperimentManager.getInstance();
     TextView editExperimentName;
+    TextView editExperimentNameError;
     Spinner trialSpinner;
     TextView editCity;
     TextView editExperimentAbout;
@@ -77,6 +80,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
 
         // inits all the parts of dialog
         editExperimentName = view.findViewById(R.id.editExperimentName);
+        editExperimentNameError = view.findViewById(R.id.experimentNameError);
         trialSpinner = view.findViewById(R.id.editExperimentSpinner);
         editCity = view.findViewById(R.id.editExperimentCity);
         editExperimentAbout = view.findViewById(R.id.editExperimentAbout);
@@ -89,34 +93,40 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
         adapter.setDropDownViewResource(R.layout.create_experiment_spinner_item);
         trialSpinner.setAdapter(adapter);
 
-        return new AlertDialog.Builder(getContext())
+        final AlertDialog dialog =  new AlertDialog.Builder(getContext())
                 .setView(view)
                 .setMessage("Create Experiment")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        String editExperimentNameText = editExperimentName.getText().toString();
-                        String editCityText = editCity.getText().toString();
-                        // optional?
-                        String editExperimentAboutText = editExperimentAbout.getText().toString();
-
-                        // TODO: if invalid or empty, show error
-                        if (editExperimentNameText.length() == 0) {
-                            // TODO: error
-                            return;
-                        } else if (editCityText.length() == 0) {
-                            return;
-                        }
-
-                        // generate new experiment and add to experiment manager
-                        Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked());
-                        ExperimentManager.getInstance().addExperiment(temp);
-                        callback.onExperimentAdded(temp);
-                    }
-                })
+                .setPositiveButton("Ok", null)
                 .setNegativeButton("Cancel", null)
                 .create();
+
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String editExperimentNameText = editExperimentName.getText().toString();
+                String editCityText = editCity.getText().toString();
+                // optional?
+                String editExperimentAboutText = editExperimentAbout.getText().toString();
+
+                // TODO: if invalid or empty, show error
+                if (editExperimentNameText.length() == 0) {
+                    // display error
+                    editExperimentNameError.setVisibility(TextView.VISIBLE);
+                    return;
+                } else if (editCityText.length() == 0) {
+                    return;
+                }
+
+                // generate new experiment and add to experiment manager
+                Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked());
+                ExperimentManager.getInstance().addExperiment(temp);
+                callback.onExperimentAdded(temp);
+                dialog.dismiss();
+            }
+        });
+
+        return  dialog;
     }
 
     /**
