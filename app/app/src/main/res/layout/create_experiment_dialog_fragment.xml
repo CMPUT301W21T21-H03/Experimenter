@@ -17,7 +17,7 @@
         android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/experimentNameError"
+        android:id="@+id/experimentError1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -34,6 +34,15 @@
         android:ems="10"
         android:hint="City"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/experimentError2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="Invalid City"
+        android:textColor="#FF2929"
+        android:visibility="invisible" />
 
     <EditText
         android:id="@+id/editExperimentAbout"
@@ -72,5 +81,14 @@
         android:hint="Minimum Trial Count"
         android:inputType="textPersonName"
         tools:inputType="numberSigned" />
+
+    <TextView
+        android:id="@+id/experimentError3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="Invalid min trial"
+        android:textColor="#FF2929"
+        android:visibility="invisible" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

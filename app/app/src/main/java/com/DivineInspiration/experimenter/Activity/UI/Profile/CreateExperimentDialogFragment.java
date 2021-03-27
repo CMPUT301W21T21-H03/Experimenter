@@ -2,7 +2,6 @@ package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +22,6 @@ import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 
-import org.w3c.dom.Text;
-
 public class CreateExperimentDialogFragment extends DialogFragment implements AdapterView.OnItemSelectedListener {
 
 
@@ -32,12 +29,14 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
     OnExperimentAddedListener callback;
     ExperimentManager newExperiment = ExperimentManager.getInstance();
     TextView editExperimentName;
-    TextView editExperimentNameError;
     Spinner trialSpinner;
     TextView editCity;
     TextView editExperimentAbout;
     TextView minTrial;
     CheckBox requireGeo;
+    TextView experimentError1;
+    TextView experimentError2;
+    TextView experimentError3;
 
     // options for experiment
     private String[] options = {"Counting", "Binomial", "NonNegative", "Measuring"};
@@ -80,12 +79,15 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
 
         // inits all the parts of dialog
         editExperimentName = view.findViewById(R.id.editExperimentName);
-        editExperimentNameError = view.findViewById(R.id.experimentNameError);
         trialSpinner = view.findViewById(R.id.editExperimentSpinner);
         editCity = view.findViewById(R.id.editExperimentCity);
         editExperimentAbout = view.findViewById(R.id.editExperimentAbout);
         minTrial = view.findViewById(R.id.editExperimentMin);
         requireGeo = view.findViewById(R.id.editExperimentGeo);
+        // errors
+        experimentError1 = view.findViewById(R.id.experimentError1);
+        experimentError2 = view.findViewById(R.id.experimentError2);
+        experimentError3 = view.findViewById(R.id.experimentError3);
 
         trialSpinner.setOnItemSelectedListener(this);
 
@@ -100,6 +102,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
                 .setNegativeButton("Cancel", null)
                 .create();
 
+        // shows dialog (must be called at start)
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,12 +112,20 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
                 // optional?
                 String editExperimentAboutText = editExperimentAbout.getText().toString();
 
-                // TODO: if invalid or empty, show error
+                // reset all
+                experimentError1.setVisibility(TextView.INVISIBLE);
+                experimentError2.setVisibility(TextView.INVISIBLE);
+                experimentError3.setVisibility(TextView.INVISIBLE);
+                // if invalid or empty, show error
                 if (editExperimentNameText.length() == 0) {
                     // display error
-                    editExperimentNameError.setVisibility(TextView.VISIBLE);
+                    experimentError1.setVisibility(TextView.VISIBLE);
                     return;
                 } else if (editCityText.length() == 0) {
+                    experimentError2.setVisibility(TextView.VISIBLE);
+                    return;
+                } else if (Integer.valueOf(minTrial.getText().toString()) <= 0 || minTrial.length() == 0) {
+                    experimentError3.setVisibility(TextView.VISIBLE);
                     return;
                 }
 
@@ -122,6 +133,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
                 Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked());
                 ExperimentManager.getInstance().addExperiment(temp);
                 callback.onExperimentAdded(temp);
+                // closes dialog
                 dialog.dismiss();
             }
         });
