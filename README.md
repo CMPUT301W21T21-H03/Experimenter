@@ -2,13 +2,7 @@
 
 <img src="img/logo.png" alt="logo" width=200 />
 
-Build:
-
-![badge](https://github.com/CMPUT301W21T21-H03/DivineInspiration/workflows/AndroidTests/badge.svg)
-
-Testing:
-
-![badge](https://api.travis-ci.com/CMPUT301W21T21-H03/DivineInspiration.svg?branch=master&status=created)
+Build: ![badge](https://github.com/CMPUT301W21T21-H03/DivineInspiration/workflows/AndroidTests/badge.svg) Testing: ![badge](https://api.travis-ci.com/CMPUT301W21T21-H03/DivineInspiration.svg?branch=master&status=created) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![Issues](https://img.shields.io/github/contributors/CMPUT301W21T21-H03/DivineInspiration) [![Issues](https://img.shields.io/github/issues/CMPUT301W21T21-H03/DivineInspiration)](https://github.com/CMPUT301W21T21-H03/DivineInspiration/issues) 
 
 An Java-Android app that does experiments and tests.
 
@@ -27,6 +21,7 @@ JavaDoc for the project can be found [here](https://cmput301w21t21-h03.github.io
 A list of issues [here](https://github.com/CMPUT301W21T21-H03/DivineInspiration/issues ) 
 
 ### Issue Tracker
+
 Can see a detailed flow of the product backlog in [Project section](https://github.com/CMPUT301W21T21-H03/DivineInspiration/projects/1)  
 
 
