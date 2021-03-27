@@ -2,6 +2,7 @@ package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class CreateExperimentDialogFragment extends DialogFragment implements AdapterView.OnItemSelectedListener {
 
@@ -34,6 +36,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
     TextView editExperimentAbout;
     TextView minTrial;
     CheckBox requireGeo;
+    // error text
     TextView experimentError1;
     TextView experimentError2;
     TextView experimentError3;
@@ -60,6 +63,19 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
     public CreateExperimentDialogFragment(OnExperimentAddedListener callback) {
         super();
         this.callback = callback;
+    }
+
+    /**
+     * Shows alert message on the bottom of the parent fragment page
+     * @param error
+     * is the alert an error
+     * @param message
+     * message
+     */
+    private void showAlert(boolean error, String message) {
+        Snackbar snackbar = Snackbar.make(getParentFragment().getView(), message, Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(Color.parseColor(error ? "#913c3c" : "#2e6b30"));
+        snackbar.show();
     }
 
     /**
@@ -95,7 +111,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
         adapter.setDropDownViewResource(R.layout.create_experiment_spinner_item);
         trialSpinner.setAdapter(adapter);
 
-        final AlertDialog dialog =  new AlertDialog.Builder(getContext())
+        final AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setView(view)
                 .setMessage("Create Experiment")
                 .setPositiveButton("Ok", null)
@@ -116,23 +132,41 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
                 experimentError1.setVisibility(TextView.INVISIBLE);
                 experimentError2.setVisibility(TextView.INVISIBLE);
                 experimentError3.setVisibility(TextView.INVISIBLE);
+
                 // if invalid or empty, show error
+                boolean validFlag = true;
                 if (editExperimentNameText.length() == 0) {
                     // display error
                     experimentError1.setVisibility(TextView.VISIBLE);
-                    return;
-                } else if (editCityText.length() == 0) {
+                    validFlag = false;
+                }
+                if (editCityText.length() == 0) {
                     experimentError2.setVisibility(TextView.VISIBLE);
-                    return;
-                } else if (Integer.valueOf(minTrial.getText().toString()) <= 0 || minTrial.length() == 0) {
+                    validFlag = false;
+                }
+                if (minTrial.length() == 0 || Integer.valueOf(minTrial.getText().toString()) == 0) {
                     experimentError3.setVisibility(TextView.VISIBLE);
+                    validFlag = false;
+                }
+
+                // if not valid in any step, return
+                if (!validFlag) {
                     return;
                 }
 
+                // try block below?
                 // generate new experiment and add to experiment manager
-                Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked());
-                ExperimentManager.getInstance().addExperiment(temp);
-                callback.onExperimentAdded(temp);
+                try {
+                    Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked());
+                    ExperimentManager.getInstance().addExperiment(temp);
+                    callback.onExperimentAdded(temp);
+                    // show success
+                    showAlert(false, "Created new experiment!");
+                } catch (Exception e) {
+                    // failed to create experiment
+                    showAlert(true, "Failed to create experiment!");
+                }
+
                 // closes dialog
                 dialog.dismiss();
             }
