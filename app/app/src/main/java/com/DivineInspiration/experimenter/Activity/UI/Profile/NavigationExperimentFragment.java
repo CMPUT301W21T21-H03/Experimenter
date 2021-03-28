@@ -160,9 +160,9 @@ public class NavigationExperimentFragment extends Fragment {
               @Override
               public void onClick(View v) {
 //                  Snackbar.make(view, "settings clicked", Snackbar.LENGTH_LONG).show();
-                  Bundle settingBundle = new Bundle();
-                  settingBundle.putSerializable("settingsExperiment", exp);
-                  Navigation.findNavController(view).navigate(R.id.settingsExperimentDialogFragment,settingBundle);
+                  Bundle bundle = new Bundle();
+                  bundle.putSerializable("settingsExperiment", exp);
+                  Navigation.findNavController(view).navigate(R.id.settingsExperimentDialogFragment,bundle);
 
               }
           });
@@ -173,9 +173,7 @@ public class NavigationExperimentFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 //                    Snackbar.make(view, "profile clicked", Snackbar.LENGTH_LONG).show();
-                    Bundle userProfileBundle = new Bundle();
-                    userProfileBundle.putSerializable("User", exp);
-                    Navigation.findNavController(view).navigate(R.id.experimentUserProfileFragment, userProfileBundle);
+                    Navigation.findNavController(view).navigate(R.id.expToUserProfile);
 
                 }
             });
