@@ -62,7 +62,7 @@ public class NavigationExperimentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments()!=null) {
+        if(getArguments()!=null) {
             // ?
         }
     }
@@ -128,7 +128,7 @@ public class NavigationExperimentFragment extends Fragment {
                 subscribers.clear();
                 subscribers.addAll(users);
                 for (int i = 0; i < subscribers.size(); i++){
-                    if (UserManager.getInstance().getLocalUser().getUserId().equals(subscribers.get(i).getUserId())){
+                    if(UserManager.getInstance().getLocalUser().getUserId().equals(subscribers.get(i).getUserId())){
                         subSwitch.setChecked(true);
                     }
                 }
@@ -159,15 +159,11 @@ public class NavigationExperimentFragment extends Fragment {
           setting.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-<<<<<<< HEAD
 //                  Snackbar.make(view, "settings clicked", Snackbar.LENGTH_LONG).show();
                   Bundle settingBundle = new Bundle();
                   settingBundle.putSerializable("settingsExperiment", exp);
                   Navigation.findNavController(view).navigate(R.id.settingsExperimentDialogFragment,settingBundle);
 
-=======
-                  Snackbar.make(view, "Settings clicked", Snackbar.LENGTH_LONG).show();
->>>>>>> master
               }
           });
         } else {
@@ -176,15 +172,11 @@ public class NavigationExperimentFragment extends Fragment {
             profile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-<<<<<<< HEAD
 //                    Snackbar.make(view, "profile clicked", Snackbar.LENGTH_LONG).show();
                     Bundle userProfileBundle = new Bundle();
                     userProfileBundle.putSerializable("User", exp);
                     Navigation.findNavController(view).navigate(R.id.experimentUserProfileFragment, userProfileBundle);
 
-=======
-                    Snackbar.make(view, "Profile clicked", Snackbar.LENGTH_LONG).show();
->>>>>>> master
                 }
             });
         }
