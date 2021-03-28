@@ -192,17 +192,11 @@ public class ProfileFragment extends Fragment {
         // Setting Visibility of text Views
         // Visibility for City and Email
         String cityText = user.getContactInfo().getCityName();
-        if (cityText.isEmpty()){
-            userCity_home.setVisibility(View.GONE);
-        } else {
-            userCity_home.setVisibility(View.VISIBLE);
-        }
+        userCity_home.setVisibility(cityText.isEmpty() ? View.GONE : View.VISIBLE);
+
         String emailText =user.getContactInfo().getEmail();
-        if (emailText.isEmpty()){
-            userEmail_home.setVisibility(View.GONE);
-        } else{
-            userEmail_home.setVisibility(View.VISIBLE);
-        }
+        userEmail_home.setVisibility(emailText.isEmpty() ? View.GONE : View.VISIBLE);
+
         if (cityText.isEmpty() && emailText.isEmpty()){
             dividerLineName_home.setVisibility(View.GONE);
         } else {
