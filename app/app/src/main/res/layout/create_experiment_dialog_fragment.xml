@@ -16,15 +16,6 @@
         android:hint="Experiment Name"
         android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/experimentError1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:text="Invalid experiment name"
-        android:textColor="#FF2929"
-        android:visibility="invisible" />
-
     <EditText
         android:id="@+id/editExperimentCity"
         android:layout_width="match_parent"
@@ -34,15 +25,6 @@
         android:ems="10"
         android:hint="City"
         android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/experimentError2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:text="Invalid City"
-        android:textColor="#FF2929"
-        android:visibility="invisible" />
 
     <EditText
         android:id="@+id/editExperimentAbout"
@@ -59,36 +41,22 @@
     <Spinner
         android:id="@+id/editExperimentSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_height="wrap_content" />
 
     <CheckBox
         android:id="@+id/editExperimentGeo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Require Geolocation"
-        android:layout_marginLeft="10dp" />
+        android:text="Require geolocation" />
 
     <EditText
         android:id="@+id/editExperimentMin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:ems="10"
-        android:hint="Minimum Trial Count"
+        android:hint="minimum trial count"
         android:inputType="textPersonName"
         tools:inputType="numberSigned" />
-
-    <TextView
-        android:id="@+id/experimentError3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:text="Invalid min trial"
-        android:textColor="#FF2929"
-        android:visibility="invisible" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
