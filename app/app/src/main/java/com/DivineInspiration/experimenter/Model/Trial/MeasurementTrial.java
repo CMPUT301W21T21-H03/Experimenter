@@ -17,6 +17,7 @@ public class MeasurementTrial extends Trial {
      * id of experiment
      */
     public MeasurementTrial(User trialUser, String trialExperimentID) {
+        this.trialType = Trial.MEASURE;
         this.trialID = UUID.randomUUID().toString();
         this.trialDate = new Date();
         this.trialUser = trialUser;

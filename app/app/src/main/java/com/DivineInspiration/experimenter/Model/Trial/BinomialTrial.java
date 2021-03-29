@@ -16,6 +16,7 @@ public class BinomialTrial extends Trial {
      * id of experiment
      */
     public BinomialTrial(User trialUser, String trialExperimentID) {
+        this.trialType = Trial.BINOMIAL;
         this.trialID = UUID.randomUUID().toString();
         this.trialDate = new Date();
         this.trialUser = trialUser;

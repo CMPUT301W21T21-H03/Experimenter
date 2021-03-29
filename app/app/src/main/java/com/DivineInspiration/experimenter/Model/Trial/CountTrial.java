@@ -16,6 +16,7 @@ public class CountTrial extends Trial {
      * id of experiment
      */
     public CountTrial(User trialUser, String trialExperimentID) {
+        this.trialType = Trial.COUNT;
         this.trialID = UUID.randomUUID().toString();
         this.trialDate = new Date();
         this.trialUser = trialUser;

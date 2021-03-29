@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Map;
 
 public abstract class Trial {
+
+    String trialType;
     String trialID;
     Date trialDate;
     User trialUser;
@@ -12,8 +14,15 @@ public abstract class Trial {
 
     public static final String COUNT = "Count trial";
     public static final String BINOMIAL = "Binomial trial";
-    public static final String NONNEGATIVE = "Non nagative trial";
+    public static final String NONNEGATIVE = "Non-Negative trial";
     public static final String MEASURE = "Measurement trial";
+    
+    /**
+     * Gets the type of this trial
+     * @return
+     * The experiment ID
+     */
+    public String getTrialType() { return trialType; }
 
     /**
      * Gets the ID of the trial
@@ -49,4 +58,5 @@ public abstract class Trial {
     public String getTrialExperimentID() {
         return trialExperimentID;
     }
+
 }
