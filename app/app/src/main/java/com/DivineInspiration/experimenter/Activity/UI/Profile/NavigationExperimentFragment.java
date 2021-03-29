@@ -61,7 +61,7 @@ public class NavigationExperimentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments()!=null) {
+        if (getArguments()!=null) {
             // ?
         }
     }
@@ -127,7 +127,7 @@ public class NavigationExperimentFragment extends Fragment {
                 subscribers.clear();
                 subscribers.addAll(users);
                 for (int i = 0; i < subscribers.size(); i++){
-                    if(UserManager.getInstance().getLocalUser().getUserId().equals(subscribers.get(i).getUserId())){
+                    if (UserManager.getInstance().getLocalUser().getUserId().equals(subscribers.get(i).getUserId())){
                         subSwitch.setChecked(true);
                     }
                 }
@@ -158,7 +158,7 @@ public class NavigationExperimentFragment extends Fragment {
           setting.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                  Snackbar.make(view, "settings clicked", Snackbar.LENGTH_LONG).show();
+                  Snackbar.make(view, "Settings clicked", Snackbar.LENGTH_LONG).show();
               }
           });
         } else {
@@ -167,7 +167,7 @@ public class NavigationExperimentFragment extends Fragment {
             profile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Snackbar.make(view, "profile clicked", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, "Profile clicked", Snackbar.LENGTH_LONG).show();
                 }
             });
         }

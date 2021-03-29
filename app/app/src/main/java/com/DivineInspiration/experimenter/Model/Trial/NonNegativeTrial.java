@@ -16,6 +16,7 @@ public class NonNegativeTrial extends Trial {
      * id of experiment
      */
     public NonNegativeTrial(User trialUser, String trialExperimentID) {
+        this.trialType = Trial.NONNEGATIVE;
         this.trialID = UUID.randomUUID().toString();
         this.trialDate = new Date();
         this.trialUser = trialUser;
