@@ -9,14 +9,14 @@ public abstract class Trial {
     String trialType;
     String trialID;
     Date trialDate;
-    User trialUser;
+    String trialUserID;
     String trialExperimentID;
 
     public static final String COUNT = "Count trial";
     public static final String BINOMIAL = "Binomial trial";
     public static final String NONNEGATIVE = "Non-Negative trial";
     public static final String MEASURE = "Measurement trial";
-    
+
     /**
      * Gets the type of this trial
      * @return
@@ -46,8 +46,8 @@ public abstract class Trial {
      * @return
      * ID of the trial's user
      */
-    public User getTrialUser() {
-        return trialUser;
+    public String getTrialUserID() {
+        return trialUserID;
     }
 
     /**

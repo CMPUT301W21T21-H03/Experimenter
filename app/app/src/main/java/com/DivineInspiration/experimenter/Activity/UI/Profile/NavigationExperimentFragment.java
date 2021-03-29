@@ -102,8 +102,8 @@ public class NavigationExperimentFragment extends Fragment {
         Experiment exp = (Experiment)getArguments().getSerializable("experiment");
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
-        expCity.setText(exp.getRegion() +" city");
-        trialNumber.setText(String.valueOf(exp.getMinimumTrials())+" trials needed");
+        expCity.setText(exp.getRegion() + " city");
+        trialNumber.setText(String.valueOf(exp.getMinimumTrials()) + " trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
 
