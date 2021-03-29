@@ -105,6 +105,11 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
         experimentError2 = view.findViewById(R.id.experimentError2);
         experimentError3 = view.findViewById(R.id.experimentError3);
 
+        //hide error at on start
+        experimentError1.setVisibility(TextView.GONE);
+        experimentError2.setVisibility(TextView.GONE);
+        experimentError3.setVisibility(TextView.GONE);
+
         trialSpinner.setOnItemSelectedListener(this);
 
         ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.create_experiment_spinner_item, options);
@@ -129,9 +134,9 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
                 String editExperimentAboutText = editExperimentAbout.getText().toString();
 
                 // reset all
-                experimentError1.setVisibility(TextView.INVISIBLE);
-                experimentError2.setVisibility(TextView.INVISIBLE);
-                experimentError3.setVisibility(TextView.INVISIBLE);
+                experimentError1.setVisibility(TextView.GONE);
+                experimentError2.setVisibility(TextView.GONE);
+                experimentError3.setVisibility(TextView.GONE);
 
                 // if invalid or empty, show error
                 boolean validFlag = true;

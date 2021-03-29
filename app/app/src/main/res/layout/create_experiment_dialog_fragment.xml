@@ -79,8 +79,7 @@
         android:layout_marginRight="10dp"
         android:ems="10"
         android:hint="Minimum Trial Count"
-        android:inputType="textPersonName"
-        tools:inputType="numberSigned" />
+        android:inputType="number" />
 
     <TextView
         android:id="@+id/experimentError3"
