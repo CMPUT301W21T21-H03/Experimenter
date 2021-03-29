@@ -10,19 +10,40 @@ public class BinomialTrial extends Trial {
 
     /**
      * Constructor
-     * @param trialUser
+     * @param trialUserID
      * user of this trial
      * @param trialExperimentID
      * id of experiment
      */
-    public BinomialTrial(User trialUser, String trialExperimentID) {
+    public BinomialTrial(String trialUserID, String trialExperimentID) {
         this.trialType = Trial.BINOMIAL;
         this.trialID = UUID.randomUUID().toString();
         this.trialDate = new Date();
-        this.trialUser = trialUser;
+        this.trialUserID = trialUserID;
         this.trialExperimentID = trialExperimentID;
         this.success = 0;
         this.failure = 0;
+    }
+
+    /**
+     * Constructor
+     * @param trialID
+     * the id of this trial
+     * @param trialDate
+     * the date of this trial
+     * @param trialUserID
+     * user of this trial
+     * @param trialExperimentID
+     * id of experiment
+     */
+    public BinomialTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, int success, int failure) {
+        this.trialType = Trial.BINOMIAL;
+        this.trialID = trialID;
+        this.trialDate = trialDate;
+        this.trialUserID = trialUserID;
+        this.trialExperimentID = trialExperimentID;
+        this.success = success;
+        this.failure = failure;
     }
 
     /**

@@ -10,18 +10,38 @@ public class CountTrial extends Trial {
 
     /**
      * Constructor
-     * @param trialUser
+     * @param trialUserID
      * user of this trial
      * @param trialExperimentID
      * id of experiment
      */
-    public CountTrial(User trialUser, String trialExperimentID) {
+    public CountTrial(String trialUserID, String trialExperimentID) {
         this.trialType = Trial.COUNT;
         this.trialID = UUID.randomUUID().toString();
         this.trialDate = new Date();
-        this.trialUser = trialUser;
+        this.trialUserID = trialUserID;
         this.trialExperimentID = trialExperimentID;
         this.count = 0;
+    }
+
+    /**
+     * Constructor
+     * @param trialID
+     * the id of this trial
+     * @param trialDate
+     * the date of this trial
+     * @param trialUserID
+     * user of this trial
+     * @param trialExperimentID
+     * id of experiment
+     */
+    public CountTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, int count) {
+        this.trialType = Trial.COUNT;
+        this.trialID = trialID;
+        this.trialDate = trialDate;
+        this.trialUserID = trialUserID;
+        this.trialExperimentID = trialExperimentID;
+        this.count = count;
     }
 
     /**
