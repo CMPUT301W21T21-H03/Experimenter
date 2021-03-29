@@ -36,13 +36,17 @@ public class TrialManager extends ArrayList<Trial> {
 
 
     /**
-     * Trial Manager contructor
+     * Trial Manager constructor
      */
     public TrialManager() {
         this.trials = new ArrayList<>();
     }
 
-
+    /**
+     * Get singleton instance
+     * @return
+     * experiment manager
+     */
     public static TrialManager getInstance() {
         if (singleton == null) {
             singleton = new TrialManager();
@@ -53,10 +57,11 @@ public class TrialManager extends ArrayList<Trial> {
     /**
      * Adds a trial to database
      * @param trial
-     * trial
+     * Trial to be added
      */
     public void addTrial(Trial trial) {
 
+        // Store standard trial data
         Map<String, Object> doc = new HashMap<>();
         doc.put("TrialType", trial.getTrialType());
         doc.put("TrialId", trial.getTrialID());
@@ -64,6 +69,7 @@ public class TrialManager extends ArrayList<Trial> {
         doc.put("OwnerID", trial.getTrialUserID());
         doc.put("ExperimentID", trial.getTrialExperimentID());
 
+        // Store data specific to a trial type
         switch (trial.getTrialType()) {
             case Trial.BINOMIAL: addBinomialTrial((BinomialTrial) trial, doc);
             break;
@@ -87,26 +93,53 @@ public class TrialManager extends ArrayList<Trial> {
         });
     }
 
+    /**
+     * Adds BinomialTrial attributes to a map
+     * @param trial
+     * The trial whose attributes are being stored
+     * @param doc
+     * The map containing trial attributes
+     */
     private void addBinomialTrial(BinomialTrial trial, Map<String, Object> doc) {
         doc.put("Success", trial.getSuccess());
         doc.put("Failure", trial.getFailure());
     }
 
+    /**
+     * Adds CountTrial attributes to a map
+     * @param trial
+     * The trial whose attributes are being stored
+     * @param doc
+     * The map containing trial attributes
+     */
     private void addCountTrial(CountTrial trial, Map<String, Object> doc) {
         doc.put("Count", trial.getCount());
     }
 
+    /**
+     * Adds MeasurementTrial attributes to a map
+     * @param trial
+     * The trial whose attributes are being stored
+     * @param doc
+     * The map containing trial attributes
+     */
     private void addMeasurementTrial(MeasurementTrial trial, Map<String, Object> doc) {
         doc.put("Measurements", trial.getMeasurements());
     }
 
+    /**
+     * Adds NonNegativeTrial attributes to a map
+     * @param trial
+     * The trial whose attributes are being stored
+     * @param doc
+     * The map containing trial attributes
+     */
     private void addNonNegativeTrial(NonNegativeTrial trial, Map<String, Object> doc) {
         doc.put("Count", trial.getCount());
     }
 
-
     /**
-     * Gets all trials created by the owner
+     * Gets all trials created by an experimenter
      * @param userId
      * user ID of owner
      * @param callback
@@ -135,9 +168,8 @@ public class TrialManager extends ArrayList<Trial> {
         });
     }
 
-
     /**
-     * Gets all trials created from an experiment
+     * Gets all trials created for an experiment
      * @param experimentId
      * user ID of owner
      * @param callback
@@ -166,10 +198,18 @@ public class TrialManager extends ArrayList<Trial> {
         });
     }
 
+    /**
+     * Converts data from a QueryDocumentSnapshot into a Trial object
+     * @param snapshot
+     * The QueryDocumentSnapshot storing the trial data
+     * @return
+     * A Trial object containing all of the data contained in snapshot.
+     */
     private Trial trialFromSnapshot(QueryDocumentSnapshot snapshot) {
 
         Trial trial = null;
         switch (snapshot.getString("TrialType")) {
+
             case Trial.BINOMIAL:
                 trial = new BinomialTrial(
                         snapshot.getString("TrialId"),
@@ -180,6 +220,7 @@ public class TrialManager extends ArrayList<Trial> {
                         Math.toIntExact(snapshot.getLong("Failure"))
                 );
                 break;
+
             case Trial.COUNT:
                     trial = new CountTrial(
                     snapshot.getString("TrialId"),
@@ -189,6 +230,7 @@ public class TrialManager extends ArrayList<Trial> {
                     Math.toIntExact(snapshot.getLong("Count"))
                     );
                     break;
+
             case Trial.MEASURE:
                 trial = new MeasurementTrial(
                         snapshot.getString("TrialId"),
@@ -198,6 +240,7 @@ public class TrialManager extends ArrayList<Trial> {
                         (ArrayList<Float>) snapshot.get("Measurements")
                 );
                 break;
+
             case Trial.NONNEGATIVE:
                 trial = new NonNegativeTrial(
                         snapshot.getString("TrialId"),
@@ -207,6 +250,9 @@ public class TrialManager extends ArrayList<Trial> {
                         Math.toIntExact(snapshot.getLong("Count"))
                 );
                 break;
+
+            default:
+                throw new IllegalArgumentException();
         }
 
         return trial;

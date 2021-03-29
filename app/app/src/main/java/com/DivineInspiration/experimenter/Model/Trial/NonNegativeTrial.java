@@ -34,6 +34,8 @@ public class NonNegativeTrial extends Trial {
      * user of this trial
      * @param trialExperimentID
      * id of experiment
+     * @param count
+     * count value of this trial
      */
     public NonNegativeTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, int count) {
         this.trialType = Trial.NONNEGATIVE;

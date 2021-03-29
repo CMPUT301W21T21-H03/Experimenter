@@ -35,6 +35,10 @@ public class BinomialTrial extends Trial {
      * user of this trial
      * @param trialExperimentID
      * id of experiment
+     * @param success
+     * success value for this trial
+     * @param failure
+     * failure value for this trial
      */
     public BinomialTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, int success, int failure) {
         this.trialType = Trial.BINOMIAL;

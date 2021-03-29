@@ -34,6 +34,8 @@ public class MeasurementTrial extends Trial {
      * user of this trial
      * @param trialExperimentID
      * id of experiment
+     * @param measurements
+     * list of measurments for this trial
      */
     public MeasurementTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, ArrayList<Float> measurements) {
         this.trialType = Trial.MEASURE;

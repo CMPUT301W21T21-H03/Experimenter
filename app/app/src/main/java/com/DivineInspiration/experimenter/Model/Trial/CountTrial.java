@@ -34,6 +34,8 @@ public class CountTrial extends Trial {
      * user of this trial
      * @param trialExperimentID
      * id of experiment
+     * @param count
+     * count value for this trial
      */
     public CountTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, int count) {
         this.trialType = Trial.COUNT;
