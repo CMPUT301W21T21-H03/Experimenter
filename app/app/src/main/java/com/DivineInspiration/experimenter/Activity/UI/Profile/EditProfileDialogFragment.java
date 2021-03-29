@@ -156,6 +156,7 @@ public class EditProfileDialogFragment extends DialogFragment {
                     editProfileError2.setVisibility(TextView.VISIBLE);
                     validFlag = false;
                 }
+                //city may be blank
 //                if (editCityText.length()==0) {
 //                    editProfileError3.setVisibility(TextView.VISIBLE);
 //                    validFlag = false;
@@ -175,19 +176,21 @@ public class EditProfileDialogFragment extends DialogFragment {
                 //try catch is not needed here
 
                 // updates manager by changes an existing user
+                //first check if the user name exist alreadu
                 newManager.queryUserByName(newUser.getUserName(), user -> {
 
+                    //if the user return is null, then the desired user name is not used
+                    //or if the user fetched is the user currently logged in
                     if(user == null || (user.getUserName().equals(newUser.getUserName()) && user.getUserId().equals(newUser.getUserId())) ){
-                        String currentName = user == null? "":user.getUserName();
 
+                        String currentName = user == null? "":user.getUserName(); //save user name only if trying to update current user, as in, no name update
+
+                        //attempt to update user account
                         newManager.updateUser(newUser, user1 -> {
-
                             if(user1 != null){
                                 showAlert(false, "Profile changed successfully");
                                 // show success
-
-                                if(!user1.getUserName().equals(currentName)){
-
+                                if(!user1.getUserName().equals(currentName)){ // update owner name of all experiments only if the user name changed
                                     ExperimentManager.getInstance().updateOwnerName(user1.getUserId(), user1.getUserName(), bool ->{
                                         callback.onUserReady(user1);
                                     });
