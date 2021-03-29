@@ -17,9 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.User;
@@ -155,6 +157,13 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onUserReady(User user) {
                         displayUserToolbar(user);
+                        //a bit of a hack, reload experiment tab when profile is changed
+                        Fragment expListFrag = getChildFragmentManager().findFragmentByTag("f0");
+                        if(expListFrag instanceof Refreshable){
+                            Log.d("woah", "is refreshable");
+                            ((Refreshable)expListFrag).refresh();
+                        }
+
                     }
                 }).show(getChildFragmentManager(),"Edit Profile");
             }

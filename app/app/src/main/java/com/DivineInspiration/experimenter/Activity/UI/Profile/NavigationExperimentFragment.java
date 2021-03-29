@@ -141,9 +141,9 @@ public class NavigationExperimentFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    experimentManager.subToExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID());
+                    experimentManager.subToExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID(), null);
                 } else {
-                    experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID());
+                    experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID(), null);
                 }
             }
         });

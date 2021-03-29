@@ -2,6 +2,8 @@ package com.DivineInspiration.experimenter.Model;
 
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -44,6 +46,11 @@ public class Experiment implements Serializable {
         ownerID = "null";
         experimentID = "defaultExpID";
         experimentDescription = "defaultDescrip";
+    }
+
+    @NotNull
+    public String toString(){
+        return String.format("%s, %s, %s", experimentName, ownerName, ownerID);
     }
 
     /**

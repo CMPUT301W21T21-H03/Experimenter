@@ -105,10 +105,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
         experimentError2 = view.findViewById(R.id.experimentError2);
         experimentError3 = view.findViewById(R.id.experimentError3);
 
-        //hide error at on start
-        experimentError1.setVisibility(TextView.GONE);
-        experimentError2.setVisibility(TextView.GONE);
-        experimentError3.setVisibility(TextView.GONE);
+
 
         trialSpinner.setOnItemSelectedListener(this);
 
@@ -145,10 +142,10 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
                     experimentError1.setVisibility(TextView.VISIBLE);
                     validFlag = false;
                 }
-                if (editCityText.length() == 0) {
-                    experimentError2.setVisibility(TextView.VISIBLE);
-                    validFlag = false;
-                }
+//                if (editCityText.length() == 0) {
+//                    experimentError2.setVisibility(TextView.VISIBLE);
+//                    validFlag = false;
+//                }
                 if (minTrial.length() == 0 || Integer.valueOf(minTrial.getText().toString()) == 0) {
                     experimentError3.setVisibility(TextView.VISIBLE);
                     validFlag = false;
@@ -163,7 +160,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
                 // generate new experiment and add to experiment manager
                 try {
                     Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked());
-                    ExperimentManager.getInstance().addExperiment(temp);
+                    ExperimentManager.getInstance().addExperiment(temp, null);
                     callback.onExperimentAdded(temp);
                     // show success
                     showAlert(false, "Created new experiment!");

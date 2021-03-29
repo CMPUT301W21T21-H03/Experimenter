@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 import com.google.gson.Gson;
@@ -124,7 +125,7 @@ public class UserManager{
      * callback
      */
     @SuppressWarnings("unchecked")
-    public void queryUser(String id, OnUserReadyListener callback){
+    public void queryUserById(String id, OnUserReadyListener callback){
 
         DocumentReference doc = db.collection("Users").document(id);
         doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -142,6 +143,30 @@ public class UserManager{
                     callback.onUserReady(null);
                 }
             }
+        });
+    }
+
+    /**
+     * returns a single user matching the name
+     * @param name
+     * @param callback
+     */
+    public void queryUserByName(String name, OnUserReadyListener callback){
+
+        db.collection("Users").whereEqualTo("UserName", name).limit(1).get().addOnCompleteListener(task -> {
+
+           if(task.isSuccessful() && callback!= null){
+               if (task.getResult().size() == 0){
+                   callback.onUserReady(null);
+               }
+               else{
+                   for(QueryDocumentSnapshot doc: task.getResult()){
+                       callback.onUserReady(userFromSnapshot(doc));
+                   }
+               }
+           } else{
+               callback.onUserReady(null);
+           }
         });
     }
 
@@ -240,9 +265,14 @@ public class UserManager{
                         contact.put("Email", user.getContactInfo().getEmail());
 
         doc.put("Contacts", contact);
-        db.collection("Users").document(user.getUserId()).set(doc).addOnSuccessListener(aVoid -> {
-            if(callback != null){
-                callback.onUserReady(user);
+        db.collection("Users").document(user.getUserId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    if(callback != null){
+                        callback.onUserReady(user);
+                    }
+                }
             }
         });
     }

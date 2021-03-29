@@ -2,6 +2,7 @@ package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,9 +71,11 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
             // when card is clicked it ...?
             @Override
             public void onClick(View v) {
-                // Red is kinda Sus
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("experiment", experiments.get(position));
+                for (Experiment exp : experiments){
+                    Log.d("woah", exp.toString());
+                }
                 Navigation.findNavController(v).navigate(R.id.homeToExp, bundle);
             }
         });

@@ -23,7 +23,7 @@
         android:layout_marginHorizontal="10dp"
         android:text="Invalid experiment name"
         android:textColor="#FF2929"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/editExperimentCity"
@@ -42,7 +42,7 @@
         android:layout_marginHorizontal="10dp"
         android:text="Invalid City"
         android:textColor="#FF2929"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/editExperimentAbout"
@@ -88,6 +88,6 @@
         android:layout_marginHorizontal="10dp"
         android:text="Invalid min trial"
         android:textColor="#FF2929"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
