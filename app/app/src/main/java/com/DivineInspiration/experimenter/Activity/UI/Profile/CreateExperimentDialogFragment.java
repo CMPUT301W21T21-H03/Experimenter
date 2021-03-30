@@ -159,7 +159,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
                 // try block below?
                 // generate new experiment and add to experiment manager
                 try {
-                    Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked());
+                    Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), Experiment.ONGOING);
                     ExperimentManager.getInstance().addExperiment(temp, null);
                     callback.onExperimentAdded(temp);
                     // show success
