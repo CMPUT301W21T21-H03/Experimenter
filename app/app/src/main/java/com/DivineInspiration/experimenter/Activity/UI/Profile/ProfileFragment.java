@@ -166,6 +166,8 @@ public class ProfileFragment extends Fragment {
                     displayUserToolbar(user);
                 }
             });
+            fab.setVisibility(View.GONE);
+            editProfileButton.setVisibility(View.GONE);
         }
 
 
