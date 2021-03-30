@@ -42,6 +42,8 @@ public class ExperimentDialogFragment extends DialogFragment  {
     TextView experimentError2;
     TextView experimentError3;
 
+    Experiment exp;
+
     // options for experiment
     private String[] expOptions = {"Counting", "Binomial", "NonNegative", "Measuring"};
     private String[] expValues = {Trial.COUNT, Trial.BINOMIAL, Trial.NONNEGATIVE, Trial.MEASURE};
@@ -97,13 +99,11 @@ public class ExperimentDialogFragment extends DialogFragment  {
         // create view
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.experiment_dialog_fragment, null);
         // get current user
-        User newUser = UserManager.getInstance().getLocalUser();
-
-
-        initViewItems(view);
+        User localUser = UserManager.getInstance().getLocalUser();
 
 
 
+        init(view);
 
 
         final AlertDialog dialog = new AlertDialog.Builder(getContext())
@@ -123,10 +123,7 @@ public class ExperimentDialogFragment extends DialogFragment  {
                 // optional?
                 String editExperimentAboutText = editExperimentAbout.getText().toString();
 
-                // reset all
-                experimentError1.setVisibility(TextView.GONE);
-                experimentError2.setVisibility(TextView.GONE);
-                experimentError3.setVisibility(TextView.GONE);
+
 
                 // if invalid or empty, show error
                 boolean validFlag = true;
@@ -135,11 +132,8 @@ public class ExperimentDialogFragment extends DialogFragment  {
                     experimentError1.setVisibility(TextView.VISIBLE);
                     validFlag = false;
                 }
-//                if (editCityText.length() == 0) {
-//                    experimentError2.setVisibility(TextView.VISIBLE);
-//                    validFlag = false;
-//                }
-                if (minTrial.length() == 0 || Integer.valueOf(minTrial.getText().toString()) == 0) {
+
+                if (minTrial.length() == 0 || Integer.parseInt(minTrial.getText().toString()) == 0) {
                     experimentError3.setVisibility(TextView.VISIBLE);
                     validFlag = false;
                 }
@@ -149,17 +143,38 @@ public class ExperimentDialogFragment extends DialogFragment  {
                     return;
                 }
 
-                // try block below?
-                // generate new experiment and add to experiment manager
-                try {
-                    Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), Experiment.ONGOING);
-                    ExperimentManager.getInstance().addExperiment(temp, null);
-                    callback.onExperimentAdded(temp);
-                    // show success
-                    showAlert(false, "Created new experiment!");
-                } catch (Exception e) {
-                    // failed to create experiment
-                    showAlert(true, "Failed to create experiment!");
+
+                if(exp == null){
+                    //no extra arguments => just create new experiment
+                    // generate new experiment and add to experiment manager
+
+                    Experiment temp = new Experiment(editExperimentNameText, localUser.getUserId(), localUser.getUserName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), Experiment.ONGOING);
+                    ExperimentManager.getInstance().addExperiment(temp, successful -> {
+                        if(successful){
+                            callback.onExperimentAdded(temp);
+                            // show success
+                            showAlert(false, "Created new experiment!");
+                        }
+                        else{
+                            // failed to create experiment
+                            showAlert(true, "Failed to create experiment!");
+                        }
+                    });
+                }
+                else{
+                    //edit an existing id
+                    Experiment temp = new Experiment(exp.getExperimentID(),editExperimentNameText, exp.getOwnerID(), exp.getOwnerName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), currentStatusSelection);
+                    ExperimentManager.getInstance().updateExperiment(temp, successful -> {
+                        if(successful){
+                            callback.onExperimentAdded(temp);
+                            // show success
+                            showAlert(false, "Edit experiment successful!");
+                        }
+                        else{
+                            // failed to create experiment
+                            showAlert(true, "Failed to edit experiment!");
+                        }
+                    });
                 }
 
                 // closes dialog
@@ -170,7 +185,7 @@ public class ExperimentDialogFragment extends DialogFragment  {
         return  dialog;
     }
 
-    private void initViewItems(View view){
+    private void init(View view){
         // inits all the parts of dialog
         editExperimentName = view.findViewById(R.id.editExperimentName);
 
@@ -182,6 +197,10 @@ public class ExperimentDialogFragment extends DialogFragment  {
         experimentError1 = view.findViewById(R.id.experimentError1);
         experimentError2 = view.findViewById(R.id.experimentError2);
         experimentError3 = view.findViewById(R.id.experimentError3);
+        // reset all
+        experimentError1.setVisibility(TextView.GONE);
+        experimentError2.setVisibility(TextView.GONE);
+        experimentError3.setVisibility(TextView.GONE);
 
         //trial spinner
         trialSpinner = view.findViewById(R.id.editExperimentSpinner);
@@ -221,8 +240,27 @@ public class ExperimentDialogFragment extends DialogFragment  {
         statusSpinner.setAdapter(statusAdapter);
 
 
+        Bundle args = getArguments();
+        if(args != null){
+             exp = (Experiment)args.getSerializable("exp");
+
+             editExperimentName .setText( exp.getExperimentName());
+             editCity.setText( exp.getRegion());
+             editExperimentAbout.setText(exp.getExperimentDescription());
+             minTrial.setText(String.valueOf(exp.getMinimumTrials()));
+             requireGeo.setChecked(exp.isRequireGeo());
+
+             statusSpinner.setSelection(indexOf(statusValues, exp.getStatus()));
+            trialSpinner.setSelection(indexOf(expValues, exp.getTrialType()));
+
+        }
 
     }
 
-
+    private int indexOf(String[] arr, String val){
+        for(int i = 0; i< arr.length; i++){
+            if(arr[i].equals(val)) return i;
+        }
+        return 0;
+    }
 }

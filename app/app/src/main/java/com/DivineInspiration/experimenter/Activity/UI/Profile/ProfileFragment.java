@@ -64,7 +64,7 @@ public class ProfileFragment extends Fragment {
      * Constructor
      */
     public ProfileFragment() {
-        super(R.layout.fragment_home);
+        super(R.layout.profile_fragment);
         // Log.d("MESSAGE", "fragment, constructor");
     }
 

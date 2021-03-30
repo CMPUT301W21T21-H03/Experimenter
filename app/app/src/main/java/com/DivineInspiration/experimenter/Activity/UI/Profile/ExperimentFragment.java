@@ -31,7 +31,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 
 
-public class NavigationExperimentFragment extends Fragment {
+public class ExperimentFragment extends Fragment {
     // text views
     private TextView experimentName;
     private TextView ownerName;
@@ -56,17 +56,7 @@ public class NavigationExperimentFragment extends Fragment {
     String[] tabNames = {"Trials", "Comments", "Stats"};
     private ArrayList<User> subscribers  = new ArrayList<>();
 
-    /**
-     * On create
-     * @param savedInstanceState
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments()!=null) {
-            // ?
-        }
-    }
+
 
     /**
      * On create
@@ -90,26 +80,15 @@ public class NavigationExperimentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // get text views
-        experimentName = view.findViewById(R.id.experimentName_expFrag);
-        ownerName = view.findViewById(R.id.ownerName_expFrag);
-        subNumber = view.findViewById(R.id.expFragSubCount);
-        trialNumber = view.findViewById(R.id.trialNumber_expFrag);
-        trialType = view.findViewById(R.id.trialType_expFrag);
-        expAbout = view.findViewById(R.id.experimentDescription_expFrag);
-        expCity = view.findViewById(R.id.experimentRegion_expFrag);
-        subSwitch = view.findViewById(R.id.subscribeSwitch);
-        status = view.findViewById(R.id.status_exp);
+        init(view);
 
         // get experiment and set the text
         Experiment exp = (Experiment)getArguments().getSerializable("experiment");
-        experimentName.setText(exp.getExperimentName());
-        ownerName.setText("Created by " + exp.getOwnerName());
-        expCity.setText(exp.getRegion() + " city");
-        trialNumber.setText(String.valueOf(exp.getMinimumTrials()) + " trials needed");
-        trialType.setText(exp.getTrialType());
-        expAbout.setText(exp.getExperimentDescription());
-        status.setText(String.format("Status: %s", exp.getStatus()));
+
+        updateText(exp);
+
+
+
 
         // view pager
         pager = view.findViewById(R.id.expPager);
@@ -162,7 +141,18 @@ public class NavigationExperimentFragment extends Fragment {
           setting.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                  Snackbar.make(view, "Settings clicked", Snackbar.LENGTH_LONG).show();
+                    Bundle args = new Bundle();
+                    args.putSerializable("exp", exp);
+
+                  ExperimentDialogFragment frag = new ExperimentDialogFragment(new ExperimentDialogFragment.OnExperimentAddedListener() {
+                        @Override
+                        public void onExperimentAdded(Experiment experiment) {
+                            updateText(experiment);
+                        }
+                    });
+                  frag.setArguments(args);
+                  frag.show(getChildFragmentManager(), "edit experiment frag");
+
               }
           });
         } else {
@@ -171,13 +161,38 @@ public class NavigationExperimentFragment extends Fragment {
             profile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Snackbar.make(view, "Profile clicked", Snackbar.LENGTH_LONG).show();
+
                     Bundle bundle = new Bundle();
                     bundle.putString("user",exp.getOwnerID().toString());
                     Navigation.findNavController(v).navigate(R.id.expTouser, bundle);
                 }
             });
         }
+
+
+
+    }
+    private void init(View view){
+        // get text views
+        experimentName = view.findViewById(R.id.experimentName_expFrag);
+        ownerName = view.findViewById(R.id.ownerName_expFrag);
+        subNumber = view.findViewById(R.id.expFragSubCount);
+        trialNumber = view.findViewById(R.id.trialNumber_expFrag);
+        trialType = view.findViewById(R.id.trialType_expFrag);
+        expAbout = view.findViewById(R.id.experimentDescription_expFrag);
+        expCity = view.findViewById(R.id.experimentRegion_expFrag);
+        subSwitch = view.findViewById(R.id.subscribeSwitch);
+        status = view.findViewById(R.id.status_exp);
+    }
+
+    private void updateText(Experiment exp){
+        experimentName.setText(exp.getExperimentName());
+        ownerName.setText("Created by " + exp.getOwnerName());
+        expCity.setText(exp.getRegion() + " city");
+        trialNumber.setText(String.valueOf(exp.getMinimumTrials()) + " trials needed");
+        trialType.setText(exp.getTrialType());
+        expAbout.setText(exp.getExperimentDescription());
+        status.setText(String.format("Status: %s", exp.getStatus()));
     }
 
     /**

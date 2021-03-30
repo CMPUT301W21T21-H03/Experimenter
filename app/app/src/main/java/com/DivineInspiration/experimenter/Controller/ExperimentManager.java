@@ -189,6 +189,11 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
+    public void updateExperiment(Experiment experiment, OnOperationDone callback){
+        //how to rename functions 101
+        addExperiment(experiment, callback);
+    }
+
     /**
      * TODO ?
      *
