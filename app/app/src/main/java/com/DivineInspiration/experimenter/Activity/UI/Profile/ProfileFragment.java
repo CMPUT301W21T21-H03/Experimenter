@@ -47,6 +47,7 @@ public class ProfileFragment extends Fragment {
     TabLayout tabLayout;
     int changeUser = 0;
 
+
     // Declaring TextView
     TextView userID_home;
     TextView userName_home;
@@ -147,13 +148,26 @@ public class ProfileFragment extends Fragment {
         });
 
         // setup local user
-        manager.setContext(getContext());
-        manager.initializeLocalUser(new UserManager.OnUserReadyListener() {
-            @Override
-            public void onUserReady(User user) {
-                displayUserToolbar(user);
-            }
-        });
+        if(changeUser == 0){
+            manager.setContext(getContext());
+            manager.initializeLocalUser(new UserManager.OnUserReadyListener() {
+                @Override
+                public void onUserReady(User user) {
+                    displayUserToolbar(user);
+                }
+            });
+
+        }else{
+            String userID =  getArguments().getString("user");
+            Log.d("important", userID);
+//            UserManager.getInstance().queryUserById(userID, new UserManager.OnUserReadyListener( ){
+//                @Override
+//                public void onUserReady(User user) {
+//                    displayUserToolbar(user);
+//                }
+//            });
+        }
+
 
         // title is transparent when expanded
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
@@ -198,9 +212,14 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         if(manager.getLocalUser() != null){
             displayUserToolbar(manager.getLocalUser());
+            changeUser = 0;
+        }else{
+
         }
 
     }
+
+
 
     /**
      * Displaying the user info
