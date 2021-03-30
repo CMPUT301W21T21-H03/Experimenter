@@ -176,7 +176,7 @@ public class EditProfileDialogFragment extends DialogFragment {
                 //try catch is not needed here
 
                 // updates manager by changes an existing user
-                //first check if the user name exist alreadu
+                //first check if the user name exist already
                 newManager.queryUserByName(newUser.getUserName(), user -> {
 
                     //if the user return is null, then the desired user name is not used
@@ -195,12 +195,14 @@ public class EditProfileDialogFragment extends DialogFragment {
                                         callback.onUserReady(user1);
                                     });
                                 }
-
+                                else{
+                                    //No need to update experiments, just callback profile ui to update views
+                                    callback.onUserReady(user1);
+                                }
                             }
                             else{
                                 //adding user failed
                                 showAlert(true, "Failed to change profile");
-
                             }
                             dialog.dismiss();
                         });
