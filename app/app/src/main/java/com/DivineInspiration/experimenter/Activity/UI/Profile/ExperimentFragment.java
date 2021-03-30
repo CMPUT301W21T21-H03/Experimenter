@@ -24,7 +24,6 @@ import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -144,9 +143,9 @@ public class ExperimentFragment extends Fragment {
                     Bundle args = new Bundle();
                     args.putSerializable("exp", currentExperiment);
 
-                  ExperimentDialogFragment frag = new ExperimentDialogFragment(new ExperimentDialogFragment.OnExperimentAddedListener() {
+                  ExperimentDialogFragment frag = new ExperimentDialogFragment(new ExperimentDialogFragment.OnExperimentOperationDoneListener() {
                         @Override
-                        public void onExperimentAdded(Experiment experiment) {
+                        public void onOperationDone(Experiment experiment) {
                             updateText(experiment);
                             currentExperiment = experiment;
                         }

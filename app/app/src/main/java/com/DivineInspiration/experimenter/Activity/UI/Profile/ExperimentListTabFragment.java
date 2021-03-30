@@ -1,7 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentListTabFragment extends Fragment implements ExperimentDialogFragment.OnExperimentAddedListener, Refreshable {
+public class ExperimentListTabFragment extends Fragment implements ExperimentDialogFragment.OnExperimentOperationDoneListener, Refreshable {
     private ExperimentAdapter adapter;
     ArrayList<Experiment> exps = new ArrayList<>();
 
@@ -70,7 +69,7 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
      * @param experiment
      */
     @Override
-    public void onExperimentAdded(Experiment experiment) {
+    public void onOperationDone(Experiment experiment) {
         // add experiment to start of list
         exps.add(0, experiment);
         // refresh

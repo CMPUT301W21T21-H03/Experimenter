@@ -180,7 +180,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                new ExperimentDialogFragment((ExperimentDialogFragment.OnExperimentAddedListener) getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(), "create experiment");
+                new ExperimentDialogFragment((ExperimentDialogFragment.OnExperimentOperationDoneListener) getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(), "create experiment");
             }
         });
 

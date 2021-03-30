@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,11 +25,14 @@ import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ExperimentDialogFragment extends DialogFragment  {
 
 
     // inits
-    OnExperimentAddedListener callback;
+    OnExperimentOperationDoneListener callback;
     ExperimentManager expManager = ExperimentManager.getInstance();
     TextView editExperimentName;
     Spinner trialSpinner;
@@ -58,12 +60,13 @@ public class ExperimentDialogFragment extends DialogFragment  {
     private String[] statusValues = {Experiment.ONGOING, Experiment.HIDDEN};
     private String currentStatusSelection;
 
+    AlertDialog dialog;
 
     /**
      * When experiment is added
      */
-    public interface OnExperimentAddedListener {
-        void onExperimentAdded(Experiment experiment);
+    public interface OnExperimentOperationDoneListener {
+        void onOperationDone(Experiment experiment);
     }
 
     /**
@@ -71,7 +74,7 @@ public class ExperimentDialogFragment extends DialogFragment  {
      * @param callback
      * callback function
      */
-    public ExperimentDialogFragment(OnExperimentAddedListener callback) {
+    public ExperimentDialogFragment(OnExperimentOperationDoneListener callback) {
         super();
         this.callback = callback;
     }
@@ -109,7 +112,7 @@ public class ExperimentDialogFragment extends DialogFragment  {
         init(view);
 
 
-        final AlertDialog dialog = new AlertDialog.Builder(getContext())
+        dialog = new AlertDialog.Builder(getContext())
                 .setView(view)
                 .setMessage("Create Experiment")
                 .setPositiveButton("Ok", null)
@@ -157,7 +160,7 @@ public class ExperimentDialogFragment extends DialogFragment  {
 
                             // show success
                             showAlert(false, "Created new experiment!");
-                            callback.onExperimentAdded(temp);
+                            callback.onOperationDone(temp);
                         }
                         else{
                             // failed to create experiment
@@ -174,7 +177,7 @@ public class ExperimentDialogFragment extends DialogFragment  {
                         if(successful){
                             // show success
                             showAlert(false, "Edit experiment successful!");
-                            callback.onExperimentAdded(temp);
+                            callback.onOperationDone(temp);
                         }
                         else{
                             // failed to create experiment
@@ -253,18 +256,31 @@ public class ExperimentDialogFragment extends DialogFragment  {
         if(args != null){
              exp = (Experiment)args.getSerializable("exp");
 
-             editExperimentName .setText( exp.getExperimentName());
-             editCity.setText( exp.getRegion());
-             editExperimentAbout.setText(exp.getExperimentDescription());
-             minTrial.setText(String.valueOf(exp.getMinimumTrials()));
-             requireGeo.setChecked(exp.isRequireGeo());
 
-             statusSpinner.setSelection(indexOf(statusValues, exp.getStatus()));
-            trialSpinner.setSelection(indexOf(expValues, exp.getTrialType()));
 
         }
 
+        view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
+
+        view.findViewById(R.id.deleteExp).setOnClickListener(v -> {
+            //TODO add a warning dialog!!
+            expManager.deleteExperiment(exp.getExperimentID(), successful -> {
+               dismiss();
+            });
+            //TODO display a success message
+        });
+
+        view.findViewById(R.id.endExp).setOnClickListener(v -> {
+            exp.setStatus(Experiment.ENDED);
+            //TODO add a warning dialog
+            expManager.updateExperiment(exp, successful -> {
+                dismiss();
+            });
+            //TODO display a success message
+        });
     }
+
+
 
     private int indexOf(String[] arr, String val){
         for(int i = 0; i< arr.length; i++){
