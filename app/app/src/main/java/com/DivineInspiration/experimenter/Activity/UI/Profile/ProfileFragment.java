@@ -42,8 +42,8 @@ public class ProfileFragment extends Fragment {
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
-    boolean changeUser = false;
-    String userIdExp;
+    boolean otherUser = false;
+    String otherUserId;
 
 
     // Declaring TextView
@@ -70,6 +70,7 @@ public class ProfileFragment extends Fragment {
 
     /**
      * When view is created
+     *
      * @param view
      * @param savedInstanceState
      */
@@ -90,34 +91,28 @@ public class ProfileFragment extends Fragment {
         userDescription_home = view.findViewById(R.id.userDescription_home);
         dividerLineName_home = view.findViewById(R.id.sectionDivideLineName_home);
         dividerLineAbout_home = view.findViewById(R.id.sectionDivideLineAbout_home);
-        if(getArguments() != null){
 
-            String userID =  getArguments().getString("user");
-            if(userID != manager.getLocalUser().getUserId()){
-                 changeUser = true;
-                 userIdExp = userID;
-
-            }else {
+        if (getArguments() != null) {
+            String userID = getArguments().getString("user");
+            if (!userID.equals(manager.getLocalUser().getUserId())) {
+                otherUser = true;
+                otherUserId = userID;
             }
-
-        }else {
-            changeUser = false;
-            userIdExp = null;
+        } else {
+            otherUser = false;
+            otherUserId = null;
         }
 
 
         // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
-        ((ViewGroup)view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-
-
-
+        ((ViewGroup) view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
 
         // viewpager
         pager = view.findViewById(R.id.expPager);
-        if(changeUser == true){
-            adapter = new HomeFragmentAdapter(this,userIdExp);
-        }else{
+        if (otherUser) {
+            adapter = new HomeFragmentAdapter(this, otherUserId);
+        } else {
             adapter = new HomeFragmentAdapter(this);
         }
 
@@ -126,7 +121,7 @@ public class ProfileFragment extends Fragment {
         tabLayout = view.findViewById(R.id.Tablayout);
 
         // when new tab is selected
-        new TabLayoutMediator(tabLayout, pager,true, new TabLayoutMediator.TabConfigurationStrategy() {
+        new TabLayoutMediator(tabLayout, pager, true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 tab.setText(tabNames[position]);
@@ -136,24 +131,26 @@ public class ProfileFragment extends Fragment {
         // when a new tab is selected
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
 
             // hide fab when on trials or subscriptions
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if((tab.getPosition() == 0) && (changeUser == false)){
+                if ((tab.getPosition() == 0) && (!otherUser)) {
                     fab.show();
-                }
-                else{
+                } else {
                     fab.hide();
                 }
             }
         });
 
         // setup local user
-        if(changeUser == false){
+        if (!otherUser) {
             manager.setContext(getContext());
             manager.initializeLocalUser(new UserManager.OnUserReadyListener() {
                 @Override
@@ -162,10 +159,8 @@ public class ProfileFragment extends Fragment {
                 }
             });
 
-        }else{
-            String userID =  getArguments().getString("user");
-            Log.d("important", userID);
-            UserManager.getInstance().queryUserById(userID, new UserManager.OnUserReadyListener( ){
+        } else {
+            UserManager.getInstance().queryUserById(otherUserId, new UserManager.OnUserReadyListener() {
                 @Override
                 public void onUserReady(User user) {
                     displayUserToolbar(user);
@@ -181,12 +176,11 @@ public class ProfileFragment extends Fragment {
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
         // fab onclick
-        fab.setOnClickListener(new View.OnClickListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//              Snackbar.make(view, "Woaaaaaah dude!!!", Snackbar.LENGTH_LONG).show();
-//              manager.queryUser(manager.getLocalUser().getUserId(), HomeFragment.this);
-                new ExperimentDialogFragment((ExperimentDialogFragment.OnExperimentAddedListener)getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(),"create experiment");
+
+                new ExperimentDialogFragment((ExperimentDialogFragment.OnExperimentAddedListener) getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(), "create experiment");
             }
         });
 
@@ -200,13 +194,12 @@ public class ProfileFragment extends Fragment {
                         displayUserToolbar(user);
                         //a bit of a hack, reload experiment tab when profile is changed
                         Fragment expListFrag = getChildFragmentManager().findFragmentByTag("f0");
-                        if(expListFrag instanceof Refreshable){
-                            Log.d("woah", "is refreshable");
-                            ((Refreshable)expListFrag).refresh();
+                        if (expListFrag instanceof Refreshable) {
+                            ((Refreshable) expListFrag).refresh();
                         }
 
                     }
-                }).show(getChildFragmentManager(),"Edit Profile");
+                }).show(getChildFragmentManager(), "Edit Profile");
             }
         });
     }
@@ -217,20 +210,21 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(manager.getLocalUser() != null){
+        if (otherUserId != null) {
+            manager.queryUserById(otherUserId, user -> {
+                displayUserToolbar(user);
+            });
+        } else {
             displayUserToolbar(manager.getLocalUser());
-        }else{
-
         }
 
     }
 
 
-
     /**
      * Displaying the user info
-     * @param user
-     * user
+     *
+     * @param user user
      */
     private void displayUserToolbar(User user) {
         // setting the user info in UI
@@ -248,10 +242,10 @@ public class ProfileFragment extends Fragment {
         String cityText = user.getContactInfo().getCityName();
         userCity_home.setVisibility(cityText.isEmpty() ? View.GONE : View.VISIBLE);
 
-        String emailText =user.getContactInfo().getEmail();
+        String emailText = user.getContactInfo().getEmail();
         userEmail_home.setVisibility(emailText.isEmpty() ? View.GONE : View.VISIBLE);
 
-        if (cityText.isEmpty() && emailText.isEmpty()){
+        if (cityText.isEmpty() && emailText.isEmpty()) {
             dividerLineName_home.setVisibility(View.GONE);
         } else {
             dividerLineName_home.setVisibility(View.VISIBLE);
@@ -259,10 +253,10 @@ public class ProfileFragment extends Fragment {
 
         // Setting Visibility of User Description
         String descriptionText = user.getDescription();
-        if (descriptionText.isEmpty()){
+        if (descriptionText.isEmpty()) {
             userDescription_home.setVisibility(View.GONE);
             dividerLineAbout_home.setVisibility(View.GONE);
-        } else{
+        } else {
             userDescription_home.setVisibility(View.VISIBLE);
             dividerLineAbout_home.setVisibility(View.VISIBLE);
         }
@@ -271,16 +265,19 @@ public class ProfileFragment extends Fragment {
     /**
      * Home fragment
      */
-    public  class HomeFragmentAdapter extends FragmentStateAdapter {
+    public class HomeFragmentAdapter extends FragmentStateAdapter {
         String changeUserID = null;
+
         /**
          * Constructor
+         *
          * @param frag
          */
-        public HomeFragmentAdapter(Fragment frag){
+        public HomeFragmentAdapter(Fragment frag) {
             super(frag);
         }
-        public HomeFragmentAdapter(Fragment frag, String userID){
+
+        public HomeFragmentAdapter(Fragment frag, String userID) {
             super(frag);
             changeUserID = userID;
             Log.d("importantStuff2", changeUserID);
@@ -288,28 +285,30 @@ public class ProfileFragment extends Fragment {
 
         /**
          * When fragment is created
-         * @param position
-         * position in adapter
+         *
+         * @param position position in adapter
          * @return
          */
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            switch (position){
+            Bundle bundle = new Bundle();
+            ExperimentListTabFragment experimentListTabFragment = new ExperimentListTabFragment();
+            switch (position) {
                 case 0:
-
-                    if(changeUserID!=null) {
-
-                        Bundle bundle = new Bundle();
-                        bundle.putString("userIDExp", userIdExp);
-                        ExperimentListTabFragment experimentListTabFragment = new ExperimentListTabFragment();
-                        experimentListTabFragment.setArguments(bundle);
-                        return experimentListTabFragment;
+                    bundle.putString("type", "exp");
+                    if (changeUserID != null) {
+                        bundle.putString("userId", otherUserId);
                     }
-
-                    return new ExperimentListTabFragment();
+                    experimentListTabFragment.setArguments(bundle);
+                    return experimentListTabFragment;
                 case 1:
-                    return new SubscriptionTabFragment();
+                    bundle.putString("type", "sub");
+                    if (changeUserID != null) {
+                        bundle.putString("userId", otherUserId);
+                    }
+                    experimentListTabFragment.setArguments(bundle);
+                    return experimentListTabFragment;
                 case 2:
                     return new TestFrag();
                 default:
@@ -319,8 +318,8 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Get item count
-         * @return
-         * number of items in list
+         *
+         * @return number of items in list
          */
         @Override
         public int getItemCount() {
@@ -340,6 +339,7 @@ public class ProfileFragment extends Fragment {
 
         /**
          * When view is created
+         *
          * @param view
          * @param savedInstanceState
          */

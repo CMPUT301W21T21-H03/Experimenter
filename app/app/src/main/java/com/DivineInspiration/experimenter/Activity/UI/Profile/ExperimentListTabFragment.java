@@ -22,13 +22,13 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentListTabFragment extends Fragment implements ExperimentDialogFragment.OnExperimentAddedListener, Refreshable
-{
+public class ExperimentListTabFragment extends Fragment implements ExperimentDialogFragment.OnExperimentAddedListener, Refreshable {
     private ExperimentAdapter adapter;
     ArrayList<Experiment> exps = new ArrayList<>();
 
     /**
      * Experiment list fragment on create
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -44,6 +44,7 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
 
     /**
      * Experiment list fragment on view
+     *
      * @param view
      * @param savedInstanceState
      */
@@ -65,6 +66,7 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
 
     /**
      * When experiment is added, update list
+     *
      * @param experiment
      */
     @Override
@@ -81,26 +83,32 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
         // get all experiments from database
 
         String userID;
+        String type;
         Bundle bundle = this.getArguments();
+        assert (bundle != null);
+        type = bundle.getString("type");
 
-        if(bundle != null){
-            userID = bundle.getString("userIdExp");
-
-        }else{
+        if (bundle.containsKey("userId")) {
+            userID = bundle.getString("userId");
+        } else {
             userID = UserManager.getInstance().getLocalUser().getUserId();
         }
 
-        ExperimentManager.getInstance().queryUserExperiment(userID, new ExperimentManager.OnExperimentListReadyListener() {
-            @Override
-            public void onExperimentsReady(List<Experiment> experiments) {
-                Log.d("woah", "data changed");
-                // update experiment list
-                exps.clear();
-                exps.addAll(experiments);
-                exps.sort(new Experiment.sortByDescDate());
-                adapter.notifyDataSetChanged();
-            }
-        });
+        if(type.equals("sub")){
+            ExperimentManager.getInstance().queryUserSubs(userID, experiments -> loadList(experiments));
+        }else if(type.equals("exp")){
+            ExperimentManager.getInstance().queryUserExperiment(userID, experiments -> loadList(experiments));
+        }else{
+            throw new RuntimeException("oh no!");
+        }
+    }
+
+    private void loadList(List<Experiment> experiments){
+        // update experiment list
+        exps.clear();
+        exps.addAll(experiments);
+        exps.sort(new Experiment.sortByDescDate());
+        adapter.notifyDataSetChanged();
     }
 }
 
