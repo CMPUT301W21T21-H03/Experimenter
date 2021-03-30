@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
@@ -29,7 +31,7 @@ public class ExperimentDialogFragment extends DialogFragment  {
 
     // inits
     OnExperimentAddedListener callback;
-    ExperimentManager newExperiment = ExperimentManager.getInstance();
+    ExperimentManager expManager = ExperimentManager.getInstance();
     TextView editExperimentName;
     Spinner trialSpinner;
     TextView editCity;
@@ -44,6 +46,8 @@ public class ExperimentDialogFragment extends DialogFragment  {
 
     Experiment exp;
 
+    Fragment parentFrag;
+
     // options for experiment
     private String[] expOptions = {"Counting", "Binomial", "NonNegative", "Measuring"};
     private String[] expValues = {Trial.COUNT, Trial.BINOMIAL, Trial.NONNEGATIVE, Trial.MEASURE};
@@ -54,7 +58,6 @@ public class ExperimentDialogFragment extends DialogFragment  {
     private String[] statusValues = {Experiment.ONGOING, Experiment.HIDDEN};
     private String currentStatusSelection;
 
-    public static String TAG = "create experiment";
 
     /**
      * When experiment is added
@@ -81,7 +84,7 @@ public class ExperimentDialogFragment extends DialogFragment  {
      * message
      */
     private void showAlert(boolean error, String message) {
-        Snackbar snackbar = Snackbar.make(getParentFragment().getView(), message, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(parentFrag.getView(), message, Snackbar.LENGTH_LONG);
         snackbar.getView().setBackgroundColor(Color.parseColor(error ? "#913c3c" : "#2e6b30"));
         snackbar.show();
     }
@@ -149,11 +152,12 @@ public class ExperimentDialogFragment extends DialogFragment  {
                     // generate new experiment and add to experiment manager
 
                     Experiment temp = new Experiment(editExperimentNameText, localUser.getUserId(), localUser.getUserName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), Experiment.ONGOING);
-                    ExperimentManager.getInstance().addExperiment(temp, successful -> {
+                    expManager.getInstance().addExperiment(temp, successful -> {
                         if(successful){
-                            callback.onExperimentAdded(temp);
+
                             // show success
                             showAlert(false, "Created new experiment!");
+                            callback.onExperimentAdded(temp);
                         }
                         else{
                             // failed to create experiment
@@ -162,13 +166,15 @@ public class ExperimentDialogFragment extends DialogFragment  {
                     });
                 }
                 else{
+                    showAlert(false, "Created new experiment!");
                     //edit an existing id
                     Experiment temp = new Experiment(exp.getExperimentID(),editExperimentNameText, exp.getOwnerID(), exp.getOwnerName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), currentStatusSelection);
-                    ExperimentManager.getInstance().updateExperiment(temp, successful -> {
+                   expManager.updateExperiment(temp, successful -> {
+
                         if(successful){
-                            callback.onExperimentAdded(temp);
                             // show success
                             showAlert(false, "Edit experiment successful!");
+                            callback.onExperimentAdded(temp);
                         }
                         else{
                             // failed to create experiment
@@ -186,6 +192,9 @@ public class ExperimentDialogFragment extends DialogFragment  {
     }
 
     private void init(View view){
+
+        parentFrag = getParentFragment();
+
         // inits all the parts of dialog
         editExperimentName = view.findViewById(R.id.editExperimentName);
 

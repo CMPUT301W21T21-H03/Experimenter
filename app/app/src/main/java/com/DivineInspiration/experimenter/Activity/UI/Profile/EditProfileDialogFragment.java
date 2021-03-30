@@ -178,15 +178,16 @@ public class EditProfileDialogFragment extends DialogFragment {
                 // updates manager by changes an existing user
                 //first check if the user name exist already
                 newManager.queryUserByName(newUser.getUserName(), user -> {
-
+                    Log.d("woah profile", EditProfileDialogFragment.this.getParentFragment().toString());
                     //if the user return is null, then the desired user name is not used
                     //or if the user fetched is the user currently logged in
                     if(user == null || (user.getUserName().equals(newUser.getUserName()) && user.getUserId().equals(newUser.getUserId())) ){
-
+                        Log.d("woah profile", EditProfileDialogFragment.this.getParentFragment().toString());
                         String currentName = user == null? "":user.getUserName(); //save user name only if trying to update current user, as in, no name update
 
                         //attempt to update user account
                         newManager.updateUser(newUser, user1 -> {
+                            Log.d("woah profile", EditProfileDialogFragment.this.getParentFragment().toString());
                             if(user1 != null){
                                 showAlert(false, "Profile changed successfully");
                                 // show success

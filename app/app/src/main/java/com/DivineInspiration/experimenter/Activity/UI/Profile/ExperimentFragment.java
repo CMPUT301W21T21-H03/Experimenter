@@ -56,7 +56,7 @@ public class ExperimentFragment extends Fragment {
     String[] tabNames = {"Trials", "Comments", "Stats"};
     private ArrayList<User> subscribers  = new ArrayList<>();
 
-
+    Experiment currentExperiment;
 
     /**
      * On create
@@ -83,9 +83,9 @@ public class ExperimentFragment extends Fragment {
         init(view);
 
         // get experiment and set the text
-        Experiment exp = (Experiment)getArguments().getSerializable("experiment");
+        currentExperiment = (Experiment)getArguments().getSerializable("experiment");
 
-        updateText(exp);
+        updateText(currentExperiment);
 
 
 
@@ -104,7 +104,7 @@ public class ExperimentFragment extends Fragment {
         }).attach();
 
         // get experiment that you subbed to
-        UserManager.getInstance().queryExperimentSubs(exp.getExperimentID(), new UserManager.OnUserListReadyListener() {
+        UserManager.getInstance().queryExperimentSubs(currentExperiment.getExperimentID(), new UserManager.OnUserListReadyListener() {
             @Override
             public void onUserListReady(ArrayList<User> users) {
                 subscribers.clear();
@@ -124,9 +124,9 @@ public class ExperimentFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    experimentManager.subToExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID(), null);
+                    experimentManager.subToExperiment(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID(), null);
                 } else {
-                    experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID(), null);
+                    experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID(), null);
                 }
             }
         });
@@ -136,18 +136,19 @@ public class ExperimentFragment extends Fragment {
         View profile = view.findViewById(R.id.profile);
 
         // when local user is owner
-        if (UserManager.getInstance().getLocalUser().getUserId().equals(exp.getOwnerID())) {
+        if (UserManager.getInstance().getLocalUser().getUserId().equals(currentExperiment.getOwnerID())) {
           profile.setVisibility(View.GONE);
           setting.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
                     Bundle args = new Bundle();
-                    args.putSerializable("exp", exp);
+                    args.putSerializable("exp", currentExperiment);
 
                   ExperimentDialogFragment frag = new ExperimentDialogFragment(new ExperimentDialogFragment.OnExperimentAddedListener() {
                         @Override
                         public void onExperimentAdded(Experiment experiment) {
                             updateText(experiment);
+                            currentExperiment = experiment;
                         }
                     });
                   frag.setArguments(args);
@@ -163,7 +164,7 @@ public class ExperimentFragment extends Fragment {
                 public void onClick(View v) {
 
                     Bundle bundle = new Bundle();
-                    bundle.putString("user",exp.getOwnerID().toString());
+                    bundle.putString("user",currentExperiment.getOwnerID().toString());
                     Navigation.findNavController(v).navigate(R.id.expTouser, bundle);
                 }
             });
