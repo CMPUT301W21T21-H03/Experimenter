@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/ownerButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:visibility="gone">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/deleteExp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:backgroundTint="@color/black3"
+            android:layout_weight="1"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/endExp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="End"
+            android:layout_weight="1"
+            android:backgroundTint="@color/black3"/>
+    </LinearLayout>
+
     <EditText
         android:id="@+id/editExperimentName"
         android:layout_width="match_parent"
@@ -89,5 +112,12 @@
         android:text="Invalid min trial"
         android:textColor="#FF2929"
         android:visibility="gone" />
+
+    <Spinner
+        android:id="@+id/statusSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -24,7 +24,7 @@ import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.snackbar.Snackbar;
 
-public class CreateExperimentDialogFragment extends DialogFragment implements AdapterView.OnItemSelectedListener {
+public class ExperimentDialogFragment extends DialogFragment  {
 
 
     // inits
@@ -36,15 +36,21 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
     TextView editExperimentAbout;
     TextView minTrial;
     CheckBox requireGeo;
+    Spinner statusSpinner;
     // error text
     TextView experimentError1;
     TextView experimentError2;
     TextView experimentError3;
 
     // options for experiment
-    private String[] options = {"Counting", "Binomial", "NonNegative", "Measuring"};
-    private String[] values = {Trial.COUNT, Trial.BINOMIAL, Trial.NONNEGATIVE, Trial.MEASURE};
-    private String currentSelection;
+    private String[] expOptions = {"Counting", "Binomial", "NonNegative", "Measuring"};
+    private String[] expValues = {Trial.COUNT, Trial.BINOMIAL, Trial.NONNEGATIVE, Trial.MEASURE};
+    private String currentExpSelection;
+
+    //options for status
+    private String[] statusOptions = {"On going", "Hidden"};
+    private String[] statusValues = {Experiment.ONGOING, Experiment.HIDDEN};
+    private String currentStatusSelection;
 
     public static String TAG = "create experiment";
 
@@ -60,7 +66,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
      * @param callback
      * callback function
      */
-    public CreateExperimentDialogFragment(OnExperimentAddedListener callback) {
+    public ExperimentDialogFragment(OnExperimentAddedListener callback) {
         super();
         this.callback = callback;
     }
@@ -89,29 +95,16 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         // create view
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.create_experiment_dialog_fragment, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.experiment_dialog_fragment, null);
         // get current user
         User newUser = UserManager.getInstance().getLocalUser();
 
-        // inits all the parts of dialog
-        editExperimentName = view.findViewById(R.id.editExperimentName);
-        trialSpinner = view.findViewById(R.id.editExperimentSpinner);
-        editCity = view.findViewById(R.id.editExperimentCity);
-        editExperimentAbout = view.findViewById(R.id.editExperimentAbout);
-        minTrial = view.findViewById(R.id.editExperimentMin);
-        requireGeo = view.findViewById(R.id.editExperimentGeo);
-        // errors
-        experimentError1 = view.findViewById(R.id.experimentError1);
-        experimentError2 = view.findViewById(R.id.experimentError2);
-        experimentError3 = view.findViewById(R.id.experimentError3);
+
+        initViewItems(view);
 
 
 
-        trialSpinner.setOnItemSelectedListener(this);
 
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.create_experiment_spinner_item, options);
-        adapter.setDropDownViewResource(R.layout.create_experiment_spinner_item);
-        trialSpinner.setAdapter(adapter);
 
         final AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setView(view)
@@ -159,7 +152,7 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
                 // try block below?
                 // generate new experiment and add to experiment manager
                 try {
-                    Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), Experiment.ONGOING);
+                    Experiment temp = new Experiment(editExperimentNameText, newUser.getUserId(), newUser.getUserName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), Experiment.ONGOING);
                     ExperimentManager.getInstance().addExperiment(temp, null);
                     callback.onExperimentAdded(temp);
                     // show success
@@ -177,28 +170,59 @@ public class CreateExperimentDialogFragment extends DialogFragment implements Ad
         return  dialog;
     }
 
-    /**
-     * When an item is selected
-     * @param parent
-     * parent of list
-     * @param view
-     * view
-     * @param position
-     * position of item selected
-     * @param id
-     */
-    @Override
-    public void onItemSelected(AdapterView < ? > parent, View view, int position, long id) {
-        currentSelection = values[position];
+    private void initViewItems(View view){
+        // inits all the parts of dialog
+        editExperimentName = view.findViewById(R.id.editExperimentName);
+
+        editCity = view.findViewById(R.id.editExperimentCity);
+        editExperimentAbout = view.findViewById(R.id.editExperimentAbout);
+        minTrial = view.findViewById(R.id.editExperimentMin);
+        requireGeo = view.findViewById(R.id.editExperimentGeo);
+        // errors
+        experimentError1 = view.findViewById(R.id.experimentError1);
+        experimentError2 = view.findViewById(R.id.experimentError2);
+        experimentError3 = view.findViewById(R.id.experimentError3);
+
+        //trial spinner
+        trialSpinner = view.findViewById(R.id.editExperimentSpinner);
+        trialSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentExpSelection = expValues[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                currentExpSelection = expValues[0];
+            }
+        });
+
+        ArrayAdapter trialAdapter = new ArrayAdapter(getContext(), R.layout.create_experiment_spinner_item, expOptions);
+        trialAdapter.setDropDownViewResource(R.layout.create_experiment_spinner_item);
+        trialSpinner.setAdapter(trialAdapter);
+
+
+        //status spinner
+        statusSpinner = view.findViewById(R.id.statusSpinner);
+        statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentStatusSelection = statusValues[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                currentStatusSelection = statusValues[0];
+            }
+        });
+
+        ArrayAdapter statusAdapter = new ArrayAdapter(getContext(), R.layout.create_experiment_spinner_item, statusOptions);
+        statusAdapter.setDropDownViewResource(R.layout.create_experiment_spinner_item);
+        statusSpinner.setAdapter(statusAdapter);
+
+
+
     }
 
-    /**
-     * When nothing is selected, the current will be set to the first one
-     * @param parent
-     * parent
-     */
-    @Override
-    public void onNothingSelected(AdapterView < ? > parent) {
-        currentSelection = values[0];
-    }
+
 }

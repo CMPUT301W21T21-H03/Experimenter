@@ -20,10 +20,9 @@ import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class ExperimentListTabFragment extends Fragment implements CreateExperimentDialogFragment.OnExperimentAddedListener, Refreshable
+public class ExperimentListTabFragment extends Fragment implements ExperimentDialogFragment.OnExperimentAddedListener, Refreshable
 {
     private ExperimentAdapter adapter;
     ArrayList<Experiment> exps = new ArrayList<>();

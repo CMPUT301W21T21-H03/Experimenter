@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -30,8 +29,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
-import static com.DivineInspiration.experimenter.Activity.UI.Profile.CreateExperimentDialogFragment.TAG;
 
 
 public class ProfileFragment extends Fragment {
@@ -181,7 +178,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
 //              Snackbar.make(view, "Woaaaaaah dude!!!", Snackbar.LENGTH_LONG).show();
 //              manager.queryUser(manager.getLocalUser().getUserId(), HomeFragment.this);
-                new CreateExperimentDialogFragment((CreateExperimentDialogFragment.OnExperimentAddedListener)getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(),"create experiment");
+                new ExperimentDialogFragment((ExperimentDialogFragment.OnExperimentAddedListener)getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(),"create experiment");
             }
         });
 
