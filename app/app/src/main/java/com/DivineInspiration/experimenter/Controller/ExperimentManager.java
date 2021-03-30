@@ -172,7 +172,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
         doc.put("Region", experiment.getRegion());
         doc.put("MinimumTrials", experiment.getMinimumTrials());
         doc.put("RequireGeo", experiment.isRequireGeo());
+        doc.put("Status", experiment.getStatus());
         doc.put("SubscriberIDs", new ArrayList<>());
+
 
         db.collection("Experiments").document(experiment.getExperimentID()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -289,10 +291,11 @@ public class ExperimentManager extends ArrayList<Experiment> {
                 snapshot.getString("OwnerID"),
                 snapshot.getString("OwnerName"),
                 snapshot.getString("ExperimentDescription"),
-                Objects.requireNonNull(snapshot.getString("TrialType")),
+                snapshot.getString("TrialType"),
                 snapshot.getString("Region"),
-                Objects.requireNonNull(snapshot.getLong("MinimumTrials")).intValue(),
-                snapshot.getBoolean("RequireGeo")
+                snapshot.getLong("MinimumTrials").intValue(),
+                snapshot.getBoolean("RequireGeo"),
+                snapshot.getString("Status")
         );
 
     }

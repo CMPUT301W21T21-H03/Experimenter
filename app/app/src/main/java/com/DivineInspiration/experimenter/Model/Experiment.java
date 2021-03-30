@@ -28,11 +28,11 @@ public class Experiment implements Serializable {
     private String experimentDescription;
     private  boolean requireGeo;
     private String ownerName;
+    private String status;
 
-
-    public static final int ONGOING = 10;
-    public static final int ENDED = 11;
-    public static final int HIDDEN = 12; //unpublished
+    public static final String ONGOING = "Ongoing";
+    public static final String ENDED = "Ended";
+    public static final String HIDDEN = "Unpublished";
 
     /**
      * default constructor when no arguments are given, mostly for testing
@@ -69,10 +69,8 @@ public class Experiment implements Serializable {
      * @param requireGeo
      * boolean value of if the geolocation is required
      */
-    public Experiment(String experimentID, String experimentName, String ownerID,String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo) {
+    public Experiment(String experimentID, String experimentName, String ownerID,String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo, String status ) {
 
-        // TODO Generate id that is not already in the database
-        // TODO Get user from id database
         this.experimentName = experimentName;
         this.experimentID = experimentID;
         this.ownerID = ownerID;
@@ -82,7 +80,17 @@ public class Experiment implements Serializable {
         this.minimumTrials = minimumTrials;
         this.experimentDescription = experimentDescription;
         this.requireGeo = requireGeo;
+        this.status = status;
     }
+
+
+    public String getStatus(){
+        return status;
+    }
+    public void setStatus(String newStatus){
+        status = newStatus;
+    }
+
 
     /**
      * Gets the ID of the experiment
@@ -204,10 +212,9 @@ public class Experiment implements Serializable {
      * @param experimentDescription
      * description of experiment
      */
-    public Experiment(String experimentName, String ownerID, String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo) {
+    public Experiment(String experimentName, String ownerID, String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo, String status) {
 
-        // TODO Generate id that is not already in the database
-        // TODO Get user from id database
+
         this.experimentName = experimentName;
         this.experimentID = IdGen.genExperimentId(ownerID);
         this.ownerID = ownerID;
@@ -217,6 +224,7 @@ public class Experiment implements Serializable {
         this.minimumTrials = minimumTrials;
         this.experimentDescription = experimentDescription;
         this.requireGeo = requireGeo;
+        this.status = status;
     }
 
     /**
