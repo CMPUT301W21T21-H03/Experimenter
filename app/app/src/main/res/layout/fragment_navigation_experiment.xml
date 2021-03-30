@@ -140,6 +140,13 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/status_exp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Status:" />
+
+                    <TextView
                         android:id="@+id/trialType_expFrag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

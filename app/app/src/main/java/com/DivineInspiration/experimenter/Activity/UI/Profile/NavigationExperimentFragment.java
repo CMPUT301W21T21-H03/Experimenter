@@ -41,6 +41,7 @@ public class NavigationExperimentFragment extends Fragment {
     private TextView expAbout;
     private TextView expCity;
     private SwitchCompat subSwitch;
+    private TextView status;
 
     // managers
     ExperimentManager experimentManager = ExperimentManager.getInstance();
@@ -98,6 +99,7 @@ public class NavigationExperimentFragment extends Fragment {
         expAbout = view.findViewById(R.id.experimentDescription_expFrag);
         expCity = view.findViewById(R.id.experimentRegion_expFrag);
         subSwitch = view.findViewById(R.id.subscribeSwitch);
+        status = view.findViewById(R.id.status_exp);
 
         // get experiment and set the text
         Experiment exp = (Experiment)getArguments().getSerializable("experiment");
@@ -107,6 +109,7 @@ public class NavigationExperimentFragment extends Fragment {
         trialNumber.setText(String.valueOf(exp.getMinimumTrials()) + " trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
+        status.setText(String.format("Status: %s", exp.getStatus()));
 
         // view pager
         pager = view.findViewById(R.id.expPager);

@@ -265,7 +265,7 @@ public class ProfileFragment extends Fragment {
     /**
      * Home fragment
      */
-    public  class HomeFragmentAdapter extends FragmentStateAdapter {
+    public class HomeFragmentAdapter extends FragmentStateAdapter {
 
         /**
          * Constructor
