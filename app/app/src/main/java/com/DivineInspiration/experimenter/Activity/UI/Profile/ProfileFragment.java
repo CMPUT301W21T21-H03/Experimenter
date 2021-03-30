@@ -160,12 +160,12 @@ public class ProfileFragment extends Fragment {
         }else{
             String userID =  getArguments().getString("user");
             Log.d("important", userID);
-//            UserManager.getInstance().queryUserById(userID, new UserManager.OnUserReadyListener( ){
-//                @Override
-//                public void onUserReady(User user) {
-//                    displayUserToolbar(user);
-//                }
-//            });
+            UserManager.getInstance().queryUserById(userID, new UserManager.OnUserReadyListener( ){
+                @Override
+                public void onUserReady(User user) {
+                    displayUserToolbar(user);
+                }
+            });
         }
 
 

@@ -180,7 +180,7 @@ public class UserManager{
     private User userFromSnapshot(DocumentSnapshot document){
         Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
         // typo => update firebase and other stuff (lots of work)
-        String description = document.getString("UserDecription");
+        String description = document.getString("UserDescription");
         String name = document.getString("UserName");
 
         // if no contacts assert error
