@@ -46,6 +46,7 @@ public class ProfileFragment extends Fragment {
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
     boolean changeUser = false;
+    String userIdExp;
 
 
     // Declaring TextView
@@ -56,6 +57,7 @@ public class ProfileFragment extends Fragment {
     TextView userDescription_home;
     View dividerLineName_home;
     View dividerLineAbout_home;
+
 
     // main page tab names
     private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
@@ -96,12 +98,14 @@ public class ProfileFragment extends Fragment {
             String userID =  getArguments().getString("user");
             if(userID != manager.getLocalUser().getUserId()){
                  changeUser = true;
+                 userIdExp = userID;
 
             }else {
             }
 
         }else {
             changeUser = false;
+            userIdExp = null;
         }
 
 
@@ -114,7 +118,12 @@ public class ProfileFragment extends Fragment {
 
         // viewpager
         pager = view.findViewById(R.id.expPager);
-        adapter = new HomeFragmentAdapter(this);
+        if(changeUser == true){
+            adapter = new HomeFragmentAdapter(this,userIdExp);
+        }else{
+            adapter = new HomeFragmentAdapter(this);
+        }
+
         pager.setAdapter(adapter);
 
         tabLayout = view.findViewById(R.id.Tablayout);
@@ -266,13 +275,18 @@ public class ProfileFragment extends Fragment {
      * Home fragment
      */
     public  class HomeFragmentAdapter extends FragmentStateAdapter {
-
+        String changeUserID = null;
         /**
          * Constructor
          * @param frag
          */
         public HomeFragmentAdapter(Fragment frag){
             super(frag);
+        }
+        public HomeFragmentAdapter(Fragment frag, String userID){
+            super(frag);
+            changeUserID = userID;
+            Log.d("importantStuff2", changeUserID);
         }
 
         /**
@@ -286,6 +300,16 @@ public class ProfileFragment extends Fragment {
         public Fragment createFragment(int position) {
             switch (position){
                 case 0:
+
+                    if(changeUserID!=null) {
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userIDExp", userIdExp);
+                        ExperimentListTabFragment experimentListTabFragment = new ExperimentListTabFragment();
+                        experimentListTabFragment.setArguments(bundle);
+                        return experimentListTabFragment;
+                    }
+
                     return new ExperimentListTabFragment();
                 case 1:
                     return new SubscriptionTabFragment();

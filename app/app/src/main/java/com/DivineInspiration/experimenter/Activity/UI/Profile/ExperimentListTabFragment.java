@@ -80,7 +80,18 @@ public class ExperimentListTabFragment extends Fragment implements CreateExperim
     @Override
     public void refresh() {
         // get all experiments from database
-        ExperimentManager.getInstance().queryUserExperiment(UserManager.getInstance().getLocalUser().getUserId(), new ExperimentManager.OnExperimentListReadyListener() {
+
+        String userID;
+        Bundle bundle = this.getArguments();
+
+        if(bundle != null){
+            userID = bundle.getString("userIdExp");
+
+        }else{
+            userID = UserManager.getInstance().getLocalUser().getUserId();
+        }
+
+        ExperimentManager.getInstance().queryUserExperiment(userID, new ExperimentManager.OnExperimentListReadyListener() {
             @Override
             public void onExperimentsReady(List<Experiment> experiments) {
                 Log.d("woah", "data changed");
