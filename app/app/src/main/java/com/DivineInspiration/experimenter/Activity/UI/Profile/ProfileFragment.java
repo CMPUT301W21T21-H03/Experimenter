@@ -31,6 +31,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import static com.DivineInspiration.experimenter.Activity.UI.Profile.CreateExperimentDialogFragment.TAG;
+
 
 public class ProfileFragment extends Fragment {
 
@@ -43,6 +45,7 @@ public class ProfileFragment extends Fragment {
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
+    int changeUser = 0;
 
     // Declaring TextView
     TextView userID_home;
@@ -87,10 +90,27 @@ public class ProfileFragment extends Fragment {
         userDescription_home = view.findViewById(R.id.userDescription_home);
         dividerLineName_home = view.findViewById(R.id.sectionDivideLineName_home);
         dividerLineAbout_home = view.findViewById(R.id.sectionDivideLineAbout_home);
+        if(getArguments() != null){
+
+            String userID =  getArguments().getString("user");
+            Log.d("important", String.valueOf(changeUser));
+            if(userID != manager.getLocalUser().getUserId()){
+                 changeUser = 1;
+                 Log.d("important", String.valueOf(changeUser));
+            }else {
+                changeUser = 0;
+                Log.d("important", String.valueOf(changeUser));
+            }
+
+        }
 
 
         // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
         ((ViewGroup)view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+
+
+
+
 
         // viewpager
         pager = view.findViewById(R.id.expPager);

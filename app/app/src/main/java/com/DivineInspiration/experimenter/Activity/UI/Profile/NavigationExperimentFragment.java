@@ -169,7 +169,9 @@ public class NavigationExperimentFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 //                    Snackbar.make(view, "Profile clicked", Snackbar.LENGTH_LONG).show();
-                    Navigation.findNavController(v).navigate(R.id.expTouser);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("user",exp.getOwnerID().toString());
+                    Navigation.findNavController(v).navigate(R.id.expTouser, bundle);
                 }
             });
         }
