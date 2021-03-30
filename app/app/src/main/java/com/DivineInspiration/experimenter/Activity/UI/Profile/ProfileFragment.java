@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment {
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
-    int changeUser = 0;
+    boolean changeUser = false;
 
 
     // Declaring TextView
@@ -94,15 +94,14 @@ public class ProfileFragment extends Fragment {
         if(getArguments() != null){
 
             String userID =  getArguments().getString("user");
-            Log.d("important", String.valueOf(changeUser));
             if(userID != manager.getLocalUser().getUserId()){
-                 changeUser = 1;
-                 Log.d("important", String.valueOf(changeUser));
+                 changeUser = true;
+
             }else {
-                changeUser = 0;
-                Log.d("important", String.valueOf(changeUser));
             }
 
+        }else {
+            changeUser = false;
         }
 
 
@@ -138,7 +137,7 @@ public class ProfileFragment extends Fragment {
             // hide fab when on trials or subscriptions
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getPosition() == 0){
+                if((tab.getPosition() == 0) && (changeUser == false)){
                     fab.show();
                 }
                 else{
@@ -148,7 +147,7 @@ public class ProfileFragment extends Fragment {
         });
 
         // setup local user
-        if(changeUser == 0){
+        if(changeUser == false){
             manager.setContext(getContext());
             manager.initializeLocalUser(new UserManager.OnUserReadyListener() {
                 @Override
@@ -214,7 +213,6 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         if(manager.getLocalUser() != null){
             displayUserToolbar(manager.getLocalUser());
-            changeUser = 0;
         }else{
 
         }
