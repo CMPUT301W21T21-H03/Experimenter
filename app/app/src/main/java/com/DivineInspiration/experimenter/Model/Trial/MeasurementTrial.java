@@ -11,16 +11,39 @@ public class MeasurementTrial extends Trial {
 
     /**
      * Constructor
-     * @param trialUser
+     * @param trialUserID
      * user of this trial
      * @param trialExperimentID
      * id of experiment
      */
-    public MeasurementTrial(User trialUser, String trialExperimentID) {
+    public MeasurementTrial(String trialUserID, String trialExperimentID) {
+        this.trialType = Trial.MEASURE;
         this.trialID = UUID.randomUUID().toString();
         this.trialDate = new Date();
-        this.trialUser = trialUser;
+        this.trialUserID = trialUserID;
         this.trialExperimentID = trialExperimentID;
+    }
+
+    /**
+     * Constructor
+     * @param trialID
+     * the id of this trial
+     * @param trialDate
+     * the date of this trial
+     * @param trialUserID
+     * user of this trial
+     * @param trialExperimentID
+     * id of experiment
+     * @param measurements
+     * list of measurments for this trial
+     */
+    public MeasurementTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, ArrayList<Float> measurements) {
+        this.trialType = Trial.MEASURE;
+        this.trialID = trialID;
+        this.trialDate = trialDate;
+        this.trialUserID = trialUserID;
+        this.trialExperimentID = trialExperimentID;
+        this.measurements = measurements;
     }
 
     /**

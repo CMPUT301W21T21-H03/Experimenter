@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ExperimentListTabFragment extends Fragment implements CreateExperimentDialogFragment.OnExperimentAddedListener
+public class ExperimentListTabFragment extends Fragment implements CreateExperimentDialogFragment.OnExperimentAddedListener, Refreshable
 {
     private ExperimentAdapter adapter;
     ArrayList<Experiment> exps = new ArrayList<>();
@@ -60,17 +61,7 @@ public class ExperimentListTabFragment extends Fragment implements CreateExperim
         recycler.setAdapter(adapter);
         recycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-        // get all experiments from database
-        ExperimentManager.getInstance().queryUserExperiment(UserManager.getInstance().getLocalUser().getUserId(), new ExperimentManager.OnExperimentListReadyListener() {
-            @Override
-            public void onExperimentsReady(List<Experiment> experiments) {
-                // update experiment list
-                exps.clear();
-                exps.addAll(experiments);
-                exps.sort(new Experiment.sortByDescDate());
-                adapter.notifyDataSetChanged();
-            }
-        });
+        refresh();
     }
 
     /**
@@ -86,5 +77,20 @@ public class ExperimentListTabFragment extends Fragment implements CreateExperim
     }
 
 
+    @Override
+    public void refresh() {
+        // get all experiments from database
+        ExperimentManager.getInstance().queryUserExperiment(UserManager.getInstance().getLocalUser().getUserId(), new ExperimentManager.OnExperimentListReadyListener() {
+            @Override
+            public void onExperimentsReady(List<Experiment> experiments) {
+                Log.d("woah", "data changed");
+                // update experiment list
+                exps.clear();
+                exps.addAll(experiments);
+                exps.sort(new Experiment.sortByDescDate());
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 }
 

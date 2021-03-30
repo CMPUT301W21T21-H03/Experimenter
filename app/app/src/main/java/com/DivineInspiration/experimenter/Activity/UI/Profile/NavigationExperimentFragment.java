@@ -103,8 +103,8 @@ public class NavigationExperimentFragment extends Fragment {
         Experiment exp = (Experiment)getArguments().getSerializable("experiment");
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
-        expCity.setText(exp.getRegion() +" city");
-        trialNumber.setText(String.valueOf(exp.getMinimumTrials())+" trials needed");
+        expCity.setText(exp.getRegion() + " city");
+        trialNumber.setText(String.valueOf(exp.getMinimumTrials()) + " trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
 
@@ -142,9 +142,9 @@ public class NavigationExperimentFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    experimentManager.subToExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID());
+                    experimentManager.subToExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID(), null);
                 } else {
-                    experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID());
+                    experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(), exp.getExperimentID(), null);
                 }
             }
         });

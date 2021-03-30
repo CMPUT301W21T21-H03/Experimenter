@@ -2,6 +2,8 @@ package com.DivineInspiration.experimenter.Model;
 
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,14 +13,11 @@ public class Experiment implements Serializable {
 
     public static class sortByDescDate implements Comparator<Experiment> {
 
-
         @Override
         public int compare(Experiment o1, Experiment o2) {
             return -(o1.getExperimentID().compareTo(o2.getExperimentID()));//since exp id is time sortable, reverse sorting gives the desired effect
         }
     }
-
-
 
     private String experimentID;
     private String experimentName;
@@ -44,6 +43,11 @@ public class Experiment implements Serializable {
         ownerID = "null";
         experimentID = "defaultExpID";
         experimentDescription = "defaultDescrip";
+    }
+
+    @NotNull
+    public String toString(){
+        return String.format("%s, %s, %s", experimentName, ownerName, ownerID);
     }
 
     /**
@@ -200,7 +204,7 @@ public class Experiment implements Serializable {
      * @param experimentDescription
      * description of experiment
      */
-    public Experiment(String experimentName, String ownerID,String ownerName ,String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo) {
+    public Experiment(String experimentName, String ownerID, String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo) {
 
         // TODO Generate id that is not already in the database
         // TODO Get user from id database
@@ -213,8 +217,6 @@ public class Experiment implements Serializable {
         this.minimumTrials = minimumTrials;
         this.experimentDescription = experimentDescription;
         this.requireGeo = requireGeo;
-
-
     }
 
     /**

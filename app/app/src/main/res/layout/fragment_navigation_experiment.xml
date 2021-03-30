@@ -59,9 +59,8 @@
                             android:id="@+id/ownerName_expFrag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="owner Name"
+                            android:text="Owner Name"
                             android:textSize="15sp" />
-
 
                         <TextView
                             android:id="@+id/expFragSubCount"
@@ -76,10 +75,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Region" />
-
-
-
-
 
                         <View
                             android:id="@+id/sectionDivideLineName_expFrag"
@@ -98,9 +93,7 @@
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-
-                            >
+                            android:layout_height="wrap_content">
 
                             <androidx.appcompat.widget.AppCompatImageButton
                                 android:id="@+id/profile"
@@ -120,8 +113,6 @@
                                 android:layout_height="40dp"
                                 android:layout_marginEnd="10dp"
                                 android:background="@drawable/settings"
-
-
                                 android:backgroundTint="@color/beige1"
                                 android:clickable="true"
                                 android:defaultFocusHighlightEnabled="false"
@@ -135,7 +126,6 @@
                             android:id="@+id/subscribeSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
-
                             android:background="@drawable/rounded_button"
                             android:backgroundTint="@color/black1"
                             android:text="Subscribe"
@@ -144,14 +134,17 @@
                     </LinearLayout>
                 </FrameLayout>
 
-
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/trialType_expFrag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Trial Type" />
 
                     <TextView
                         android:id="@+id/trialNumber_expFrag"
@@ -161,15 +154,7 @@
                         android:layout_weight="1"
                         android:text="#trialsNum" />
 
-
-                    <TextView
-                        android:id="@+id/trialType_expFrag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Trial Type" />
                 </LinearLayout>
-
 
                 <View
                     android:id="@+id/sectionDivideLineAbout_expFrag"
@@ -195,7 +180,6 @@
                 android:layout_height="48dp"
                 app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/Tablayout"

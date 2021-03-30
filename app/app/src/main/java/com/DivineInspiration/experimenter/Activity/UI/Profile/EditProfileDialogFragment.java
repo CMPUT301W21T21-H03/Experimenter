@@ -139,9 +139,9 @@ public class EditProfileDialogFragment extends DialogFragment {
                 String editEmailText = editEmail.getText().toString();
 
                 // reset all
-                editProfileError1.setVisibility(TextView.INVISIBLE);
-                editProfileError2.setVisibility(TextView.INVISIBLE);
-                editProfileError3.setVisibility(TextView.INVISIBLE);
+                editProfileError1.setVisibility(TextView.GONE);
+                editProfileError2.setVisibility(TextView.GONE);
+                editProfileError3.setVisibility(TextView.GONE);
 
                 boolean validFlag = true;
                 // TODO: check validity
@@ -150,21 +150,17 @@ public class EditProfileDialogFragment extends DialogFragment {
                     editProfileError1.setText("Must have a name");
                     editProfileError1.setVisibility(TextView.VISIBLE);
                     validFlag = false;
-                } else if (nameTaken(editNameText)) {
-                    // if zero, show not valid error
-                    editProfileError1.setText("Name taken 😟");
-                    editProfileError1.setVisibility(TextView.VISIBLE);
-                    validFlag = false;
                 }
-                if (editEmailText.length()==0 || !checkEmailValid(editEmailText)) {
+                if (editEmailText.length()>0 && !checkEmailValid(editEmailText)) {
                     editProfileError2.setText(editEmailText.length() == 0 ? "Email field is empty" : "Not valid email address");
                     editProfileError2.setVisibility(TextView.VISIBLE);
                     validFlag = false;
                 }
-                if (editCityText.length()==0) {
-                    editProfileError3.setVisibility(TextView.VISIBLE);
-                    validFlag = false;
-                }
+                //city may be blank
+//                if (editCityText.length()==0) {
+//                    editProfileError3.setVisibility(TextView.VISIBLE);
+//                    validFlag = false;
+//                }
 
                 // if not valid in any step, return
                 if (!validFlag) {
@@ -177,18 +173,45 @@ public class EditProfileDialogFragment extends DialogFragment {
                 newUser.getContactInfo().setCityName(editCityText);
                 newUser.getContactInfo().setEmail(editEmailText);
 
-                try {
-                    // updates manager by changes an existing user
-                    newManager.updateUser(new User(newUser.getUserName(),newUser.getUserId(),newUser.getContactInfo(),newUser.getDescription()), callback);
-                    // show success
-                    showAlert(false, "Profile changed successfully");
-                } catch (Exception e) {
-                    // if update user failed
-                    showAlert(true, "Failed to change profile");
-                }
+                //try catch is not needed here
 
-                // closes dialog
-                dialog.dismiss();
+                // updates manager by changes an existing user
+                //first check if the user name exist alreadu
+                newManager.queryUserByName(newUser.getUserName(), user -> {
+
+                    //if the user return is null, then the desired user name is not used
+                    //or if the user fetched is the user currently logged in
+                    if(user == null || (user.getUserName().equals(newUser.getUserName()) && user.getUserId().equals(newUser.getUserId())) ){
+
+                        String currentName = user == null? "":user.getUserName(); //save user name only if trying to update current user, as in, no name update
+
+                        //attempt to update user account
+                        newManager.updateUser(newUser, user1 -> {
+                            if(user1 != null){
+                                showAlert(false, "Profile changed successfully");
+                                // show success
+                                if(!user1.getUserName().equals(currentName)){ // update owner name of all experiments only if the user name changed
+                                    ExperimentManager.getInstance().updateOwnerName(user1.getUserId(), user1.getUserName(), bool ->{
+                                        callback.onUserReady(user1);
+                                    });
+                                }
+
+                            }
+                            else{
+                                //adding user failed
+                                showAlert(true, "Failed to change profile");
+
+                            }
+                            dialog.dismiss();
+                        });
+                    }
+                    else{
+                        Log.d("woah", "5");
+                        editProfileError1.setText("Name taken 😟");
+                        editProfileError1.setVisibility(TextView.VISIBLE);
+                    }
+                });
+
             }
         });
 
