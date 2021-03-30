@@ -38,7 +38,13 @@
         android:id="@+id/navigation_experimentFragment"
         android:name="com.DivineInspiration.experimenter.Activity.UI.Profile.NavigationExperimentFragment"
         android:label="fragment_navigation_experiment"
-        tools:layout="@layout/fragment_navigation_experiment" />
+        tools:layout="@layout/fragment_navigation_experiment" >
+        <action
+            android:id="@+id/expTouser"
+            app:destination="@id/navigation_home"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
+    </fragment>
 
     <!-- TODO Implement back button -->
 </navigation>
