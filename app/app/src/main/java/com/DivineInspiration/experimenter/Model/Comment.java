@@ -4,15 +4,28 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Comment {
+
+    private final String commentId;
     private final User commentator;
     private final Date date;
     private String comment;
     private ArrayList<Comment> replies = new ArrayList<Comment>();
 
     public Comment(User commentator, String comment) {
+        this.commentId = IdGen.genCommentId();
         this.commentator = commentator;
         this.comment = comment;
         date = new Date();
+    }
+
+    // TODO Implement commentId
+
+    /**
+     * Gets the comment id
+     * @return: commentID: String
+     */
+    public String getCommentId() {
+        return commentId;
     }
 
     /**

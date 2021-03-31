@@ -16,7 +16,7 @@ public class NonNegativeTrialTest {
     private NonNegativeTrial mockNonNegativeTrial() {
         User user = mockTrialOwner();
         Experiment experiment = mockExperiment();
-        return new NonNegativeTrial(user, experiment.getExperimentID());
+        return new NonNegativeTrial(user.getUserId(), experiment.getExperimentID());
     }
 
 
@@ -24,7 +24,7 @@ public class NonNegativeTrialTest {
         User user = mockExperimentOwner();
         Experiment experiment = new Experiment("EXPQQ7FKJB9CVDUE", "Pass or Fail",
                 user.getUserId(), user.getUserName(), "keeps count if you failed or passed",
-                "Non nagative trial", "Edmonton", 10, true);
+                "Non nagative trial", "Edmonton", 10, true, Experiment.ONGOING);
         return experiment;
     }
     private User mockTrialOwner() {

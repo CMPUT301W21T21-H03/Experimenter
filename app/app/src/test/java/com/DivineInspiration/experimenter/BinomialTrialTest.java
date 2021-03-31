@@ -2,6 +2,7 @@ package com.DivineInspiration.experimenter;
 
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
+import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.Model.UserContactInfo;
 
@@ -14,17 +15,19 @@ public class BinomialTrialTest {
     private BinomialTrial mockBinomialTrial() {
         User user = mockTrialOwner();
         Experiment experiment = mockExperiment();
-        return new BinomialTrial(user, experiment.getExperimentID());
+        return new BinomialTrial(user.getUserId(), experiment.getExperimentID());
 
     }
 
     private Experiment mockExperiment() {
         User user = mockExperimentOwner();
+
         Experiment experiment = new Experiment("EXPQQ7FKJB9CVDUE", "Pass or Fail",
-                user.getUserId(), user.getUserName(), "keeps count if you failed or passed",
-                "Binomial trial", "Edmonton", 10, true);
+                user.getUserId(), user.getUserName(), "keeps count if you failed or passed", Trial.BINOMIAL,
+                "Edmonton", 10, false, Experiment.ONGOING);
         return experiment;
     }
+
     private User mockTrialOwner() {
         User user = new User("Sheldon", "XDC23ABC9K", mockContactInfo(), "test description!!!!");
         return user;
