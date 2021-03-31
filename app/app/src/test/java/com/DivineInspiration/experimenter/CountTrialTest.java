@@ -15,7 +15,7 @@ public class CountTrialTest {
     private CountTrial mockCountTrial() {
         User user = mockTrialOwner();
         Experiment experiment = mockExperiment();
-        return new CountTrial(user, experiment.getExperimentID());
+        return new CountTrial(user.getUserId(), experiment.getExperimentID());
 
     }
 
@@ -23,7 +23,7 @@ public class CountTrialTest {
         User user = mockExperimentOwner();
         Experiment experiment = new Experiment("EXPQQ7FKJB9CVDUE", "Pass or Fail",
                 user.getUserId(), user.getUserName(), "keeps count if you failed or passed",
-                "Count trial", "Edmonton", 10, true);
+                "Count trial", "Edmonton", 10, true, Experiment.ONGOING);
         return experiment;
     }
     private User mockTrialOwner() {

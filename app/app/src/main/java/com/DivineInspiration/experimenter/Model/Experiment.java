@@ -83,6 +83,30 @@ public class Experiment implements Serializable {
         this.status = status;
     }
 
+    /**
+     * Experiment constructor
+     * @param experimentName
+     * name of experiment
+
+     * owner ID of experiment
+     * @param experimentDescription
+     * description of experiment
+     */
+    public Experiment(String experimentName, String ownerID, String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo, String status) {
+
+
+        this.experimentName = experimentName;
+        this.experimentID = IdGen.genExperimentId(ownerID);
+        this.ownerID = ownerID;
+        this.ownerName = ownerName;
+        this.trialType = trialType;
+        this.region = region;
+        this.minimumTrials = minimumTrials;
+        this.experimentDescription = experimentDescription;
+        this.requireGeo = requireGeo;
+        this.status = status;
+    }
+
 
     public String getStatus(){
         return status;
@@ -201,30 +225,6 @@ public class Experiment implements Serializable {
      */
     public void setExperimentDescription(String experimentDescription) {
         this.experimentDescription = experimentDescription;
-    }
-
-    /**
-     * Experiment constructor
-     * @param experimentName
-     * name of experiment
-
-     * owner ID of experiment
-     * @param experimentDescription
-     * description of experiment
-     */
-    public Experiment(String experimentName, String ownerID, String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo, String status) {
-
-
-        this.experimentName = experimentName;
-        this.experimentID = IdGen.genExperimentId(ownerID);
-        this.ownerID = ownerID;
-        this.ownerName = ownerName;
-        this.trialType = trialType;
-        this.region = region;
-        this.minimumTrials = minimumTrials;
-        this.experimentDescription = experimentDescription;
-        this.requireGeo = requireGeo;
-        this.status = status;
     }
 
     /**
