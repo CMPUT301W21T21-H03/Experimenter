@@ -113,6 +113,12 @@ public class IdGen {
         return out.toString();
     }
 
+
+    // TODO IMPLEMENT
+    public static String genCommentId() {
+        return null;
+    }
+
     /**
      * Converts a base36 String to a base10 long
      * @param source String to be converted
