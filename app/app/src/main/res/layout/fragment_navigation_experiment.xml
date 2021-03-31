@@ -206,6 +206,20 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTrial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/red1"
+        android:src="@android:drawable/ic_input_add"
+        android:visibility="invisible"
+        app:borderWidth="0dp"
+        app:rippleColor="@color/beige1"
+        app:tint="@color/white" />
+
 
     <!--        <include-->
     <!--            android:id="@+id/subscription_experiment_list"-->

@@ -19,11 +19,13 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.DivineInspiration.experimenter.Activity.UI.TrialTests.TrialTests;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -41,6 +43,7 @@ public class ExperimentFragment extends Fragment {
     private TextView expCity;
     private SwitchCompat subSwitch;
     private TextView status;
+    private FloatingActionButton addButton;
 
     // managers
     ExperimentManager experimentManager = ExperimentManager.getInstance();
@@ -87,8 +90,6 @@ public class ExperimentFragment extends Fragment {
         updateText(currentExperiment);
 
 
-
-
         // view pager
         pager = view.findViewById(R.id.expPager);
         adapter = new HomeFragmentAdapter(this);
@@ -111,6 +112,7 @@ public class ExperimentFragment extends Fragment {
                 for (int i = 0; i < subscribers.size(); i++){
                     if (UserManager.getInstance().getLocalUser().getUserId().equals(subscribers.get(i).getUserId())){
                         subSwitch.setChecked(true);
+                        addButton.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -124,9 +126,24 @@ public class ExperimentFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     experimentManager.subToExperiment(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID(), null);
+                    // on check, it should be set visible again
+                    addButton.setVisibility(View.VISIBLE);
                 } else {
                     experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID(), null);
+                    // if changed to unsub, it should be set invisible again
+                    addButton.setVisibility(View.INVISIBLE);
                 }
+            }
+        });
+
+        // when add trial button is clicked
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // new trial
+//                 TrialTests trialTests = new TrialTests();
+                // show trials
+//                trialTests.show(getChildFragmentManager(), "New Test");
             }
         });
 
@@ -183,6 +200,7 @@ public class ExperimentFragment extends Fragment {
         expCity = view.findViewById(R.id.experimentRegion_expFrag);
         subSwitch = view.findViewById(R.id.subscribeSwitch);
         status = view.findViewById(R.id.status_exp);
+        addButton = view.findViewById(R.id.addTrial);
     }
 
     private void updateText(Experiment exp){
@@ -241,7 +259,7 @@ public class ExperimentFragment extends Fragment {
             super.onViewCreated(view, savedInstanceState);
             ListView list = view.findViewById(R.id.placeHolderList);
 
-            String[] items = {"Russell’s", "Paradox", "tells", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
+            String[] items = {"Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
 
             list.setAdapter(adapter);

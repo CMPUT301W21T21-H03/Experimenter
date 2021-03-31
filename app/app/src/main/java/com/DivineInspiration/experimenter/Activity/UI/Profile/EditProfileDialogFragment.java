@@ -152,7 +152,8 @@ public class EditProfileDialogFragment extends DialogFragment {
                     validFlag = false;
                 }
                 if (editEmailText.length()>0 && !checkEmailValid(editEmailText)) {
-                    editProfileError2.setText(editEmailText.length() == 0 ? "Email field is empty" : "Not valid email address");
+                    // editProfileError2.setText(editEmailText.length() == 0 ? "Email field is empty" : "Not a valid email address");
+                    editProfileError2.setText("Not a valid email address");
                     editProfileError2.setVisibility(TextView.VISIBLE);
                     validFlag = false;
                 }
