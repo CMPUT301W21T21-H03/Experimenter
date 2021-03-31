@@ -34,6 +34,13 @@
                 android:orientation="vertical"
                 android:weightSum="2"
                 app:layout_collapseMode="parallax">
+                <TextView
+                    android:id="@+id/experimentName_expFrag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Experiment Name"
+                    android:textSize="24sp"
+                    tools:textStyle="bold" />
 
 
                 <FrameLayout
@@ -42,18 +49,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:orientation="vertical">
-
-
-                        <TextView
-                            android:id="@+id/experimentName_expFrag"
-                            android:layout_width="326dp"
-                            android:layout_height="wrap_content"
-                            android:text="Experiment Name"
-                            android:textSize="24sp"
-                            tools:textStyle="bold" />
-
 
                         <TextView
                             android:id="@+id/ownerName_expFrag"
@@ -75,14 +71,14 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Region" />
-
-                        <View
-                            android:id="@+id/sectionDivideLineName_expFrag"
-                            android:layout_width="match_parent"
-                            android:layout_height="1.5dp"
-                            android:layout_marginVertical="4dp"
+                        <TextView
+                            android:id="@+id/status_exp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/gray" />
+                            android:text="Status:" />
+
+
 
                     </LinearLayout>
                     <LinearLayout
@@ -133,18 +129,19 @@
                             android:textColor="@color/beige1" />
                     </LinearLayout>
                 </FrameLayout>
-
+                <View
+                    android:id="@+id/sectionDivideLineName_expFrag"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:layout_marginVertical="8dp"
+                    android:layout_weight="1"
+                    android:background="@color/gray" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/status_exp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Status:" />
+
 
                     <TextView
                         android:id="@+id/trialType_expFrag"
