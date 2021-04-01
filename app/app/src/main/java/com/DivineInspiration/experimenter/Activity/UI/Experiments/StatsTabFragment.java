@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Profile;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.R;
 
-public class TrialsTabFragment extends Fragment {
+public class StatsTabFragment extends Fragment {
 
     @Nullable
     @Override
