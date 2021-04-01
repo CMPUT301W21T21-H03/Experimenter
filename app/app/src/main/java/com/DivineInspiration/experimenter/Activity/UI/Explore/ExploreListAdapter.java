@@ -60,7 +60,15 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.getTextView().setText(experiments.get(position).getExperimentName());
+        holder.getExpNameTextView().setText(experiments.get(position).getExperimentName());
+        holder.getExpOwnerNameTextView().setText(experiments.get(position).getOwnerName());
+        holder.getExpTrialTypeText().setText(experiments.get(position).getTrialType());
+        holder.getExpDescriptionText().setText(experiments.get(position).getExperimentDescription());
+        if(experiments.get(position).isRequireGeo()){
+            holder.getExpLocationText().setText(experiments.get(position).getRegion() + " - Geolocation: On");
+        }else {
+            holder.getExpLocationText().setText(experiments.get(position).getRegion() + " - Geolocation: Off ");
+        }
         holder.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,33 +107,82 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // the card and text of the item
-        private final TextView text;
+        private final TextView expNameText;
+        private final TextView expOwnerNameText;
+        private final TextView expTrialTypeText;
+        private final TextView expLocationText;
+        private final TextView expDescriptionText;
+
         private final CardView card;
 
         public ViewHolder(View v) {
             super(v);
 
             // gets text and card
-            text = v.findViewById(R.id.expListTitle);
+            expNameText = v.findViewById(R.id.expListTitle);
             card = v.findViewById(R.id.experimentItemCard);
+            expOwnerNameText = v.findViewById(R.id.expListOwnerName);
+            expTrialTypeText = v.findViewById(R.id.expListType);
+            expLocationText = v.findViewById(R.id.locationInfo);
+            expDescriptionText = v.findViewById(R.id.expListAbout);
         }
 
         /**
-         * Gets the text view
+         * Get text
          * @return
-         * text view
+         * text
          */
-        public TextView getTextView() {
-            return text;
+
+        public TextView getExpNameTextView() {
+            return expNameText;
         }
 
         /**
-         * Gets the card
+         * Get text
+         * @return
+         * text
+         */
+
+        public TextView getExpOwnerNameTextView(){
+            return expOwnerNameText;
+        }
+
+        /**
+         * Get text
+         * @return
+         * text
+         */
+
+        public TextView getExpTrialTypeText() {
+            return expTrialTypeText;
+        }
+
+        /**
+         * Get text
+         * @return
+         * text
+         */
+
+        public TextView getExpLocationText() {
+            return expLocationText;
+        }
+
+        /**
+         * Get text
+         * @return
+         * text
+         */
+
+        public TextView getExpDescriptionText() {
+            return expDescriptionText;
+        }
+
+        /**
+         * Get card
          * @return
          * card view
          */
         public CardView getCardView() {
             return card;
         }
-    }
-}
+}}

@@ -2,7 +2,6 @@ package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,15 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.getTextView().setText(experiments.get(position).getExperimentName());
+        holder.getExpNameTextView().setText(experiments.get(position).getExperimentName());
+        holder.getExpOwnerNameTextView().setText(experiments.get(position).getOwnerName());
+        holder.getExpTrialTypeText().setText(experiments.get(position).getTrialType());
+        holder.getExpDescriptionText().setText(experiments.get(position).getExperimentDescription());
+        if(experiments.get(position).isRequireGeo()){
+            holder.getExpLocationText().setText(experiments.get(position).getRegion() + " - Geolocation: On");
+        }else {
+            holder.getExpLocationText().setText(experiments.get(position).getRegion() + " - Geolocation: Off ");
+        }
         holder.getCardView().setOnClickListener(new View.OnClickListener() {
             // when card is clicked it ...?
             @Override
@@ -104,14 +111,23 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
      */
     public static class ViewHolder extends RecyclerView.ViewHolder{
         // card and text
-        private final TextView text;
+        private final TextView expNameText;
+        private final TextView expOwnerNameText;
+        private final TextView expTrialTypeText;
+        private final TextView expLocationText;
+        private final TextView expDescriptionText;
+
         private final CardView card;
 
         public ViewHolder(View v) {
             super(v);
 
-            text = v.findViewById(R.id.expListTitle);
+            expNameText = v.findViewById(R.id.expListTitle);
             card = v.findViewById(R.id.experimentItemCard);
+            expOwnerNameText = v.findViewById(R.id.expListOwnerName);
+            expTrialTypeText = v.findViewById(R.id.expListType);
+            expLocationText = v.findViewById(R.id.locationInfo);
+            expDescriptionText = v.findViewById(R.id.expListAbout);
         }
 
         /**
@@ -119,8 +135,49 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
          * @return
          * text
          */
-        public TextView getTextView() {
-            return text;
+
+        public TextView getExpNameTextView() {
+            return expNameText;
+        }
+
+        /**
+         * Get text
+         * @return
+         * text
+         */
+
+        public TextView getExpOwnerNameTextView(){
+            return expOwnerNameText;
+        }
+
+        /**
+         * Get text
+         * @return
+         * text
+         */
+
+        public TextView getExpTrialTypeText() {
+            return expTrialTypeText;
+        }
+
+        /**
+         * Get text
+         * @return
+         * text
+         */
+
+        public TextView getExpLocationText() {
+            return expLocationText;
+        }
+
+        /**
+         * Get text
+         * @return
+         * text
+         */
+
+        public TextView getExpDescriptionText() {
+            return expDescriptionText;
         }
 
         /**
