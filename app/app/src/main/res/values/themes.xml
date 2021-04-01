@@ -18,6 +18,12 @@
         <!-- Customize your theme here. -->
 
     </style>
+
+
+    <style name="dialogColor" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background"> @color/black1</item>
+    </style>
+
     <color name="red1">#fb4934 </color>
     <color name="beige1">#fbf1c7</color>
     <color name="black1">#3c3836</color>

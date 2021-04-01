@@ -73,9 +73,6 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("experiment", experiments.get(position));
-                for (Experiment exp : experiments){
-                    Log.d("woah", exp.toString());
-                }
                 Navigation.findNavController(v).navigate(R.id.homeToExp, bundle);
             }
         });

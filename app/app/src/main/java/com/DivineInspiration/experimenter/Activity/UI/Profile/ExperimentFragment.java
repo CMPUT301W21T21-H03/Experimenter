@@ -11,6 +11,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -180,8 +181,14 @@ public class ExperimentFragment extends Fragment {
                   ExperimentDialogFragment frag = new ExperimentDialogFragment(new ExperimentDialogFragment.OnExperimentOperationDoneListener() {
                         @Override
                         public void onOperationDone(Experiment experiment) {
-                            updateText(experiment);
-                            currentExperiment = experiment;
+                            if(experiment != null){
+                                updateText(experiment);
+                                currentExperiment = experiment;
+                            }
+                            else{
+                                /*https://stackoverflow.com/a/57013964/12471420*/
+                                Navigation.findNavController(view).popBackStack();
+                            }
                         }
                     });
                   frag.setArguments(args);

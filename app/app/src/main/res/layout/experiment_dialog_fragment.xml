@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/black1" >
 
     <LinearLayout
         android:id="@+id/ownerButtons"
@@ -35,9 +36,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:backgroundTint="@color/beige1"
         android:ems="10"
         android:hint="Experiment Name"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColor="@color/beige1"
+        android:textColorHint="@color/gray" />
 
     <TextView
         android:id="@+id/experimentError1"
@@ -54,9 +58,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:backgroundTint="@color/beige1"
         android:ems="10"
         android:hint="City"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColor="@color/beige1"
+        android:textColorHint="@color/gray" />
 
     <TextView
         android:id="@+id/experimentError2"
@@ -73,26 +80,30 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:backgroundTint="@color/beige1"
         android:ems="10"
         android:gravity="start|top"
         android:hint="About"
         android:inputType="textMultiLine"
-        android:maxLength="500" />
+        android:maxLength="500"
+        android:textColor="@color/beige1"
+        android:textColorHint="@color/gray" />
 
     <Spinner
         android:id="@+id/editExperimentSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp" />
 
     <CheckBox
         android:id="@+id/editExperimentGeo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:gravity="center"
         android:text="Require Geolocation"
-        android:layout_marginLeft="10dp" />
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:id="@+id/editExperimentMin"
@@ -100,9 +111,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:backgroundTint="@color/beige1"
         android:ems="10"
         android:hint="Minimum Trial Count"
-        android:inputType="number" />
+        android:inputType="number"
+        android:textColor="@color/beige1"
+        android:textColorHint="@color/gray" />
 
     <TextView
         android:id="@+id/experimentError3"

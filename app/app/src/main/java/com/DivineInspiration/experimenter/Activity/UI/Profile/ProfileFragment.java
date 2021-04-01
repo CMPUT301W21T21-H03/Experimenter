@@ -280,7 +280,6 @@ public class ProfileFragment extends Fragment {
         public HomeFragmentAdapter(Fragment frag, String userID) {
             super(frag);
             changeUserID = userID;
-            Log.d("importantStuff2", changeUserID);
         }
 
         /**

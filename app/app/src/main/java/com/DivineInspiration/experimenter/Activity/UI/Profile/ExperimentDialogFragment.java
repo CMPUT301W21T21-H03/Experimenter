@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,7 +29,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExperimentDialogFragment extends DialogFragment  {
+public class ExperimentDialogFragment extends DialogFragment {
 
 
     // inits
@@ -71,8 +72,8 @@ public class ExperimentDialogFragment extends DialogFragment  {
 
     /**
      * Fragment Constructor
-     * @param callback
-     * callback function
+     *
+     * @param callback callback function
      */
     public ExperimentDialogFragment(OnExperimentOperationDoneListener callback) {
         super();
@@ -81,10 +82,9 @@ public class ExperimentDialogFragment extends DialogFragment  {
 
     /**
      * Shows alert message on the bottom of the parent fragment page
-     * @param error
-     * is the alert an error
-     * @param message
-     * message
+     *
+     * @param error   is the alert an error
+     * @param message message
      */
     private void showAlert(boolean error, String message) {
         Snackbar snackbar = Snackbar.make(parentFrag.getView(), message, Snackbar.LENGTH_LONG);
@@ -94,10 +94,9 @@ public class ExperimentDialogFragment extends DialogFragment  {
 
     /**
      * Created dialog
-     * @param savedInstanceState
-     * the bundle
-     * @return
-     * dialog
+     *
+     * @param savedInstanceState the bundle
+     * @return dialog
      */
     @NonNull
     @Override
@@ -108,16 +107,8 @@ public class ExperimentDialogFragment extends DialogFragment  {
         User localUser = UserManager.getInstance().getLocalUser();
 
 
-
         init(view);
 
-
-        dialog = new AlertDialog.Builder(getContext())
-                .setView(view)
-                .setMessage("Create Experiment")
-                .setPositiveButton("Ok", null)
-                .setNegativeButton("Cancel", null)
-                .create();
 
         // shows dialog (must be called at start)
         dialog.show();
@@ -128,7 +119,6 @@ public class ExperimentDialogFragment extends DialogFragment  {
                 String editCityText = editCity.getText().toString();
                 // optional?
                 String editExperimentAboutText = editExperimentAbout.getText().toString();
-
 
 
                 // if invalid or empty, show error
@@ -150,36 +140,33 @@ public class ExperimentDialogFragment extends DialogFragment  {
                 }
 
 
-                if(exp == null){
+                if (exp == null) {
                     //no extra arguments => just create new experiment
                     // generate new experiment and add to experiment manager
 
                     Experiment temp = new Experiment(editExperimentNameText, localUser.getUserId(), localUser.getUserName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), Experiment.ONGOING);
                     expManager.getInstance().addExperiment(temp, successful -> {
-                        if(successful){
+                        if (successful) {
 
                             // show success
                             showAlert(false, "Created new experiment!");
                             callback.onOperationDone(temp);
-                        }
-                        else{
+                        } else {
                             // failed to create experiment
                             showAlert(true, "Failed to create experiment!");
                         }
                     });
-                }
-                else{
+                } else {
                     showAlert(false, "Created new experiment!");
                     //edit an existing id
-                    Experiment temp = new Experiment(exp.getExperimentID(),editExperimentNameText, exp.getOwnerID(), exp.getOwnerName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), currentStatusSelection);
-                   expManager.updateExperiment(temp, successful -> {
+                    Experiment temp = new Experiment(exp.getExperimentID(), editExperimentNameText, exp.getOwnerID(), exp.getOwnerName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), currentStatusSelection);
+                    expManager.updateExperiment(temp, successful -> {
 
-                        if(successful){
+                        if (successful) {
                             // show success
                             showAlert(false, "Edit experiment successful!");
                             callback.onOperationDone(temp);
-                        }
-                        else{
+                        } else {
                             // failed to create experiment
                             showAlert(true, "Failed to edit experiment!");
                         }
@@ -191,11 +178,19 @@ public class ExperimentDialogFragment extends DialogFragment  {
             }
         });
 
-        return  dialog;
+        return dialog;
     }
 
-    private void init(View view){
+    private void init(View view) {
 
+        dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
+                .setView(view)
+                .setTitle("Create new experiment")
+                .setPositiveButton("Ok", null)
+                .setNegativeButton("Cancel", null)
+                .create();
+
+       // dialog.getWindow().setBackgroundDrawableResource(R.color.black1);
         parentFrag = getParentFragment();
 
         // inits all the parts of dialog
@@ -253,38 +248,48 @@ public class ExperimentDialogFragment extends DialogFragment  {
 
 
         Bundle args = getArguments();
-        if(args != null){
-             exp = (Experiment)args.getSerializable("exp");
+        if (args != null) {
+            dialog.setTitle("Edit experiment");
+            exp = (Experiment) args.getSerializable("exp");
 
+            editExperimentName.setText(exp.getExperimentName());
+            editCity.setText(exp.getRegion());
+            editExperimentAbout.setText(exp.getExperimentDescription());
+            minTrial.setText(String.valueOf(exp.getMinimumTrials()));
+            requireGeo.setChecked(exp.isRequireGeo());
 
+            statusSpinner.setSelection(indexOf(statusValues, exp.getStatus()));
+            trialSpinner.setSelection(indexOf(expValues, exp.getTrialType()));
 
+            view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
+
+            view.findViewById(R.id.deleteExp).setOnClickListener(v -> {
+                //TODO add a warning dialog!!
+                expManager.deleteExperiment(exp.getExperimentID(), successful -> {
+                    dismiss();
+                    callback.onOperationDone(null);
+                });
+                //TODO display a success message
+            });
+
+            view.findViewById(R.id.endExp).setOnClickListener(v -> {
+                exp.setStatus(Experiment.ENDED);
+                //TODO add a warning dialog
+                expManager.updateExperiment(exp, successful -> {
+                    dismiss();
+                    callback.onOperationDone(exp);
+                });
+                //TODO display a success message
+            });
         }
 
-        view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
 
-        view.findViewById(R.id.deleteExp).setOnClickListener(v -> {
-            //TODO add a warning dialog!!
-            expManager.deleteExperiment(exp.getExperimentID(), successful -> {
-               dismiss();
-            });
-            //TODO display a success message
-        });
-
-        view.findViewById(R.id.endExp).setOnClickListener(v -> {
-            exp.setStatus(Experiment.ENDED);
-            //TODO add a warning dialog
-            expManager.updateExperiment(exp, successful -> {
-                dismiss();
-            });
-            //TODO display a success message
-        });
     }
 
 
-
-    private int indexOf(String[] arr, String val){
-        for(int i = 0; i< arr.length; i++){
-            if(arr[i].equals(val)) return i;
+    private int indexOf(String[] arr, String val) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(val)) return i;
         }
         return 0;
     }

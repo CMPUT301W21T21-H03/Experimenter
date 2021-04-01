@@ -38,6 +38,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
         void onExperimentsReady(List<Experiment> experiments);
     }
 
+
     public interface OnOperationDone {
         void done(boolean successful);
     }
@@ -58,7 +59,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
         if (singleton == null) {
             singleton = new ExperimentManager();
         }
-
         return singleton;
     }
 
@@ -77,7 +77,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
                 if (task.isSuccessful()) {
 
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-
                         Map<Object, String> map = new HashMap<>();
                         map.put("OwnerName", newName);
                         db.collection("Experiments").document(doc.getId()).set(map, SetOptions.merge());
@@ -148,11 +147,11 @@ public class ExperimentManager extends ArrayList<Experiment> {
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
                     Log.d(TAG, "delete experiment failed!(most likely there is no experiment with this id in the database)");
-                    callback.done(true);
-
+                    callback.done(false);
                 }
-
-
+                else{
+                    callback.done(true);
+                }
             }
         });
     }
