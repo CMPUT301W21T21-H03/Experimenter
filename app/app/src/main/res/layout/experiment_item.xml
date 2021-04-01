@@ -19,7 +19,9 @@ on usage of card view
         android:focusable="true"
         android:clickable="true"
         android:backgroundTint="@color/black3"
-        android:layout_marginVertical="2dp"
+        android:layout_marginVertical="4dp"
+        android:layout_marginHorizontal="7dp"
+    app:cardCornerRadius="8dp"
       >
 
         <LinearLayout
@@ -35,8 +37,8 @@ on usage of card view
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Experiment Title"
-                android:textSize="18sp"
-
+                android:textSize="17.5sp"
+                android:textStyle="bold"
                />
             <TextView
                 android:id="@+id/expListOwnerName"
@@ -46,11 +48,18 @@ on usage of card view
                 android:textSize="13sp"
                 />
             <TextView
+                android:id="@+id/expListType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trial type: counting?"
+                android:textSize="12sp"
+                />
+            <TextView
                 android:id="@+id/locationInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Region: place holder - Geolocation ✓"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 />
             <View
                 android:id="@+id/sectionDivideLineName_home"
@@ -63,9 +72,11 @@ on usage of card view
                 android:id="@+id/expListAbout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="a very long description for this experiment. It might include a lot of words so that I might span multiplw lines, we should probably limit number of characters, perhaps. Blah blah blah"
-                android:textSize="13sp"
+                android:text="a very long description for this experiment. It might include a lot of words so that it might span multiplw lines, we should probably limit number of characters, perhaps. Blah blah blah. Here, I'll add some more words so that is will hopefully take more than 3 lines to display"
+                android:textSize="12sp"
                 android:ellipsize="end"
+                android:maxLines="3"
+
                 />
 
         </LinearLayout>
