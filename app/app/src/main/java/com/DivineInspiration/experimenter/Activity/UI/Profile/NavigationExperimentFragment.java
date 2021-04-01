@@ -18,9 +18,15 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.DivineInspiration.experimenter.Activity.UI.TrialTests.BinomialTest;
+import com.DivineInspiration.experimenter.Activity.UI.TrialTests.CountTest;
+import com.DivineInspiration.experimenter.Activity.UI.TrialTests.MeasureTest;
+import com.DivineInspiration.experimenter.Activity.UI.TrialTests.NonNegativeTest;
+import com.DivineInspiration.experimenter.Activity.UI.TrialTests.TrialTests;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
+import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -148,6 +154,29 @@ public class NavigationExperimentFragment extends Fragment {
             }
         });
 
+        // when add trial button is clicked
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TrialTests trialTests;
+                // new trial
+                switch (currentExperiment.getTrialType()) {
+                    case Trial.COUNT:
+                        trialTests = new BinomialTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                        break;
+                    case Trial.MEASURE:
+                        trialTests = new NonNegativeTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                        break;
+                    case Trial.NONNEGATIVE:
+                        trialTests = new MeasureTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                        break;
+                    default:
+                        trialTests = new CountTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                        break;
+                }
+            }
+        });
+
         // setting and profile view
         View setting = view.findViewById(R.id.setting);
         View profile = view.findViewById(R.id.profile);
@@ -176,7 +205,7 @@ public class NavigationExperimentFragment extends Fragment {
     /**
      * Home fragment
      */
-    public  class HomeFragmentAdapter extends FragmentStateAdapter {
+    public class HomeFragmentAdapter extends FragmentStateAdapter {
 
         public HomeFragmentAdapter(Fragment frag){
             super(frag);
