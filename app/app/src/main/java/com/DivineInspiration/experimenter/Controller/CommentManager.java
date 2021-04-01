@@ -13,11 +13,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CommentManager {
+
+    // TODO What happens when a query tries to access a callback that no longer exists? We should probably handle this error.
 
     public static CommentManager singleton;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -41,7 +44,8 @@ public class CommentManager {
         String collectionPath = "/Experiments/" + experimentID;
         Map<String, Object> doc = new HashMap<>();
         doc.put("CommentID", comment.getCommentId());
-        doc.put("Commenter", comment.getCommentator());
+        doc.put("CommenterID", comment.getCommenterId());
+        doc.put("CommenterName", comment.getCommenterName());
         doc.put("ExperimentID", experimentID);
         doc.put("Date", comment.getDate());
         doc.put("Comment", comment.getComment());
@@ -60,17 +64,61 @@ public class CommentManager {
         });
     }
 
-    public void addReply (Comment reply, String commentID) {
+    public void addReply (Comment reply, String commentID, String experimentID) {
 
+        String collectionPath = "/Experiments/" + experimentID + "/" + commentID;
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("CommentID", reply.getCommentId());
+        doc.put("CommenterID", reply.getCommenterId());
+        doc.put("CommenterName", reply.getCommenterName());
+        doc.put("ExperimentID", experimentID);
+        doc.put("Date", reply.getDate());
+        doc.put("Comment", reply.getComment());
+        doc.put("Replies", reply.getReplies());
+
+        db.collection(collectionPath).document(reply.getCommentId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Comment added to database");
+                }
+                else {
+                    Log.d(TAG, "Comment failed to be added to database");
+                }
+            }
+        });
     }
 
-    public void removeComment (String commentID) {
+    // TODO Do we need to remove the collection as well?
+
+    public void removeComment (String commentID, String experimentID, OnCommentsReadyListener callback) {
+
+        String collectionPath = "/Experiments/" + experimentID;
+        db.collection(collectionPath).document(commentID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (!task.isSuccessful()) {
+                    Log.d(TAG, "delete comment failed!");
+                }
 
 
+            }
+        });
     }
 
-    public void removeReply (String replyID) {
+    public void removeReply (String replyID, String commentID, String experimentID) {
 
+        String collectionPath = "/Experiments/" + experimentID + "/" + commentID;
+        db.collection(collectionPath).document(replyID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (!task.isSuccessful()) {
+                    Log.d(TAG, "delete comment failed!");
+                }
+
+
+            }
+        });
     }
 
     public void getExperimentComments (String experimentID, OnCommentsReadyListener callback) {
@@ -89,16 +137,43 @@ public class CommentManager {
                 }
                 else {
                     Log.d(TAG, "Comment retrieval failed");
+                    callback.onCommentsReady(null);
                 }
             }
         });
     }
 
-    public void getCommentReplies (String commentID) {
+    public void getCommentReplies (String commentID, String experimentID, OnCommentsReadyListener callback) {
+
+        String collectionPath = "/Experiments/" + experimentID + "/" + commentID;
+        db.collection(collectionPath).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()) {
+                    List<Comment> output = new ArrayList<>();
+                    for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                        output.add(commentFromSnapshot(snapshot));
+                    }
+                    callback.onCommentsReady(output);
+                }
+                else {
+                    Log.d(TAG, "Comment retrieval failed");
+                    callback.onCommentsReady(null);
+                }
+            }
+        });
     }
 
     private Comment commentFromSnapshot(QueryDocumentSnapshot snapshot) {
-        return null;
+
+        return new Comment (
+                snapshot.getString("CommentID"),
+                snapshot.getString("CommenterID"),
+                snapshot.getString("CommenterName"),
+                snapshot.getDate("Date"),
+                snapshot.getString("Comment")
+        );
     }
 
 }

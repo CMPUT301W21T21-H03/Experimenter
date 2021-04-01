@@ -133,6 +133,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
+    // TODO An experiment in the database acts as both a collection and a document. Do we now need to
+    //      delete the comments in the experiment collection as well?
+
     /**
      * Delete experiment from database
      *
