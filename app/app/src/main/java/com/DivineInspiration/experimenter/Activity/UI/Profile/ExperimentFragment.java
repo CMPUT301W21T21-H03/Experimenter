@@ -250,15 +250,16 @@ public class ExperimentFragment extends Fragment {
         @Override
         public Fragment createFragment(int position) {
 
+            Bundle bundle = new Bundle();
             switch (position) {
                 case 0:
-                    return new PlaceHolderFragment();
+                    return new TrialsTabFragment();
                 case 1:
-                    return new PlaceHolderFragment();
+                    return new DiscussionForumFragment();
                 case 2:
-                    return  new PlaceHolderFragment();
+                    return new StatsTabFragment();
                 default:
-                    return  new PlaceHolderFragment();
+                    return new PlaceHolderFragment();
             }
         }
 

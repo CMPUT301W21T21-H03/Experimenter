@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.R;
 
-public class TrialsTabFragment extends Fragment {
+public class DiscussionForumFragment extends Fragment {
 
     @Nullable
     @Override
