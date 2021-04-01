@@ -21,12 +21,12 @@ public class Experiment implements Serializable {
 
     private String experimentID;
     private String experimentName;
-    private  String ownerID;
+    private String ownerID;
     private String trialType;
     private String region;
     private int minimumTrials;
     private String experimentDescription;
-    private  boolean requireGeo;
+    private boolean requireGeo;
     private String ownerName;
     private String status;
 
