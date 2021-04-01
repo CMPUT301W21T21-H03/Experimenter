@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.google.firebase.installations.FirebaseInstallations;
 
+import kotlin.NotImplementedError;
+
 public class IdGen {
 
     /**
@@ -116,7 +118,7 @@ public class IdGen {
 
     // TODO IMPLEMENT
     public static String genCommentId() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
