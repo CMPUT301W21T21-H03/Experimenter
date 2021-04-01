@@ -103,9 +103,9 @@ public class ProfileFragment extends Fragment {
             otherUserId = null;
         }
 
-
-        // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
-        ((ViewGroup) view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+//
+//        // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
+//        ((ViewGroup) view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
 
         // viewpager
