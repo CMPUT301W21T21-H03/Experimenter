@@ -41,7 +41,6 @@ public class CommentManager {
 
     public void addComment(Comment comment, String experimentID) {
 
-        String collectionPath = "/Experiments/" + experimentID;
         Map<String, Object> doc = new HashMap<>();
         doc.put("CommentID", comment.getCommentId());
         doc.put("CommenterID", comment.getCommenterId());
@@ -51,7 +50,7 @@ public class CommentManager {
         doc.put("Comment", comment.getComment());
         doc.put("Replies", comment.getReplies());
 
-        db.collection(collectionPath).document(comment.getCommentId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments").document(experimentID).collection("Comments").document(comment.getCommentId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -66,7 +65,6 @@ public class CommentManager {
 
     public void addReply (Comment reply, String commentID, String experimentID) {
 
-        String collectionPath = "/Experiments/" + experimentID + "/" + commentID;
         Map<String, Object> doc = new HashMap<>();
         doc.put("CommentID", reply.getCommentId());
         doc.put("CommenterID", reply.getCommenterId());
@@ -76,7 +74,8 @@ public class CommentManager {
         doc.put("Comment", reply.getComment());
         doc.put("Replies", reply.getReplies());
 
-        db.collection(collectionPath).document(reply.getCommentId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments").document(experimentID).collection("Comments")
+                .document(commentID).collection("Replies").document(reply.getCommenterId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -93,8 +92,7 @@ public class CommentManager {
 
     public void removeComment (String commentID, String experimentID, OnCommentsReadyListener callback) {
 
-        String collectionPath = "/Experiments/" + experimentID;
-        db.collection(collectionPath).document(commentID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments").document(experimentID).collection("Comments").document(commentID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
@@ -108,12 +106,12 @@ public class CommentManager {
 
     public void removeReply (String replyID, String commentID, String experimentID) {
 
-        String collectionPath = "/Experiments/" + experimentID + "/" + commentID;
-        db.collection(collectionPath).document(replyID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments").document(experimentID).collection("Comments")
+                .document(commentID).collection("Replies").document(replyID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
-                    Log.d(TAG, "delete comment failed!");
+                    Log.d(TAG, "delete reply failed!");
                 }
 
 
@@ -123,8 +121,7 @@ public class CommentManager {
 
     public void getExperimentComments (String experimentID, OnCommentsReadyListener callback) {
 
-        String collectionPath = "/Experiments/" + experimentID;
-        db.collection(collectionPath).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Experiments").document(experimentID).collection("Comments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
@@ -145,8 +142,8 @@ public class CommentManager {
 
     public void getCommentReplies (String commentID, String experimentID, OnCommentsReadyListener callback) {
 
-        String collectionPath = "/Experiments/" + experimentID + "/" + commentID;
-        db.collection(collectionPath).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Experiments").document(experimentID).collection("Comments")
+                .document(experimentID).collection("Replies").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
