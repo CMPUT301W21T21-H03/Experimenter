@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Profile;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,13 +18,18 @@ public class DiscussionForumFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.test, container, false);
+        return inflater.inflate(R.layout.discussion_forum_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ListView list = view.findViewById(R.id.placeHolderList);
+
+        // TODO Make recycler view with comments. Maybe make only one level of replies?
+        // TODO Make comment creation dialog. Steal from experiment creation
+        // TODO BACK BUTTON
+        // TODO Reply section
 
         String[] items = {"Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
