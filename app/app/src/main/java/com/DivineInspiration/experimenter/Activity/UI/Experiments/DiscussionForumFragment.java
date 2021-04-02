@@ -11,11 +11,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.DivineInspiration.experimenter.Model.Comment;
 import com.DivineInspiration.experimenter.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiscussionForumFragment extends Fragment {
 
+    private List<Comment> commentList;
+    private CommentListAdapter adapter;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        this.commentList = new ArrayList<>();
+        this.adapter = new CommentListAdapter();
+    }
 
     @Nullable
     @Override
@@ -33,9 +46,6 @@ public class DiscussionForumFragment extends Fragment {
         // TODO BACK BUTTON
         // TODO Reply section
 
-        String[] items = {"Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
 
-        //list.setAdapter(adapter);
     }
 }
