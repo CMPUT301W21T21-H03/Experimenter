@@ -54,6 +54,15 @@ public class NonNegativeTrial extends Trial {
     }
 
     /**
+     * Sets count
+     * @param count
+     * new count
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    /**
      * Gets current count
      * @return: count
      */

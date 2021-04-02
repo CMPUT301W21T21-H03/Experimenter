@@ -54,6 +54,15 @@ public class CountTrial extends Trial {
     }
 
     /**
+     * Sets the count
+     * @param count
+     * new count
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    /**
      * Decrements count by one
      */
     public void decrementCount() {
