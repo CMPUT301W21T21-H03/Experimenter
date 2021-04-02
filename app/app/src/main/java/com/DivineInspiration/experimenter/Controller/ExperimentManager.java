@@ -21,14 +21,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ExperimentManager extends ArrayList<Experiment> {
     // Singleton ArrayList
     private static ExperimentManager singleton;
-    private ArrayList<Experiment> experiments;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String localUserId;
     private String TAG = "DATABASE";
 
     /**
@@ -47,7 +46,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * Constructor
      */
     private ExperimentManager() {
-        experiments = new ArrayList<>();
+        localUserId = UserManager.getInstance().getLocalUser().getUserId();
     }
 
     /**
@@ -59,6 +58,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
         if (singleton == null) {
             singleton = new ExperimentManager();
         }
+
         return singleton;
     }
 
@@ -263,7 +263,10 @@ public class ExperimentManager extends ArrayList<Experiment> {
                     if (callback != null) {
                         List<Experiment> output = new ArrayList<>();
                         for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                            output.add(expFromSnapshot(snapshot));
+                            Experiment exp = expFromSnapshot(snapshot);
+                            if(!exp.getStatus().equals(Experiment.ENDED) || exp.getOwnerID().equals(localUserId)){
+                                output.add(exp);
+                            }
                         }
                         callback.onExperimentsReady(output);
                     }
@@ -288,7 +291,11 @@ public class ExperimentManager extends ArrayList<Experiment> {
                     if (callback != null) {
                         List<Experiment> output = new ArrayList<>();
                         for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                            output.add(expFromSnapshot(snapshot));
+
+                            Experiment exp = expFromSnapshot(snapshot);
+                            if(!exp.getStatus().equals(Experiment.ENDED) || exp.getOwnerID().equals(localUserId)){
+                                output.add(exp);
+                            }
                         }
                         callback.onExperimentsReady(output);
                     }
