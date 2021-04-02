@@ -25,6 +25,7 @@ import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +44,7 @@ public class ExperimentDialogFragment extends DialogFragment {
     CheckBox requireGeo;
     Spinner statusSpinner;
     // error text
-    TextView experimentError1;
-    TextView experimentError2;
+
     TextView experimentError3;
 
     Experiment exp;
@@ -60,6 +60,11 @@ public class ExperimentDialogFragment extends DialogFragment {
     private String[] statusOptions = {"On going", "Hidden"};
     private String[] statusValues = {Experiment.ONGOING, Experiment.HIDDEN};
     private String currentStatusSelection;
+
+    TextInputLayout nameInput;
+
+    TextInputLayout countInput;
+
 
     AlertDialog dialog;
 
@@ -125,12 +130,12 @@ public class ExperimentDialogFragment extends DialogFragment {
                 boolean validFlag = true;
                 if (editExperimentNameText.length() == 0) {
                     // display error
-                    experimentError1.setVisibility(TextView.VISIBLE);
+                    nameInput.setError("Name cannot be empty!");
                     validFlag = false;
                 }
 
-                if (minTrial.length() == 0 || Integer.parseInt(minTrial.getText().toString()) == 0) {
-                    experimentError3.setVisibility(TextView.VISIBLE);
+                if (minTrial.length() == 0 || Integer.parseInt(minTrial.getText().toString()) <= 0) {
+                    countInput.setError("A valid number is required!");
                     validFlag = false;
                 }
 
@@ -159,13 +164,19 @@ public class ExperimentDialogFragment extends DialogFragment {
                 } else {
                     showAlert(false, "Created new experiment!");
                     //edit an existing id
-                    Experiment temp = new Experiment(exp.getExperimentID(), editExperimentNameText, exp.getOwnerID(), exp.getOwnerName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), currentStatusSelection);
-                    expManager.updateExperiment(temp, successful -> {
+                    exp.setExperimentName(editExperimentNameText);
+                    exp.setStatus(currentStatusSelection);
+                    exp.setRequireGeo(requireGeo.isChecked());
+                    exp.setMinimumTrials( Integer.parseInt(minTrial.getText().toString()));
+                    exp.setExperimentDescription(editExperimentAboutText);
+                    exp.setRegion(editCityText);
+
+                    expManager.updateExperiment(exp, successful -> {
 
                         if (successful) {
                             // show success
                             showAlert(false, "Edit experiment successful!");
-                            callback.onOperationDone(temp);
+                            callback.onOperationDone(exp);
                         } else {
                             // failed to create experiment
                             showAlert(true, "Failed to edit experiment!");
@@ -201,13 +212,11 @@ public class ExperimentDialogFragment extends DialogFragment {
         minTrial = view.findViewById(R.id.editExperimentMin);
         requireGeo = view.findViewById(R.id.editExperimentGeo);
         // errors
-        experimentError1 = view.findViewById(R.id.experimentError1);
-        experimentError2 = view.findViewById(R.id.experimentError2);
-        experimentError3 = view.findViewById(R.id.experimentError3);
-        // reset all
-        experimentError1.setVisibility(TextView.GONE);
-        experimentError2.setVisibility(TextView.GONE);
-        experimentError3.setVisibility(TextView.GONE);
+        nameInput = view.findViewById(R.id.expNameInput);
+        countInput = view.findViewById(R.id.expCountInput);
+
+
+
 
         //trial spinner
         trialSpinner = view.findViewById(R.id.editExperimentSpinner);

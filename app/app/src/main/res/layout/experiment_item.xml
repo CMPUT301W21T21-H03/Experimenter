@@ -19,8 +19,8 @@ on usage of card view
         android:focusable="true"
         android:clickable="true"
         android:backgroundTint="@color/black3"
-        android:layout_marginVertical="4dp"
-        android:layout_marginHorizontal="7dp"
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="9dp"
     app:cardCornerRadius="8dp"
       >
 

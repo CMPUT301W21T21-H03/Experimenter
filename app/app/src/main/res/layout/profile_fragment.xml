@@ -4,7 +4,7 @@
     android:id="@+id/coordinatorRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
+
     android:background="@color/black2"
 
     android:fitsSystemWindows="true"
@@ -22,7 +22,7 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
 
-            android:id="@+id/CollaspingToolBar"
+            android:id="@+id/expCollapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -88,12 +88,6 @@
                     android:layout_weight="1"
                     android:text="Email" />
 
-                <!--                <TextView-->
-                <!--                    android:id="@+id/textView3"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_weight="1"-->
-                <!--                    android:text="Phone#: 123123123" />-->
 
                 <TextView
                     android:id="@+id/userCity_home"
@@ -125,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
         <com.google.android.material.tabs.TabLayout
@@ -133,7 +127,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black1"
-            app:layout_constraintTop_toBottomOf="@+id/expAppbar"
             app:tabIndicatorAnimationMode="linear"
             app:tabIndicatorColor="#ea6962"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
@@ -147,7 +140,8 @@
         android:id="@+id/expPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 
 
     <!--        <include-->
