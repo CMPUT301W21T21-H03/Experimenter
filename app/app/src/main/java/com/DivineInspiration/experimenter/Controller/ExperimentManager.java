@@ -46,7 +46,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * Constructor
      */
     private ExperimentManager() {
-        localUserId = UserManager.getInstance().getLocalUser().getUserId();
+
     }
 
     /**
@@ -63,10 +63,16 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
 
+    private void initLocalUserId(){
+        if(localUserId == null) localUserId = UserManager.getInstance().getLocalUser().getUserId();
+    }
+
+
     /**
      * Update owner name
      */
     public void updateOwnerName(String ownerId, String newName, OnOperationDone callback) {
+        initLocalUserId();
         /*
         https://stackoverflow.com/a/53379134/12471420
          */
@@ -96,6 +102,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param experimentId experiment to unsub from
      */
     public void unSubFromExperiment(String userId, String experimentId, OnOperationDone callback) {
+        initLocalUserId();
         db.collection("Experiments").document(experimentId).update("SubscriberIDs", FieldValue.arrayRemove(userId)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -117,6 +124,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param experimentId experiment ID of subscriber
      */
     public void subToExperiment(String userId, String experimentId, OnOperationDone callback) {
+        initLocalUserId();
         // TODO  handle on sub failed?
         db.collection("Experiments").document(experimentId).update("SubscriberIDs", FieldValue.arrayUnion(userId)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -141,6 +149,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param experimentId experiment ID
      */
     public void deleteExperiment(String experimentId, OnOperationDone callback) {
+        initLocalUserId();
         // TODO handle on delete failed?
         db.collection("Experiments").document(experimentId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -162,6 +171,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param experiment experiment
      */
     public void addExperiment(Experiment experiment, OnOperationDone callback) {
+        initLocalUserId();
         //TODO handle on add failed?
 
         // put into database
@@ -197,6 +207,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     public void updateExperiment(Experiment experiment, Map<String, Object> fieldsToUpdate, OnOperationDone callback) {
+        initLocalUserId();
         //how to rename functions 101
         db.collection("Experiments").document(experiment.getExperimentID()).set(fieldsToUpdate, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -230,6 +241,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param callback callback function
      */
     public void queryUserSubs(String userId, OnExperimentListReadyListener callback) {
+        initLocalUserId();
         db.collection("Experiments").whereArrayContains("SubscriberIDs", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -256,6 +268,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param callback callback function
      */
     public void queryUserExperiment(String userId, OnExperimentListReadyListener callback) {
+        initLocalUserId();
         db.collection("Experiments").whereEqualTo("OwnerID", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -284,6 +297,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param callback callback function
      */
     public void queryAll(OnExperimentListReadyListener callback) {
+        initLocalUserId();
         db.collection("Experiments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -314,6 +328,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @return a new experiment instance from snapshot
      */
     private Experiment expFromSnapshot(QueryDocumentSnapshot snapshot) {
+
         // returns a new experiment instance from snapshot
         return new Experiment(
                 snapshot.getId(),

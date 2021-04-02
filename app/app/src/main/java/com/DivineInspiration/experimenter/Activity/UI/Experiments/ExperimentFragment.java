@@ -76,7 +76,7 @@ public class ExperimentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_navigation_experiment, container, false);
+        return inflater.inflate(R.layout.experiment_fragment, container, false);
     }
 
     /**
@@ -230,7 +230,7 @@ public class ExperimentFragment extends Fragment {
     private void updateText(Experiment exp){
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
-        expCity.setText(exp.getRegion() + " city");
+        expCity.setText("Region:"+ exp.getRegion());
         trialNumber.setText(String.valueOf(exp.getMinimumTrials()) + " trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());

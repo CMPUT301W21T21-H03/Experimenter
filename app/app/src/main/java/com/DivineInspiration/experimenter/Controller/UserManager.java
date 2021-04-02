@@ -63,6 +63,7 @@ public class UserManager{
     /**
      * Gets the current user
      * @return the current user
+     * @Warning getLocalUser might return null if used during init
      */
     public User getLocalUser(){
         return user;
