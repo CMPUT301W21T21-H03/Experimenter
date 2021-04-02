@@ -332,7 +332,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
                     if (callback != null) {
                         List<Experiment> output = new ArrayList<>();
                         for (QueryDocumentSnapshot snapshot : task.getResult()) {
-
                             Experiment exp = expFromSnapshot(snapshot);
                             if(!exp.getStatus().equals(Experiment.ENDED) || exp.getOwnerID().equals(localUserId)){
                                 output.add(exp);
