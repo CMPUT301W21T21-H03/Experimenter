@@ -38,7 +38,7 @@
         android:id="@+id/navigation_experimentFragment"
         android:name="com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentFragment"
         android:label="fragment_navigation_experiment"
-        tools:layout="@layout/fragment_navigation_experiment" >
+        tools:layout="@layout/experiment_fragment" >
         <action
             android:id="@+id/expTouser"
             app:destination="@id/navigation_home"

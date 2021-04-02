@@ -21,14 +21,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ExperimentManager extends ArrayList<Experiment> {
     // Singleton ArrayList
     private static ExperimentManager singleton;
-    private ArrayList<Experiment> experiments;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String localUserId;
     private String TAG = "DATABASE";
 
     /**
@@ -47,7 +46,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * Constructor
      */
     private ExperimentManager() {
-        experiments = new ArrayList<>();
+
     }
 
     /**
@@ -59,7 +58,13 @@ public class ExperimentManager extends ArrayList<Experiment> {
         if (singleton == null) {
             singleton = new ExperimentManager();
         }
+
         return singleton;
+    }
+
+
+    private void initLocalUserId(){
+        if(localUserId == null) localUserId = UserManager.getInstance().getLocalUser().getUserId();
     }
 
 
@@ -67,6 +72,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * Update owner name
      */
     public void updateOwnerName(String ownerId, String newName, OnOperationDone callback) {
+        initLocalUserId();
         /*
         https://stackoverflow.com/a/53379134/12471420
          */
@@ -96,6 +102,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param experimentId experiment to unsub from
      */
     public void unSubFromExperiment(String userId, String experimentId, OnOperationDone callback) {
+        initLocalUserId();
         db.collection("Experiments").document(experimentId).update("SubscriberIDs", FieldValue.arrayRemove(userId)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -117,6 +124,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param experimentId experiment ID of subscriber
      */
     public void subToExperiment(String userId, String experimentId, OnOperationDone callback) {
+        initLocalUserId();
         // TODO  handle on sub failed?
         db.collection("Experiments").document(experimentId).update("SubscriberIDs", FieldValue.arrayUnion(userId)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -141,6 +149,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param experimentId experiment ID
      */
     public void deleteExperiment(String experimentId, OnOperationDone callback) {
+        initLocalUserId();
         // TODO handle on delete failed?
         db.collection("Experiments").document(experimentId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -162,6 +171,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param experiment experiment
      */
     public void addExperiment(Experiment experiment, OnOperationDone callback) {
+        initLocalUserId();
         //TODO handle on add failed?
 
         // put into database
@@ -193,10 +203,38 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     public void updateExperiment(Experiment experiment, OnOperationDone callback) {
         //how to rename functions 101
-        addExperiment(experiment, callback);
+        initLocalUserId();
+        //TODO handle on add failed?
+
+        // put into database
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("ExperimentName", experiment.getExperimentName());
+
+        doc.put("OwnerName", experiment.getOwnerName());
+        doc.put("ExperimentDescription", experiment.getExperimentDescription());
+        doc.put("TrialType", experiment.getTrialType());
+        doc.put("Region", experiment.getRegion());
+        doc.put("MinimumTrials", experiment.getMinimumTrials());
+        doc.put("RequireGeo", experiment.isRequireGeo());
+        doc.put("Status", experiment.getStatus());
+
+
+
+        db.collection("Experiments").document(experiment.getExperimentID()).set(doc, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (!task.isSuccessful()) {
+                    Log.d(TAG, "New experiment failed to be committed to database!");
+                }
+                if (callback != null) {
+                    callback.done(task.isSuccessful());
+                }
+            }
+        });
     }
 
     public void updateExperiment(Experiment experiment, Map<String, Object> fieldsToUpdate, OnOperationDone callback) {
+        initLocalUserId();
         //how to rename functions 101
         db.collection("Experiments").document(experiment.getExperimentID()).set(fieldsToUpdate, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -230,6 +268,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param callback callback function
      */
     public void queryUserSubs(String userId, OnExperimentListReadyListener callback) {
+        initLocalUserId();
         db.collection("Experiments").whereArrayContains("SubscriberIDs", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -256,6 +295,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param callback callback function
      */
     public void queryUserExperiment(String userId, OnExperimentListReadyListener callback) {
+        initLocalUserId();
         db.collection("Experiments").whereEqualTo("OwnerID", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -263,7 +303,10 @@ public class ExperimentManager extends ArrayList<Experiment> {
                     if (callback != null) {
                         List<Experiment> output = new ArrayList<>();
                         for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                            output.add(expFromSnapshot(snapshot));
+                            Experiment exp = expFromSnapshot(snapshot);
+                            if(!exp.getStatus().equals(Experiment.ENDED) || exp.getOwnerID().equals(localUserId)){
+                                output.add(exp);
+                            }
                         }
                         callback.onExperimentsReady(output);
                     }
@@ -281,6 +324,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param callback callback function
      */
     public void queryAll(OnExperimentListReadyListener callback) {
+        initLocalUserId();
         db.collection("Experiments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -288,7 +332,10 @@ public class ExperimentManager extends ArrayList<Experiment> {
                     if (callback != null) {
                         List<Experiment> output = new ArrayList<>();
                         for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                            output.add(expFromSnapshot(snapshot));
+                            Experiment exp = expFromSnapshot(snapshot);
+                            if(!exp.getStatus().equals(Experiment.ENDED) || exp.getOwnerID().equals(localUserId)){
+                                output.add(exp);
+                            }
                         }
                         callback.onExperimentsReady(output);
                     }
@@ -307,6 +354,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @return a new experiment instance from snapshot
      */
     private Experiment expFromSnapshot(QueryDocumentSnapshot snapshot) {
+
         // returns a new experiment instance from snapshot
         return new Experiment(
                 snapshot.getId(),
