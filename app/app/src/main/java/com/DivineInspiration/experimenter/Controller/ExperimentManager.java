@@ -203,7 +203,34 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     public void updateExperiment(Experiment experiment, OnOperationDone callback) {
         //how to rename functions 101
-        addExperiment(experiment, callback);
+        initLocalUserId();
+        //TODO handle on add failed?
+
+        // put into database
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("ExperimentName", experiment.getExperimentName());
+
+        doc.put("OwnerName", experiment.getOwnerName());
+        doc.put("ExperimentDescription", experiment.getExperimentDescription());
+        doc.put("TrialType", experiment.getTrialType());
+        doc.put("Region", experiment.getRegion());
+        doc.put("MinimumTrials", experiment.getMinimumTrials());
+        doc.put("RequireGeo", experiment.isRequireGeo());
+        doc.put("Status", experiment.getStatus());
+
+
+
+        db.collection("Experiments").document(experiment.getExperimentID()).set(doc, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (!task.isSuccessful()) {
+                    Log.d(TAG, "New experiment failed to be committed to database!");
+                }
+                if (callback != null) {
+                    callback.done(task.isSuccessful());
+                }
+            }
+        });
     }
 
     public void updateExperiment(Experiment experiment, Map<String, Object> fieldsToUpdate, OnOperationDone callback) {

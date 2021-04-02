@@ -164,13 +164,19 @@ public class ExperimentDialogFragment extends DialogFragment {
                 } else {
                     showAlert(false, "Created new experiment!");
                     //edit an existing id
-                    Experiment temp = new Experiment(exp.getExperimentID(), editExperimentNameText, exp.getOwnerID(), exp.getOwnerName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), currentStatusSelection);
-                    expManager.updateExperiment(temp, successful -> {
+                    exp.setExperimentName(editExperimentNameText);
+                    exp.setStatus(currentStatusSelection);
+                    exp.setRequireGeo(requireGeo.isChecked());
+                    exp.setMinimumTrials( Integer.parseInt(minTrial.getText().toString()));
+                    exp.setExperimentDescription(editExperimentAboutText);
+                    exp.setRegion(editCityText);
+
+                    expManager.updateExperiment(exp, successful -> {
 
                         if (successful) {
                             // show success
                             showAlert(false, "Edit experiment successful!");
-                            callback.onOperationDone(temp);
+                            callback.onOperationDone(exp);
                         } else {
                             // failed to create experiment
                             showAlert(true, "Failed to edit experiment!");
