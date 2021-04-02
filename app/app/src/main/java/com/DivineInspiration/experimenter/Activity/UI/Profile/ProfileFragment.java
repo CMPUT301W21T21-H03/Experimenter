@@ -1,9 +1,7 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
-import android.animation.LayoutTransition;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +77,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // gets everything from view
-        toolbar = view.findViewById(R.id.CollaspingToolBar);
+        toolbar = view.findViewById(R.id.expCollapsingToolbar);
         fab = view.findViewById(R.id.fab);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
 

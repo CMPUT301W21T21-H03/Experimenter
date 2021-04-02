@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -31,6 +32,7 @@ import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -66,6 +68,8 @@ public class ExperimentFragment extends Fragment {
 
     Experiment currentExperiment;
 
+
+    CollapsingToolbarLayout toolbar;
     /**
      * On create
      * @param inflater
@@ -225,6 +229,11 @@ public class ExperimentFragment extends Fragment {
         subSwitch = view.findViewById(R.id.subscribeSwitch);
         status = view.findViewById(R.id.status_exp);
         addButton = view.findViewById(R.id.addTrial);
+
+        // title is transparent when expanded
+        toolbar = view.findViewById(R.id.expCollapsingToolbar);
+        toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
+        toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
     }
 
     private void updateText(Experiment exp){
@@ -235,6 +244,7 @@ public class ExperimentFragment extends Fragment {
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
         status.setText(String.format("Status: %s", exp.getStatus()));
+        toolbar.setTitle(exp.getExperimentName());
     }
 
     /**

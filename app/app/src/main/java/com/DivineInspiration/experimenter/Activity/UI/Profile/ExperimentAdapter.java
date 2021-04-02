@@ -65,15 +65,15 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.getExpNameTextView().setText(experiments.get(position).getExperimentName());
-        holder.getExpOwnerNameTextView().setText(experiments.get(position).getOwnerName());
-        holder.getExpTrialTypeText().setText(experiments.get(position).getTrialType());
-        holder.getExpDescriptionText().setText(experiments.get(position).getExperimentDescription());
-        if(experiments.get(position).isRequireGeo()){
-            holder.getExpLocationText().setText(experiments.get(position).getRegion() + " - Geolocation: On");
-        }else {
-            holder.getExpLocationText().setText(experiments.get(position).getRegion() + " - Geolocation: Off ");
-        }
+        Experiment exp = experiments.get(position);
+
+        holder.getExpNameTextView().setText(exp.getExperimentName());
+        holder.getExpOwnerNameTextView().setText(exp.getOwnerName());
+        holder.getExpTrialTypeText().setText(exp.getTrialType() + " - "+ exp.getStatus() );
+        holder.getExpDescriptionText().setText(exp.getExperimentDescription());
+
+        holder.getExpLocationText().setText(exp.getRegion() + " - Geolocation: " + (experiments.get(position).isRequireGeo()?"On":"Off"));
+
         holder.getCardView().setOnClickListener(new View.OnClickListener() {
             // when card is clicked it ...?
             @Override

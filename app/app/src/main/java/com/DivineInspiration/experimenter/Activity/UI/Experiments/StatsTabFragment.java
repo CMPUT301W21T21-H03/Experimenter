@@ -5,30 +5,60 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.ButtonBarLayout;
 import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.R;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 
 public class StatsTabFragment extends Fragment {
+
+    LineChart lineChart;
+    BarChart barChart;
+    View buttonGroup;
+    Button backButton;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.test, container, false);
+        return inflater.inflate(R.layout.experiment_statistics, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ListView list = view.findViewById(R.id.placeHolderList);
 
-        String[] items = {"Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
 
-        list.setAdapter(adapter);
+        view.findViewById(R.id.hitogramButton).setOnClickListener(v -> {
+
+        });
     }
+
+    private void init(View v){
+        lineChart = v.findViewById(R.id.lineChart);
+        barChart = v.findViewById(R.id.barChart);
+        buttonGroup = v.findViewById(R.id.statButtonGroup);
+        backButton = v.findViewById(R.id.statBackButton);
+    }
+
+    private void showHistogram(){
+        lineChart.setVisibility(View.GONE);
+        barChart.setVisibility(View.VISIBLE);
+        //backButton.setVisibility();
+    }
+
+    private void showButtons(){
+
+    }
+
+    private void showLineGraph(){
+
+    }
+
 }
