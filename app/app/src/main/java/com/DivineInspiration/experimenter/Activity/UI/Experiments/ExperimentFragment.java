@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -226,7 +225,7 @@ public class ExperimentFragment extends Fragment {
         expCity = view.findViewById(R.id.experimentRegion_expFrag);
         subSwitch = view.findViewById(R.id.subscribeSwitch);
         status = view.findViewById(R.id.status_exp);
-        addButton = view.findViewById(R.id.addTrial);
+        addButton = view.findViewById(R.id.experiment_fragment_add_button);
 
         // title is transparent when expanded
         toolbar = view.findViewById(R.id.expCollapsingToolbar);
@@ -259,13 +258,21 @@ public class ExperimentFragment extends Fragment {
         public Fragment createFragment(int position) {
 
             Bundle bundle = new Bundle();
+            bundle.putString("experimentID", currentExperiment.getExperimentID());
+            Fragment tabFragment;
             switch (position) {
                 case 0:
-                    return new TrialsTabFragment();
+                    tabFragment = new TrialsTabFragment();
+                    tabFragment.setArguments(bundle);
+                    return tabFragment;
                 case 1:
-                    return new DiscussionForumFragment();
+                    tabFragment = new DiscussionForumFragment();
+                    tabFragment.setArguments(bundle);
+                    return tabFragment;
                 case 2:
-                    return new StatsTabFragment();
+                    tabFragment = new StatsTabFragment();
+                    tabFragment.setArguments(bundle);
+                    return tabFragment;
                 default:
                     return new PlaceHolderFragment();
             }

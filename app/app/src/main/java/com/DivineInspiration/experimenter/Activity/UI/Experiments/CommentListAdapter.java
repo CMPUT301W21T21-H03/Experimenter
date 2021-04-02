@@ -3,8 +3,10 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.DivineInspiration.experimenter.Model.Comment;
@@ -25,7 +27,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         // TODO ADD .xml for comment_item
-         View v = null; // = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_item, parent, false);
+         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_item, parent, false);
 
         return new ViewHolder(v);
     }
@@ -33,18 +35,36 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        // TODO get views for item in holder and write appropriate code
+        // Set comment card text
+        holder.getCommenterName().setText(comments.get(position).getCommenterName());
+        holder.getCommentText().setText(comments.get(position).getComment());
+
+        // TODO Set onClickListener for replies
     }
 
     @Override
     public int getItemCount() { return comments.size(); }
 
+    public void setComments(List<Comment> comments) { this.comments = comments; }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        // TODO add view objects for each item in the container + getters
+        private final CardView card;
+        private final TextView commenterName;
+        private final TextView commentText;
 
         public ViewHolder(View v) {
             super(v);
+
+            card = v.findViewById(R.id.comment_item_card);
+            commenterName = v.findViewById(R.id.commenter_name_item);
+            commentText = v.findViewById(R.id.comment_item_text);
         }
+
+        public CardView getCard() { return card; }
+
+        public TextView getCommenterName() { return commenterName; }
+
+        public TextView getCommentText() { return commentText; }
     }
 }
