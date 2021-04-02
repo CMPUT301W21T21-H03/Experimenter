@@ -15,6 +15,8 @@ import com.DivineInspiration.experimenter.R;
 
 public class DiscussionForumFragment extends Fragment {
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -24,7 +26,7 @@ public class DiscussionForumFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ListView list = view.findViewById(R.id.placeHolderList);
+        //ListView list = view.findViewById(R.id.placeHolderList);
 
         // TODO Make recycler view with comments. Maybe make only one level of replies?
         // TODO Make comment creation dialog. Steal from experiment creation
@@ -32,8 +34,8 @@ public class DiscussionForumFragment extends Fragment {
         // TODO Reply section
 
         String[] items = {"Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
 
-        list.setAdapter(adapter);
+        //list.setAdapter(adapter);
     }
 }
