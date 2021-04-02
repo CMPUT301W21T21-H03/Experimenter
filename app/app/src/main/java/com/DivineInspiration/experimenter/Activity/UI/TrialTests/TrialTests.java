@@ -9,7 +9,6 @@ import com.DivineInspiration.experimenter.R;
 public abstract class TrialTests extends Fragment {
     protected Trial current;
 
-
     public Trial getTrial() {
         return current;
     }

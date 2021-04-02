@@ -24,7 +24,6 @@ import com.DivineInspiration.experimenter.Activity.UI.TrialTests.BinomialTest;
 import com.DivineInspiration.experimenter.Activity.UI.TrialTests.CountTest;
 import com.DivineInspiration.experimenter.Activity.UI.TrialTests.MeasureTest;
 import com.DivineInspiration.experimenter.Activity.UI.TrialTests.NonNegativeTest;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.TrialTests;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
@@ -146,20 +145,19 @@ public class ExperimentFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TrialTests trialTests;
                 // new trial
                 switch (currentExperiment.getTrialType()) {
                     case Trial.COUNT:
-                        trialTests = new BinomialTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                        BinomialTest trialTestBinomial = new BinomialTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
                         break;
                     case Trial.MEASURE:
-                        trialTests = new NonNegativeTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                        NonNegativeTest trialTestNonNegative = new NonNegativeTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
                         break;
                     case Trial.NONNEGATIVE:
-                        trialTests = new MeasureTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                        MeasureTest trialTestMeasure = new MeasureTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
                         break;
                     default:
-                        trialTests = new CountTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                        CountTest trialTestCount = new CountTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
                         break;
                 }
             }
