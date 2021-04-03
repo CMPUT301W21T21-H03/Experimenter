@@ -1,6 +1,8 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.User;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,11 +18,8 @@ public class BinomialTrial extends Trial {
      * id of experiment
      */
     public BinomialTrial(String trialUserID, String trialExperimentID) {
+        super(trialUserID, trialExperimentID);
         this.trialType = Trial.BINOMIAL;
-        this.trialID = UUID.randomUUID().toString();
-        this.trialDate = new Date();
-        this.trialUserID = trialUserID;
-        this.trialExperimentID = trialExperimentID;
         this.success = 0;
         this.failure = 0;
     }
@@ -40,12 +39,9 @@ public class BinomialTrial extends Trial {
      * @param failure
      * failure value for this trial
      */
-    public BinomialTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, int success, int failure) {
+    public BinomialTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int success, int failure) {
+        super(trialID, trialUserID, trialExperimentID, trialDate);
         this.trialType = Trial.BINOMIAL;
-        this.trialID = trialID;
-        this.trialDate = trialDate;
-        this.trialUserID = trialUserID;
-        this.trialExperimentID = trialExperimentID;
         this.success = success;
         this.failure = failure;
     }

@@ -2,6 +2,7 @@ package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.User;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,11 +17,8 @@ public class NonNegativeTrial extends Trial {
      * id of experiment
      */
     public NonNegativeTrial(String trialUserID, String trialExperimentID) {
+        super(trialUserID, trialExperimentID);
         this.trialType = Trial.NONNEGATIVE;
-        this.trialID = UUID.randomUUID().toString();
-        this.trialDate = new Date();
-        this.trialUserID = trialUserID;
-        this.trialExperimentID = trialExperimentID;
         this.count = 0;
     }
 
@@ -37,12 +35,9 @@ public class NonNegativeTrial extends Trial {
      * @param count
      * count value of this trial
      */
-    public NonNegativeTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, int count) {
+    public NonNegativeTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count) {
+        super(trialID, trialUserID, trialExperimentID, trialDate);
         this.trialType = Trial.NONNEGATIVE;
-        this.trialID = trialID;
-        this.trialDate = trialDate;
-        this.trialUserID = trialUserID;
-        this.trialExperimentID = trialExperimentID;
         this.count = count;
     }
 

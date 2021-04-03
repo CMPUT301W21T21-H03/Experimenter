@@ -319,10 +319,10 @@ public class ExperimentFragment extends Fragment {
                 tabFragment.setArguments(bundle);
                 return tabFragment;
             case 2:
-                // tabFragment = new StatsTabFragment();
-                // tabFragment.setArguments(bundle);
-                // return tabFragment;
-                return new PlaceHolderFragment();
+                 tabFragment = new StatsTabFragment();
+                 tabFragment.setArguments(bundle);
+                 return tabFragment;
+
             default:
                 return new PlaceHolderFragment();
             }

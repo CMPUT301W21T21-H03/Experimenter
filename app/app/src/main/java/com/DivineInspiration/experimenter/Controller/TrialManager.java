@@ -16,6 +16,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +27,10 @@ import java.util.Map;
 public class TrialManager extends ArrayList<Trial> {
 
     private static TrialManager singleton;
-    private ArrayList<Trial> trials;
+
     private FirebaseFirestore db;
     private String TAG = "TrialManager";
+    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     // Callback when trials are ready
     public interface OnTrialsReadyListener {
@@ -39,12 +42,12 @@ public class TrialManager extends ArrayList<Trial> {
      */
     public TrialManager() {
         db = FirebaseFirestore.getInstance();
-        this.trials = new ArrayList<>();
+
     }
 
     /**
      * Get singleton instance
-     * 
+     *
      * @return experiment manager
      */
     public static TrialManager getInstance() {
@@ -56,7 +59,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Adds a trial to database
-     * 
+     *
      * @param trial Trial to be added
      */
     public void addTrial(Trial trial) {
@@ -65,26 +68,26 @@ public class TrialManager extends ArrayList<Trial> {
         Map<String, Object> doc = new HashMap<>();
         doc.put("TrialType", trial.getTrialType());
         doc.put("TrialId", trial.getTrialID());
-        doc.put("Date", trial.getTrialDate());
+        doc.put("Date", df.format(trial.getTrialDate()));
         doc.put("OwnerID", trial.getTrialUserID());
         doc.put("ExperimentID", trial.getTrialExperimentID());
 
         // Store data specific to a trial type
         switch (trial.getTrialType()) {
-        case Trial.BINOMIAL:
-            addBinomialTrial((BinomialTrial) trial, doc);
-            break;
+            case Trial.BINOMIAL:
+                addBinomialTrial((BinomialTrial) trial, doc);
+                break;
 
-        case Trial.COUNT:
-            addCountTrial((CountTrial) trial, doc);
-            break;
+            case Trial.COUNT:
+                addCountTrial((CountTrial) trial, doc);
+                break;
 
-        case Trial.MEASURE:
-            addMeasurementTrial((MeasurementTrial) trial, doc);
-            break;
+            case Trial.MEASURE:
+                addMeasurementTrial((MeasurementTrial) trial, doc);
+                break;
 
-        case Trial.NONNEGATIVE:
-            addNonNegativeTrial((NonNegativeTrial) trial, doc);
+            case Trial.NONNEGATIVE:
+                addNonNegativeTrial((NonNegativeTrial) trial, doc);
         }
 
         db.collection("Trials").document(trial.getTrialID()).set(doc)
@@ -100,7 +103,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Adds BinomialTrial attributes to a map
-     * 
+     *
      * @param trial The trial whose attributes are being stored
      * @param doc   The map containing trial attributes
      */
@@ -111,7 +114,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Adds CountTrial attributes to a map
-     * 
+     *
      * @param trial The trial whose attributes are being stored
      * @param doc   The map containing trial attributes
      */
@@ -121,7 +124,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Adds MeasurementTrial attributes to a map
-     * 
+     *
      * @param trial The trial whose attributes are being stored
      * @param doc   The map containing trial attributes
      */
@@ -131,7 +134,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Adds NonNegativeTrial attributes to a map
-     * 
+     *
      * @param trial The trial whose attributes are being stored
      * @param doc   The map containing trial attributes
      */
@@ -141,7 +144,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Gets all trials created by an experimenter
-     * 
+     *
      * @param userId   user ID of owner
      * @param callback callback function
      */
@@ -170,7 +173,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Gets all trials created for an experiment
-     * 
+     *
      * @param experimentId user ID of owner
      * @param callback     callback function
      */
@@ -199,7 +202,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Converts data from a QueryDocumentSnapshot into a Trial object
-     * 
+     *
      * @param snapshot The QueryDocumentSnapshot storing the trial data
      * @return A Trial object containing all of the data contained in snapshot.
      */
@@ -208,32 +211,32 @@ public class TrialManager extends ArrayList<Trial> {
         Trial trial = null;
         switch (snapshot.getString("TrialType")) {
 
-        case Trial.BINOMIAL:
-            trial = new BinomialTrial(snapshot.getString("TrialId"), snapshot.getDate("Date"),
-                    snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"),
-                    Math.toIntExact(snapshot.getLong("Success")), Math.toIntExact(snapshot.getLong("Failure")));
-            break;
+            case Trial.BINOMIAL:
+                trial = new BinomialTrial(snapshot.getString("TrialId"),
+                        snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
+                        Math.toIntExact(snapshot.getLong("Success")), Math.toIntExact(snapshot.getLong("Failure")));
+                break;
 
-        case Trial.COUNT:
-            trial = new CountTrial(snapshot.getString("TrialId"), snapshot.getDate("Date"),
-                    snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"),
-                    Math.toIntExact(snapshot.getLong("Count")));
-            break;
+            case Trial.COUNT:
+                trial = new CountTrial(snapshot.getString("TrialId"),
+                        snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
+                        Math.toIntExact(snapshot.getLong("Count")));
+                break;
 
-        case Trial.MEASURE:
-            trial = new MeasurementTrial(snapshot.getString("TrialId"), snapshot.getDate("Date"),
-                    snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"),
-                    (ArrayList<Float>) snapshot.get("Measurements"));
-            break;
+            case Trial.MEASURE:
+                trial = new MeasurementTrial(snapshot.getString("TrialId"),
+                        snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
+                        (ArrayList<Float>) snapshot.get("Measurements"));
+                break;
 
-        case Trial.NONNEGATIVE:
-            trial = new NonNegativeTrial(snapshot.getString("TrialId"), snapshot.getDate("Date"),
-                    snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"),
-                    Math.toIntExact(snapshot.getLong("Count")));
-            break;
+            case Trial.NONNEGATIVE:
+                trial = new NonNegativeTrial(snapshot.getString("TrialId"),
+                        snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
+                        Math.toIntExact(snapshot.getLong("Count")));
+                break;
 
-        default:
-            throw new IllegalArgumentException();
+            default:
+                throw new IllegalArgumentException();
         }
 
         return trial;

@@ -25,7 +25,8 @@
          android:layout_height="wrap_content"
          android:layout_gravity="center"
          android:orientation="vertical"
-         android:id="@+id/statButtonGroup">
+         android:id="@+id/statButtonGroup"
+         android:visibility="gone">
 
          <androidx.appcompat.widget.AppCompatButton
              android:id="@+id/lineGraphButton"
@@ -46,8 +47,8 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/graphHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
  </FrameLayout>
 
