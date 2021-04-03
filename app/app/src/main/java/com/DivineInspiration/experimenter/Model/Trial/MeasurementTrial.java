@@ -2,6 +2,7 @@ package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.User;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -17,10 +18,8 @@ public class MeasurementTrial extends Trial {
      * id of experiment
      */
     public MeasurementTrial(String trialUserID, String trialExperimentID) {
+        super(trialUserID, trialExperimentID);
         this.trialType = Trial.MEASURE;
-        this.trialID = UUID.randomUUID().toString();
-        this.trialDate = new Date();
-        this.trialUserID = trialUserID;
         this.trialExperimentID = trialExperimentID;
     }
 
@@ -37,12 +36,10 @@ public class MeasurementTrial extends Trial {
      * @param measurements
      * list of measurments for this trial
      */
-    public MeasurementTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, ArrayList<Float> measurements) {
+    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, ArrayList<Float> measurements) {
+        super(trialID, trialUserID, trialExperimentID, trialDate);
         this.trialType = Trial.MEASURE;
-        this.trialID = trialID;
-        this.trialDate = trialDate;
-        this.trialUserID = trialUserID;
-        this.trialExperimentID = trialExperimentID;
+
         this.measurements = measurements;
     }
 

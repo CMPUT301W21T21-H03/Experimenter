@@ -177,7 +177,7 @@ public class ProfileFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /*https://stackoverflow.com/a/61178226/12471420*/
                 new ExperimentDialogFragment((ExperimentDialogFragment.OnExperimentOperationDoneListener) getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(), "create experiment");
             }
         });

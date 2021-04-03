@@ -25,7 +25,8 @@
          android:layout_height="wrap_content"
          android:layout_gravity="center"
          android:orientation="vertical"
-         android:id="@+id/statButtonGroup">
+         android:id="@+id/statButtonGroup"
+         android:visibility="gone">
 
          <androidx.appcompat.widget.AppCompatButton
              android:id="@+id/lineGraphButton"
@@ -36,7 +37,7 @@
              android:text="Line graph over time" />
 
          <androidx.appcompat.widget.AppCompatButton
-             android:id="@+id/hitogramButton"
+             android:id="@+id/histogramButton"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:background="@color/black3"
@@ -44,14 +45,10 @@
 
      </androidx.appcompat.widget.LinearLayoutCompat>
 
-     <com.github.mikephil.charting.charts.BarChart
-         android:id="@+id/barChart"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"/>
-     <com.github.mikephil.charting.charts.LineChart
-         android:id="@+id/lineChart"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"/>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/graphHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
  </FrameLayout>
 
