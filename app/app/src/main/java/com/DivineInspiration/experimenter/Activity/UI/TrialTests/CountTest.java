@@ -1,5 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.TrialTests;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class CountTest extends Fragment {
     private CountTrial current;
@@ -35,7 +37,17 @@ public class CountTest extends Fragment {
         super(R.layout.trial_count);
 //        CountTrial trial = new CountTrial(trialUserID, trialExperimentID);
 //        current = trial;
+    }
 
+    /**
+     * Shows alert message on the bottom of the parent fragment page
+     * @param error   is the alert an error
+     * @param message message
+     */
+    private void showAlert(boolean error, String message) {
+        Snackbar snackbar = Snackbar.make(getParentFragment().getView(), message, Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(Color.parseColor(error ? "#913c3c" : "#2e6b30"));
+        snackbar.show();
     }
 
 
@@ -62,11 +74,13 @@ public class CountTest extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (countTextBox.toString() == "") {
+                String countText = countTextBox.getText().toString();
+                if (countText.length() == 0) {
                     // counts as cancel for now
-                    // todo: return invalid
+                    // show error
+                    showAlert(true,"Trial not recorded");
                 } else {
-                    current.setCount(Integer.parseInt(countTextBox.toString()));
+                    current.setCount(Integer.parseInt(countText));
                     // record to experiment manage and exit
                 }
                 // return
