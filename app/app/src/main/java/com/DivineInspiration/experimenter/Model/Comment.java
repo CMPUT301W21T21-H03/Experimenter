@@ -89,30 +89,30 @@ public class Comment {
         this.comment = comment;
     }
 
-//    /**
-//     * Adds a reply to the comment
-//     * @param : reply:Comment
-//     */
-//    public void addReply(Comment reply) {
-//        replies.add(reply);
-//    }
-//
-//    /**
-//     * Deletes a reply that was made on the comment. This is an overloaded method
-//     * @param: reply:Comment
-//     */
-//    public void deleteReply(Comment reply) {
-//        replies.remove(reply);
-//    }
-//
-//    /**
-//     * Deletes a reply that was made on the comment. This is a overloaded method
-//     * @param: pos:Integer
-//     */
-//    public void deleteReply(int position) {
-//        replies.remove(position);
-//    }
-//
+    /**
+     * Adds a reply to the comment
+     * @param : reply:Comment
+     */
+    public void addReply(Comment reply) {
+        replies.add(reply);
+    }
+
+    /**
+     * Deletes a reply that was made on the comment. This is an overloaded method
+     * @param: reply:Comment
+     */
+    public void deleteReply(Comment reply) {
+        replies.remove(reply);
+    }
+
+    /**
+     * Deletes a reply that was made on the comment. This is a overloaded method
+     * @param: pos:Integer
+     */
+    public void deleteReply(int position) {
+        replies.remove(position);
+    }
+
 //    /**
 //     * Returns the name of the commentator and the date it was made. This is an overridden method
 //     * @return: comment:String
