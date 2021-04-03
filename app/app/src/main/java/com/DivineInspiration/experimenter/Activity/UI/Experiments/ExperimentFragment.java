@@ -191,7 +191,7 @@ public class ExperimentFragment extends Fragment {
                         bundle.putString("commenterName", userManager.getLocalUser().getUserName());
                         bundle.putString("experimentID", currentExperiment.getExperimentID());
 
-                        CreateCommentDialogFragment dialog = new CreateCommentDialogFragment();
+                        CreateCommentDialogFragment dialog = new CreateCommentDialogFragment((CreateCommentDialogFragment.OnCommentCreatedListener) getChildFragmentManager().findFragmentByTag("f1"));
                         dialog.setArguments(bundle);
                         dialog.show(getChildFragmentManager(), "create comment frag");
                         break;
@@ -341,4 +341,5 @@ public class ExperimentFragment extends Fragment {
             list.setAdapter(adapter);
         }
     }
+
 }
