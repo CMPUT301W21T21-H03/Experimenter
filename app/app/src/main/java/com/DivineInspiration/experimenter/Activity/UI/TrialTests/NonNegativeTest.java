@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
@@ -80,6 +81,7 @@ public class NonNegativeTest extends Fragment {
             @Override
             public void onClick(View view) {
                 // todo: return and add to manager
+                Navigation.findNavController(view).popBackStack();
             }
         });
 
