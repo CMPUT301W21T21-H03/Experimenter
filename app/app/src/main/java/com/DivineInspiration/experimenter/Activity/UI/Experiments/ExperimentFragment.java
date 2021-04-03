@@ -37,6 +37,7 @@ import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -125,10 +126,9 @@ public class ExperimentFragment extends Fragment {
                 int position = tab.getPosition();
                 if((position == 0 || position == 1) && currentUserSubbed && !currentExperiment.getStatus().equals(Experiment.ENDED) ){
                     addButton.show();
-                    Log.d("woah", "stuff");
                 }
                 else{
-                    Log.d("woah", "stuff2");
+
                     addButton.hide();
                 }
             }
@@ -244,21 +244,26 @@ public class ExperimentFragment extends Fragment {
             setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle args = new Bundle();
-                    args.putSerializable("exp", currentExperiment);
+                    if(!currentExperiment.getStatus().equals(Experiment.ENDED)){
+                        Bundle args = new Bundle();
+                        args.putSerializable("exp", currentExperiment);
 
-                    ExperimentDialogFragment frag = new ExperimentDialogFragment(
-                            experiment -> {
-                                if (experiment != null) {
-                                    updateText(experiment);
-                                    currentExperiment = experiment;
-                                } else {
-                                    /* https://stackoverflow.com/a/57013964/12471420 */
-                                    Navigation.findNavController(view).popBackStack();
-                                }
-                            });
-                    frag.setArguments(args);
-                    frag.show(getChildFragmentManager(), "edit experiment frag");
+                        ExperimentDialogFragment frag = new ExperimentDialogFragment(
+                                experiment -> {
+                                    if (experiment != null) {
+                                        updateText(experiment);
+                                        currentExperiment = experiment;
+                                    } else {
+                                        /* https://stackoverflow.com/a/57013964/12471420 */
+                                        Navigation.findNavController(view).popBackStack();
+                                    }
+                                });
+                        frag.setArguments(args);
+                        frag.show(getChildFragmentManager(), "edit experiment frag");
+                    }
+                    else{
+                        Snackbar.make(getView(), "This experiment has ended!", Snackbar.LENGTH_LONG).show();
+                    }
 
                 }
             });
