@@ -16,16 +16,8 @@ public class Comment {
 
     // TODO Handle replies
 
-    public Comment(String commenterId, String commenterName, String comment) {
-        this.commentId = IdGen.genCommentId();
-        this.commenterId = commenterId;
-        this.commenterName = commenterName;
-        this.comment = comment;
-        date = new Date();
-    }
-
     public Comment(String commentId, String commenterId, String commenterName, Date date, String comment) {
-        this.commentId = IdGen.genCommentId();
+        this.commentId = commentId;
         this.commenterId = commenterId;
         this.commenterName = commenterName;
         this.comment = comment;

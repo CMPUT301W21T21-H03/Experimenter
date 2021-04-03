@@ -1,5 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     private List<Comment> comments = new ArrayList<>();
 
-    public CommentListAdapter() {}
-    public CommentListAdapter(List<Comment> comments) { this.comments = comments; }
+    public CommentListAdapter() { super(); }
+    public CommentListAdapter(List<Comment> comments) {
+        super();
+        this.comments = comments;
+    }
 
     @NonNull
     @Override
@@ -45,7 +49,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     @Override
     public int getItemCount() { return comments.size(); }
 
-    public void setComments(List<Comment> comments) { this.comments = comments; }
+    public void setComments(List<Comment> comments) {
+        this.comments.clear();
+        this.comments.addAll(comments);
+        notifyDataSetChanged();
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

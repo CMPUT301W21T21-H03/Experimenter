@@ -206,7 +206,7 @@ public class EditProfileDialogFragment extends DialogFragment {
                             dialog.dismiss();
                         });
                     }
-                    else{
+                    else {
                         editProfileError1.setText("Name taken 😟");
                         editProfileError1.setVisibility(TextView.VISIBLE);
                     }

@@ -3,6 +3,7 @@ package com.DivineInspiration.experimenter.Model;
 
 import android.util.Log;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.installations.FirebaseInstallations;
 
 import kotlin.NotImplementedError;
@@ -116,9 +117,10 @@ public class IdGen {
     }
 
 
-    // TODO IMPLEMENT
-    public static String genCommentId() {
-        throw new UnsupportedOperationException();
+    // TODO Make Unique
+    public static String genCommentId(String experimentID) {
+
+        return "COM" + base10To36((System.currentTimeMillis()/1000)) + experimentID.substring(3);
     }
 
     /**

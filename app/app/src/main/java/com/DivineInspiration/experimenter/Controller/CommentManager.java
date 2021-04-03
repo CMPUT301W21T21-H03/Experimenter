@@ -79,10 +79,10 @@ public class CommentManager {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "Comment added to database");
+                    Log.d(TAG, "Reply added to database");
                 }
                 else {
-                    Log.d(TAG, "Comment failed to be added to database");
+                    Log.d(TAG, "Reply failed to be added to database");
                 }
             }
         });
@@ -95,11 +95,12 @@ public class CommentManager {
         db.collection("Experiments").document(experimentID).collection("Comments").document(commentID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (!task.isSuccessful()) {
-                    Log.d(TAG, "delete comment failed!");
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "delete comment succeeded");
                 }
-
-
+                else {
+                    Log.d(TAG, "delete comment failed");
+                }
             }
         });
     }
@@ -110,11 +111,12 @@ public class CommentManager {
                 .document(commentID).collection("Replies").document(replyID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (!task.isSuccessful()) {
-                    Log.d(TAG, "delete reply failed!");
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "delete reply succeeded");
                 }
-
-
+                else {
+                    Log.d(TAG, "delete reply failed");
+                }
             }
         });
     }
@@ -126,6 +128,7 @@ public class CommentManager {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                 if (task.isSuccessful()) {
+                    Log.d(TAG, "Comment retrieval succeeded");
                     List<Comment> output = new ArrayList<>();
                     for (QueryDocumentSnapshot snapshot : task.getResult()) {
                         output.add(commentFromSnapshot(snapshot));

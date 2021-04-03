@@ -72,7 +72,7 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
         holder.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Explore is kinda Sus <= what does that mean?
+                // Explore is kinda SUS <= what does that mean?
                 Bundle args = new Bundle();
                 args.putSerializable("experiment", experiments.get(position));
                 Navigation.findNavController(v).navigate(R.id.exploreToEx, args);
