@@ -11,27 +11,18 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/experiment_status_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Forum"
-            android:textAlignment="center"
-            android:textSize="30sp" />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/experiment_options"
+            android:id="@+id/comment_list_forum"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/list_item">
+            tools:listitem="@layout/comment_item">
 
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_to_forum"
+        android:id="@+id/add_comment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

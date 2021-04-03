@@ -52,6 +52,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:layout_marginTop="5dp"
                             android:id="@+id/ownerName_expFrag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -61,22 +62,21 @@
                         <TextView
                             android:id="@+id/expFragSubCount"
                             android:layout_width="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="#subscribersNum" />
 
-                        <TextView
-                            android:id="@+id/experimentRegion_expFrag"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Region" />
+
                         <TextView
                             android:id="@+id/status_exp"
                             android:layout_width="wrap_content"
+                            android:layout_marginTop="3dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Status:" />
+
+
 
 
 
@@ -140,7 +140,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
+                    <TextView
+                        android:id="@+id/experimentRegion_expFrag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Region" />
 
 
                     <TextView
@@ -207,7 +212,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addTrial"
+        android:id="@+id/experiment_fragment_add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"

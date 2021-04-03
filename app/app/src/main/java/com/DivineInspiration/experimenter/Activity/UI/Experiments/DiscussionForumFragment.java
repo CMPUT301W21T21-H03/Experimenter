@@ -1,41 +1,78 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.DivineInspiration.experimenter.Controller.CommentManager;
+import com.DivineInspiration.experimenter.Model.Comment;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class DiscussionForumFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
 
+public class DiscussionForumFragment extends Fragment implements CommentManager.OnCommentsReadyListener {
 
+    private List<Comment> commentList;
+    private CommentListAdapter adapter;
+    private String experiment;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+
+        this.commentList = new ArrayList<>();
+        this.adapter = new CommentListAdapter();
+        experiment = bundle.getString("experimentID");
+        if (experiment == null) { throw new NullPointerException(); }
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.discussion_forum_fragment, container, false);
+
+        View root = inflater.inflate(R.layout.discussion_forum_fragment, container, false);
+
+        CommentManager.getInstance().getExperimentComments(experiment, this);
+
+        // Initialize list
+        RecyclerView recyclerView = root.findViewById(R.id.comment_list_forum);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+
+        // TODO replies
+
+        // TODO Add comments
+        FloatingActionButton addButton = root.findViewById(R.id.add_comment_button);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        return root;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        //ListView list = view.findViewById(R.id.placeHolderList);
-
-        // TODO Make recycler view with comments. Maybe make only one level of replies?
-        // TODO Make comment creation dialog. Steal from experiment creation
-        // TODO BACK BUTTON
-        // TODO Reply section
-
-        String[] items = {"Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.", "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be", "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very", "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have", "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s", "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
-
-        //list.setAdapter(adapter);
+    public void onCommentsReady(List<Comment> comments) {
+        commentList = comments;
     }
 }
