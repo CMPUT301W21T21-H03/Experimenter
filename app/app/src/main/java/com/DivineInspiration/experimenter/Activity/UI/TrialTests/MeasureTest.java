@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.DivineInspiration.experimenter.Controller.TrialManager;
+import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
@@ -23,7 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MeasureTest extends Fragment {
     private MeasurementTrial current;
-
+    private Experiment currentExp;
     // text views
     TextView countTextBox;
     CheckBox requireGeo;
@@ -58,6 +60,11 @@ public class MeasureTest extends Fragment {
 
         Bundle extra = getArguments();
         current = (MeasurementTrial) extra.getSerializable("trial");
+        if(current == null){
+            currentExp = (Experiment)extra.getSerializable("experiment");
+            assert(currentExp != null);
+            current = new MeasurementTrial(currentExp.getOwnerID(), currentExp.getExperimentID());
+        }
 
         countTextBox = view.findViewById(R.id.editTextNumber);
         requireGeo = view.findViewById(R.id.require_geo_location2);

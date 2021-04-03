@@ -44,7 +44,7 @@ public class GraphMaker {
 
 
     public static Chart makeLineChart(ArrayList<Trial> trials, Context context){
-        Log.d("woah", "entering chartMaker");
+
         List<List<Trial>> trialsDateBucket = groupTrialByDate(trials);
         switch (trials.get(0).getTrialType()){
             case Trial.COUNT:
@@ -57,12 +57,11 @@ public class GraphMaker {
 
     /*https://stackoverflow.com/a/29812532/12471420*/
     private static Chart makeCountLineChart (List<List<Trial>> trialsBucket, Context context){
-        Log.d("woah", "entering make line chart");
+
         int sum = 0;
         LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();
         LocalDate lastDate = trialsBucket.get(trialsBucket.size()-1).get(0).getTrialDate();
-        Log.d("woah", df.format(currentDate));
-        Log.d("woah", df.format(lastDate));
+
         List<Entry> data = new ArrayList<>();
         int i = 0;
         while(currentDate.isBefore(lastDate) ){
@@ -89,12 +88,13 @@ public class GraphMaker {
         //divides trials into buckets by date
         List<List<Trial>> temp = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial ->
                 df.format(trial.getTrialDate()))).values());
-        Collections.sort(temp, (l1, l2) -> l1.get(0).getTrialDate().compareTo(l2.get(0).getTrialDate()));
+        //sort by date
+        temp.sort((l1, l2) -> l1.get(0).getTrialDate().compareTo(l2.get(0).getTrialDate()));
         return temp;
     }
 
 
-    public  static  int getCountSum(List<Trial> trials){
+    public static int getCountSum(List<Trial> trials){
 
         int sum = 0;
         for(Trial t : trials){
