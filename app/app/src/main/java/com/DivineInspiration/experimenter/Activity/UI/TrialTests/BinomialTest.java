@@ -100,6 +100,7 @@ public class BinomialTest extends Fragment {
                 } else {
                     // record to experiment manager
                     TrialManager.getInstance().addTrial(current);
+                    showAlert(false,"Trial was successfully recorded!");
                 }
                 // return
                 Navigation.findNavController(view).popBackStack();

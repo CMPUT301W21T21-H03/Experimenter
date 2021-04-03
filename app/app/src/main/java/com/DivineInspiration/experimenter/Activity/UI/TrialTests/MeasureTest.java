@@ -84,6 +84,7 @@ public class MeasureTest extends Fragment {
                     current.addMeasurement(Float.parseFloat(countText));
                     // record to experiment manager
                     TrialManager.getInstance().addTrial(current);
+                    showAlert(false,"Trial was successfully recorded!");
                 }
                 // return
                 Navigation.findNavController(view).popBackStack();

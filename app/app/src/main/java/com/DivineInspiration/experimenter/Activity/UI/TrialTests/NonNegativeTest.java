@@ -90,6 +90,7 @@ public class NonNegativeTest extends Fragment {
                     current.setCount(Integer.parseInt(countText));
                     // record to experiment manager
                     TrialManager.getInstance().addTrial(current);
+                    showAlert(false,"Trial was successfully recorded!");
                 }
                 // return
                 Navigation.findNavController(view).popBackStack();
