@@ -120,7 +120,10 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
             for (int i = 0; i < dataList.size(); i++) {
                 // checks if search text is in the experiment (case insensitive)
                 String name = dataList.get(i).getExperimentName().toLowerCase();
-                if (name.contains(searchText.toString().toLowerCase())) {
+                String ownerName = dataList.get(i).getOwnerName().toLowerCase();
+                String description = dataList.get(i).getExperimentDescription().toLowerCase();
+                // this is probably inefficient :(
+                if (name.contains(searchText.toString().toLowerCase()) || ownerName.contains(searchText.toString().toLowerCase()) || description.contains(searchText.toString().toLowerCase())) {
                     shownList.add(dataList.get(i));
                 }
             }
