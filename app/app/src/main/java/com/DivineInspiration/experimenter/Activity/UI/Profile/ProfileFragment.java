@@ -134,6 +134,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+
             }
 
             // hide fab when on trials or subscriptions

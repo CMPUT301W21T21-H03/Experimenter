@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -59,17 +61,18 @@ public class ExperimentFragment extends Fragment {
     ExperimentManager experimentManager = ExperimentManager.getInstance();
     UserManager userManager = UserManager.getInstance();
 
+    boolean currentUserSubbed = false;
+
     // nav
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
 
     // tab names
-    String[] tabNames = { "Trials", "Comments", "Stats" };
-    private ArrayList<User> subscribers = new ArrayList<>();
+    String[] tabNames = {"Trials", "Comments", "Stats"};
+   // private ArrayList<User> subscribers = new ArrayList<>();
 
     Experiment currentExperiment;
-
 
     CollapsingToolbarLayout toolbar;
 
@@ -117,24 +120,49 @@ public class ExperimentFragment extends Fragment {
             }
         }).attach();
 
-        // TODO optimize
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                if((position == 0 || position == 1) && currentUserSubbed && !currentExperiment.getStatus().equals(Experiment.ENDED) ){
+                    addButton.show();
+                }
+                else{
+
+                    addButton.hide();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
         // get experiment that you subbed to
         UserManager.getInstance().queryExperimentSubs(currentExperiment.getExperimentID(),
                 new UserManager.OnUserListReadyListener() {
                     @Override
                     public void onUserListReady(ArrayList<User> users) {
-                        subscribers.clear();
-                        subscribers.addAll(users);
-                        for (int i = 0; i < subscribers.size(); i++) {
+                       // subscribers.clear();
+                       // subscribers.addAll(users);
+                        for (int i = 0; i < users.size(); i++) {
                             if (UserManager.getInstance().getLocalUser().getUserId()
-                                    .equals(subscribers.get(i).getUserId())) {
+                                    .equals(users.get(i).getUserId())) {
                                 subSwitch.setChecked(true);
-                                addButton.setVisibility(View.VISIBLE);
+                                addButton.show();
+                                currentUserSubbed = true;
                             }
                         }
 
                         ((TextView) getView().findViewById(R.id.expFragSubCount))
-                                .setText(subscribers.size() + " subscribers");
+                                .setText(users.size() + " subscribers");
                     }
                 });
 
@@ -146,12 +174,13 @@ public class ExperimentFragment extends Fragment {
                     experimentManager.subToExperiment(userManager.getLocalUser().getUserId(),
                             currentExperiment.getExperimentID(), null);
                     // on check, it should be set visible again
-                    addButton.setVisibility(View.VISIBLE);
+                    addButton.show();
                 } else {
                     experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(),
                             currentExperiment.getExperimentID(), null);
                     // if changed to unsub, it should be set invisible again
-                    addButton.setVisibility(View.INVISIBLE);
+                    addButton.hide();
+                    currentUserSubbed = false;
                 }
             }
         });
@@ -163,54 +192,43 @@ public class ExperimentFragment extends Fragment {
 
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
-                case 0:
-                    Bundle args = new Bundle();
-                    // new trial
-                    switch (currentExperiment.getTrialType()) {
-                    case Trial.BINOMIAL:
-                        BinomialTrial trialTestBinomial = new BinomialTrial(userManager.getLocalUser().getUserId(),
-                                currentExperiment.getExperimentID());
-                        args.putSerializable("trial", (Serializable) trialTestBinomial);
-                        Navigation.findNavController(view)
-                                .navigate(R.id.action_navigation_experimentFragment_to_binomialTest, args);
+                    case 0:
+                        Bundle args = new Bundle();
+                        args.putSerializable("experiment", currentExperiment);
+                        // new trial
+                        switch (currentExperiment.getTrialType()) {
+                            case Trial.BINOMIAL:
+                                Navigation.findNavController(view)
+                                        .navigate(R.id.action_navigation_experimentFragment_to_binomialTest, args);
+                                break;
+                            case Trial.MEASURE:
+                                Navigation.findNavController(view)
+                                        .navigate(R.id.action_navigation_experimentFragment_to_nonNegativeTest, args);
+                                break;
+                            case Trial.NONNEGATIVE:
+                                Navigation.findNavController(view)
+                                        .navigate(R.id.action_navigation_experimentFragment_to_measureTest, args);
+                                break;
+                            default:
+                                Navigation.findNavController(view)
+                                        .navigate(R.id.action_navigation_experimentFragment_to_countTest, args);
+                                break;
+                        }
                         break;
-                    case Trial.MEASURE:
-                        MeasurementTrial trialTestNonNegative = new MeasurementTrial(
-                                userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
-                        args.putSerializable("trial", (Serializable) trialTestNonNegative);
-                        Navigation.findNavController(view)
-                                .navigate(R.id.action_navigation_experimentFragment_to_nonNegativeTest, args);
+
+                    case 1:
+                        // New comment
+                        Bundle bundle = new Bundle();
+                        bundle.putString("commenterID", userManager.getLocalUser().getUserId());
+                        bundle.putString("commenterName", userManager.getLocalUser().getUserName());
+                        bundle.putString("experimentID", currentExperiment.getExperimentID());
+
+                        CreateCommentDialogFragment dialog = new CreateCommentDialogFragment((CreateCommentDialogFragment.OnCommentCreatedListener) getChildFragmentManager().findFragmentByTag("f1"));
+                        dialog.setArguments(bundle);
+                        dialog.show(getChildFragmentManager(), "create comment frag");
                         break;
-                    case Trial.NONNEGATIVE:
-                        NonNegativeTrial trialTestMeasure = new NonNegativeTrial(userManager.getLocalUser().getUserId(),
-                                currentExperiment.getExperimentID());
-                        args.putSerializable("trial", (Serializable) trialTestMeasure);
-                        Navigation.findNavController(view)
-                                .navigate(R.id.action_navigation_experimentFragment_to_measureTest, args);
-                        break;
+
                     default:
-                        CountTrial trialTestCount = new CountTrial(userManager.getLocalUser().getUserId(),
-                                currentExperiment.getExperimentID());
-                        args.putSerializable("trial", (Serializable) trialTestCount);
-                        Navigation.findNavController(view)
-                                .navigate(R.id.action_navigation_experimentFragment_to_countTest, args);
-                        break;
-                    }
-                    break;
-
-                case 1:
-                    // New comment
-                    Bundle bundle = new Bundle();
-                    bundle.putString("commenterID", userManager.getLocalUser().getUserId());
-                    bundle.putString("commenterName", userManager.getLocalUser().getUserName());
-                    bundle.putString("experimentID", currentExperiment.getExperimentID());
-
-                    CreateCommentDialogFragment dialog = new CreateCommentDialogFragment((CreateCommentDialogFragment.OnCommentCreatedListener) getChildFragmentManager().findFragmentByTag("f1"));
-                    dialog.setArguments(bundle);
-                    dialog.show(getChildFragmentManager(), "create comment frag");
-                    break;
-
-                default:
                         // Stats
                 }
             }
@@ -221,18 +239,17 @@ public class ExperimentFragment extends Fragment {
         View profile = view.findViewById(R.id.profile);
 
         // when local user is owner
-        if (UserManager.getInstance().getLocalUser().getUserId().equals(currentExperiment.getOwnerID())) {
+        if (userManager.getLocalUser().getUserId().equals(currentExperiment.getOwnerID())) {
             profile.setVisibility(View.GONE);
             setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle args = new Bundle();
-                    args.putSerializable("exp", currentExperiment);
+                    if(!currentExperiment.getStatus().equals(Experiment.ENDED)){
+                        Bundle args = new Bundle();
+                        args.putSerializable("exp", currentExperiment);
 
-                    ExperimentDialogFragment frag = new ExperimentDialogFragment(
-                            new ExperimentDialogFragment.OnExperimentOperationDoneListener() {
-                                @Override
-                                public void onOperationDone(Experiment experiment) {
+                        ExperimentDialogFragment frag = new ExperimentDialogFragment(
+                                experiment -> {
                                     if (experiment != null) {
                                         updateText(experiment);
                                         currentExperiment = experiment;
@@ -240,10 +257,13 @@ public class ExperimentFragment extends Fragment {
                                         /* https://stackoverflow.com/a/57013964/12471420 */
                                         Navigation.findNavController(view).popBackStack();
                                     }
-                                }
-                            });
-                    frag.setArguments(args);
-                    frag.show(getChildFragmentManager(), "edit experiment frag");
+                                });
+                        frag.setArguments(args);
+                        frag.show(getChildFragmentManager(), "edit experiment frag");
+                    }
+                    else{
+                        Snackbar.make(getView(), "This experiment has ended!", Snackbar.LENGTH_LONG).show();
+                    }
 
                 }
             });
@@ -310,21 +330,21 @@ public class ExperimentFragment extends Fragment {
             bundle.putString("experimentID", currentExperiment.getExperimentID());
             Fragment tabFragment;
             switch (position) {
-            case 0:
-                tabFragment = new TrialsTabFragment();
-                tabFragment.setArguments(bundle);
-                return tabFragment;
-            case 1:
-                tabFragment = new DiscussionForumFragment();
-                tabFragment.setArguments(bundle);
-                return tabFragment;
-            case 2:
-                 tabFragment = new StatsTabFragment();
-                 tabFragment.setArguments(bundle);
-                 return tabFragment;
+                case 0:
+                    tabFragment = new TrialsTabFragment();
+                    tabFragment.setArguments(bundle);
+                    return tabFragment;
+                case 1:
+                    tabFragment = new DiscussionForumFragment();
+                    tabFragment.setArguments(bundle);
+                    return tabFragment;
+                case 2:
+                    tabFragment = new StatsTabFragment();
+                    tabFragment.setArguments(bundle);
+                    return tabFragment;
 
-            default:
-                return new PlaceHolderFragment();
+                default:
+                    return new PlaceHolderFragment();
             }
         }
 
@@ -341,7 +361,7 @@ public class ExperimentFragment extends Fragment {
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                @Nullable Bundle savedInstanceState) {
+                                 @Nullable Bundle savedInstanceState) {
             return inflater.inflate(R.layout.test, container, false);
         }
 
@@ -350,12 +370,12 @@ public class ExperimentFragment extends Fragment {
             super.onViewCreated(view, savedInstanceState);
             ListView list = view.findViewById(R.id.placeHolderList);
 
-            String[] items = { "Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.",
+            String[] items = {"Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.",
                     "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be",
                     "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very",
                     "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have",
                     "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s",
-                    "describe", "the", "grammar", "of", "math,", "which", "is", "logic!" };
+                    "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
 
             list.setAdapter(adapter);
