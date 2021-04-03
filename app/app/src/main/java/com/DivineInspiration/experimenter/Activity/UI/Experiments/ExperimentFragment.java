@@ -70,11 +70,12 @@ public class ExperimentFragment extends Fragment {
 
     Experiment currentExperiment;
 
+
     CollapsingToolbarLayout toolbar;
 
     /**
      * On create
-     * 
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -88,7 +89,7 @@ public class ExperimentFragment extends Fragment {
 
     /**
      * On view
-     * 
+     *
      * @param view
      * @param savedInstanceState
      */
@@ -204,12 +205,13 @@ public class ExperimentFragment extends Fragment {
                     bundle.putString("commenterName", userManager.getLocalUser().getUserName());
                     bundle.putString("experimentID", currentExperiment.getExperimentID());
 
-                    CreateCommentDialogFragment dialog = new CreateCommentDialogFragment();
+                    CreateCommentDialogFragment dialog = new CreateCommentDialogFragment((CreateCommentDialogFragment.OnCommentCreatedListener) getChildFragmentManager().findFragmentByTag("f1"));
                     dialog.setArguments(bundle);
                     dialog.show(getChildFragmentManager(), "create comment frag");
                     break;
+
                 default:
-                    // Stats
+                        // Stats
                 }
             }
         });
@@ -283,7 +285,7 @@ public class ExperimentFragment extends Fragment {
     private void updateText(Experiment exp) {
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
-        expCity.setText("Region:" + exp.getRegion());
+        expCity.setText("Region: " + exp.getRegion());
         trialNumber.setText(String.valueOf(exp.getMinimumTrials()) + " trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
