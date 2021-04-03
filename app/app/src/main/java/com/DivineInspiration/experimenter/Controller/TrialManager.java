@@ -257,12 +257,4 @@ public class TrialManager extends ArrayList<Trial> {
 
         return trial;
     }
-
-
-
-
-
-
-
-
 }

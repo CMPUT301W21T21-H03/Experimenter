@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
@@ -97,7 +98,8 @@ public class BinomialTest extends Fragment {
                     // show error
                     showAlert(true,"Trial not recorded");
                 } else {
-                    // record to experiment manage and exit
+                    // record to experiment manager
+                    TrialManager.getInstance().addTrial(current);
                 }
                 // return
                 Navigation.findNavController(view).popBackStack();

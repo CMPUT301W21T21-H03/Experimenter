@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
@@ -81,7 +82,8 @@ public class MeasureTest extends Fragment {
                     showAlert(true,"Trial not recorded");
                 } else {
                     current.addMeasurement(Float.parseFloat(countText));
-                    // record to experiment manage and exit
+                    // record to experiment manager
+                    TrialManager.getInstance().addTrial(current);
                 }
                 // return
                 Navigation.findNavController(view).popBackStack();
