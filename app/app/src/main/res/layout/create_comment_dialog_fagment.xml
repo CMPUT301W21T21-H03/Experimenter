@@ -34,13 +34,13 @@
                 <EditText
                     android:id="@+id/create_comment_edit_text"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/black1"
-                    android:maxLength="100"
+                    android:background="@color/black2"
+                    android:maxLength="800"
                     android:hint="Comment"
-                    android:inputType="textPersonName"
+                    android:inputType="textMultiLine"
                     android:textColor="@color/beige1"/>
 
             </com.google.android.material.textfield.TextInputLayout>

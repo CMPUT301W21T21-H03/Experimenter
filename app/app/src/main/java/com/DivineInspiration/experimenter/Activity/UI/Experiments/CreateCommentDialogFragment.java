@@ -36,7 +36,7 @@ public class CreateCommentDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.create_comment_dialog_fagment, null);
-        AlertDialog dialog = new AlertDialog.Builder(getContext())
+        AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
                 .setView(view)
                 .setMessage("Create Comment")
                 .setPositiveButton("Ok", null)
