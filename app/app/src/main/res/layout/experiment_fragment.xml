@@ -220,7 +220,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/red1"
         android:src="@android:drawable/ic_input_add"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:borderWidth="0dp"
         app:rippleColor="@color/beige1"
         app:tint="@color/white" />
