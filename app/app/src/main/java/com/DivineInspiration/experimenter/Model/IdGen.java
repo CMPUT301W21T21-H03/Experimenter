@@ -84,15 +84,15 @@ public class IdGen {
 
     /**
      * Generates the trial ID
-     * @param user
+
      * trial belong to this user
-     * @param trialsCount
+
      * the number of trials
      * @return
      * a large int
      */
-    public static long genTrialsId(User user, int trialsCount){
-        return 0L;
+    public static String genTrialsId(String userId){
+        return "TRI" + base10To36((System.currentTimeMillis()/1000)) +userId.substring(3);
     }
 
     /**

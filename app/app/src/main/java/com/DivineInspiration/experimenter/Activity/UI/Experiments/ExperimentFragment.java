@@ -111,6 +111,8 @@ public class ExperimentFragment extends Fragment {
             }
         }).attach();
 
+
+        //TODO  optimize
         // get experiment that you subbed to
         UserManager.getInstance().queryExperimentSubs(currentExperiment.getExperimentID(), new UserManager.OnUserListReadyListener() {
             @Override
@@ -270,9 +272,10 @@ public class ExperimentFragment extends Fragment {
                     tabFragment.setArguments(bundle);
                     return tabFragment;
                 case 2:
-                    tabFragment = new StatsTabFragment();
-                    tabFragment.setArguments(bundle);
-                    return tabFragment;
+                    return new PlaceHolderFragment();
+                   // tabFragment = new StatsTabFragment();
+                   // tabFragment.setArguments(bundle);
+                  //  return tabFragment;
                 default:
                     return new PlaceHolderFragment();
             }
