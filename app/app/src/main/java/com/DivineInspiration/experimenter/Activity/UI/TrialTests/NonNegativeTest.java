@@ -56,6 +56,15 @@ public class NonNegativeTest extends Fragment {
         requireGeo = view.findViewById(R.id.require_geo_location2);
         submit = view.findViewById(R.id.count_submit);
 
+        requireGeo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                // set geo check to the state of checkbox
+                requireGeoCheck = b;
+                // do something? or store in Trial?
+            }
+        });
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,21 +75,7 @@ public class NonNegativeTest extends Fragment {
                     current.setCount(Integer.parseInt(countTextBox.toString()));
                     // record to experiment manage and exit
                 }
-            }
-        });
-
-        requireGeo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                // set geo check to the state of checkbox
-                requireGeoCheck = b;
-                // do something? or store in Trial?
-            }
-        });
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // todo: return and add to manager
+                // return
                 Navigation.findNavController(view).popBackStack();
             }
         });

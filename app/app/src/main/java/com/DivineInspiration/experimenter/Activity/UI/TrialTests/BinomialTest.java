@@ -53,18 +53,6 @@ public class BinomialTest extends Fragment  {
         passCount = view.findViewById(R.id.binomialCount);
         failCount = view.findViewById(R.id.binomialCount2);
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (current.getSuccess() == 0 && current.getFailure() == 0) {
-                    // counts as cancel for now
-                    // todo: return invalid
-                } else {
-                    // record to experiment manage and exit
-                }
-            }
-        });
-
         // when pass btn is clicked
         passBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +77,17 @@ public class BinomialTest extends Fragment  {
                 // do something? or store in Trial?
             }
         });
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo: return and add to manager
+                if (current.getSuccess() == 0 && current.getFailure() == 0) {
+                    // counts as cancel for now
+                    // todo: return invalid
+                } else {
+                    // record to experiment manage and exit
+                }
+                // return
                 Navigation.findNavController(view).popBackStack();
             }
         });
