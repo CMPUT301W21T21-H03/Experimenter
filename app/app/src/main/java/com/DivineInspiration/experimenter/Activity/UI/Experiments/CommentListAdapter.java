@@ -19,8 +19,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     private List<Comment> comments = new ArrayList<>();
 
-    public CommentListAdapter() {}
-    public CommentListAdapter(List<Comment> comments) { this.comments = comments; }
+    public CommentListAdapter() { super(); }
+    public CommentListAdapter(List<Comment> comments) {
+        super();
+        this.comments = comments;
+    }
 
     @NonNull
     @Override

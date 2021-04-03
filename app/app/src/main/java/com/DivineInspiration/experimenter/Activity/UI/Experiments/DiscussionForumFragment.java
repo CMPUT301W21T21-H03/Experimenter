@@ -59,20 +59,15 @@ public class DiscussionForumFragment extends Fragment implements CommentManager.
 
         // TODO replies
 
-        // TODO Add comments
-        FloatingActionButton addButton = root.findViewById(R.id.add_comment_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         return root;
     }
 
     @Override
     public void onCommentsReady(List<Comment> comments) {
+        Log.d("COMMENT FRAG", "COMMENTS READY");
+        Log.d("COMMENT FRAG", comments.toString());
         commentList = comments;
+        adapter.setComments(comments);
     }
 }

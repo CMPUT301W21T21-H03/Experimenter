@@ -26,6 +26,7 @@ import com.DivineInspiration.experimenter.Activity.UI.TrialTests.MeasureTest;
 import com.DivineInspiration.experimenter.Activity.UI.TrialTests.NonNegativeTest;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Comment;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
@@ -148,20 +149,40 @@ public class ExperimentFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // new trial
-                switch (currentExperiment.getTrialType()) {
-                    case Trial.COUNT:
-                        BinomialTest trialTestBinomial = new BinomialTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+
+                // Button action changes depending on the current tab
+                switch (tabLayout.getSelectedTabPosition()) {
+                    case 0:
+                    // new trial
+                        switch (currentExperiment.getTrialType()) {
+                            case Trial.BINOMIAL:
+                                BinomialTest trialTestBinomial = new BinomialTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                break;
+                            case Trial.MEASURE:
+                                NonNegativeTest trialTestNonNegative = new NonNegativeTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                break;
+                            case Trial.NONNEGATIVE:
+                                MeasureTest trialTestMeasure = new MeasureTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                break;
+                            default:
+                                CountTest trialTestCount = new CountTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                break;
+                        }
                         break;
-                    case Trial.MEASURE:
-                        NonNegativeTest trialTestNonNegative = new NonNegativeTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
-                        break;
-                    case Trial.NONNEGATIVE:
-                        MeasureTest trialTestMeasure = new MeasureTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+
+                    case 1:
+                        // New comment
+                        Bundle bundle = new Bundle();
+                        bundle.putString("commenterID", userManager.getLocalUser().getUserId());
+                        bundle.putString("commenterName", userManager.getLocalUser().getUserName());
+                        bundle.putString("experimentID", currentExperiment.getExperimentID());
+
+                        CreateCommentDialogFragment dialog = new CreateCommentDialogFragment();
+                        dialog.setArguments(bundle);
+                        dialog.show(getChildFragmentManager(), "create comment frag");
                         break;
                     default:
-                        CountTest trialTestCount = new CountTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
-                        break;
+                        // Stats
                 }
             }
         });
