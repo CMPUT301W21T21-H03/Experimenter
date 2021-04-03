@@ -1,5 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.TrialTests;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -9,10 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class BinomialTest extends Fragment {
     private BinomialTrial current;
@@ -29,22 +33,30 @@ public class BinomialTest extends Fragment {
 
     /**
      * Constructor
-     * @param trialUserID
-     * local user
-     * @param trialExperimentID
-     * experiment id
      */
-    public BinomialTest(String trialUserID, String trialExperimentID) {
+    public BinomialTest() {
         super(R.layout.trial_binomial_count);
-        BinomialTrial trial = new BinomialTrial(trialUserID, trialExperimentID);
-        current = trial;
-
+//        BinomialTrial trial = new BinomialTrial(trialUserID, trialExperimentID);
+//        current = trial;
     }
 
+    /**
+     * Shows alert message on the bottom of the parent fragment page
+     * @param error   is the alert an error
+     * @param message message
+     */
+    private void showAlert(boolean error, String message) {
+        Snackbar snackbar = Snackbar.make(getParentFragment().getView(), message, Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(Color.parseColor(error ? "#913c3c" : "#2e6b30"));
+        snackbar.show();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle extra = getArguments();
+        current = (BinomialTrial) extra.getSerializable("trial");
 
         passBtn = view.findViewById(R.id.pass);
         failBtn = view.findViewById(R.id.fail);
@@ -52,18 +64,6 @@ public class BinomialTest extends Fragment {
         submit = view.findViewById(R.id.count_submit);
         passCount = view.findViewById(R.id.binomialCount);
         failCount = view.findViewById(R.id.binomialCount2);
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (current.getSuccess() == 0 && current.getFailure() == 0) {
-                    // counts as cancel for now
-                    // todo: return invalid
-                } else {
-                    // record to experiment manage and exit
-                }
-            }
-        });
 
         // when pass btn is clicked
         passBtn.setOnClickListener(new View.OnClickListener() {
@@ -89,10 +89,21 @@ public class BinomialTest extends Fragment {
                 // do something? or store in Trial?
             }
         });
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo: return and add to manager
+                if (current.getSuccess() == 0 && current.getFailure() == 0) {
+                    // counts as cancel for now
+                    // show error
+                    showAlert(true,"Trial not recorded");
+                } else {
+                    // record to experiment manager
+                    TrialManager.getInstance().addTrial(current);
+                    showAlert(false,"Trial was successfully recorded!");
+                }
+                // return
+                Navigation.findNavController(view).popBackStack();
             }
         });
 

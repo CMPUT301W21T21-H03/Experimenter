@@ -44,7 +44,43 @@
             app:destination="@id/navigation_home"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit" />
+        <action
+            android:id="@+id/action_navigation_experimentFragment_to_binomialTest"
+            app:destination="@id/binomialTest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
+        <action
+            android:id="@+id/action_navigation_experimentFragment_to_countTest"
+            app:destination="@id/countTest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
+        <action
+            android:id="@+id/action_navigation_experimentFragment_to_measureTest"
+            app:destination="@id/measureTest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
+        <action
+            android:id="@+id/action_navigation_experimentFragment_to_nonNegativeTest"
+            app:destination="@id/nonNegativeTest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
     </fragment>
+    <fragment
+        android:id="@+id/binomialTest"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.TrialTests.BinomialTest"
+        android:label="BinomialTest" />
+    <fragment
+        android:id="@+id/countTest"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.TrialTests.CountTest"
+        android:label="CountTest" />
+    <fragment
+        android:id="@+id/measureTest"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.TrialTests.MeasureTest"
+        android:label="MeasureTest" />
+    <fragment
+        android:id="@+id/nonNegativeTest"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.TrialTests.NonNegativeTest"
+        android:label="NonNegativeTest" />
 
     <!-- TODO Implement back button -->
 </navigation>

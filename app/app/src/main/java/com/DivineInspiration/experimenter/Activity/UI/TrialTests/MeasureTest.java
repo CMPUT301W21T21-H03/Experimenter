@@ -1,5 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.TrialTests;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MeasureTest extends Fragment {
     private MeasurementTrial current;
@@ -29,16 +33,22 @@ public class MeasureTest extends Fragment {
 
     /**
      * Constructor
-     * @param trialUserID
-     * local user
-     * @param trialExperimentID
-     * experiment id
      */
-    public MeasureTest(String trialUserID, String trialExperimentID) {
+    public MeasureTest() {
         super(R.layout.trial_count);
-        MeasurementTrial trial = new MeasurementTrial(trialUserID, trialExperimentID);
-        current = trial;
+//        MeasurementTrial trial = new MeasurementTrial(trialUserID, trialExperimentID);
+//        current = trial;
+    }
 
+    /**
+     * Shows alert message on the bottom of the parent fragment page
+     * @param error   is the alert an error
+     * @param message message
+     */
+    private void showAlert(boolean error, String message) {
+        Snackbar snackbar = Snackbar.make(getParentFragment().getView(), message, Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(Color.parseColor(error ? "#913c3c" : "#2e6b30"));
+        snackbar.show();
     }
 
 
@@ -46,22 +56,12 @@ public class MeasureTest extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Bundle extra = getArguments();
+        current = (MeasurementTrial) extra.getSerializable("trial");
+
         countTextBox = view.findViewById(R.id.editTextNumber);
         requireGeo = view.findViewById(R.id.require_geo_location2);
         submit = view.findViewById(R.id.count_submit);
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (countTextBox.toString() == "") {
-                    // counts as cancel for now
-                    // todo: return invalid
-                } else {
-                    current.addMeasurement(Float.parseFloat(countTextBox.toString()));
-                    // record to experiment manage and exit
-                }
-            }
-        });
 
         requireGeo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -71,10 +71,23 @@ public class MeasureTest extends Fragment {
                 // do something? or store in Trial?
             }
         });
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo: return and add to manager
+                String countText = countTextBox.getText().toString();
+                if (countText.length() == 0) {
+                    // counts as cancel for now
+                    // show error
+                    showAlert(true,"Trial not recorded");
+                } else {
+                    current.addMeasurement(Float.parseFloat(countText));
+                    // record to experiment manager
+                    TrialManager.getInstance().addTrial(current);
+                    showAlert(false,"Trial was successfully recorded!");
+                }
+                // return
+                Navigation.findNavController(view).popBackStack();
             }
         });
 

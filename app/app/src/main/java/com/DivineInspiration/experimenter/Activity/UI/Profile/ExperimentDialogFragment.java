@@ -87,7 +87,6 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Shows alert message on the bottom of the parent fragment page
-     *
      * @param error   is the alert an error
      * @param message message
      */
