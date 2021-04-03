@@ -14,7 +14,7 @@ import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
-public class BinomialTest extends Fragment {
+public class BinomialTest extends Fragment  {
     private BinomialTrial current;
 
     // text views
@@ -29,15 +29,11 @@ public class BinomialTest extends Fragment {
 
     /**
      * Constructor
-     * @param trialUserID
-     * local user
-     * @param trialExperimentID
-     * experiment id
      */
-    public BinomialTest(String trialUserID, String trialExperimentID) {
+    public BinomialTest() {
         super(R.layout.trial_binomial_count);
-        BinomialTrial trial = new BinomialTrial(trialUserID, trialExperimentID);
-        current = trial;
+//        BinomialTrial trial = new BinomialTrial(trialUserID, trialExperimentID);
+//        current = trial;
 
     }
 
@@ -45,6 +41,9 @@ public class BinomialTest extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle extra = getArguments();
+        current = (BinomialTrial) extra.getSerializable("trial");
 
         passBtn = view.findViewById(R.id.pass);
         failBtn = view.findViewById(R.id.fail);

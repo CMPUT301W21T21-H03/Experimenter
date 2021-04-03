@@ -29,15 +29,11 @@ public class CountTest extends Fragment {
 
     /**
      * Constructor
-     * @param trialUserID
-     * local user
-     * @param trialExperimentID
-     * experiment id
      */
-    public CountTest(String trialUserID, String trialExperimentID) {
+    public CountTest() {
         super(R.layout.trial_count);
-        CountTrial trial = new CountTrial(trialUserID, trialExperimentID);
-        current = trial;
+//        CountTrial trial = new CountTrial(trialUserID, trialExperimentID);
+//        current = trial;
 
     }
 
@@ -45,6 +41,9 @@ public class CountTest extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle extra = getArguments();
+        current = (CountTrial) extra.getSerializable("trial");
 
         countTextBox = view.findViewById(R.id.editTextNumber);
         requireGeo = view.findViewById(R.id.require_geo_location2);

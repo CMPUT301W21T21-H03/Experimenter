@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
+import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
@@ -29,15 +30,16 @@ public class NonNegativeTest extends Fragment {
 
     /**
      * Constructor
-     * @param trialUserID
-     * local user
-     * @param trialExperimentID
-     * experiment id
      */
-    public NonNegativeTest(String trialUserID, String trialExperimentID) {
+//     * String trialUserID, String trialExperimentID
+//     * @param trialUserID
+//     * local user
+//     * @param trialExperimentID
+//     * experiment id
+    public NonNegativeTest() {
         super(R.layout.trial_count);
-        NonNegativeTrial trial = new NonNegativeTrial(trialUserID, trialExperimentID);
-        current = trial;
+//        NonNegativeTrial trial = new NonNegativeTrial(trialUserID, trialExperimentID);
+//        current = trial;
 
     }
 
@@ -45,6 +47,9 @@ public class NonNegativeTest extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle extra = getArguments();
+        current = (NonNegativeTrial) extra.getSerializable("trial");
 
         countTextBox = view.findViewById(R.id.editTextNumber);
         requireGeo = view.findViewById(R.id.require_geo_location2);

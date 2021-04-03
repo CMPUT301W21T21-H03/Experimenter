@@ -29,15 +29,11 @@ public class MeasureTest extends Fragment {
 
     /**
      * Constructor
-     * @param trialUserID
-     * local user
-     * @param trialExperimentID
-     * experiment id
      */
-    public MeasureTest(String trialUserID, String trialExperimentID) {
+    public MeasureTest() {
         super(R.layout.trial_count);
-        MeasurementTrial trial = new MeasurementTrial(trialUserID, trialExperimentID);
-        current = trial;
+//        MeasurementTrial trial = new MeasurementTrial(trialUserID, trialExperimentID);
+//        current = trial;
 
     }
 
@@ -45,6 +41,9 @@ public class MeasureTest extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle extra = getArguments();
+        current = (MeasurementTrial) extra.getSerializable("trial");
 
         countTextBox = view.findViewById(R.id.editTextNumber);
         requireGeo = view.findViewById(R.id.require_geo_location2);

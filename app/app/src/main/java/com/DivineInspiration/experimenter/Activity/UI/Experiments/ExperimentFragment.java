@@ -28,6 +28,10 @@ import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Comment;
 import com.DivineInspiration.experimenter.Model.Experiment;
+import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
+import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
+import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
+import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
@@ -36,6 +40,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -153,19 +158,28 @@ public class ExperimentFragment extends Fragment {
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
                     case 0:
-                    // new trial
+                        Bundle args = new Bundle();
+                        // new trial
                         switch (currentExperiment.getTrialType()) {
                             case Trial.BINOMIAL:
-                                BinomialTest trialTestBinomial = new BinomialTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                BinomialTrial trialTestBinomial = new BinomialTrial(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                args.putSerializable("trial", (Serializable) trialTestBinomial);
+                                Navigation.findNavController(view).navigate(R.id.action_navigation_experimentFragment_to_binomialTest, args);
                                 break;
                             case Trial.MEASURE:
-                                NonNegativeTest trialTestNonNegative = new NonNegativeTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                MeasurementTrial trialTestNonNegative = new MeasurementTrial(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                args.putSerializable("trial", (Serializable) trialTestNonNegative);
+                                Navigation.findNavController(view).navigate(R.id.action_navigation_experimentFragment_to_nonNegativeTest, args);
                                 break;
                             case Trial.NONNEGATIVE:
-                                MeasureTest trialTestMeasure = new MeasureTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                NonNegativeTrial trialTestMeasure = new NonNegativeTrial(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                args.putSerializable("trial", (Serializable) trialTestMeasure);
+                                Navigation.findNavController(view).navigate(R.id.action_navigation_experimentFragment_to_measureTest, args);
                                 break;
                             default:
-                                CountTest trialTestCount = new CountTest(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                CountTrial trialTestCount = new CountTrial(userManager.getLocalUser().getUserId(), currentExperiment.getExperimentID());
+                                args.putSerializable("trial", (Serializable) trialTestCount);
+                                Navigation.findNavController(view).navigate(R.id.action_navigation_experimentFragment_to_countTest, args);
                                 break;
                         }
                         break;
@@ -291,9 +305,10 @@ public class ExperimentFragment extends Fragment {
                     tabFragment.setArguments(bundle);
                     return tabFragment;
                 case 2:
-                    tabFragment = new StatsTabFragment();
-                    tabFragment.setArguments(bundle);
-                    return tabFragment;
+//                    tabFragment = new StatsTabFragment();
+//                    tabFragment.setArguments(bundle);
+//                    return tabFragment;
+                    return new PlaceHolderFragment();
                 default:
                     return new PlaceHolderFragment();
             }

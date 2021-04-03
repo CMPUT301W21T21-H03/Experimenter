@@ -1,10 +1,12 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.User;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-public abstract class Trial {
+public abstract class Trial implements Serializable {
 
     String trialType;
     String trialID;
