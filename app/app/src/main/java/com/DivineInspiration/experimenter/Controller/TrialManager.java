@@ -39,6 +39,7 @@ public class TrialManager extends ArrayList<Trial> {
      * Trial Manager constructor
      */
     public TrialManager() {
+        this.db = FirebaseFirestore.getInstance();
         this.trials = new ArrayList<>();
     }
 
