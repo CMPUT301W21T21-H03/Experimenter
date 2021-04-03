@@ -25,7 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscussionForumFragment extends Fragment implements CommentManager.OnCommentsReadyListener {
+public class DiscussionForumFragment extends Fragment implements CommentManager.OnCommentsReadyListener, CreateCommentDialogFragment.OnCommentCreatedListener {
 
     private List<Comment> commentList;
     private CommentListAdapter adapter;
@@ -69,5 +69,12 @@ public class DiscussionForumFragment extends Fragment implements CommentManager.
         Log.d("COMMENT FRAG", comments.toString());
         commentList = comments;
         adapter.setComments(comments);
+    }
+
+    @Override
+    public void onCommentAdded(Comment comment) {
+        commentList.add(0, comment);
+        adapter.setComments(commentList);
+        adapter.notifyDataSetChanged();
     }
 }

@@ -3,6 +3,7 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -19,6 +20,17 @@ import com.DivineInspiration.experimenter.R;
 import java.util.Date;
 
 public class CreateCommentDialogFragment extends DialogFragment {
+
+    private OnCommentCreatedListener callback;
+
+    public interface OnCommentCreatedListener {
+        void onCommentAdded(Comment comment);
+    }
+
+    public CreateCommentDialogFragment(OnCommentCreatedListener callback) {
+        super();
+        this.callback = callback;
+    }
 
     @NonNull
     @Override
@@ -55,6 +67,7 @@ public class CreateCommentDialogFragment extends DialogFragment {
                     );
 
                     CommentManager.getInstance().addComment(comment, args.getString("experimentID"));
+                    callback.onCommentAdded(comment);
                     dialog.dismiss();
                 }
             }
