@@ -10,6 +10,13 @@ import java.util.UUID;
 public class NonNegativeTrial extends Trial {
     private int count;
 
+    //constructor with location
+    public NonNegativeTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count, double latitude, double longitude){
+        super(trialID, trialUserID, trialExperimentID, trialDate, latitude, longitude);
+        this.trialType = Trial.NONNEGATIVE;
+        this.count = count;
+    }
+
     //mock object
     public NonNegativeTrial(){
 

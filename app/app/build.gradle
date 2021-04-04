@@ -32,10 +32,13 @@ android {
 //graphs!
 repositories {
     maven { url 'https://jitpack.io' }
+    mavenCentral()
 }
 
 
 dependencies {
+    //mapView
+    implementation 'org.osmdroid:osmdroid-android:6.1.10'
     //graph
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 

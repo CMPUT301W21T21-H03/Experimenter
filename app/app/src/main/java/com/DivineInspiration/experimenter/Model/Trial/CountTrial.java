@@ -12,6 +12,15 @@ import java.util.UUID;
 public class CountTrial extends Trial {
     private int count;
 
+
+
+    //constructor with location
+    public CountTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count, double latitude, double longitude){
+        super(trialID, trialUserID, trialExperimentID, trialDate, latitude, longitude);
+        this.trialType = Trial.COUNT;
+        this.count = count;
+    }
+
     /**
      * Constructor
      * @param trialUserID
