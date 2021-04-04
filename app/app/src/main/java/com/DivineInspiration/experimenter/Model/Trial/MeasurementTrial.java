@@ -2,6 +2,8 @@ package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.User;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,11 +11,11 @@ import java.util.Random;
 import java.util.UUID;
 
 public class MeasurementTrial extends Trial {
-    private float value;
+    private double value;
 
     //constructor with location
-    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, float value, double latitude, double longitude){
-        super(trialID, trialUserID, trialExperimentID, trialDate, latitude, longitude);
+    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, double value, GeoPoint location){
+        super(trialID, trialUserID, trialExperimentID, trialDate, location);
         this.trialType = Trial.MEASURE;
         this.value = value;
     }
@@ -49,18 +51,18 @@ public class MeasurementTrial extends Trial {
      * @param trialExperimentID id of experiment
      * @param measurements      list of measurments for this trial
      */
-    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, float measurements) {
+    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, double measurements) {
         super(trialID, trialUserID, trialExperimentID, trialDate);
         this.trialType = Trial.MEASURE;
 
         this.value = measurements;
     }
 
-    public float getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(float newValue) {
+    public void setValue(double newValue) {
         value = newValue;
     }
 

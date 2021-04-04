@@ -2,6 +2,8 @@ package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.User;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Random;
@@ -19,8 +21,8 @@ public class BinomialTrial extends Trial {
     }
 
     //constructor with location
-    public BinomialTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, boolean pass, double latitude, double longitude){
-        super(trialID, trialUserID, trialExperimentID, trialDate, latitude, longitude);
+    public BinomialTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, boolean pass, GeoPoint location){
+        super(trialID, trialUserID, trialExperimentID, trialDate,location);
         this.trialType = Trial.BINOMIAL;
         this.pass = pass;
     }

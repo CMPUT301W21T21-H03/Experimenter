@@ -26,12 +26,12 @@ public abstract class Trial implements Serializable {
     public static final String NONNEGATIVE = "Non-Negative trial";
     public static final String MEASURE = "Measurement trial";
 
-    public Trial(String trialId, String userId, String trialExperimentID , LocalDate date, double latitude, double longitude){
+    public Trial(String trialId, String userId, String trialExperimentID , LocalDate date, GeoPoint location){
         this.trialID = trialId;
         this.trialUserID = userId;
         this.trialExperimentID = trialExperimentID;
         this.trialDate = date;
-        this.location = new GeoPoint(latitude, longitude );
+        this.location = location;
     }
 
     public Trial(String trialId, String userId, String trialExperimentID , LocalDate date){

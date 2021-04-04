@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.DivineInspiration.experimenter.Model.User;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Random;
@@ -15,8 +17,8 @@ public class CountTrial extends Trial {
 
 
     //constructor with location
-    public CountTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count, double latitude, double longitude){
-        super(trialID, trialUserID, trialExperimentID, trialDate, latitude, longitude);
+    public CountTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count, GeoPoint location){
+        super(trialID, trialUserID, trialExperimentID, trialDate, location);
         this.trialType = Trial.COUNT;
         this.count = count;
     }

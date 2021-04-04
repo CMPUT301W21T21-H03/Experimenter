@@ -73,47 +73,47 @@ public class BinomialTest extends Fragment {
         passCount = view.findViewById(R.id.binomialCount);
         failCount = view.findViewById(R.id.binomialCount2);
 
-        // when pass btn is clicked
-        passBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentTrial.addSuccess();
-                passCount.setText(String.format("Passed: %d", currentTrial.getSuccess()));
-            }
-        });
-        // when fail btn is clicked
-        failBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentTrial.addFailure();
-                failCount.setText(String.format("Failed: %d", currentTrial.getFailure()));
-            }
-        });
-        requireGeo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                // set geo check to the state of checkbox
-                requireGeoCheck = b;
-                // do something? or store in Trial?
-            }
-        });
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (currentTrial.getSuccess() == 0 && currentTrial.getFailure() == 0) {
-                    // counts as cancel for now
-                    // show error
-                    showAlert(true,"Trial not recorded");
-                } else {
-                    // record to experiment manager
-                    TrialManager.getInstance().addTrial(currentTrial);
-                    showAlert(false,"Trial was successfully recorded!");
-                }
-                // return
-                Navigation.findNavController(view).popBackStack();
-            }
-        });
+//        // when pass btn is clicked
+//        passBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                currentTrial.addSuccess();
+//                passCount.setText(String.format("Passed: %d", currentTrial.getSuccess()));
+//            }
+//        });
+//        // when fail btn is clicked
+//        failBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                currentTrial.addFailure();
+//                failCount.setText(String.format("Failed: %d", currentTrial.getFailure()));
+//            }
+//        });
+//        requireGeo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                // set geo check to the state of checkbox
+//                requireGeoCheck = b;
+//                // do something? or store in Trial?
+//            }
+//        });
+//
+//        submit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (currentTrial.getSuccess() == 0 && currentTrial.getFailure() == 0) {
+//                    // counts as cancel for now
+//                    // show error
+//                    showAlert(true,"Trial not recorded");
+//                } else {
+//                    // record to experiment manager
+//                    TrialManager.getInstance().addTrial(currentTrial);
+//                    showAlert(false,"Trial was successfully recorded!");
+//                }
+//                // return
+//                Navigation.findNavController(view).popBackStack();
+//            }
+//        });
 
     }
 
