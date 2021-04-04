@@ -4,11 +4,21 @@ import com.DivineInspiration.experimenter.Model.User;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 public class BinomialTrial extends Trial {
     private int success;
     private int failure;
+
+    //mock constructor
+    public BinomialTrial(){
+
+        super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
+        this.trialType = Trial.COUNT;
+        this.success =new Random().nextInt(20);
+        this.failure =new Random().nextInt(20);
+    }
 
     /**
      * Constructor

@@ -5,11 +5,23 @@ import com.DivineInspiration.experimenter.Model.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 public class MeasurementTrial extends Trial {
     public ArrayList<Float> measurements = new ArrayList<Float>();
 
+    //mock constructor
+    public MeasurementTrial(){
+
+        super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
+        this.trialType = Trial.COUNT;
+        Random rng = new Random();
+
+        for(int i = 0; i<rng.nextInt(20); i++){
+            measurements.add(rng.nextFloat() * 60 - 30);
+        }
+    }
     /**
      * Constructor
      * @param trialUserID

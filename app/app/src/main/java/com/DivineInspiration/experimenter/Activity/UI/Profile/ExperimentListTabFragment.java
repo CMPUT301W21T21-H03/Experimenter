@@ -38,7 +38,6 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Log.d("stuff", "onCreateView");
         return inflater.inflate(R.layout.experiment_list, container, false);
-
     }
 
     /**
