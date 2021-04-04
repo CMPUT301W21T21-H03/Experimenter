@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.UUID;
 
 public class MeasurementTrial extends Trial {
-    public ArrayList<Float> measurements = new ArrayList<Float>();
+    private float value;
 
     //mock constructor
     public MeasurementTrial(){
@@ -18,9 +18,7 @@ public class MeasurementTrial extends Trial {
         this.trialType = Trial.COUNT;
         Random rng = new Random();
 
-        for(int i = 0; i<rng.nextInt(20); i++){
-            measurements.add(rng.nextFloat() * 60 - 30);
-        }
+        value = rng.nextFloat() * 20 - 20;
     }
     /**
      * Constructor
@@ -48,38 +46,21 @@ public class MeasurementTrial extends Trial {
      * @param measurements
      * list of measurments for this trial
      */
-    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, ArrayList<Float> measurements) {
+    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, float measurements) {
         super(trialID, trialUserID, trialExperimentID, trialDate);
         this.trialType = Trial.MEASURE;
 
-        this.measurements = measurements;
+        this.value = measurements;
     }
 
-    /**
-     * Adds measurement to measurements
-     * @param: measurement
-     */
-    public void addMeasurement(float measurement) {
-        measurements.add(measurement);
+    public float getValue(){
+        return  value;
     }
 
-    /**
-     * Gets all measurements
-     * @return: measurements:ArrayList<Float>
-     */
-    public ArrayList<Float> getMeasurements() {
-        return measurements;
+    public void setValue(){
+
     }
 
-    /**
-     * Return the average measurement
-     * @return: average measurement
-     */
-    public float getAverageMeasurement() {
-        float total = 0;
-        for (float measurement : measurements) {
-            total += measurement;
-        }
-        return total / measurements.size();
-    }
+
+
 }

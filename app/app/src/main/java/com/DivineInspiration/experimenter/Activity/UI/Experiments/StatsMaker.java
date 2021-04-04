@@ -34,6 +34,12 @@ public class StatsMaker {
         return null;
     }
 
+    private static float calcStd(List<Trial> trials){
+
+
+        return 0;
+    }
+
     public static float[] calcQuartiles(List<Trial> trials){
         List<Float> values = getSortedFloats(trials);
         int size = values.size();
@@ -48,7 +54,7 @@ public class StatsMaker {
 
         int size = values.size();
         //returns median regardless if its the list is odd or even
-        return (values.get(size/2 - 1) + values.get((size/2)) / 2;
+        return (values.get(size/2 - 1) + values.get((size/2)))/ 2;
 
     }
 

@@ -65,7 +65,6 @@ public class GraphMaker {
         List<Entry> data = new ArrayList<>();
         int i = 0;
         while(currentDate.isBefore(lastDate) ){
-
             if(trialsBucket.get(i).get(0).getTrialDate().equals(currentDate)){
                 sum += getCountSum(trialsBucket.get(i));
                 i++;
@@ -84,7 +83,6 @@ public class GraphMaker {
     }
 
     public static List<List<Trial>> groupTrialByDate(ArrayList<Trial> trials){
-        Log.d("woah", "entering grouping data");
         //divides trials into buckets by date
         List<List<Trial>> temp = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial ->
                 df.format(trial.getTrialDate()))).values());
