@@ -1,12 +1,27 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
+import android.content.Context;
+
 import com.DivineInspiration.experimenter.Model.User;
 
+import org.osmdroid.util.GeoPoint;
+
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 public class CountTrial extends Trial {
     private int count;
+
+
+
+    //constructor with location
+    public CountTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count, GeoPoint location){
+        super(trialID, trialUserID, trialExperimentID, trialDate, location);
+        this.trialType = Trial.COUNT;
+        this.count = count;
+    }
 
     /**
      * Constructor
@@ -16,12 +31,17 @@ public class CountTrial extends Trial {
      * id of experiment
      */
     public CountTrial(String trialUserID, String trialExperimentID) {
+        super(trialUserID, trialExperimentID);
         this.trialType = Trial.COUNT;
-        this.trialID = UUID.randomUUID().toString();
-        this.trialDate = new Date();
-        this.trialUserID = trialUserID;
-        this.trialExperimentID = trialExperimentID;
         this.count = 0;
+    }
+
+
+    public CountTrial(){
+
+        super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(20)));
+        this.trialType = Trial.COUNT;
+        this.count =new Random().nextInt(20);
     }
 
     /**
@@ -37,12 +57,9 @@ public class CountTrial extends Trial {
      * @param count
      * count value for this trial
      */
-    public CountTrial(String trialID, Date trialDate, String trialUserID, String trialExperimentID, int count) {
+    public CountTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count) {
+        super(trialID, trialUserID, trialExperimentID, trialDate);
         this.trialType = Trial.COUNT;
-        this.trialID = trialID;
-        this.trialDate = trialDate;
-        this.trialUserID = trialUserID;
-        this.trialExperimentID = trialExperimentID;
         this.count = count;
     }
 

@@ -1,33 +1,35 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.ButtonBarLayout;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
+import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class StatsTabFragment extends Fragment implements Refreshable {
 
-    LineChart lineChart;
-    BarChart barChart;
+    Chart chart;
     View buttonGroup;
-    Button backButton;
+    AppCompatImageButton backButton;
 
+    ViewGroup graphHolder;
     ArrayList<Trial> trialList;
 
     private short currentlyVisible = 0;
@@ -37,9 +39,9 @@ public class StatsTabFragment extends Fragment implements Refreshable {
 
 
 
-    public StatsTabFragment(ArrayList<Trial> trials){
-        trialList = trials;
-    }
+//    public StatsTabFragment(ArrayList<Trial> trials){
+//        trialList = trials;
+//    }
 
     @Nullable
     @Override
@@ -50,23 +52,30 @@ public class StatsTabFragment extends Fragment implements Refreshable {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        init(view);
 
 
     }
 
     private void init(View view){
-        lineChart = view.findViewById(R.id.lineChart);
-        barChart = view.findViewById(R.id.barChart);
+        Log.d("woah", "entering init");
+
         buttonGroup = view.findViewById(R.id.statButtonGroup);
         backButton = view.findViewById(R.id.statBackButton);
+        graphHolder = view.findViewById(R.id.graphHolder);
 
+        ArrayList<Trial> counts = new ArrayList<>();
+        for(int i =0; i < 100; i++){
+            counts.add(new CountTrial());
+        }
 
-        view.findViewById(R.id.hitogramButton).setOnClickListener(v -> {
+        graphHolder.addView(GraphMaker.makeLineChart(counts, getContext()));
+        Log.d("woah", "graph added");
+        view.findViewById(R.id.histogramButton).setOnClickListener(v -> {
             showHistogram();
         });
 
-        view.findViewById(R.id.lineChart).setOnClickListener(v->{
+        view.findViewById(R.id.lineGraphButton).setOnClickListener(v->{
             showLineGraph();
         });
 
@@ -77,24 +86,21 @@ public class StatsTabFragment extends Fragment implements Refreshable {
 
     private void showHistogram(){
         currentlyVisible = BAR;
-        lineChart.setVisibility(View.GONE);
-        barChart.setVisibility(View.VISIBLE);
+
         backButton.setVisibility(View.VISIBLE);
         buttonGroup.setVisibility(View.GONE);
     }
 
     private void showButtons(){
         currentlyVisible = BUTTONS;
-        lineChart.setVisibility(View.GONE);
-        barChart.setVisibility(View.GONE);
+
         backButton.setVisibility(View.GONE);
         buttonGroup.setVisibility(View.VISIBLE);
     }
 
     private void showLineGraph(){
 
-        lineChart.setVisibility(View.VISIBLE);
-        barChart.setVisibility(View.GONE);
+
         backButton.setVisibility(View.VISIBLE);
         buttonGroup.setVisibility(View.GONE);
     }

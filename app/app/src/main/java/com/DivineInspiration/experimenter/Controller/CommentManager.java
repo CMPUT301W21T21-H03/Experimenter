@@ -48,9 +48,8 @@ public class CommentManager {
         doc.put("ExperimentID", experimentID);
         doc.put("Date", comment.getDate());
         doc.put("Comment", comment.getComment());
-        doc.put("Replies", comment.getReplies());
 
-        db.collection("Experiments").document(experimentID).collection("Comments").document(comment.getCommentId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Comments").document(experimentID).collection("Comments").document(comment.getCommentId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -72,9 +71,8 @@ public class CommentManager {
         doc.put("ExperimentID", experimentID);
         doc.put("Date", reply.getDate());
         doc.put("Comment", reply.getComment());
-        doc.put("Replies", reply.getReplies());
 
-        db.collection("Experiments").document(experimentID).collection("Comments")
+        db.collection("Comments").document(experimentID).collection("Comments")
                 .document(commentID).collection("Replies").document(reply.getCommenterId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -88,11 +86,11 @@ public class CommentManager {
         });
     }
 
-    // TODO Do we need to remove the collection as well?
+    // TODO Recursive delete
 
     public void removeComment (String commentID, String experimentID, OnCommentsReadyListener callback) {
 
-        db.collection("Experiments").document(experimentID).collection("Comments").document(commentID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Comments").document(experimentID).collection("Comments").document(commentID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -107,7 +105,7 @@ public class CommentManager {
 
     public void removeReply (String replyID, String commentID, String experimentID) {
 
-        db.collection("Experiments").document(experimentID).collection("Comments")
+        db.collection("Comments").document(experimentID).collection("Comments")
                 .document(commentID).collection("Replies").document(replyID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -123,7 +121,7 @@ public class CommentManager {
 
     public void getExperimentComments (String experimentID, OnCommentsReadyListener callback) {
 
-        db.collection("Experiments").document(experimentID).collection("Comments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Comments").document(experimentID).collection("Comments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
@@ -145,7 +143,7 @@ public class CommentManager {
 
     public void getCommentReplies (String commentID, String experimentID, OnCommentsReadyListener callback) {
 
-        db.collection("Experiments").document(experimentID).collection("Comments")
+        db.collection("Comments").document(experimentID).collection("Comments")
                 .document(experimentID).collection("Replies").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

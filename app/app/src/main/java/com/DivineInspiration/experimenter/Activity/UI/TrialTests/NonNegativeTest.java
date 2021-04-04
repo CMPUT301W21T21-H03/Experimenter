@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.DivineInspiration.experimenter.Controller.TrialManager;
+import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
@@ -24,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class NonNegativeTest extends Fragment {
     private NonNegativeTrial current;
+    private Experiment currentExp;
 
     // text views
     TextView countTextBox;
@@ -64,6 +67,12 @@ public class NonNegativeTest extends Fragment {
 
         Bundle extra = getArguments();
         current = (NonNegativeTrial) extra.getSerializable("trial");
+        if(current == null){
+            currentExp = (Experiment)extra.getSerializable("experiment");
+            assert(currentExp != null);
+            current = new NonNegativeTrial(currentExp.getOwnerID(), currentExp.getExperimentID());
+        }
+
 
         countTextBox = view.findViewById(R.id.editTextNumber);
         requireGeo = view.findViewById(R.id.require_geo_location2);
@@ -78,24 +87,24 @@ public class NonNegativeTest extends Fragment {
             }
         });
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String countText = countTextBox.getText().toString();
-                if (countText.length() == 0) {
-                    // counts as cancel for now
-                    // show error
-                    showAlert(true,"Trial not recorded");
-                } else {
-                    current.setCount(Integer.parseInt(countText));
-                    // record to experiment manager
-                    TrialManager.getInstance().addTrial(current);
-                    showAlert(false,"Trial was successfully recorded!");
-                }
-                // return
-                Navigation.findNavController(view).popBackStack();
-            }
-        });
+//        submit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String countText = countTextBox.getText().toString();
+//                if (countText.length() == 0) {
+//                    // counts as cancel for now
+//                    // show error
+//                    showAlert(true,"Trial not recorded");
+//                } else {
+//                    current.setCount(Integer.parseInt(countText));
+//                    // record to experiment manager
+//                    TrialManager.getInstance().addTrial(current);
+//                    showAlert(false,"Trial was successfully recorded!");
+//                }
+//                // return
+//                Navigation.findNavController(view).popBackStack();
+//            }
+//        });
 
     }
 
