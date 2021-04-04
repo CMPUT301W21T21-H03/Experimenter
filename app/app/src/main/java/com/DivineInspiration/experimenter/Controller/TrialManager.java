@@ -9,12 +9,13 @@ import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
-import com.DivineInspiration.experimenter.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.osmdroid.util.GeoPoint;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,8 +34,12 @@ public class TrialManager extends ArrayList<Trial> {
     DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     // Callback when trials are ready
-    public interface OnTrialsReadyListener {
+    public interface OnTrialListReadyListener {
         void onTrialsReady(List<Trial> trials);
+    }
+
+    public interface OnTrialReadyListener {
+        void onTrialReady(Trial trials);
     }
 
     /**
@@ -57,12 +62,20 @@ public class TrialManager extends ArrayList<Trial> {
         return singleton;
     }
 
+    public com.google.firebase.firestore.GeoPoint osmToFireStore(GeoPoint geoPoint) {
+        return geoPoint == null ? null : (new com.google.firebase.firestore.GeoPoint(geoPoint.getLatitude(), geoPoint.getLongitude()));
+    }
+
+    public GeoPoint fireStoreToOsm(com.google.firebase.firestore.GeoPoint geoPoint) {
+        return geoPoint == null ? null : (new GeoPoint(geoPoint.getLatitude(), geoPoint.getLongitude()));
+    }
+
     /**
      * Adds a trial to database
      *
      * @param trial Trial to be added
      */
-    public void addTrial(Trial trial) {
+    public void addTrial(Trial trial, OnTrialReadyListener callback) {
 
         // Store standard trial data
         Map<String, Object> doc = new HashMap<>();
@@ -71,23 +84,24 @@ public class TrialManager extends ArrayList<Trial> {
         doc.put("Date", df.format(trial.getTrialDate()));
         doc.put("OwnerID", trial.getTrialUserID());
         doc.put("ExperimentID", trial.getTrialExperimentID());
+        doc.put("Location", osmToFireStore(trial.getLocation()));
 
         // Store data specific to a trial type
         switch (trial.getTrialType()) {
             case Trial.BINOMIAL:
-                addBinomialTrial((BinomialTrial) trial, doc);
+                doc.put("Pass", ((BinomialTrial) trial).getPass());
                 break;
 
             case Trial.COUNT:
-                addCountTrial((CountTrial) trial, doc);
+                doc.put("Count", ((CountTrial) trial).getCount());
                 break;
 
             case Trial.MEASURE:
-                addMeasurementTrial((MeasurementTrial) trial, doc);
+                doc.put("Value", ((MeasurementTrial) trial).getValue());
                 break;
 
             case Trial.NONNEGATIVE:
-                addNonNegativeTrial((NonNegativeTrial) trial, doc);
+                doc.put("Count", ((NonNegativeTrial) trial).getCount());
         }
 
         db.collection("Trials").document(trial.getTrialID()).set(doc)
@@ -96,51 +110,13 @@ public class TrialManager extends ArrayList<Trial> {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (!task.isSuccessful()) {
                             Log.d(TAG, "New trial failed to be committed to database!");
+                        } else {
+                            callback.onTrialReady(trial);
                         }
                     }
                 });
     }
 
-    /**
-     * Adds BinomialTrial attributes to a map
-     *
-     * @param trial The trial whose attributes are being stored
-     * @param doc   The map containing trial attributes
-     */
-    private void addBinomialTrial(BinomialTrial trial, Map<String, Object> doc) {
-        doc.put("Success", trial.getSuccess());
-        doc.put("Failure", trial.getFailure());
-    }
-
-    /**
-     * Adds CountTrial attributes to a map
-     *
-     * @param trial The trial whose attributes are being stored
-     * @param doc   The map containing trial attributes
-     */
-    private void addCountTrial(CountTrial trial, Map<String, Object> doc) {
-        doc.put("Count", trial.getCount());
-    }
-
-    /**
-     * Adds MeasurementTrial attributes to a map
-     *
-     * @param trial The trial whose attributes are being stored
-     * @param doc   The map containing trial attributes
-     */
-    private void addMeasurementTrial(MeasurementTrial trial, Map<String, Object> doc) {
-        doc.put("Measurements", trial.getMeasurements());
-    }
-
-    /**
-     * Adds NonNegativeTrial attributes to a map
-     *
-     * @param trial The trial whose attributes are being stored
-     * @param doc   The map containing trial attributes
-     */
-    private void addNonNegativeTrial(NonNegativeTrial trial, Map<String, Object> doc) {
-        doc.put("Count", trial.getCount());
-    }
 
     /**
      * Gets all trials created by an experimenter
@@ -148,7 +124,7 @@ public class TrialManager extends ArrayList<Trial> {
      * @param userId   user ID of owner
      * @param callback callback function
      */
-    public void getUserTrials(String userId, OnTrialsReadyListener callback) {
+    public void getUserTrials(String userId, OnTrialListReadyListener callback) {
 
         db.collection("Trials").whereEqualTo("OwnerID", userId).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -177,7 +153,7 @@ public class TrialManager extends ArrayList<Trial> {
      * @param experimentId user ID of owner
      * @param callback     callback function
      */
-    public void getExperimentTrials(String experimentId, OnTrialsReadyListener callback) {
+    public void getExperimentTrials(String experimentId, OnTrialListReadyListener callback) {
 
         db.collection("Trials").whereEqualTo("ExperimentID", experimentId).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -209,30 +185,33 @@ public class TrialManager extends ArrayList<Trial> {
     private Trial trialFromSnapshot(QueryDocumentSnapshot snapshot) {
 
         Trial trial = null;
+        GeoPoint geoPoint = fireStoreToOsm(snapshot.getGeoPoint("Location"));
         switch (snapshot.getString("TrialType")) {
 
+
             case Trial.BINOMIAL:
+
                 trial = new BinomialTrial(snapshot.getString("TrialId"),
                         snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
-                        Math.toIntExact(snapshot.getLong("Success")), Math.toIntExact(snapshot.getLong("Failure")));
+                        snapshot.getBoolean("Pass"), geoPoint);
                 break;
 
             case Trial.COUNT:
                 trial = new CountTrial(snapshot.getString("TrialId"),
                         snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
-                        Math.toIntExact(snapshot.getLong("Count")));
+                        snapshot.getLong("Count").intValue(), geoPoint);
                 break;
 
             case Trial.MEASURE:
                 trial = new MeasurementTrial(snapshot.getString("TrialId"),
                         snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
-                        (ArrayList<Float>) snapshot.get("Measurements"));
+                        snapshot.getDouble("Value"), geoPoint);
                 break;
 
             case Trial.NONNEGATIVE:
                 trial = new NonNegativeTrial(snapshot.getString("TrialId"),
                         snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
-                        Math.toIntExact(snapshot.getLong("Count")));
+                        snapshot.getLong("Count").intValue(), geoPoint);
                 break;
 
             default:

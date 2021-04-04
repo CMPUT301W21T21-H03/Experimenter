@@ -80,25 +80,25 @@ public class CountTest extends Fragment {
             }
         });
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String countText = countTextBox.getText().toString();
-                if (countText.length() == 0) {
-                    // counts as cancel for now
-                    // show error
-                    showAlert(true,"Trial not recorded");
-                } else {
-                    current.setCount(Integer.parseInt(countText));
-                    // record to experiment manager
-                    TrialManager.getInstance().addTrial(current);
-                    // comment out if someone finds this annoying
-                    showAlert(false,"Trial was successfully recorded!");
-                }
-                // return
-                Navigation.findNavController(view).popBackStack();
-            }
-        });
+//        submit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String countText = countTextBox.getText().toString();
+//                if (countText.length() == 0) {
+//                    // counts as cancel for now
+//                    // show error
+//                    showAlert(true,"Trial not recorded");
+//                } else {
+//                    current.setCount(Integer.parseInt(countText));
+//                    // record to experiment manager
+//                    TrialManager.getInstance().addTrial(current);
+//                    // comment out if someone finds this annoying
+//                    showAlert(false,"Trial was successfully recorded!");
+//                }
+//                // return
+//                Navigation.findNavController(view).popBackStack();
+//            }
+//        });
 
     }
 

@@ -2,6 +2,8 @@ package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.User;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,25 +11,30 @@ import java.util.Random;
 import java.util.UUID;
 
 public class MeasurementTrial extends Trial {
-    public ArrayList<Float> measurements = new ArrayList<Float>();
+    private double value;
+
+    //constructor with location
+    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, double value, GeoPoint location){
+        super(trialID, trialUserID, trialExperimentID, trialDate, location);
+        this.trialType = Trial.MEASURE;
+        this.value = value;
+    }
 
     //mock constructor
-    public MeasurementTrial(){
+    public MeasurementTrial() {
 
         super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
         this.trialType = Trial.COUNT;
         Random rng = new Random();
 
-        for(int i = 0; i<rng.nextInt(20); i++){
-            measurements.add(rng.nextFloat() * 60 - 30);
-        }
+        value = rng.nextFloat() * 20 - 20;
     }
+
     /**
      * Constructor
-     * @param trialUserID
-     * user of this trial
-     * @param trialExperimentID
-     * id of experiment
+     *
+     * @param trialUserID       user of this trial
+     * @param trialExperimentID id of experiment
      */
     public MeasurementTrial(String trialUserID, String trialExperimentID) {
         super(trialUserID, trialExperimentID);
@@ -37,49 +44,27 @@ public class MeasurementTrial extends Trial {
 
     /**
      * Constructor
-     * @param trialID
-     * the id of this trial
-     * @param trialDate
-     * the date of this trial
-     * @param trialUserID
-     * user of this trial
-     * @param trialExperimentID
-     * id of experiment
-     * @param measurements
-     * list of measurments for this trial
+     *
+     * @param trialID           the id of this trial
+     * @param trialDate         the date of this trial
+     * @param trialUserID       user of this trial
+     * @param trialExperimentID id of experiment
+     * @param measurements      list of measurments for this trial
      */
-    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, ArrayList<Float> measurements) {
+    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, double measurements) {
         super(trialID, trialUserID, trialExperimentID, trialDate);
         this.trialType = Trial.MEASURE;
 
-        this.measurements = measurements;
+        this.value = measurements;
     }
 
-    /**
-     * Adds measurement to measurements
-     * @param: measurement
-     */
-    public void addMeasurement(float measurement) {
-        measurements.add(measurement);
+    public double getValue() {
+        return value;
     }
 
-    /**
-     * Gets all measurements
-     * @return: measurements:ArrayList<Float>
-     */
-    public ArrayList<Float> getMeasurements() {
-        return measurements;
+    public void setValue(double newValue) {
+        value = newValue;
     }
 
-    /**
-     * Return the average measurement
-     * @return: average measurement
-     */
-    public float getAverageMeasurement() {
-        float total = 0;
-        for (float measurement : measurements) {
-            total += measurement;
-        }
-        return total / measurements.size();
-    }
+
 }

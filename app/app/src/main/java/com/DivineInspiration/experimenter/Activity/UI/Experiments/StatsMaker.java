@@ -2,8 +2,6 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
@@ -13,8 +11,9 @@ import com.DivineInspiration.experimenter.Model.Trial.Trial;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import kotlin.NotImplementedError;
 
 public class StatsMaker {
 
@@ -34,84 +33,82 @@ public class StatsMaker {
         return null;
     }
 
-    public static float[] calcQuartiles(List<Trial> trials){
-        List<Float> values = getSortedFloats(trials);
+    private static float calcStd(List<Trial> trials){
+
+
+        return 0;
+    }
+
+    public static double[] calcQuartiles(List<Trial> trials){
+        List<Double> values = getSortedDoubles(trials);
         int size = values.size();
 
-        float[] outputs = {values.get(size/4), values.get(3*size/4), values.get(0), values.get(size -1)};
+        double[] outputs = {values.get(size/4), values.get(3*size/4), values.get(0), values.get(size -1)};
         return  outputs;
     }
 
-    public static float calcMedian(List<Trial> trials) {
+    public static double calcMedian(List<Trial> trials) {
         /*https://stackoverflow.com/a/51747735/12471420*/
-        List<Float> values = getSortedFloats(trials);
+        List<Double> values = getSortedDoubles(trials);
 
         int size = values.size();
         //returns median regardless if its the list is odd or even
-        return values.get(size/2 - 1) + values.get((size/2)) / 2;
+        return (values.get(size/2 - 1) + values.get((size/2)))/ 2;
 
     }
 
-    public static List<Float> getSortedFloats(List<Trial> trials){
+    public static List<Double> getSortedDoubles(List<Trial> trials){
         final String type = trials.get(0).getTrialType();
-        List<Float> values;
+        List<Double> values;
         switch (type) {
             case Trial.BINOMIAL:
-                values = trials.stream().map(trial -> (float) ((BinomialTrial) trial).getSuccessRatio()).collect(Collectors.toList());
-                break;
+                //TODO to be implemented, return a list of ratio for each unique user
+                throw new NotImplementedError();
 
             case Trial.NONNEGATIVE:
-                values = trials.stream().map(trial -> (float) ((NonNegativeTrial) trial).getCount()).collect(Collectors.toList()); //type casting madness
+                values = trials.stream().map(trial -> (double)((NonNegativeTrial) trial).getCount()).collect(Collectors.toList()); //type casting madness
                 break;
             case Trial.COUNT:
-                values = trials.stream().map(trial -> (float) ((CountTrial) trial).getCount()).collect(Collectors.toList()); //type casting madness
+                values = trials.stream().map(trial -> (double)((CountTrial) trial).getCount()).collect(Collectors.toList()); //type casting madness
                 break;
             case Trial.MEASURE:
-                values = new ArrayList<>();
-                for (ArrayList<Float> arr : trials.stream().map(trial -> ((MeasurementTrial) trial).getMeasurements()).collect(Collectors.toList())) {
-                    values.addAll(arr);
-                }//type casting madness
+                values = trials.stream().map(trial -> ((MeasurementTrial) trial).getValue()).collect(Collectors.toList()); //type casting madness
                 break;
             default:
                 values = new ArrayList<>();
                 break;
         }
-        values.sort((f1, f2) -> Float.compare(f1, f2));
+        values.sort((f1, f2) -> Double.compare(f1, f2));
         return values;
     }
 
 
-    public static float calcMean(List<Trial> trials){
-        float sum = 0;
-        int sampleSize = 0;
-        final String type = trials.get(0).getTrialType();
+    public static double calcMean(List<Trial> trials){
+        double sum = 0;
 
+        final String type = trials.get(0).getTrialType();
         for(Trial t : trials){
             switch (type){
                 case Trial.COUNT:
                     sum += ((CountTrial) t).getCount();
-                    sampleSize += 1;
+
                     break;
                 case Trial.NONNEGATIVE:
                     sum += ((NonNegativeTrial) t).getCount();
-                    sampleSize += 1;
+
                     break;
                 case Trial.BINOMIAL:
-                    BinomialTrial temp = ((BinomialTrial) t);
-                    sum += temp.getSuccess();
-                    sampleSize += temp.getSuccess() + temp.getFailure();
+
+                    sum +=((BinomialTrial) t).getPass()?1:0;
+
                     break;
                 case Trial.MEASURE:
-
-                    for(float f : ((MeasurementTrial) t).getMeasurements()){
-                        sum += f;
-                    }
-                    sampleSize += ((MeasurementTrial) t).getMeasurements().size();
+                    sum += ((MeasurementTrial)t).getValue();
                     break;
             }
         }
 
-       return sum/sampleSize;
+       return sum/trials.size();
     }
 
 
