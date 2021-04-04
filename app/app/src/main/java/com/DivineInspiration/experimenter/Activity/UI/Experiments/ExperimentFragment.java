@@ -172,6 +172,7 @@ public class ExperimentFragment extends Fragment {
                             currentExperiment.getExperimentID(), null);
                     // on check, it should be set visible again
                     addButton.show();
+                    currentUserSubbed = true;
                 } else {
                     experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(),
                             currentExperiment.getExperimentID(), null);
