@@ -209,7 +209,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
         // put into database
         Map<String, Object> doc = new HashMap<>();
         doc.put("ExperimentName", experiment.getExperimentName());
-
         doc.put("OwnerName", experiment.getOwnerName());
         doc.put("ExperimentDescription", experiment.getExperimentDescription());
         doc.put("TrialType", experiment.getTrialType());
