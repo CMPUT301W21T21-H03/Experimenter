@@ -48,7 +48,6 @@ public class CommentManager {
         doc.put("ExperimentID", experimentID);
         doc.put("Date", comment.getDate());
         doc.put("Comment", comment.getComment());
-        doc.put("Replies", comment.getReplies());
 
         db.collection("Comments").document(experimentID).collection("Comments").document(comment.getCommentId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -72,7 +71,6 @@ public class CommentManager {
         doc.put("ExperimentID", experimentID);
         doc.put("Date", reply.getDate());
         doc.put("Comment", reply.getComment());
-        doc.put("Replies", reply.getReplies());
 
         db.collection("Comments").document(experimentID).collection("Comments")
                 .document(commentID).collection("Replies").document(reply.getCommenterId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {

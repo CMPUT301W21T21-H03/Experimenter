@@ -12,9 +12,6 @@ public class Comment {
     private final String commenterName;
     private final Date date;
     private String comment;
-    private ArrayList<Comment> replies = new ArrayList<Comment>();
-
-    // TODO Handle replies
 
     public Comment(String commentId, String commenterId, String commenterName, Date date, String comment) {
         this.commentId = commentId;
@@ -62,14 +59,6 @@ public class Comment {
      */
     public Date getDate() {
         return date;
-    }
-
-    /**
-     * Gets all the replies to the comment
-     * @return: replies:ArrayList<Comment>
-     */
-    public ArrayList<Comment> getReplies() {
-        return replies;
     }
 
     /**
