@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black1"
+    android:orientation="vertical"
+    >
+
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_marginStart="20dp"
+       android:layout_marginTop="10dp">
+       <TextView
+           android:id="@+id/countTotal"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Total count: 33"
+           android:textSize="18sp"
+           />
+       <TextView
+           android:id="@+id/countMedian"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Median: 33"
+           android:textSize="18sp"
+           />
+       <TextView
+           android:id="@+id/countMean"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Mean: 33"
+           android:textSize="18sp"
+           />
+       <TextView
+           android:id="@+id/countStdDev"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Standard deviation: 33"
+           android:textSize="18sp"
+           />
+       <TextView
+           android:id="@+id/countQuartiles"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Q1: 22, Q3: 44"
+           android:textSize="18sp"
+           />
+       <TextView
+           android:id="@+id/countMinMax"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Min:0, Max: 99"
+           android:textSize="18sp"
+           />
+   </LinearLayout>
+</LinearLayout>

@@ -4,10 +4,21 @@ import com.DivineInspiration.experimenter.Model.User;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 public class NonNegativeTrial extends Trial {
     private int count;
+
+    //mock object
+    public NonNegativeTrial(){
+
+        super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
+        this.trialType = Trial.COUNT;
+        Random rng = new Random();
+
+        count = rng.nextInt(40);
+    }
 
     /**
      * Constructor
