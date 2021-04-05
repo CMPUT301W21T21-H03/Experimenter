@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
+import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
@@ -66,7 +67,7 @@ public class StatsTabFragment extends Fragment implements Refreshable {
 
         ArrayList<Trial> counts = new ArrayList<>();
         for(int i =0; i < 100; i++){
-            counts.add(new CountTrial());
+            counts.add(new BinomialTrial());
         }
 
         graphHolder.addView(GraphMaker.makeLineChart(counts, getContext()));

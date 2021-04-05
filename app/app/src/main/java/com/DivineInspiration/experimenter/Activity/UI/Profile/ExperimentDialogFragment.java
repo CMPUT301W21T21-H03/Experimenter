@@ -170,6 +170,7 @@ public class ExperimentDialogFragment extends DialogFragment {
                     exp.setExperimentDescription(editExperimentAboutText);
                     exp.setRegion(editCityText);
 
+
                     expManager.updateExperiment(exp, successful -> {
 
                         if (successful) {
@@ -267,7 +268,7 @@ public class ExperimentDialogFragment extends DialogFragment {
             requireGeo.setChecked(exp.isRequireGeo());
 
             statusSpinner.setSelection(indexOf(statusValues, exp.getStatus()));
-            trialSpinner.setSelection(indexOf(expValues, exp.getTrialType()));
+            trialSpinner.setVisibility(View.GONE);
 
             view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
 
