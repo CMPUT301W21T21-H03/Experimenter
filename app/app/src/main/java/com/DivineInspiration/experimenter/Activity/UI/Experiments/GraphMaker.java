@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
+import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.github.mikephil.charting.charts.Chart;
@@ -37,8 +38,6 @@ public class GraphMaker {
     //!! this assumes all trials are of the same kind
     public static Chart makeHistogram(ArrayList<Trial> trials, Context context){
         List<List<Trial>> trialsDateBucket = groupTrialByDate(trials);
-
-
         return null;
     }
 
@@ -66,7 +65,7 @@ public class GraphMaker {
         int i = 0;
         while(currentDate.isBefore(lastDate) ){
             if(trialsBucket.get(i).get(0).getTrialDate().equals(currentDate)){
-                sum += getCountSum(trialsBucket.get(i));
+                sum += getSum(trialsBucket.get(i));
                 i++;
             }
             data.add(new Entry(i, sum));
@@ -84,23 +83,25 @@ public class GraphMaker {
 
     public static List<List<Trial>> groupTrialByDate(ArrayList<Trial> trials){
         //divides trials into buckets by date
-        List<List<Trial>> temp = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial ->
+        List<List<Trial>> output = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial ->
                 df.format(trial.getTrialDate()))).values());
         //sort by date
-        temp.sort((l1, l2) -> l1.get(0).getTrialDate().compareTo(l2.get(0).getTrialDate()));
-        return temp;
+        output.sort((l1, l2) -> l1.get(0).getTrialDate().compareTo(l2.get(0).getTrialDate()));
+        return output;
     }
 
 
-    public static int getCountSum(List<Trial> trials){
-
-        int sum = 0;
+    public static float getSum(List<Trial> trials){
+        float sum = 0;
         for(Trial t : trials){
             if(t.getTrialType().equals(Trial.COUNT)){
-                sum+=( (CountTrial)t).getCount();
+                sum+=((CountTrial)t).getCount();
             }
             else if(t.getTrialType().equals(Trial.NONNEGATIVE)){
-                sum+=( (NonNegativeTrial)t).getCount();
+                sum+=((NonNegativeTrial)t).getCount();
+            }
+            else if (t.getTrialType().equals(Trial.MEASURE)){
+                sum+=((MeasurementTrial)t).getValue();
             }
         }
         return sum;
