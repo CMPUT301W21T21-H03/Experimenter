@@ -60,19 +60,6 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 Bundle args = getArguments();
                 Experiment exp = (Experiment) args.getSerializable("experiment");
 
-//                Bundle args = getArguments();
-//                Comment comment = new Comment(
-//                        IdGen.genCommentId(args.getString("experimentID")),
-//                        args.getString("commenterID"),
-//                        args.getString("commenterName"),
-//                        new Date(),
-//                        commentText
-//                );
-//
-//                CommentManager.getInstance().addComment(comment, args.getString("experimentID"));
-//                callback.onCommentAdded(comment);
-//                dialog.dismiss();
-//            }
                 BinomialTrial binomialTrial = new BinomialTrial(
                         args.getString("experimenterID"),
                         exp.getExperimentID()
