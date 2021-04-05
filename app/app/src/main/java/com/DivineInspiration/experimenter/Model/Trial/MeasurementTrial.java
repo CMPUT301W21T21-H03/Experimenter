@@ -27,7 +27,7 @@ public class MeasurementTrial extends Trial {
         this.trialType = Trial.MEASURE;
         Random rng = new Random();
 
-        value = rng.nextFloat() * 20 - 20;
+        value = rng.nextFloat() * 20;
     }
 
     /**

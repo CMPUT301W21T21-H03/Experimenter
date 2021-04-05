@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.DivineInspiration.experimenter.BuildConfig;
+import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
@@ -33,6 +34,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,6 +58,8 @@ public class GraphMaker {
                 return makeBinomialBarGraph(trials, context);
             case Trial.NONNEGATIVE:
                 return  makeNonNegativeHistogram(trials, context);
+            case Trial.MEASURE:
+                return  makeMeasurementHistogram(trials, context);
             default:
                 return null;
         }
@@ -74,6 +78,40 @@ public class GraphMaker {
                 return null;
         }
     }
+
+
+    private static Chart<?> makeMeasurementHistogram(List<Trial> trials, Context context){
+        List<List<Trial>> trialBuckets = groupTrialByRange(trials, 10);
+
+
+        List<BarEntry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        DecimalFormat deciFormat = new DecimalFormat("0.#");
+        int i = 0;
+        for(List<Trial> list : trialBuckets){
+            entries.add(new BarEntry(i, (float)list.size()));
+            labels.add(String.format("%s-%s", deciFormat.format(findMinMeasuremnt(list)), deciFormat.format(findMaxMeasuremnt(list))));
+            i++;
+        }
+        BarChart chart = new BarChart(context);
+
+
+        BarData data = new BarData(new BarDataSet(entries, "Distribution of Measurement Trials submitted"));
+        chart.setData(data);
+        chart.setFitBars(true);
+        //axis settings
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
+        chart.getXAxis().setValueFormatter(formatter);
+        chart.getAxisLeft().setAxisMinimum(0);
+        chart.getAxisLeft().setSpaceTop(25f);
+        chart.getAxisLeft().setGranularity(1f);
+        //chart.setScaleEnabled(false);
+
+        styleLineBarChart(context, chart, formatter);
+        return chart;
+    }
+
 
     private static Chart<?> makeNonNegativeHistogram(ArrayList<Trial> trials, Context context) {
         List<List<Trial>> trialBuckets = groupTrialsByValue(trials);
@@ -262,6 +300,28 @@ public class GraphMaker {
 
     }
 
+    public static List<List<Trial>> groupTrialByRange(List<Trial> trials, int numberOfBuckets){
+
+        //TODO theres got to be a better way write the following size
+        double bucketSize =( findMaxMeasuremnt(trials) -
+               findMinMeasuremnt(trials))/numberOfBuckets;
+        //divide by bucket size then take floor/ceil should put each value in a range
+        List<List<Trial>> output = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial->
+                Math.ceil(((MeasurementTrial)trial).getValue()/bucketSize))).values());
+
+        output.sort((list1, list2) -> Double.compare(((MeasurementTrial)list1.get(0)).getValue(), ((MeasurementTrial)list2.get(0)).getValue()));
+        return output;
+    }
+
+    //helper functions
+    public static double findMaxMeasuremnt(List<Trial> trials){
+        return ((MeasurementTrial)Collections.max(trials, (t1, t2) -> Double.compare(((MeasurementTrial)t1).getValue(), ((MeasurementTrial)t2).getValue()))).getValue();
+    }
+    //helper functions
+    public static double findMinMeasuremnt(List<Trial> trials){
+        return ((MeasurementTrial)Collections.min(trials, (t1, t2) -> Double.compare(((MeasurementTrial)t1).getValue(), ((MeasurementTrial)t2).getValue()))).getValue();
+    }
+
     public static List<List<Trial>> groupTrialByDate(ArrayList<Trial> trials) {
         //divides trials into buckets by date
         List<List<Trial>> output = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial ->
@@ -297,8 +357,6 @@ public class GraphMaker {
         public String getAxisLabel(float value, AxisBase axis) {
             return (Math.abs(value - (int) value) < 0.01f) ? labels.get((int) value) : "";
         }
-
-
     }
 
 
@@ -313,7 +371,7 @@ class ClickMarker extends MarkerView {
 
     private final TextView content;
     private final DecimalFormat fmt;
-    private ValueFormatter valFormatter;
+    private final ValueFormatter valFormatter;
     private MPPointF mOffset;
 
     public ClickMarker(Context context, ValueFormatter formatter, int layoutResource) {
