@@ -1,16 +1,13 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.DivineInspiration.experimenter.Activity.UI.Explore.ExploreListAdapter;
-import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentAdapter;
+import com.DivineInspiration.experimenter.Model.Comment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
@@ -23,9 +20,11 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
 
     // Constructor
     public TrialListAdapter() {
+        super();
     }
 
     public TrialListAdapter(List<Trial> trials) {
+        super();
         this.trials = trials;
     }
 
@@ -39,12 +38,19 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
     }
+
+
 
     @Override
     public int getItemCount() {
         return 0;
+    }
+
+    public void setTrials(List<Trial> trials) {
+        this.trials.clear();
+        this.trials.addAll(trials);
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
