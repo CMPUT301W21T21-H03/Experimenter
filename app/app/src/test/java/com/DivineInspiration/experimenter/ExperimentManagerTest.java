@@ -26,9 +26,7 @@ public class ExperimentManagerTest implements UserManager.OnUserReadyListener, E
 
     public void testUpdateOwnerName() {
         FirebaseFirestore mockFirestore = Mockito.mock(FirebaseFirestore.class);
-
-
-
+        
         exp_mgr.updateOwnerName("XDC2BNUY5G", "Adit Testing", this);
         user_mgr.queryUserById("XDC2BNUY5G", this);
         assertEquals("Adit Testing", user.getUserName());
