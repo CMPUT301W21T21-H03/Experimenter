@@ -49,6 +49,7 @@ public class GraphMaker {
     static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     static DateTimeFormatter shortFormatter = DateTimeFormatter.ofPattern("MM/dd");
 
+
     //!! this assumes all trials are of the same kind
     public static Chart<?> makeHistogram(ArrayList<Trial> trials, Context context) {
         switch (trials.get(0).getTrialType()) {
@@ -57,9 +58,9 @@ public class GraphMaker {
             case Trial.BINOMIAL:
                 return makeBinomialBarGraph(trials, context);
             case Trial.NONNEGATIVE:
-                return  makeNonNegativeHistogram(trials, context);
+                return makeNonNegativeHistogram(trials, context);
             case Trial.MEASURE:
-                return  makeMeasurementHistogram(trials, context);
+                return makeMeasurementHistogram(trials, context);
             default:
                 return null;
         }
@@ -79,8 +80,20 @@ public class GraphMaker {
         }
     }
 
+    private static Chart<?> makeBinomialCandlestick(List<List<Trial>> trialsBucket, Context context){
+        /*
+        https://medium.com/@neerajmoudgil/candlestick-chart-using-philjay-mpandroidchart-library-how-to-bf657ddf3a28
+        how make candle stick chart with MPandroid
+         */
+        LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();
+        LocalDate lastDate = trialsBucket.get(trialsBucket.size() - 1).get(0).getTrialDate();
 
-    private static Chart<?> makeMeasurementHistogram(List<Trial> trials, Context context){
+
+
+        return null;
+    }
+
+    private static Chart<?> makeMeasurementHistogram(List<Trial> trials, Context context) {
         List<List<Trial>> trialBuckets = groupTrialByRange(trials, 10);
 
 
@@ -89,8 +102,8 @@ public class GraphMaker {
 
         DecimalFormat deciFormat = new DecimalFormat("0.#");
         int i = 0;
-        for(List<Trial> list : trialBuckets){
-            entries.add(new BarEntry(i, (float)list.size()));
+        for (List<Trial> list : trialBuckets) {
+            entries.add(new BarEntry(i, (float) list.size()));
             labels.add(String.format("%s-%s", deciFormat.format(findMinMeasuremnt(list)), deciFormat.format(findMaxMeasuremnt(list))));
             i++;
         }
@@ -120,9 +133,9 @@ public class GraphMaker {
         List<String> labels = new ArrayList<>();
 
         int i = 0;
-        for(List<Trial> list : trialBuckets){
-            entries.add(new BarEntry(i, (float)list.size()));
-            labels.add(String.valueOf(((NonNegativeTrial)list.get(0)).getCount()));
+        for (List<Trial> list : trialBuckets) {
+            entries.add(new BarEntry(i, (float) list.size()));
+            labels.add(String.valueOf(((NonNegativeTrial) list.get(0)).getCount()));
             i++;
         }
         BarChart chart = new BarChart(context);
@@ -131,8 +144,6 @@ public class GraphMaker {
         BarData data = new BarData(new BarDataSet(entries, "Distribution of NonNeg Trials submitted"));
         chart.setData(data);
         chart.setFitBars(true);
-
-
 
 
         //axis settings
@@ -300,26 +311,27 @@ public class GraphMaker {
 
     }
 
-    public static List<List<Trial>> groupTrialByRange(List<Trial> trials, int numberOfBuckets){
+    public static List<List<Trial>> groupTrialByRange(List<Trial> trials, int numberOfBuckets) {
 
         //TODO theres got to be a better way write the following size
-        double bucketSize =( findMaxMeasuremnt(trials) -
-               findMinMeasuremnt(trials))/numberOfBuckets;
+        double bucketSize = (findMaxMeasuremnt(trials) -
+                findMinMeasuremnt(trials)) / numberOfBuckets;
         //divide by bucket size then take floor/ceil should put each value in a range
-        List<List<Trial>> output = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial->
-                Math.ceil(((MeasurementTrial)trial).getValue()/bucketSize))).values());
+        List<List<Trial>> output = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial ->
+                Math.ceil(((MeasurementTrial) trial).getValue() / bucketSize))).values());
 
-        output.sort((list1, list2) -> Double.compare(((MeasurementTrial)list1.get(0)).getValue(), ((MeasurementTrial)list2.get(0)).getValue()));
+        output.sort((list1, list2) -> Double.compare(((MeasurementTrial) list1.get(0)).getValue(), ((MeasurementTrial) list2.get(0)).getValue()));
         return output;
     }
 
     //helper functions
-    public static double findMaxMeasuremnt(List<Trial> trials){
-        return ((MeasurementTrial)Collections.max(trials, (t1, t2) -> Double.compare(((MeasurementTrial)t1).getValue(), ((MeasurementTrial)t2).getValue()))).getValue();
+    public static double findMaxMeasuremnt(List<Trial> trials) {
+        return ((MeasurementTrial) Collections.max(trials, (t1, t2) -> Double.compare(((MeasurementTrial) t1).getValue(), ((MeasurementTrial) t2).getValue()))).getValue();
     }
+
     //helper functions
-    public static double findMinMeasuremnt(List<Trial> trials){
-        return ((MeasurementTrial)Collections.min(trials, (t1, t2) -> Double.compare(((MeasurementTrial)t1).getValue(), ((MeasurementTrial)t2).getValue()))).getValue();
+    public static double findMinMeasuremnt(List<Trial> trials) {
+        return ((MeasurementTrial) Collections.min(trials, (t1, t2) -> Double.compare(((MeasurementTrial) t1).getValue(), ((MeasurementTrial) t2).getValue()))).getValue();
     }
 
     public static List<List<Trial>> groupTrialByDate(ArrayList<Trial> trials) {
@@ -341,7 +353,7 @@ public class GraphMaker {
         List<List<Trial>> output = new ArrayList<>(trials.stream().collect(
                 Collectors.groupingBy(trial -> ((NonNegativeTrial) trial).getCount())).values()
         );
-        output.sort((list1, list2) -> Integer.compare(((NonNegativeTrial)list1.get(0)).getCount(), ((NonNegativeTrial)list2.get(0)).getCount()));
+        output.sort((list1, list2) -> Integer.compare(((NonNegativeTrial) list1.get(0)).getCount(), ((NonNegativeTrial) list2.get(0)).getCount()));
         return output;
     }
 
@@ -387,7 +399,7 @@ class ClickMarker extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        content.setText(String.format("%s, %s", valFormatter.getAxisLabel(e.getX(), null),fmt.format(e.getY())));
+        content.setText(String.format("%s, %s", valFormatter.getAxisLabel(e.getX(), null), fmt.format(e.getY())));
 
 
         // this will perform necessary layouting
