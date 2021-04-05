@@ -98,13 +98,14 @@ public class GraphMaker {
 
 
         //axis settings
-        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(labels));
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
+        chart.getXAxis().setValueFormatter(formatter);
         chart.getAxisLeft().setAxisMinimum(0);
         chart.getAxisLeft().setSpaceTop(25f);
         chart.getAxisLeft().setGranularity(1f);
         //chart.setScaleEnabled(false);
 
-        styleLineBarChart(context, chart);
+        styleLineBarChart(context, chart, formatter);
         return chart;
 
 
@@ -140,9 +141,10 @@ public class GraphMaker {
 
         chart.setData(new LineData(dataSet));
         chart.getXAxis().setGranularity(1f);
-        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(dates));
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(dates);
+        chart.getXAxis().setValueFormatter(formatter);
 
-        styleLineBarChart(context, chart);
+        styleLineBarChart(context, chart, formatter);
         return chart;
     }
 
@@ -163,12 +165,13 @@ public class GraphMaker {
         labels.add("Fail");
 
         //axis settings
-        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(labels));
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
+        chart.getXAxis().setValueFormatter(formatter);
         chart.getAxisLeft().setAxisMinimum(0);
         chart.getAxisLeft().setSpaceTop(25f);
         chart.setScaleEnabled(false);
 
-        styleLineBarChart(context, chart);
+        styleLineBarChart(context, chart, formatter);
         return chart;
     }
 
@@ -186,13 +189,14 @@ public class GraphMaker {
         labels.add("Single bar!");
 
         //axis settings
-        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(labels));
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
+        chart.getXAxis().setValueFormatter(formatter);
         chart.getAxisLeft().setAxisMinimum(0);
         chart.getAxisLeft().setAxisMaximum((float) sum * 1.3f);
 
         chart.setScaleEnabled(false);
 
-        styleLineBarChart(context, chart);
+        styleLineBarChart(context, chart, formatter);
         return chart;
 
     }
@@ -225,17 +229,18 @@ public class GraphMaker {
 
         chart.setData(new LineData(dataSet));
         chart.getXAxis().setGranularity(1f);
-        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(dates));
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(dates);
+        chart.getXAxis().setValueFormatter(formatter);
 
-        styleLineBarChart(context, chart);
+        styleLineBarChart(context, chart, formatter);
         return chart;
     }
 
-    private static void styleLineBarChart(Context context, BarLineChartBase chart) {
+    private static void styleLineBarChart(Context context, BarLineChartBase chart, ValueFormatter formatter) {
         final int beige1 = ContextCompat.getColor(context, R.color.beige1);
 
         //marker for dataset
-        ClickMarker marker = new ClickMarker(context, R.layout.marker_content);
+        ClickMarker marker = new ClickMarker(context, formatter, R.layout.marker_content);
         chart.setMarker(marker);
         chart.getData().setDrawValues(false);
 
@@ -292,6 +297,8 @@ public class GraphMaker {
         public String getAxisLabel(float value, AxisBase axis) {
             return (Math.abs(value - (int) value) < 0.01f) ? labels.get((int) value) : "";
         }
+
+
     }
 
 
@@ -306,13 +313,15 @@ class ClickMarker extends MarkerView {
 
     private final TextView content;
     private final DecimalFormat fmt;
+    private ValueFormatter valFormatter;
     private MPPointF mOffset;
 
-    public ClickMarker(Context context, int layoutResource) {
+    public ClickMarker(Context context, ValueFormatter formatter, int layoutResource) {
         super(context, layoutResource);
         fmt = new DecimalFormat("0.##");
         // find your layout components
         content = findViewById(R.id.markerContent);
+        valFormatter = formatter;
     }
 
     // callbacks everytime the MarkerView is redrawn, can be used to update the
@@ -320,7 +329,8 @@ class ClickMarker extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        content.setText(fmt.format(e.getY()));
+        content.setText(String.format("%s, %s", valFormatter.getAxisLabel(e.getX(), null),fmt.format(e.getY())));
+
 
         // this will perform necessary layouting
         super.refreshContent(e, highlight);
