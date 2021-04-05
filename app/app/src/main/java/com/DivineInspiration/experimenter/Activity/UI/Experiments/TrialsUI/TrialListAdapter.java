@@ -44,7 +44,7 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
 
     @Override
     public int getItemCount() {
-        return 0;
+        return trials.size();
     }
 
     public void setTrials(List<Trial> trials) {

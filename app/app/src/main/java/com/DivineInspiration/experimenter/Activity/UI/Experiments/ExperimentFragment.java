@@ -289,7 +289,7 @@ public class ExperimentFragment extends Fragment {
         trialBundle.putString("experimenterID", userManager.getLocalUser().getUserId());
         trialBundle.putString("experimenterName", userManager.getLocalUser().getUserName());
         trialBundle.putSerializable("experiment", currentExperiment);
-        CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment((CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f1"));
+        CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment((CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0"));
         dialogTrial.setArguments(trialBundle);
         dialogTrial.show(getChildFragmentManager(), "create trial frag");
 

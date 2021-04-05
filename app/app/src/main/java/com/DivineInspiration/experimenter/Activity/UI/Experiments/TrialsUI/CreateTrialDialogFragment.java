@@ -27,7 +27,7 @@ import java.util.Date;
 import static com.DivineInspiration.experimenter.Activity.UI.Profile.EditProfileDialogFragment.TAG;
 
 public class CreateTrialDialogFragment extends DialogFragment {
-    private OnTrialCreatedListener callback;
+    private final OnTrialCreatedListener callback;
 
 
     public interface OnTrialCreatedListener{
