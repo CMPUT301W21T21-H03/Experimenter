@@ -69,7 +69,8 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
 
     /**
-     * Update owner name
+     * Updates owner name in the Firestore
+     * @param: ownerId:String, newName:String, callback:OnOperationDone
      */
     public void updateOwnerName(String ownerId, String newName, OnOperationDone callback) {
         initLocalUserId();
