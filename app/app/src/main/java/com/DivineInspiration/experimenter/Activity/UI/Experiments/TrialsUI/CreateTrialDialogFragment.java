@@ -22,6 +22,7 @@ import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import static com.DivineInspiration.experimenter.Activity.UI.Profile.EditProfileDialogFragment.TAG;
@@ -58,7 +59,24 @@ public class CreateTrialDialogFragment extends DialogFragment {
 
                 Bundle args = getArguments();
                 Experiment exp = (Experiment) args.getSerializable("experiment");
-                BinomialTrial binomialTrial = new BinomialTrial();
+
+//                Bundle args = getArguments();
+//                Comment comment = new Comment(
+//                        IdGen.genCommentId(args.getString("experimentID")),
+//                        args.getString("commenterID"),
+//                        args.getString("commenterName"),
+//                        new Date(),
+//                        commentText
+//                );
+//
+//                CommentManager.getInstance().addComment(comment, args.getString("experimentID"));
+//                callback.onCommentAdded(comment);
+//                dialog.dismiss();
+//            }
+                BinomialTrial binomialTrial = new BinomialTrial(
+                        args.getString("experimenterID"),
+                        exp.getExperimentID()
+                );
                 TrialManager.getInstance().addTrial(binomialTrial,trials ->
                 {
                 });
