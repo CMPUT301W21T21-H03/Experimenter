@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--https://www.geeksforgeeks.org/cardview-in-android-with-example/
+on usage of card view
+-->
+
+
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trialItemCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@android:style/Widget.Material.Button.Borderless"
+    app:cardPreventCornerOverlap="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:focusable="true"
+    android:clickable="true"
+    android:backgroundTint="@color/black3"
+    android:layout_marginVertical="5dp"
+    android:layout_marginHorizontal="9dp"
+    app:cardCornerRadius="8dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/trialResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trial Result"
+            android:textSize="17.5sp"
+            android:textStyle="bold"
+            />
+        <View
+            android:id="@+id/sectionDivideLineName_trial"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginVertical="4dp"
+            android:layout_weight="1"
+            android:background="@color/gray" />
+        <TextView
+            android:id="@+id/experimenterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Experimenter name"
+            android:textSize="13sp"
+            />
+        <TextView
+            android:id="@+id/trialDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textSize="13sp"
+            />
+
+        <TextView
+            android:id="@+id/trialCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="City"
+            android:textSize="12sp"
+            />
+
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

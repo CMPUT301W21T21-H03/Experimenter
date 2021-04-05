@@ -20,11 +20,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentDialogFragment;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.BinomialTest;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.CountTest;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.MeasureTest;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.NonNegativeTest;
+
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Comment;
 import com.DivineInspiration.experimenter.Model.Experiment;
@@ -192,27 +190,7 @@ public class ExperimentFragment extends Fragment {
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
                     case 0:
-                        Bundle args = new Bundle();
-                        args.putSerializable("experiment", currentExperiment);
-                        // new trial
-                        switch (currentExperiment.getTrialType()) {
-                            case Trial.BINOMIAL:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_binomialTest, args);
-                                break;
-                            case Trial.MEASURE:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_nonNegativeTest, args);
-                                break;
-                            case Trial.NONNEGATIVE:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_measureTest, args);
-                                break;
-                            default:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_countTest, args);
-                                break;
-                        }
+                        TrialDialogSelect();
                         break;
 
                     case 1:
@@ -312,6 +290,25 @@ public class ExperimentFragment extends Fragment {
         toolbar.setTitle(exp.getExperimentName());
     }
 
+    public void TrialDialogSelect(){
+        Bundle trialBundle = new Bundle();
+        trialBundle.putString("experimenterID", userManager.getLocalUser().getUserId());
+        trialBundle.putString("experimentName", userManager.getLocalUser().getUserName());
+        trialBundle.putString("experimentID", currentExperiment.getExperimentID());
+        BinomialTrial sample = new BinomialTrial();
+        TrialManager.getInstance().addTrial(sample,trials ->
+        {
+
+        });
+
+
+
+
+
+        Snackbar snackbar = Snackbar.make(getView(),"Hello",Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
+
     /**
      * Home fragment
      */
@@ -380,4 +377,7 @@ public class ExperimentFragment extends Fragment {
             list.setAdapter(adapter);
         }
     }
+
+
+
 }
