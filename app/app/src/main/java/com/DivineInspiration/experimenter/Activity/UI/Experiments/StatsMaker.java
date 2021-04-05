@@ -158,7 +158,6 @@ public class StatsMaker {
             switch (type) {
                 case Trial.COUNT:
                     sum += ((CountTrial) t).getCount();
-
                     break;
                 case Trial.NONNEGATIVE:
                     sum += ((NonNegativeTrial) t).getCount();

@@ -16,7 +16,7 @@ public class BinomialTrial extends Trial {
     public BinomialTrial() {
 
         super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
-        this.trialType = Trial.COUNT;
+        this.trialType = Trial.BINOMIAL;
         this.pass = new Random().nextBoolean();
     }
 
