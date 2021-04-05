@@ -47,14 +47,6 @@ public class GraphMaker {
     static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     static DateTimeFormatter shortFormatter = DateTimeFormatter.ofPattern("MM/dd");
 
-    private static class XAxisLabelFormatter extends ValueFormatter {
-
-        List<String> labels;
-
-        XAxisLabelFormatter(List<String> labels) {
-            this.labels = labels;
-        }
-
     //!! this assumes all trials are of the same kind
     public static Chart<?> makeHistogram(ArrayList<Trial> trials, Context context) {
         switch (trials.get(0).getTrialType()) {
