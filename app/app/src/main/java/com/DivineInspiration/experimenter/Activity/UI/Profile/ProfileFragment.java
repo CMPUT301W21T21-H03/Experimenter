@@ -226,6 +226,12 @@ public class ProfileFragment extends Fragment {
      * @param user user
      */
     private void displayUserToolbar(User user) {
+
+        if(user == null){
+            return;
+        }
+
+
         // setting the user info in UI
         toolbar.setTitle(user.getUserName());
 

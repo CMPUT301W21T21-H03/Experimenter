@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.DivineInspiration.experimenter.BuildConfig;
+import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -53,12 +55,6 @@ public class GraphMaker {
             this.labels = labels;
         }
 
-        @Override
-        public String getAxisLabel(float value, AxisBase axis) {
-            return (Math.abs(value - (int) value) < 0.01f) ? labels.get((int) value) : "";
-        }
-    }
-
     //!! this assumes all trials are of the same kind
     public static Chart<?> makeHistogram(ArrayList<Trial> trials, Context context) {
         switch (trials.get(0).getTrialType()) {
@@ -70,7 +66,6 @@ public class GraphMaker {
                 return null;
         }
     }
-
 
     public static Chart<?> makeLineChart(ArrayList<Trial> trials, Context context) {
 
@@ -86,8 +81,19 @@ public class GraphMaker {
         }
     }
 
+    private static Chart<?> makeNonNegativeHistogram(ArrayList<Trial> trials, Context context) {
+        List<List<Trial>> trialBuckets = groupTrialsByValue(trials);
+
+        List<BarEntry> entries = new ArrayList<>();
+
+        for(List<Trial> list : trialBuckets){
+            //entries.add(StatsMaker.calcSum(list));
+        }
+        return null;
+    }
+
     //
-    private static Chart<?> makeBinomialLineGraph(List<List<Trial>> trialsBucket, Context context){
+    private static Chart<?> makeBinomialLineGraph(List<List<Trial>> trialsBucket, Context context) {
         double success = 0;
         double fail = 0;
         LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();
@@ -103,7 +109,7 @@ public class GraphMaker {
                 fail += stats[1];
                 i++;
             }
-            data.add(new Entry(i, (float)(success/(success+fail))));
+            data.add(new Entry(i, (float) (success / (success + fail))));
             dates.add(shortFormatter.format(currentDate));
             currentDate = currentDate.plusDays(1);
         }
@@ -121,7 +127,6 @@ public class GraphMaker {
         styleLineBarChart(context, chart);
         return chart;
     }
-
 
     private static Chart<?> makeBinomialBarGraph(List<Trial> trials, Context context) {
         double[] stats = StatsMaker.calcBinomialStats(trials);
@@ -148,7 +153,6 @@ public class GraphMaker {
         styleLineBarChart(context, chart);
         return chart;
     }
-
 
     private static Chart<?> makeCountBarGraph(List<Trial> trials, Context context) {
         double sum = StatsMaker.calcSum(trials);
@@ -235,7 +239,6 @@ public class GraphMaker {
 
     }
 
-
     public static List<List<Trial>> groupTrialByDate(ArrayList<Trial> trials) {
         //divides trials into buckets by date
         List<List<Trial>> output = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial ->
@@ -243,6 +246,34 @@ public class GraphMaker {
         //sort by date
         output.sort((l1, l2) -> l1.get(0).getTrialDate().compareTo(l2.get(0).getTrialDate()));
         return output;
+    }
+
+    //currently only applicable/useful to non negative trial
+    public static List<List<Trial>> groupTrialsByValue(List<Trial> trials) {
+        //assert type is Non negative
+        if (BuildConfig.DEBUG && !(trials.get(0).getTrialType().equals(Trial.NONNEGATIVE))) {
+            throw new AssertionError("Assertion failed");
+        }
+
+        List<List<Trial>> output = new ArrayList<>(trials.stream().collect(
+                Collectors.groupingBy(trial -> ((NonNegativeTrial) trial).getCount())).values()
+        );
+        output.sort((list1, list2) -> Integer.compare(((NonNegativeTrial)list1.get(0)).getCount(), ((NonNegativeTrial)list2.get(0)).getCount()));
+        return output;
+    }
+
+    private static class XAxisLabelFormatter extends ValueFormatter {
+
+        List<String> labels;
+
+        XAxisLabelFormatter(List<String> labels) {
+            this.labels = labels;
+        }
+
+        @Override
+        public String getAxisLabel(float value, AxisBase axis) {
+            return (Math.abs(value - (int) value) < 0.01f) ? labels.get((int) value) : "";
+        }
     }
 
 
@@ -255,14 +286,15 @@ show marker on click
 
 class ClickMarker extends MarkerView {
 
-    private TextView content;
-    private DecimalFormat fmt;
+    private final TextView content;
+    private final DecimalFormat fmt;
+    private MPPointF mOffset;
 
     public ClickMarker(Context context, int layoutResource) {
         super(context, layoutResource);
         fmt = new DecimalFormat("0.##");
         // find your layout components
-        content = (TextView) findViewById(R.id.markerContent);
+        content = findViewById(R.id.markerContent);
     }
 
     // callbacks everytime the MarkerView is redrawn, can be used to update the
@@ -275,8 +307,6 @@ class ClickMarker extends MarkerView {
         // this will perform necessary layouting
         super.refreshContent(e, highlight);
     }
-
-    private MPPointF mOffset;
 
     @Override
     public MPPointF getOffset() {
