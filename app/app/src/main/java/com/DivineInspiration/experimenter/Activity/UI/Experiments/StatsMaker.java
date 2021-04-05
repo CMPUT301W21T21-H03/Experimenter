@@ -29,7 +29,7 @@ public class StatsMaker {
     @SuppressLint("DefaultLocale")
     public static View makeStatsView(Context context, List<Trial> trials) {
         final String type = trials.get(0).getTrialType();
-        DecimalFormat fmt = new DecimalFormat("0.#");
+        DecimalFormat fmt = new DecimalFormat("0.##");
         double[] quarts = calcQuartiles(trials);
         View view = LayoutInflater.from(context).inflate(R.layout.stat_view, null);
 
