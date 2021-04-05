@@ -54,6 +54,8 @@ public class GraphMaker {
                 return makeCountBarGraph(trials, context);
             case Trial.BINOMIAL:
                 return makeBinomialBarGraph(trials, context);
+            case Trial.NONNEGATIVE:
+                return  makeNonNegativeHistogram(trials, context);
             default:
                 return null;
         }
@@ -64,7 +66,7 @@ public class GraphMaker {
         List<List<Trial>> trialsDateBucket = groupTrialByDate(trials);
         switch (trials.get(0).getTrialType()) {
             case Trial.COUNT:
-                return makeCountLineChart(trialsDateBucket, context);
+                return makeCountLineGraph(trialsDateBucket, context);
 
             case Trial.BINOMIAL:
                 return makeBinomialLineGraph(trialsDateBucket, context);
@@ -77,11 +79,35 @@ public class GraphMaker {
         List<List<Trial>> trialBuckets = groupTrialsByValue(trials);
 
         List<BarEntry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
 
+        int i = 0;
         for(List<Trial> list : trialBuckets){
-            //entries.add(StatsMaker.calcSum(list));
+            entries.add(new BarEntry(i, (float)list.size()));
+            labels.add(String.valueOf(((NonNegativeTrial)list.get(0)).getCount()));
+            i++;
         }
-        return null;
+        BarChart chart = new BarChart(context);
+
+
+        BarData data = new BarData(new BarDataSet(entries, "Distribution of NonNeg Trials submitted"));
+        chart.setData(data);
+        chart.setFitBars(true);
+
+
+
+
+        //axis settings
+        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(labels));
+        chart.getAxisLeft().setAxisMinimum(0);
+        chart.getAxisLeft().setSpaceTop(25f);
+        chart.getAxisLeft().setGranularity(1f);
+        //chart.setScaleEnabled(false);
+
+        styleLineBarChart(context, chart);
+        return chart;
+
+
     }
 
     //
@@ -139,7 +165,7 @@ public class GraphMaker {
         //axis settings
         chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(labels));
         chart.getAxisLeft().setAxisMinimum(0);
-        chart.getAxisLeft().setAxisMaximum((float) Math.max(stats[0], stats[1]) * 1.35f);
+        chart.getAxisLeft().setSpaceTop(25f);
         chart.setScaleEnabled(false);
 
         styleLineBarChart(context, chart);
@@ -172,7 +198,7 @@ public class GraphMaker {
     }
 
     /*https://stackoverflow.com/a/29812532/12471420*/
-    private static Chart<?> makeCountLineChart(List<List<Trial>> trialsBucket, Context context) {
+    private static Chart<?> makeCountLineGraph(List<List<Trial>> trialsBucket, Context context) {
 
         float sum = 0;
         LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();

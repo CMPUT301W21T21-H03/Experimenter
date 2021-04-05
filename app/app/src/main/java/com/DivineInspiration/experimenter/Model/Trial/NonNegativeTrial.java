@@ -23,10 +23,10 @@ public class NonNegativeTrial extends Trial {
     public NonNegativeTrial(){
 
         super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
-        this.trialType = Trial.COUNT;
+        this.trialType = Trial.NONNEGATIVE;
         Random rng = new Random();
 
-        count = rng.nextInt(40);
+        count = rng.nextInt(20);
     }
 
     /**

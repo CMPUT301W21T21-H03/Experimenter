@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
+import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -67,10 +68,10 @@ public class StatsTabFragment extends Fragment implements Refreshable {
 
         ArrayList<Trial> counts = new ArrayList<>();
         for(int i =0; i < 100; i++){
-            counts.add(new BinomialTrial());
+            counts.add(new NonNegativeTrial());
         }
 
-        graphHolder.addView(GraphMaker.makeLineChart(counts, getContext()));
+        graphHolder.addView(GraphMaker.makeHistogram(counts, getContext()));
         Log.d("woah", "graph added");
         view.findViewById(R.id.histogramButton).setOnClickListener(v -> {
             showHistogram();
