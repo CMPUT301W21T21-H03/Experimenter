@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.CommentListAdapter;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
@@ -26,16 +27,27 @@ import static com.DivineInspiration.experimenter.Activity.UI.Profile.EditProfile
 public class TrialsTabFragment extends Fragment implements TrialManager.OnTrialListReadyListener, CreateTrialDialogFragment.OnTrialCreatedListener {
 
     private TrialListAdapter adapter;
-    private List<Trial> trialArrayList = new ArrayList<>();
+    private List<Trial> trialArrayList;
     String experimentID;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+
+        this.trialArrayList = new ArrayList<>();
+        this.adapter = new TrialListAdapter();
+        experimentID = bundle.getString("experimentID");
+        if (experimentID == null) { throw new NullPointerException(); }
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         adapter = new TrialListAdapter(trialArrayList);
         View view = inflater.inflate(R.layout.trial_list, container, false);
-        Bundle bundle = getArguments();
-        experimentID = bundle.getString("experimentToTrialID");
+
+
         TrialManager.getInstance().getExperimentTrials(experimentID, this);
 //        CommentManager.getInstance().getExperimentComments(experiment, this);
         RecyclerView recycler = view.findViewById(R.id.trialList);
