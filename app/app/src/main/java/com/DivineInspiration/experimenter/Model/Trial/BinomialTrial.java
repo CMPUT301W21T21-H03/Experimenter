@@ -12,13 +12,13 @@ import java.util.UUID;
 public class BinomialTrial extends Trial {
     private boolean pass;
 
-    //mock constructor
-    public BinomialTrial() {
-
-        super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(60) - 30));
-        this.trialType = Trial.BINOMIAL;
-        this.pass = new Random().nextBoolean();
-    }
+//    //mock constructor
+//    public BinomialTrial() {
+//
+//        super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
+//        this.trialType = Trial.BINOMIAL;
+//        this.pass = new Random().nextBoolean();
+//    }
 
     //constructor with location
     public BinomialTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, boolean pass, GeoPoint location){
