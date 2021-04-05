@@ -33,6 +33,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @SuppressLint("DefaultLocale")
 public class GraphMaker {
     /*
@@ -44,17 +45,17 @@ public class GraphMaker {
     static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     static DateTimeFormatter shortFormatter = DateTimeFormatter.ofPattern("MM/dd");
 
-    private static class XAxisLabelFormatter extends ValueFormatter{
+    private static class XAxisLabelFormatter extends ValueFormatter {
 
         List<String> labels;
 
-        XAxisLabelFormatter(List<String> labels){
+        XAxisLabelFormatter(List<String> labels) {
             this.labels = labels;
         }
 
         @Override
         public String getAxisLabel(float value, AxisBase axis) {
-            return (Math.abs(value - (int)value) < 0.01f)?labels.get((int) value):"";
+            return (Math.abs(value - (int) value) < 0.01f) ? labels.get((int) value) : "";
         }
     }
 
@@ -63,8 +64,8 @@ public class GraphMaker {
         switch (trials.get(0).getTrialType()) {
             case Trial.COUNT:
                 return makeCountBarGraph(trials, context);
-            case  Trial.BINOMIAL:
-                return  makeBinomialBarGraph(trials, context);
+            case Trial.BINOMIAL:
+                return makeBinomialBarGraph(trials, context);
             default:
                 return null;
         }
@@ -78,15 +79,51 @@ public class GraphMaker {
             case Trial.COUNT:
                 return makeCountLineChart(trialsDateBucket, context);
 
+            case Trial.BINOMIAL:
+                return makeBinomialLineGraph(trialsDateBucket, context);
             default:
                 return null;
         }
     }
 
-   
+    //
+    private static Chart<?> makeBinomialLineGraph(List<List<Trial>> trialsBucket, Context context){
+        double success = 0;
+        double fail = 0;
+        LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();
+        LocalDate lastDate = trialsBucket.get(trialsBucket.size() - 1).get(0).getTrialDate();
+
+        List<Entry> data = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
+        int i = 0;
+        while (currentDate.isBefore(lastDate)) {
+            if (trialsBucket.get(i).get(0).getTrialDate().equals(currentDate)) {
+                double[] stats = StatsMaker.calcBinomialStats(trialsBucket.get(i));
+                success += stats[0];
+                fail += stats[1];
+                i++;
+            }
+            data.add(new Entry(i, (float)(success/(success+fail))));
+            dates.add(shortFormatter.format(currentDate));
+            currentDate = currentDate.plusDays(1);
+        }
+
+        LineChart chart = new LineChart(context);
+
+        //dataset for marker
+        LineDataSet dataSet = new LineDataSet(data, "Ratio of Success/Total");
+        dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        chart.setData(new LineData(dataSet));
+        chart.getXAxis().setGranularity(1f);
+        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(dates));
+
+        styleLineBarChart(context, chart);
+        return chart;
+    }
 
 
-    private static Chart<?> makeBinomialBarGraph(List<Trial> trials, Context context){
+    private static Chart<?> makeBinomialBarGraph(List<Trial> trials, Context context) {
         double[] stats = StatsMaker.calcBinomialStats(trials);
         List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0, (float) stats[0]));
@@ -105,15 +142,15 @@ public class GraphMaker {
         //axis settings
         chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(labels));
         chart.getAxisLeft().setAxisMinimum(0);
-        chart.getAxisLeft().setAxisMaximum((float)Math.max(stats[0], stats[1]) * 1.35f);
+        chart.getAxisLeft().setAxisMaximum((float) Math.max(stats[0], stats[1]) * 1.35f);
         chart.setScaleEnabled(false);
 
         styleLineBarChart(context, chart);
-        return  chart;
+        return chart;
     }
 
 
-    private static Chart<?> makeCountBarGraph(List<Trial> trials, Context context){
+    private static Chart<?> makeCountBarGraph(List<Trial> trials, Context context) {
         double sum = StatsMaker.calcSum(trials);
         List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0, (float) sum));
@@ -134,7 +171,7 @@ public class GraphMaker {
         chart.setScaleEnabled(false);
 
         styleLineBarChart(context, chart);
-        return  chart;
+        return chart;
 
     }
 

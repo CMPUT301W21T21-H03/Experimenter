@@ -70,7 +70,7 @@ public class StatsTabFragment extends Fragment implements Refreshable {
             counts.add(new BinomialTrial());
         }
 
-        graphHolder.addView(GraphMaker.makeHistogram(counts, getContext()));
+        graphHolder.addView(GraphMaker.makeLineChart(counts, getContext()));
         Log.d("woah", "graph added");
         view.findViewById(R.id.histogramButton).setOnClickListener(v -> {
             showHistogram();
