@@ -15,7 +15,7 @@ public class BinomialTrial extends Trial {
     //mock constructor
     public BinomialTrial() {
 
-        super("test", "test", "test","test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
+        super("test", "test", "test","test", LocalDate.now().plusDays(new Random().nextInt(70) ));
         this.trialType = Trial.BINOMIAL;
         this.pass = new Random().nextBoolean();
     }

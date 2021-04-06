@@ -55,7 +55,7 @@ public class StatsMaker {
         if (!type.equals(Trial.BINOMIAL)) {
             double[] quarts = calcQuartiles(trials);
             passes.setVisibility(View.GONE);
-            mean.setText(String.format("Median:  %.4f", calcMedian(trials)));
+            median.setText(String.format("Median:  %.4f", calcMedian(trials)));
             minMax.setText(String.format("Min:  %s,  Max:  %s", fmt.format(quarts[2]), fmt.format(quarts[3])));
             quartiles.setText(String.format("Q1: %s, Q3: %s", fmt.format(quarts[0]), fmt.format(quarts[1])));
         }
@@ -103,10 +103,11 @@ public class StatsMaker {
     public static double calcMedian(List<Trial> trials) {
         /*https://stackoverflow.com/a/51747735/12471420*/
         List<Double> values = getDoubles(trials);
-
+        sortDouble(values);
         int size = values.size();
         //returns median regardless if its the list is odd or even
-        return (values.get(size / 2 - 1) + values.get((size / 2))) / 2;
+        return (values.get(size / 2 - 1) + values.get((size / 2))) / 2; //magic
+
 
     }
 

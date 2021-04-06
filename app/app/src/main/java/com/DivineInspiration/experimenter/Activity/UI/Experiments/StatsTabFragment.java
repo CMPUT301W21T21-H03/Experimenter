@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments;
+    package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.animation.LayoutTransition;
 import android.os.Bundle;
@@ -64,8 +64,8 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         statHolder = view.findViewById(R.id.statHolder);
 
         trialList = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            trialList.add(new NonNegativeTrial());
+        for (int i = 0; i < 1000; i++) {
+            trialList.add(new CountTrial());
         }
 
         LayoutTransition layoutTransition = new LayoutTransition();
