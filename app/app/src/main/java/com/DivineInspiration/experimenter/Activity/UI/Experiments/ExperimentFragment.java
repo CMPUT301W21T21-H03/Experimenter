@@ -215,7 +215,7 @@ public class ExperimentFragment extends Fragment {
             setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!currentExperiment.getStatus().equals(Experiment.ENDED)){
+
                         Bundle args = new Bundle();
                         args.putSerializable("exp", currentExperiment);
 
@@ -231,11 +231,6 @@ public class ExperimentFragment extends Fragment {
                                 });
                         frag.setArguments(args);
                         frag.show(getChildFragmentManager(), "edit experiment frag");
-                    }
-                    else{
-                        Snackbar.make(getView(), "This experiment has ended!", Snackbar.LENGTH_LONG).show();
-                    }
-
                 }
             });
         } else {
@@ -277,7 +272,7 @@ public class ExperimentFragment extends Fragment {
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
         expCity.setText("Region: " + exp.getRegion());
-        trialNumber.setText(String.valueOf(exp.getMinimumTrials()) + " trials needed");
+        trialNumber.setText(exp.getMinimumTrials() + " trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
         status.setText(String.format("Status: %s", exp.getStatus()));
@@ -292,9 +287,6 @@ public class ExperimentFragment extends Fragment {
         CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment((CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0"));
         dialogTrial.setArguments(trialBundle);
         dialogTrial.show(getChildFragmentManager(), "create trial frag");
-
-//        Snackbar snackbar = Snackbar.make(getView(),"Hello",Snackbar.LENGTH_SHORT);
-//        snackbar.show();
 
     }
 
@@ -355,7 +347,7 @@ public class ExperimentFragment extends Fragment {
             super.onViewCreated(view, savedInstanceState);
             ListView list = view.findViewById(R.id.placeHolderList);
 
-            String[] items = {"Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.",
+            String[] items = {"Russell’s", "Paradox", "tells", "us", "that", "Humans", "are", "bad", "at", "math.",
                     "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be",
                     "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very",
                     "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have",
