@@ -68,11 +68,11 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         graphHolder = view.findViewById(R.id.graphHolder);
 
         ArrayList<Trial> counts = new ArrayList<>();
-        for(int i =0; i < 1000; i++){
+        for(int i =0; i < 100; i++){
             counts.add(new MeasurementTrial());
         }
 
-        graphHolder.addView(GraphMaker.makeHistogram(counts, getContext()));
+        graphHolder.addView(GraphMaker.makeLineChart(counts, getContext()));
         Log.d("woah", "graph added");
         view.findViewById(R.id.histogramButton).setOnClickListener(v -> {
             showHistogram();
