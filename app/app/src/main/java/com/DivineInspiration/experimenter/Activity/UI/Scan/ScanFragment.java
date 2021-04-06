@@ -63,7 +63,6 @@ public class ScanFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
-                allowCamera = true;
             } else {
                 // request camera permissions
                 ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.CAMERA}, 401);
@@ -92,7 +91,6 @@ public class ScanFragment extends Fragment {
                     mCodeScanner.startPreview();
                 } else {
                     Toast.makeText(getActivity(), "A code cannot be scanned if the camera is off", Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
@@ -119,6 +117,8 @@ public class ScanFragment extends Fragment {
             return;
         }
         openCamera = true;
+        allowCamera = true;
+
         mCodeScanner = new CodeScanner(getActivity(), scannerView);
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -148,11 +148,11 @@ public class ScanFragment extends Fragment {
 //    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 //        // request code
-//        Log.v("code:", String.valueOf(requestCode));
+//        Log.e("Permissions code:", String.valueOf(requestCode));
 //        if (requestCode == 401) {
 //            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                allowCamera = true;
 //                openCamera();
+//                allowCamera = true;
 //            } else {
 //                Toast.makeText(this.getContext(), "Please accept camera permissions, otherwise, the scan will not work", Toast.LENGTH_LONG).show();
 //            }
@@ -164,7 +164,6 @@ public class ScanFragment extends Fragment {
         super.onResume();
         if (!openCamera && ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             openCamera();
-            allowCamera = true;
         }
         if (allowCamera) mCodeScanner.startPreview();
     }
