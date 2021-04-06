@@ -10,7 +10,6 @@ import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,20 +18,15 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.CreateTrialDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.TrialsTabFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentDialogFragment;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.BinomialTest;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.CountTest;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.MeasureTest;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.NonNegativeTest;
+
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
-import com.DivineInspiration.experimenter.Model.Comment;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
-import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
-import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
-import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
-import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -40,9 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.zxing.integration.android.IntentIntegrator;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ExperimentFragment extends Fragment {
@@ -192,27 +184,7 @@ public class ExperimentFragment extends Fragment {
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
                     case 0:
-                        Bundle args = new Bundle();
-                        args.putSerializable("experiment", currentExperiment);
-                        // new trial
-                        switch (currentExperiment.getTrialType()) {
-                            case Trial.BINOMIAL:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_binomialTest, args);
-                                break;
-                            case Trial.MEASURE:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_nonNegativeTest, args);
-                                break;
-                            case Trial.NONNEGATIVE:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_measureTest, args);
-                                break;
-                            default:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_countTest, args);
-                                break;
-                        }
+                        TrialDialogSelect();
                         break;
 
                     case 1:
@@ -312,6 +284,20 @@ public class ExperimentFragment extends Fragment {
         toolbar.setTitle(exp.getExperimentName());
     }
 
+    public void TrialDialogSelect(){
+        Bundle trialBundle = new Bundle();
+        trialBundle.putString("experimenterID", userManager.getLocalUser().getUserId());
+        trialBundle.putString("experimenterName", userManager.getLocalUser().getUserName());
+        trialBundle.putSerializable("experiment", currentExperiment);
+        CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment((CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0"));
+        dialogTrial.setArguments(trialBundle);
+        dialogTrial.show(getChildFragmentManager(), "create trial frag");
+
+//        Snackbar snackbar = Snackbar.make(getView(),"Hello",Snackbar.LENGTH_SHORT);
+//        snackbar.show();
+
+    }
+
     /**
      * Home fragment
      */
@@ -380,4 +366,7 @@ public class ExperimentFragment extends Fragment {
             list.setAdapter(adapter);
         }
     }
+
+
+
 }

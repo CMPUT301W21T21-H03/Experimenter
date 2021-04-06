@@ -15,14 +15,14 @@ public class BinomialTrial extends Trial {
     //mock constructor
     public BinomialTrial() {
 
-        super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(60) - 30));
+        super("test", "test", "test","test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
         this.trialType = Trial.BINOMIAL;
         this.pass = new Random().nextBoolean();
     }
 
     //constructor with location
-    public BinomialTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, boolean pass, GeoPoint location){
-        super(trialID, trialUserID, trialExperimentID, trialDate,location);
+    public BinomialTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, boolean pass, GeoPoint location){
+        super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate,location);
         this.trialType = Trial.BINOMIAL;
         this.pass = pass;
     }
@@ -33,8 +33,8 @@ public class BinomialTrial extends Trial {
      * @param trialUserID       user of this trial
      * @param trialExperimentID id of experiment
      */
-    public BinomialTrial(String trialUserID, String trialExperimentID) {
-        super(trialUserID, trialExperimentID);
+    public BinomialTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
+        super(trialUserID, trialOwnerName, trialExperimentID);
         this.trialType = Trial.BINOMIAL;
         this.pass = false;
     }
@@ -47,8 +47,8 @@ public class BinomialTrial extends Trial {
      * @param trialUserID       user of this trial
      * @param trialExperimentID id of experiment
      */
-    public BinomialTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, boolean pass) {
-        super(trialID, trialUserID, trialExperimentID, trialDate);
+    public BinomialTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, boolean pass) {
+        super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate);
         this.trialType = Trial.BINOMIAL;
         this.pass = pass;
     }
