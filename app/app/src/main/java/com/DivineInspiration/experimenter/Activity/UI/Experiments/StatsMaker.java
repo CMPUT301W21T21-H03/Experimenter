@@ -37,7 +37,7 @@ public class StatsMaker {
         TextView passes = view.findViewById(R.id.statPass);
         switch (type) {
             case Trial.COUNT:
-                total.setText(String.format("Total count: %d", (int) calcSum(trials)));
+                total.setText(String.format("Total count:  %d", (int) calcSum(trials)));
                 break;
             case Trial.NONNEGATIVE:
                 total.setVisibility(View.GONE);
@@ -48,21 +48,21 @@ public class StatsMaker {
                 minMax.setVisibility(View.GONE);
                 quartiles.setVisibility(View.GONE);
                 double[] binomialStats = calcBinomialStats(trials);
-                passes.setText(String.format("Passes: %s, Fails: %s, Ratio: %.4f", fmt.format(binomialStats[0]), fmt.format(binomialStats[1]), binomialStats[2]));
+                passes.setText(String.format("Passes:  %s,  Fails:  %s, Ratio:  %.4f", fmt.format(binomialStats[0]), fmt.format(binomialStats[1]), binomialStats[2]));
 
         }
 
         if (!type.equals(Trial.BINOMIAL)) {
             double[] quarts = calcQuartiles(trials);
             passes.setVisibility(View.GONE);
-            mean.setText(String.format("Median: %.4f", calcMedian(trials)));
-            minMax.setText(String.format("Min: %s, Max: %s", fmt.format(quarts[2]), fmt.format(quarts[3])));
+            mean.setText(String.format("Median:  %.4f", calcMedian(trials)));
+            minMax.setText(String.format("Min:  %s,  Max:  %s", fmt.format(quarts[2]), fmt.format(quarts[3])));
             quartiles.setText(String.format("Q1: %s, Q3: %s", fmt.format(quarts[0]), fmt.format(quarts[1])));
         }
 
-        trialCount.setText(String.format("Total Trial Count: %d", trials.size()));
-        mean.setText(String.format("Mean: %.4f", calcMean(trials)));
-        stdDev.setText(String.format("Standard Deviation: %.4f", calcStd(trials)));
+        trialCount.setText(String.format("Total Trial Count:  %d", trials.size()));
+        mean.setText(String.format("Mean:  %.4f", calcMean(trials)));
+        stdDev.setText(String.format("Standard Deviation:  %.4f", calcStd(trials)));
 
 
         return view;

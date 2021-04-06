@@ -386,6 +386,8 @@ public class GraphMaker {
         chart.setNoDataTextColor(ContextCompat.getColor(context, R.color.beige1));
 
 
+
+
     }
 
     public static List<List<Trial>> groupTrialByRange(List<Trial> trials, int numberOfBuckets) {
