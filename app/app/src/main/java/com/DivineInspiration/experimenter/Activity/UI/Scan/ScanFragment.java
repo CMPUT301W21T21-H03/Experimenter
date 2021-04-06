@@ -1,7 +1,10 @@
 package com.DivineInspiration.experimenter.Activity.UI.Scan;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,41 +40,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScanFragment extends Fragment {
+//    private static final int MY_CAMERA_REQUEST_CODE = 100;
     private CodeScanner mCodeScanner;
+    boolean allowCamera = false;
     View scannerView;
     Button scan;
     // scanned code
     String scanned;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // from https://www.youtube.com/watch?v=drH63NpSWyk & https://github.com/yuriy-budiyev/code-scanner
         final Activity activity = getActivity();
+
         View root = inflater.inflate(R.layout.fragment_scan, container, false);
         CodeScannerView scannerView = root.findViewById(R.id.scanner);
-        mCodeScanner = new CodeScanner(activity, scannerView);
-        mCodeScanner.setDecodeCallback(new DecodeCallback() {
-            @Override
-            public void onDecoded(@NonNull final Result result) {
-                activity.runOnUiThread(new Runnable() {
+        // check camera permissions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                allowCamera = true;
+
+                mCodeScanner = new CodeScanner(activity, scannerView);
+                mCodeScanner.setDecodeCallback(new DecodeCallback() {
                     @Override
-                    public void run() {
-                        // do something after scanning
-                        scanned = result.getText();
+                    public void onDecoded(@NonNull final Result result) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // do something after scanning
+                                scanned = result.getText();
 
-                        // TODO: turn string to ??
+                                // TODO: turn string to ??
 
-                        Toast.makeText(activity, String.format("Code scanned: %s", scanned), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, String.format("Code scanned: %s", scanned), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                scannerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mCodeScanner.startPreview();
                     }
                 });
             }
-        });
-        scannerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCodeScanner.startPreview();
+            else
+            {
+                ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.CAMERA}, 401);
             }
-        });
+        }
+        else
+        {
+            // if version is below m then write code here,
+        }
         return root;
     }
 
@@ -107,12 +136,13 @@ public class ScanFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mCodeScanner.startPreview();
+        if (allowCamera) mCodeScanner.startPreview();
     }
 
     @Override
     public void onPause() {
-        mCodeScanner.releaseResources();
+        if (allowCamera) mCodeScanner.releaseResources();
         super.onPause();
     }
+
 }
