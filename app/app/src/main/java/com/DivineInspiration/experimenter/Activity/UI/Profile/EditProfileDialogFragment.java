@@ -105,9 +105,9 @@ public class EditProfileDialogFragment extends DialogFragment {
         User newUser = newManager.getLocalUser();
 
         // get views
-        editName = view.findViewById(R.id.editExperimentName);
+        editName = view.findViewById(R.id.editProfileName);
         editAbout = view.findViewById(R.id.editExperimentAbout);
-        editCity = view.findViewById(R.id.editExperimentCity);
+        editCity = view.findViewById(R.id.editProfileCity);
         editEmail = view.findViewById(R.id.editTrialType);
         editProfileError1 = view.findViewById(R.id.profileError1);
         editProfileError2 = view.findViewById(R.id.profileError2);
