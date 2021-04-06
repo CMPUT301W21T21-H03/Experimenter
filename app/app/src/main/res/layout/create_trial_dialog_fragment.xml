@@ -16,18 +16,23 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="match_parent"
+                android:layout_height="114dp" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/trial_input"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColorHint="@color/gray"
-                app:hintTextColor="@color/beige1"
-                app:counterOverflowTextColor="@color/red1"
                 app:boxStrokeColor="@color/beige1"
-                app:errorTextColor="@color/red1"
-                app:counterTextColor="@color/beige1"
                 app:counterOverflowTextAppearance="@color/red1"
-                app:errorEnabled="true">
+                app:counterOverflowTextColor="@color/red1"
+                app:counterTextColor="@color/beige1"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/red1"
+                app:hintTextColor="@color/beige1">
 
                 <EditText
                     android:id="@+id/measurement_trial_value"
@@ -36,9 +41,13 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@color/black2"
-                    android:inputType="number"
                     android:hint="Measurement"
-                    android:textColor="@color/beige1"/>
+                    android:inputType="number"
+                    android:textColor="@color/beige1" />
+
+
+
+
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
