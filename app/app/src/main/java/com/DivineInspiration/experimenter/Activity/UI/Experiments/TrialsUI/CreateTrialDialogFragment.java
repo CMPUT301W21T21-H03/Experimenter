@@ -28,7 +28,10 @@ import java.util.Date;
 import static com.DivineInspiration.experimenter.Activity.UI.Profile.EditProfileDialogFragment.TAG;
 
 public class CreateTrialDialogFragment extends DialogFragment {
+
+
     private final OnTrialCreatedListener callback;
+    String trialTypeCheck;
 
 
     public interface OnTrialCreatedListener{
@@ -45,6 +48,11 @@ public class CreateTrialDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.create_trial_dialog_fragment, null);
+        Bundle args = getArguments();
+        Experiment exp = (Experiment) args.getSerializable("experiment");
+
+        trialTypeCheck = exp.getTrialType();
+
         AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
                 .setView(view)
                 .setMessage("Create Trial")
@@ -57,12 +65,11 @@ public class CreateTrialDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                Bundle args = getArguments();
-                Experiment exp = (Experiment) args.getSerializable("experiment");
-
                 BinomialTrial binomialTrial = new BinomialTrial(
                         args.getString("experimenterID"),
+                        args.getString("experimenterName"),
                         exp.getExperimentID()
+
                 );
                 TrialManager.getInstance().addTrial(binomialTrial,trials ->
                 {

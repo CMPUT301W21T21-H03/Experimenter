@@ -83,6 +83,7 @@ public class TrialManager extends ArrayList<Trial> {
         doc.put("TrialId", trial.getTrialID());
         doc.put("Date", df.format(trial.getTrialDate()));
         doc.put("OwnerID", trial.getTrialUserID());
+        doc.put("OwnerName",trial.getTrialOwnerName());
         doc.put("ExperimentID", trial.getTrialExperimentID());
         doc.put("Location", osmToFireStore(trial.getLocation()));
 
@@ -192,25 +193,25 @@ public class TrialManager extends ArrayList<Trial> {
             case Trial.BINOMIAL:
 
                 trial = new BinomialTrial(snapshot.getString("TrialId"),
-                        snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
+                        snapshot.getString("OwnerID"), snapshot.getString("OwnerName"),snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
                         snapshot.getBoolean("Pass"), geoPoint);
                 break;
 
             case Trial.COUNT:
                 trial = new CountTrial(snapshot.getString("TrialId"),
-                        snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
+                        snapshot.getString("OwnerID"),snapshot.getString("OwnerName") ,snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
                         snapshot.getLong("Count").intValue(), geoPoint);
                 break;
 
             case Trial.MEASURE:
                 trial = new MeasurementTrial(snapshot.getString("TrialId"),
-                        snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
+                        snapshot.getString("OwnerID"),snapshot.getString("OwnerName") ,snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
                         snapshot.getDouble("Value"), geoPoint);
                 break;
 
             case Trial.NONNEGATIVE:
                 trial = new NonNegativeTrial(snapshot.getString("TrialId"),
-                        snapshot.getString("OwnerID"), snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
+                        snapshot.getString("OwnerID"),snapshot.getString("OwnerName") ,snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
                         snapshot.getLong("Count").intValue(), geoPoint);
                 break;
 

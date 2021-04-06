@@ -17,6 +17,7 @@ public abstract class Trial implements Serializable {
     LocalDate trialDate;
     String trialUserID;
     String trialExperimentID;
+    String trialOwnerName;
 
 
     GeoPoint location;
@@ -26,24 +27,27 @@ public abstract class Trial implements Serializable {
     public static final String NONNEGATIVE = "Non-Negative trial";
     public static final String MEASURE = "Measurement trial";
 
-    public Trial(String trialId, String userId, String trialExperimentID , LocalDate date, GeoPoint location){
+    public Trial(String trialId, String userId, String trialOwnerName ,String trialExperimentID , LocalDate date, GeoPoint location){
         this.trialID = trialId;
         this.trialUserID = userId;
+        this.trialOwnerName = trialOwnerName;
         this.trialExperimentID = trialExperimentID;
         this.trialDate = date;
         this.location = location;
     }
 
-    public Trial(String trialId, String userId, String trialExperimentID , LocalDate date){
+    public Trial(String trialId, String userId, String trialOwnerName ,String trialExperimentID , LocalDate date){
         this.trialID = trialId;
         this.trialUserID = userId;
+        this.trialOwnerName = trialOwnerName;
         this.trialExperimentID = trialExperimentID;
         this.trialDate = date;
         this.location = null;
     }
 
-    public Trial(String userId, String experimentId){
+    public Trial(String userId, String trialOwnerName ,String experimentId){
         this.trialUserID = userId;
+        this.trialOwnerName = trialOwnerName;
         this.trialExperimentID = experimentId;
         this.trialDate = LocalDate.now();
         this.trialID = IdGen.genTrialsId(userId);
@@ -101,4 +105,12 @@ public abstract class Trial implements Serializable {
         return trialExperimentID;
     }
 
+    /**
+     * Gets the Experimenter of this trial
+     * @return
+     * The Owner Name
+     */
+    public String getTrialOwnerName() {
+        return trialOwnerName;
+    }
 }

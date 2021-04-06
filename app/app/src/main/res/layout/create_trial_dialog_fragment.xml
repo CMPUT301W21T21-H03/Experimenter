@@ -1,7 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black1">
+    android:orientation="vertical"
+    android:background="@color/black1" >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="match_parent"
+                android:layout_height="114dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/trial_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColorHint="@color/gray"
+                app:boxStrokeColor="@color/beige1"
+                app:counterOverflowTextAppearance="@color/red1"
+                app:counterOverflowTextColor="@color/red1"
+                app:counterTextColor="@color/beige1"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/red1"
+                app:hintTextColor="@color/beige1">
+
+                <EditText
+                    android:id="@+id/measurement_trial_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/black2"
+                    android:hint="Measurement"
+                    android:inputType="number"
+                    android:textColor="@color/beige1" />
+
+
+
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>

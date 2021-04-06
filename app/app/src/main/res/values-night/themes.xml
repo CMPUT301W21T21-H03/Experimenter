@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Experimenter" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Experimenter" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="colorPrimary">#32302f</item>
         <item name="colorPrimaryVariant">#21201f</item>
         <item name="colorOnPrimary">#fbf1c7</item>
@@ -34,4 +34,7 @@
     <color name="black2">#282828</color>
     <color name="black3">#504945</color>
     <color name="lightBlue">#83a598</color>
+
+    <color name="green1">#8ec07c</color>
+
 </resources>
