@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Comment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
+import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
+import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
+import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
@@ -43,13 +46,33 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Trial myTrial = trials.get(position);
-        String ans;
-        if(((BinomialTrial)myTrial).getPass()){
-            ans = "Pass";
-        }else{
-            ans = "False";
+        String ans = "";
+        String type = myTrial.getTrialType();
+        switch (type){
+            case "Binomial trial":
+                if(type == "Binomial trial"){
+                    if(((BinomialTrial)myTrial).getPass()){
+                        ans = "Pass";
+                    }else{
+                        ans = "False";
+                    }
+                }
+                break;
+            case "Count trial":
+                ans = String.valueOf(((CountTrial)myTrial).getCount());
+                break;
+            case "Non-Negative trial":
+                ans = String.valueOf(((NonNegativeTrial)myTrial).getCount());
+                break;
+            case "Measurement trial":
+                ans = String.valueOf(((MeasurementTrial)myTrial).getValue());
+                break;
+            default:
+                break;
         }
-        holder.getTrialResult().setText(ans);
+
+
+        holder.getTrialResult().setText("Result: "+ans);
         holder.getExperimenterName().setText("Experimenter: "+ myTrial.getTrialOwnerName());
         holder.getTrialDate().setText(myTrial.getTrialDate().toString());
 //        holder.getTrialLocation().setText(myTrial.getLocation().toString());

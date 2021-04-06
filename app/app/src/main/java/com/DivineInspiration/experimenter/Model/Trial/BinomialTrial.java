@@ -38,6 +38,17 @@ public class BinomialTrial extends Trial {
         this.trialType = Trial.BINOMIAL;
         this.pass = false;
     }
+    /**
+     * Constructor
+     *
+     * @param trialUserID       user of this trial
+     * @param trialExperimentID id of experiment
+     */
+    public BinomialTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, boolean pass) {
+        super(trialUserID, trialOwnerName, trialExperimentID);
+        this.trialType = Trial.BINOMIAL;
+        this.pass = pass;
+    }
 
     /**
      * Constructor

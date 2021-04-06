@@ -41,6 +41,18 @@ public class NonNegativeTrial extends Trial {
         this.trialType = Trial.NONNEGATIVE;
         this.count = 0;
     }
+    /**
+     * Constructor
+     * @param trialUserID
+     * user of this trial
+     * @param trialExperimentID
+     * id of experiment
+     */
+    public NonNegativeTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count) {
+        super(trialUserID, trialOwnerName,trialExperimentID);
+        this.trialType = Trial.NONNEGATIVE;
+        this.count = count;
+    }
 
     /**
      * Constructor

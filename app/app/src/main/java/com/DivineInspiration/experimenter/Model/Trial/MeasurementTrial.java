@@ -41,6 +41,19 @@ public class MeasurementTrial extends Trial {
         this.trialType = Trial.MEASURE;
         this.trialExperimentID = trialExperimentID;
     }
+    /**
+     * Constructor
+     *
+     * @param trialUserID       user of this trial
+     * @param trialExperimentID id of experiment
+     */
+    public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, double value) {
+        super(trialUserID, trialOwnerName ,trialExperimentID);
+        this.trialType = Trial.MEASURE;
+        this.trialExperimentID = trialExperimentID;
+        this.value = value;
+    }
+
 
     /**
      * Constructor
