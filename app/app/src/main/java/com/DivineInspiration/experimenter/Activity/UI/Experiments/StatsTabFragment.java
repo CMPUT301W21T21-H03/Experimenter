@@ -2,6 +2,7 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.animation.LayoutTransition;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
+import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
@@ -47,8 +49,10 @@ public class StatsTabFragment extends Fragment implements Refreshable {
 
         Bundle args = getArguments();
         if (args != null) {
+            Log.d("woah", args.getString("experimentID", ""));
             TrialManager.getInstance().queryExperimentTrials(args.getString("experimentID", ""), trials -> {
-                trialList = trials;
+               trialList = trials;
+//            trialList = new ArrayList<>();
                 init(view);
             });
         }
@@ -65,10 +69,10 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         statHolder = view.findViewById(R.id.statHolder);
         warningText = view.findViewById(R.id.statWarningText);
 
-        trialList = new ArrayList<>();
 
-        //Testing data
-//        for (int i = 0; i < 100; i++) {
+
+       // Testing data
+//        for (int i = 0; i < 5; i++) {
 //            trialList.add(new MeasurementTrial());
 //        }
 
@@ -90,6 +94,7 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         });
 
         if (trialList.size() == 0) {
+            Log.d("woah", "loc A");
             showWarning();
         } else {
             showStats();
@@ -102,9 +107,10 @@ public class StatsTabFragment extends Fragment implements Refreshable {
     @Override
     public void onResume() {
         super.onResume();
-        if (trialList != null && trialList.size() == 0) {
-            showWarning();
-        }
+//        if (trialList != null && trialList.size() == 0) {
+//            Log.d("woah", "Loc B");
+//            showWarning();
+//        }
     }
 
     private void showHistogram() {
