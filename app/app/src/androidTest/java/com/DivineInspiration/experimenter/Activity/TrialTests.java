@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity;
+/*package com.DivineInspiration.experimenter.Activity;
 
 import android.app.Activity;
 import android.widget.EditText;
@@ -188,3 +188,4 @@ public class TrialTests {
         solo.clickOnMenuItem("Delete");
     }
 }
+*/
