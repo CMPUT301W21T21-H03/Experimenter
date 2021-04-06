@@ -69,7 +69,6 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 switch (trialTypeCheck){
                     case "Binomial trial":
                         binomialTrialDialog(args, exp);
-                        dialog.dismiss();
                         break;
                     case "Count trial":
                         countTrialDialog(args, exp);
@@ -83,6 +82,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
                     default:
                         break;
                 }
+                dialog.dismiss();
 
             }
 
