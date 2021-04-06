@@ -154,7 +154,7 @@ public class TrialManager extends ArrayList<Trial> {
      * @param experimentId user ID of owner
      * @param callback     callback function
      */
-    public void getExperimentTrials(String experimentId, OnTrialListReadyListener callback) {
+    public void queryExperimentTrials(String experimentId, OnTrialListReadyListener callback) {
 
         db.collection("Trials").whereEqualTo("ExperimentID", experimentId).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

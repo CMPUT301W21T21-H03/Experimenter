@@ -1,7 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.CommentListAdapter;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
-import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.DivineInspiration.experimenter.Activity.UI.Profile.EditProfileDialogFragment.TAG;
 
 public class TrialsTabFragment extends Fragment implements TrialManager.OnTrialListReadyListener, CreateTrialDialogFragment.OnTrialCreatedListener {
 
@@ -48,7 +43,7 @@ public class TrialsTabFragment extends Fragment implements TrialManager.OnTrialL
         View view = inflater.inflate(R.layout.trial_list, container, false);
 
 
-        TrialManager.getInstance().getExperimentTrials(experimentID, this);
+        TrialManager.getInstance().queryExperimentTrials(experimentID, this);
 //        CommentManager.getInstance().getExperimentComments(experiment, this);
         RecyclerView recycler = view.findViewById(R.id.trialList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
