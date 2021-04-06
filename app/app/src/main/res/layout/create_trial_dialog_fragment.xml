@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/black1" >
+    android:background="@color/black1"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -113,69 +114,92 @@
                 android:layout_height="212dp">
 
                 <Button
-                    android:id="@+id/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/binomial_fail_decrement_button"
+                    android:layout_width="39dp"
+                    android:layout_height="27dp"
+                    android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="Pass" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="97dp"
+                    android:layout_marginBottom="88dp"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textColor="@color/beige1"
+                    android:textSize="8sp" />
 
                 <Button
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/binomial_pass_button"
+                    android:layout_width="104dp"
+                    android:layout_height="62dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/black2"
+                    android:text="Pass"
+                    android:textColor="@color/beige1" />
+
+                <Button
+                    android:id="@+id/binomial_fail_button"
+                    android:layout_width="104dp"
+                    android:layout_height="58dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="right"
-                    android:layout_marginEnd="320dp"
-                    android:layout_marginBottom="128dp"
-                    android:text="Fail" />
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="297dp"
+                    android:layout_marginBottom="132dp"
+                    android:background="@color/black2"
+                    android:text="Fail"
+                    android:textColor="@color/beige1" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/binomial_fail_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="center|left"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginBottom="73dp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginBottom="83dp"
                     android:text="V1"
                     android:textSize="30dp" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/binomial_pass_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="center|right"
-                    android:layout_marginEnd="59dp"
-                    android:layout_marginBottom="74dp"
+                    android:layout_marginEnd="68dp"
+                    android:layout_marginBottom="83dp"
                     android:text="V2"
                     android:textSize="30dp" />
 
                 <Button
-                    android:id="@+id/button3"
-                    android:layout_width="38dp"
+                    android:id="@+id/binomial_pass_decrement_button"
+                    android:layout_width="wrap_content"
                     android:layout_height="26dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="367dp"
-                    android:layout_marginBottom="89dp"
-                    android:text="-" />
-
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="36dp"
-                    android:layout_height="31dp"
-                    android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="79dp"
-                    android:layout_marginTop="109dp"
-                    android:text="-" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="357dp"
+                    android:layout_marginTop="99dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginBottom="87dp"
+                    android:gravity="center|top"
+                    android:text="-"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/beige1"
+                    android:textSize="8sp" />
+
             </RelativeLayout>
 
 
