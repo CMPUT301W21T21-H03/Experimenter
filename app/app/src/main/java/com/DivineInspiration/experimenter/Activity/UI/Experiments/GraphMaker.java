@@ -2,18 +2,23 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
 import com.DivineInspiration.experimenter.BuildConfig;
+import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
+import com.github.mikephil.charting.charts.CandleStickChart;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.MarkerView;
@@ -22,6 +27,10 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CandleData;
+import com.github.mikephil.charting.data.CandleDataSet;
+import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -33,6 +42,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +57,7 @@ public class GraphMaker {
     static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     static DateTimeFormatter shortFormatter = DateTimeFormatter.ofPattern("MM/dd");
 
+
     //!! this assumes all trials are of the same kind
     public static Chart<?> makeHistogram(ArrayList<Trial> trials, Context context) {
         switch (trials.get(0).getTrialType()) {
@@ -55,7 +66,9 @@ public class GraphMaker {
             case Trial.BINOMIAL:
                 return makeBinomialBarGraph(trials, context);
             case Trial.NONNEGATIVE:
-                return  makeNonNegativeHistogram(trials, context);
+                return makeNonNegativeHistogram(trials, context);
+            case Trial.MEASURE:
+                return makeMeasurementHistogram(trials, context);
             default:
                 return null;
         }
@@ -70,10 +83,116 @@ public class GraphMaker {
 
             case Trial.BINOMIAL:
                 return makeBinomialLineGraph(trialsDateBucket, context);
+            case Trial.MEASURE://switch abuse
+            case Trial.NONNEGATIVE:
+                return  makeNonNegCandlestick(trialsDateBucket, context);
+
+
             default:
                 return null;
         }
     }
+
+
+
+    private static Chart<?> makeNonNegCandlestick(List<List<Trial>> trialsBucket, Context context){
+        /*
+        https://medium.com/@neerajmoudgil/candlestick-chart-using-philjay-mpandroidchart-library-how-to-bf657ddf3a28
+        how make candle stick chart with MPandroid
+         */
+        LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();
+        LocalDate lastDate = trialsBucket.get(trialsBucket.size() - 1).get(0).getTrialDate();
+
+
+        List<Entry> lineEntry = new ArrayList<>();
+        List<CandleEntry> candleEntries = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
+        List<Trial> currentTrials = new ArrayList<>();
+
+        int dateIndex = 0;
+        int entryIndex = 0;
+        while (currentDate.isBefore(lastDate)) {
+            if (trialsBucket.get(dateIndex).get(0).getTrialDate().equals(currentDate)) {
+                currentTrials.addAll(trialsBucket.get(dateIndex));
+                dateIndex++;
+            }
+            lineEntry.add(new Entry(entryIndex, (float) StatsMaker.calcMean(currentTrials)));
+            double[] quartiles = StatsMaker.calcQuartiles(currentTrials);
+            candleEntries.add(new CandleEntry(entryIndex, (float)quartiles[1], (float)quartiles[0], (float)quartiles[1], (float)quartiles[0]));
+            dates.add(shortFormatter.format(currentDate));
+            entryIndex++;
+            currentDate = currentDate.plusDays(1);
+        }
+
+
+
+
+        return makeCombinedChart(context, lineEntry, candleEntries, dates);
+    }
+
+    private static CombinedChart makeCombinedChart(Context context, List<Entry> lineEntries, List<CandleEntry> candleEntries, List<String> labels){
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Count Mean Over Time");
+        CandleDataSet candleDataSet = new CandleDataSet(candleEntries, "Quartiles over time");
+        LineData lineData = new LineData();
+        CandleData candleData = new CandleData();
+        lineData.addDataSet(lineDataSet);
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        candleDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        candleDataSet.setColor(Color.WHITE);
+        candleDataSet.setShadowColor(ContextCompat.getColor(context, R.color.beige1));
+        candleDataSet.setDecreasingColor(ContextCompat.getColor(context, R.color.green1));
+        candleDataSet.setDecreasingPaintStyle(Paint.Style.STROKE);
+
+        candleData.addDataSet(candleDataSet);
+
+        CombinedData combinedData = new CombinedData();
+        combinedData.setData(lineData);
+        combinedData.setData(candleData);
+
+        CombinedChart chart = new CombinedChart(context);
+        chart.setData(combinedData);
+
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
+        chart.getXAxis().setValueFormatter(formatter);
+        chart.getXAxis().setGranularity(1f);
+
+        styleLineBarChart(context, chart, formatter);
+
+        return chart;
+    }
+
+    private static Chart<?> makeMeasurementHistogram(List<Trial> trials, Context context) {
+        List<List<Trial>> trialBuckets = groupTrialByRange(trials, 10);
+
+
+        List<BarEntry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        DecimalFormat deciFormat = new DecimalFormat("0.#");
+        int i = 0;
+        for (List<Trial> list : trialBuckets) {
+            entries.add(new BarEntry(i, (float) list.size()));
+            labels.add(String.format("%s-%s", deciFormat.format(findMinMeasuremnt(list)), deciFormat.format(findMaxMeasuremnt(list))));
+            i++;
+        }
+        BarChart chart = new BarChart(context);
+
+
+        BarData data = new BarData(new BarDataSet(entries, "Distribution of Measurement Trials submitted"));
+        chart.setData(data);
+        chart.setFitBars(true);
+        //axis settings
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
+        chart.getXAxis().setValueFormatter(formatter);
+        chart.getAxisLeft().setAxisMinimum(0);
+        chart.getAxisLeft().setSpaceTop(25f);
+        chart.getAxisLeft().setGranularity(1f);
+        //chart.setScaleEnabled(false);
+
+        styleLineBarChart(context, chart, formatter);
+        return chart;
+    }
+
 
     private static Chart<?> makeNonNegativeHistogram(ArrayList<Trial> trials, Context context) {
         List<List<Trial>> trialBuckets = groupTrialsByValue(trials);
@@ -82,9 +201,9 @@ public class GraphMaker {
         List<String> labels = new ArrayList<>();
 
         int i = 0;
-        for(List<Trial> list : trialBuckets){
-            entries.add(new BarEntry(i, (float)list.size()));
-            labels.add(String.valueOf(((NonNegativeTrial)list.get(0)).getCount()));
+        for (List<Trial> list : trialBuckets) {
+            entries.add(new BarEntry(i, (float) list.size()));
+            labels.add(String.valueOf(((NonNegativeTrial) list.get(0)).getCount()));
             i++;
         }
         BarChart chart = new BarChart(context);
@@ -93,8 +212,6 @@ public class GraphMaker {
         BarData data = new BarData(new BarDataSet(entries, "Distribution of NonNeg Trials submitted"));
         chart.setData(data);
         chart.setFitBars(true);
-
-
 
 
         //axis settings
@@ -120,15 +237,17 @@ public class GraphMaker {
 
         List<Entry> data = new ArrayList<>();
         List<String> dates = new ArrayList<>();
-        int i = 0;
+        int dateIndex = 0;
+        int entryIndex = 0;
         while (currentDate.isBefore(lastDate)) {
-            if (trialsBucket.get(i).get(0).getTrialDate().equals(currentDate)) {
-                double[] stats = StatsMaker.calcBinomialStats(trialsBucket.get(i));
+            if (trialsBucket.get(dateIndex).get(0).getTrialDate().equals(currentDate)) {
+                double[] stats = StatsMaker.calcBinomialStats(trialsBucket.get(dateIndex));
                 success += stats[0];
                 fail += stats[1];
-                i++;
+                dateIndex++;
             }
-            data.add(new Entry(i, (float) (success / (success + fail))));
+            data.add(new Entry(entryIndex, (float) (success / (success + fail))));
+            entryIndex++;
             dates.add(shortFormatter.format(currentDate));
             currentDate = currentDate.plusDays(1);
         }
@@ -153,7 +272,7 @@ public class GraphMaker {
         List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0, (float) stats[0]));
         entries.add(new BarEntry(1, (float) stats[1]));
-        BarData data = new BarData(new BarDataSet(entries, String.format("Binomial Trial - %.2f% Success", stats[2])));
+        BarData data = new BarData(new BarDataSet(entries, String.format("Binomial Trial - %.2f%% Success", stats[2])));
 
 
         BarChart chart = new BarChart(context);
@@ -210,13 +329,15 @@ public class GraphMaker {
 
         List<Entry> data = new ArrayList<>();
         List<String> dates = new ArrayList<>();
-        int i = 0;
+        int dateIndex = 0;
+        int entryIndex = 0;
         while (currentDate.isBefore(lastDate)) {
-            if (trialsBucket.get(i).get(0).getTrialDate().equals(currentDate)) {
-                sum += StatsMaker.calcSum(trialsBucket.get(i));
-                i++;
+            if (trialsBucket.get(dateIndex).get(0).getTrialDate().equals(currentDate)) {
+                sum += StatsMaker.calcSum(trialsBucket.get(dateIndex));
+                dateIndex++;
             }
-            data.add(new Entry(i, sum));
+            data.add(new Entry(entryIndex, sum));
+            entryIndex++;
             dates.add(shortFormatter.format(currentDate));
             currentDate = currentDate.plusDays(1);
         }
@@ -253,6 +374,11 @@ public class GraphMaker {
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.getLegend().setTextColor(beige1);
 
+
+        chart.getXAxis().setAxisMinimum( - 2);
+        chart.getXAxis().setAxisMaximum(  chart.getXAxis().getAxisMaximum() + 2);
+
+
         chart.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         chart.setBorderColor(R.color.beige1);
         chart.setDescription(null);
@@ -260,6 +386,29 @@ public class GraphMaker {
         chart.setNoDataTextColor(ContextCompat.getColor(context, R.color.beige1));
 
 
+    }
+
+    public static List<List<Trial>> groupTrialByRange(List<Trial> trials, int numberOfBuckets) {
+
+        //TODO theres got to be a better way write the following size
+        double bucketSize = (findMaxMeasuremnt(trials) -
+                findMinMeasuremnt(trials)) / numberOfBuckets;
+        //divide by bucket size then take floor/ceil should put each value in a range
+        List<List<Trial>> output = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial ->
+                Math.ceil(((MeasurementTrial) trial).getValue() / bucketSize))).values());
+
+        output.sort((list1, list2) -> Double.compare(((MeasurementTrial) list1.get(0)).getValue(), ((MeasurementTrial) list2.get(0)).getValue()));
+        return output;
+    }
+
+    //helper functions
+    public static double findMaxMeasuremnt(List<Trial> trials) {
+        return ((MeasurementTrial) Collections.max(trials, (t1, t2) -> Double.compare(((MeasurementTrial) t1).getValue(), ((MeasurementTrial) t2).getValue()))).getValue();
+    }
+
+    //helper functions
+    public static double findMinMeasuremnt(List<Trial> trials) {
+        return ((MeasurementTrial) Collections.min(trials, (t1, t2) -> Double.compare(((MeasurementTrial) t1).getValue(), ((MeasurementTrial) t2).getValue()))).getValue();
     }
 
     public static List<List<Trial>> groupTrialByDate(ArrayList<Trial> trials) {
@@ -281,7 +430,7 @@ public class GraphMaker {
         List<List<Trial>> output = new ArrayList<>(trials.stream().collect(
                 Collectors.groupingBy(trial -> ((NonNegativeTrial) trial).getCount())).values()
         );
-        output.sort((list1, list2) -> Integer.compare(((NonNegativeTrial)list1.get(0)).getCount(), ((NonNegativeTrial)list2.get(0)).getCount()));
+        output.sort((list1, list2) -> Integer.compare(((NonNegativeTrial) list1.get(0)).getCount(), ((NonNegativeTrial) list2.get(0)).getCount()));
         return output;
     }
 
@@ -295,10 +444,8 @@ public class GraphMaker {
 
         @Override
         public String getAxisLabel(float value, AxisBase axis) {
-            return (Math.abs(value - (int) value) < 0.01f) ? labels.get((int) value) : "";
+            return (Math.abs(value - (int) value) < 0.01f) &&(value < labels.size()) &&(value>= 0)? labels.get((int) value) : "";
         }
-
-
     }
 
 
@@ -313,7 +460,7 @@ class ClickMarker extends MarkerView {
 
     private final TextView content;
     private final DecimalFormat fmt;
-    private ValueFormatter valFormatter;
+    private final ValueFormatter valFormatter;
     private MPPointF mOffset;
 
     public ClickMarker(Context context, ValueFormatter formatter, int layoutResource) {
@@ -329,7 +476,7 @@ class ClickMarker extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        content.setText(String.format("%s, %s", valFormatter.getAxisLabel(e.getX(), null),fmt.format(e.getY())));
+        content.setText(String.format("%s, %s", valFormatter.getAxisLabel(e.getX(), null), fmt.format(e.getY())));
 
 
         // this will perform necessary layouting
