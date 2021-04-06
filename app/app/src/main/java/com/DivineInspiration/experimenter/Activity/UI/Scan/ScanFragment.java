@@ -115,8 +115,4 @@ public class ScanFragment extends Fragment {
         mCodeScanner.releaseResources();
         super.onPause();
     }
-
-    private void setupPermissions() {
-        int permission =
-    }
 }
