@@ -54,6 +54,8 @@ public class GraphMaker {
                 return makeCountBarGraph(trials, context);
             case Trial.BINOMIAL:
                 return makeBinomialBarGraph(trials, context);
+            case Trial.NONNEGATIVE:
+                return  makeNonNegativeHistogram(trials, context);
             default:
                 return null;
         }
@@ -64,7 +66,7 @@ public class GraphMaker {
         List<List<Trial>> trialsDateBucket = groupTrialByDate(trials);
         switch (trials.get(0).getTrialType()) {
             case Trial.COUNT:
-                return makeCountLineChart(trialsDateBucket, context);
+                return makeCountLineGraph(trialsDateBucket, context);
 
             case Trial.BINOMIAL:
                 return makeBinomialLineGraph(trialsDateBucket, context);
@@ -77,11 +79,36 @@ public class GraphMaker {
         List<List<Trial>> trialBuckets = groupTrialsByValue(trials);
 
         List<BarEntry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
 
+        int i = 0;
         for(List<Trial> list : trialBuckets){
-            //entries.add(StatsMaker.calcSum(list));
+            entries.add(new BarEntry(i, (float)list.size()));
+            labels.add(String.valueOf(((NonNegativeTrial)list.get(0)).getCount()));
+            i++;
         }
-        return null;
+        BarChart chart = new BarChart(context);
+
+
+        BarData data = new BarData(new BarDataSet(entries, "Distribution of NonNeg Trials submitted"));
+        chart.setData(data);
+        chart.setFitBars(true);
+
+
+
+
+        //axis settings
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
+        chart.getXAxis().setValueFormatter(formatter);
+        chart.getAxisLeft().setAxisMinimum(0);
+        chart.getAxisLeft().setSpaceTop(25f);
+        chart.getAxisLeft().setGranularity(1f);
+        //chart.setScaleEnabled(false);
+
+        styleLineBarChart(context, chart, formatter);
+        return chart;
+
+
     }
 
     //
@@ -114,9 +141,10 @@ public class GraphMaker {
 
         chart.setData(new LineData(dataSet));
         chart.getXAxis().setGranularity(1f);
-        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(dates));
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(dates);
+        chart.getXAxis().setValueFormatter(formatter);
 
-        styleLineBarChart(context, chart);
+        styleLineBarChart(context, chart, formatter);
         return chart;
     }
 
@@ -137,12 +165,13 @@ public class GraphMaker {
         labels.add("Fail");
 
         //axis settings
-        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(labels));
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
+        chart.getXAxis().setValueFormatter(formatter);
         chart.getAxisLeft().setAxisMinimum(0);
-        chart.getAxisLeft().setAxisMaximum((float) Math.max(stats[0], stats[1]) * 1.35f);
+        chart.getAxisLeft().setSpaceTop(25f);
         chart.setScaleEnabled(false);
 
-        styleLineBarChart(context, chart);
+        styleLineBarChart(context, chart, formatter);
         return chart;
     }
 
@@ -160,19 +189,20 @@ public class GraphMaker {
         labels.add("Single bar!");
 
         //axis settings
-        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(labels));
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
+        chart.getXAxis().setValueFormatter(formatter);
         chart.getAxisLeft().setAxisMinimum(0);
         chart.getAxisLeft().setAxisMaximum((float) sum * 1.3f);
 
         chart.setScaleEnabled(false);
 
-        styleLineBarChart(context, chart);
+        styleLineBarChart(context, chart, formatter);
         return chart;
 
     }
 
     /*https://stackoverflow.com/a/29812532/12471420*/
-    private static Chart<?> makeCountLineChart(List<List<Trial>> trialsBucket, Context context) {
+    private static Chart<?> makeCountLineGraph(List<List<Trial>> trialsBucket, Context context) {
 
         float sum = 0;
         LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();
@@ -199,17 +229,18 @@ public class GraphMaker {
 
         chart.setData(new LineData(dataSet));
         chart.getXAxis().setGranularity(1f);
-        chart.getXAxis().setValueFormatter(new XAxisLabelFormatter(dates));
+        XAxisLabelFormatter formatter = new XAxisLabelFormatter(dates);
+        chart.getXAxis().setValueFormatter(formatter);
 
-        styleLineBarChart(context, chart);
+        styleLineBarChart(context, chart, formatter);
         return chart;
     }
 
-    private static void styleLineBarChart(Context context, BarLineChartBase chart) {
+    private static void styleLineBarChart(Context context, BarLineChartBase chart, ValueFormatter formatter) {
         final int beige1 = ContextCompat.getColor(context, R.color.beige1);
 
         //marker for dataset
-        ClickMarker marker = new ClickMarker(context, R.layout.marker_content);
+        ClickMarker marker = new ClickMarker(context, formatter, R.layout.marker_content);
         chart.setMarker(marker);
         chart.getData().setDrawValues(false);
 
@@ -266,6 +297,8 @@ public class GraphMaker {
         public String getAxisLabel(float value, AxisBase axis) {
             return (Math.abs(value - (int) value) < 0.01f) ? labels.get((int) value) : "";
         }
+
+
     }
 
 
@@ -280,13 +313,15 @@ class ClickMarker extends MarkerView {
 
     private final TextView content;
     private final DecimalFormat fmt;
+    private ValueFormatter valFormatter;
     private MPPointF mOffset;
 
-    public ClickMarker(Context context, int layoutResource) {
+    public ClickMarker(Context context, ValueFormatter formatter, int layoutResource) {
         super(context, layoutResource);
         fmt = new DecimalFormat("0.##");
         // find your layout components
         content = findViewById(R.id.markerContent);
+        valFormatter = formatter;
     }
 
     // callbacks everytime the MarkerView is redrawn, can be used to update the
@@ -294,7 +329,8 @@ class ClickMarker extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        content.setText(fmt.format(e.getY()));
+        content.setText(String.format("%s, %s", valFormatter.getAxisLabel(e.getX(), null),fmt.format(e.getY())));
+
 
         // this will perform necessary layouting
         super.refreshContent(e, highlight);
