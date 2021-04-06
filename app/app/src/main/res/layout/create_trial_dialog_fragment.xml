@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/black1" >
+    android:background="@color/black1"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -17,42 +18,39 @@
             android:orientation="vertical">
 
 
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:id="@+id/trial_input"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:textColorHint="@color/gray"-->
+            <!--                app:boxStrokeColor="@color/beige1"-->
+            <!--                app:counterOverflowTextAppearance="@color/red1"-->
+            <!--                app:counterOverflowTextColor="@color/red1"-->
+            <!--                app:counterTextColor="@color/beige1"-->
+            <!--                app:errorEnabled="true"-->
+            <!--                app:errorTextColor="@color/red1"-->
+            <!--                app:hintTextColor="@color/beige1">-->
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:id="@+id/trial_input"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:textColorHint="@color/gray"-->
-<!--                app:boxStrokeColor="@color/beige1"-->
-<!--                app:counterOverflowTextAppearance="@color/red1"-->
-<!--                app:counterOverflowTextColor="@color/red1"-->
-<!--                app:counterTextColor="@color/beige1"-->
-<!--                app:errorEnabled="true"-->
-<!--                app:errorTextColor="@color/red1"-->
-<!--                app:hintTextColor="@color/beige1">-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/measurement_trial_value"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginLeft="10dp"-->
-<!--                    android:layout_marginRight="10dp"-->
-<!--                    android:background="@color/black2"-->
-<!--                    android:hint="Measurement"-->
-<!--                    android:inputType="number"-->
-<!--                    android:textColor="@color/beige1" />-->
-
+            <!--                <EditText-->
+            <!--                    android:id="@+id/measurement_trial_value"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginLeft="10dp"-->
+            <!--                    android:layout_marginRight="10dp"-->
+            <!--                    android:background="@color/black2"-->
+            <!--                    android:hint="Measurement"-->
+            <!--                    android:inputType="number"-->
+            <!--                    android:textColor="@color/beige1" />-->
 
 
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
-
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
             <CheckBox
                 android:id="@+id/checkBox"
                 android:layout_width="match_parent"
-                android:textColor="@color/beige1"
                 android:layout_height="wrap_content"
-                android:text="GeoLocation" />
+                android:text="GeoLocation"
+                android:textColor="@color/beige1" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -90,8 +88,8 @@
                     android:id="@+id/editTextNumberDecimal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:digits="123456789" />
+                    android:digits="123456789"
+                    android:ems="10" />
 
                 <EditText
                     android:id="@+id/editTextNumber4"
@@ -110,6 +108,100 @@
                     android:textSize="30dp" />
 
             </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="212dp">
+
+                <Button
+                    android:id="@+id/binomial_fail_decrement_button"
+                    android:layout_width="39dp"
+                    android:layout_height="27dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="97dp"
+                    android:layout_marginBottom="88dp"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textColor="@color/beige1"
+                    android:textSize="8sp" />
+
+                <Button
+                    android:id="@+id/binomial_pass_button"
+                    android:layout_width="104dp"
+                    android:layout_height="62dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/black2"
+                    android:text="Pass"
+                    android:textColor="@color/beige1" />
+
+                <Button
+                    android:id="@+id/binomial_fail_button"
+                    android:layout_width="104dp"
+                    android:layout_height="58dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="right"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="297dp"
+                    android:layout_marginBottom="132dp"
+                    android:background="@color/black2"
+                    android:text="Fail"
+                    android:textColor="@color/beige1" />
+
+                <TextView
+                    android:id="@+id/binomial_fail_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center|left"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginBottom="83dp"
+                    android:text="V1"
+                    android:textSize="30dp" />
+
+                <TextView
+                    android:id="@+id/binomial_pass_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center|right"
+                    android:layout_marginEnd="68dp"
+                    android:layout_marginBottom="83dp"
+                    android:text="V2"
+                    android:textSize="30dp" />
+
+                <Button
+                    android:id="@+id/binomial_pass_decrement_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="357dp"
+                    android:layout_marginTop="99dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginBottom="87dp"
+                    android:gravity="center|top"
+                    android:text="-"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/beige1"
+                    android:textSize="8sp" />
+
+            </RelativeLayout>
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
