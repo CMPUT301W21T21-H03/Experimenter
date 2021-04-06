@@ -32,7 +32,6 @@
                     app:counterTextColor="@color/beige1"
                     app:counterOverflowTextAppearance="@color/red1"
                     app:errorEnabled="true"
-
                     >
                     <EditText
                         android:id="@+id/editExperimentName"

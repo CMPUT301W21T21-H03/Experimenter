@@ -303,8 +303,6 @@ public class ExperimentDialogFragment extends DialogFragment {
                 });
             }
 
-
-
             view.findViewById(R.id.deleteExp).setOnClickListener(v -> {
                 //TODO add a warning dialog!!
                 expManager.deleteExperiment(exp.getExperimentID(), successful -> {
@@ -313,8 +311,6 @@ public class ExperimentDialogFragment extends DialogFragment {
                 });
                 //TODO display a success message
             });
-
-
         }
 
 

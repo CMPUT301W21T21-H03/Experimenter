@@ -225,7 +225,6 @@ public class UserManager{
                                      }
                                  });
                              }
-
                         } else {
                             // TODO: error
                             Log.d(TAG, "oh no!");
