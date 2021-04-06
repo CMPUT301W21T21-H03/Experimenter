@@ -53,6 +53,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
 
         trialTypeCheck = exp.getTrialType();
 
+
         AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
                 .setView(view)
                 .setMessage("Create Trial")
@@ -65,24 +66,55 @@ public class CreateTrialDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                BinomialTrial binomialTrial = new BinomialTrial(
-                        args.getString("experimenterID"),
-                        args.getString("experimenterName"),
-                        exp.getExperimentID()
+                switch (trialTypeCheck){
+                    case "Binomial trial":
+                        binomialTrialDialog(args, exp);
+                        dialog.dismiss();
+                        break;
+                    case "Count trial":
+                        countTrialDialog(args, exp);
+                        break;
+                    case "Non-Negative trial":
+                        nonNegativeTrialDialog(args, exp);
+                        break;
+                    case "Measurement trial":
+                        measurementTrialDialog(args, exp);
+                        break;
+                    default:
+                        break;
+                }
 
-                );
-                TrialManager.getInstance().addTrial(binomialTrial,trials ->
-                {
-                });
-                callback.onTrialAdded(binomialTrial);
-
-                dialog.dismiss();
             }
 
         });
 
         return dialog;
 
+
+    }
+
+    public void binomialTrialDialog(Bundle args, Experiment exp){
+        BinomialTrial binomialTrial = new BinomialTrial(
+                args.getString("experimenterID"),
+                args.getString("experimenterName"),
+                exp.getExperimentID()
+
+        );
+        TrialManager.getInstance().addTrial(binomialTrial,trials -> {});
+        callback.onTrialAdded(binomialTrial);
+
+
+    }
+
+    public void countTrialDialog(Bundle args, Experiment exp){
+
+    }
+
+    public void nonNegativeTrialDialog(Bundle args, Experiment exp){
+
+    }
+
+    public void measurementTrialDialog(Bundle args, Experiment exp){
 
     }
 }
