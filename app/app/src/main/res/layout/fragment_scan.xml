@@ -18,15 +18,16 @@
             android:id="@+id/scanner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="200dp"
             app:autoFocusButtonColor="@color/white"
             app:autoFocusButtonVisible="true"
             app:flashButtonColor="@color/white"
             app:flashButtonVisible="true"
-            app:maskColor="#C9000000" />
+            app:maskColor="#C9000000">
 
+        </com.budiyev.android.codescanner.CodeScannerView>
 
 
         <Button
@@ -40,5 +41,6 @@
             android:layout_marginEnd="122dp"
             android:layout_marginBottom="18dp"
             android:text="Scan" />
+
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
