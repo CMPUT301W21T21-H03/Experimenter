@@ -37,16 +37,20 @@ public class DiscussionForumTest {
     public void checkAddComment() {
         //creates test experiment
         solo.clickOnView(solo.getView(R.id.fab));
-        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Test discussion forum Experiment");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Test discussion forum experiment");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
-        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test discussion forum experiment for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment for discussion forum intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
-        solo.pressSpinnerItem(0,3);
+        solo.pressSpinnerItem(0,0);
         solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
-        //subscribes so we are allowed to comment
+        while (solo.waitForText("Test discussion forum experiment", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
         solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
         solo.clickOnView(solo.getView(R.id.subscribeSwitch));
 
         //creates the comment
@@ -56,25 +60,58 @@ public class DiscussionForumTest {
         solo.clickOnMenuItem("Ok");
 
         //checks if comment was made
+        while (solo.waitForText("this is a test comment", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
         assertTrue(solo.waitForText("this is a test comment", 1, 2000));
 
-        //Repeat of creation/assertion 3 more times
+        //Repeat of creation/assertion 5 more times
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test comment2");
         solo.clickOnMenuItem("Ok");
+        while (solo.waitForText("this is a test comment2", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
         assertTrue(solo.waitForText("this is a test comment2", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test comment3");
         solo.clickOnMenuItem("Ok");
+        while (solo.waitForText("this is a test comment3", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
         assertTrue(solo.waitForText("this is a test comment3", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test comment4");
         solo.clickOnMenuItem("Ok");
+        while (solo.waitForText("this is a test comment4", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
         assertTrue(solo.waitForText("this is a test comment4", 1, 2000));
 
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test comment5");
+        solo.clickOnMenuItem("Ok");
+        while (solo.waitForText("this is a test comment5", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+        assertTrue(solo.waitForText("this is a test comment4", 1, 2000));
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test comment6");
+        solo.clickOnMenuItem("Ok");
+        while (solo.waitForText("this is a test comment6", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+        assertTrue(solo.waitForText("this is a test comment4", 1, 2000));
+
+
+
         //Deletes the experiment we made
+        while (solo.waitForText("Created by", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
     }

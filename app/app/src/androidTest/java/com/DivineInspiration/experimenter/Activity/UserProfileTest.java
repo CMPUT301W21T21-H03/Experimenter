@@ -39,24 +39,30 @@ public class UserProfileTest {
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);
         solo.clickOnMenuItem("Edit");
 
+        int randomInt = (int)Math.floor(Math.random()*(100000000-0+1)+0);
+        String testName = "Test Name"+ String.valueOf(randomInt);
+
         solo.clearEditText((EditText) solo.getView(R.id.editProfileName));
-        solo.enterText((EditText) solo.getView(R.id.editProfileName), "Test Name");
+        solo.enterText((EditText) solo.getView(R.id.editProfileName), testName);
         solo.clearEditText((EditText) solo.getView(R.id.editTrialType));
-        solo.enterText((EditText) solo.getView(R.id.editTrialType), "testEmail@gmail.com");
+        solo.enterText((EditText) solo.getView(R.id.editTrialType), "testEmail1@gmail.com");
         solo.clearEditText((EditText) solo.getView(R.id.editProfileCity));
         solo.enterText((EditText) solo.getView(R.id.editProfileCity), "Edmonton");
         solo.clearEditText((EditText) solo.getView(R.id.editExperimentAbout));
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "This is for intent testing");
         solo.clickOnMenuItem("Ok");
 
-        assertTrue(solo.waitForText("Test Name", 1, 2000));
-        assertTrue(solo.waitForText("testEmail@gmail.com", 1, 2000));
+        assertTrue(solo.waitForText(testName, 1, 2000));
+        assertTrue(solo.waitForText("testEmail1@gmail.com", 1, 2000));
         assertTrue(solo.waitForText("Edmonton", 1, 2000));
         assertTrue(solo.waitForText("This is for intent testing", 1, 2000));
         solo.clickOnMenuItem("Edit");
 
+        int randomInt2 = (int)Math.floor(Math.random()*(100000000-0+1)+0);
+        String testName2 = "Test Name"+ String.valueOf(randomInt2);
+
         solo.clearEditText((EditText) solo.getView(R.id.editProfileName));
-        solo.enterText((EditText) solo.getView(R.id.editProfileName), "Test Name2");
+        solo.enterText((EditText) solo.getView(R.id.editProfileName), testName2);
         solo.clearEditText((EditText) solo.getView(R.id.editTrialType));
         solo.enterText((EditText) solo.getView(R.id.editTrialType), "testEmail2@gmail.com");
         solo.clearEditText((EditText) solo.getView(R.id.editProfileCity));
@@ -65,7 +71,7 @@ public class UserProfileTest {
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "This is for intent testing2");
         solo.clickOnMenuItem("Ok");
 
-        assertTrue(solo.waitForText("Test Name2", 1, 2000));
+        assertTrue(solo.waitForText(testName2, 1, 2000));
         assertTrue(solo.waitForText("testEmail2@gmail.com", 1, 2000));
         assertTrue(solo.waitForText("Calgary", 1, 2000));
         assertTrue(solo.waitForText("This is for intent testing2", 1, 2000));
