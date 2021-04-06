@@ -54,9 +54,12 @@ public class ScanFragment extends Fragment {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        // do something after scanning
                         scanned = result.getText();
 
-                        Toast.makeText(activity, "Code scanned successfully", Toast.LENGTH_SHORT).show();
+                        // TODO: turn string to ??
+
+                        Toast.makeText(activity, String.format("Code scanned: %s", scanned), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -77,12 +80,14 @@ public class ScanFragment extends Fragment {
         scan = view.findViewById(R.id.scanButton);
 //        new IntentIntegrator(this.getActivity()).initiateScan(); // `this` is the current Activity
 //
-//        scan.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new IntentIntegrator(view.getActivity()).initiateScan(); // `this` is the current Activity
-//            }
-//        });
+        // when scan button is clicked
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
+                mCodeScanner.startPreview();
+            }
+        });
     }
 
     @Override
