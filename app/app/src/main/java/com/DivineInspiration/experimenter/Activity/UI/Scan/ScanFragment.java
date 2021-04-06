@@ -43,7 +43,8 @@ public class ScanFragment extends Fragment {
 //    private static final int MY_CAMERA_REQUEST_CODE = 100;
     private CodeScanner mCodeScanner;
     boolean allowCamera = false;
-    View scannerView;
+    boolean openCamera = false;
+    CodeScannerView scannerView;
     Button scan;
     // scanned code
     String scanned;
@@ -56,49 +57,21 @@ public class ScanFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // from https://www.youtube.com/watch?v=drH63NpSWyk & https://github.com/yuriy-budiyev/code-scanner
-        final Activity activity = getActivity();
-
         View root = inflater.inflate(R.layout.fragment_scan, container, false);
-        CodeScannerView scannerView = root.findViewById(R.id.scanner);
+        scannerView = root.findViewById(R.id.scanner);
         // check camera permissions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                allowCamera = true;
-
-                mCodeScanner = new CodeScanner(activity, scannerView);
-                mCodeScanner.setDecodeCallback(new DecodeCallback() {
-                    @Override
-                    public void onDecoded(@NonNull final Result result) {
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // do something after scanning
-                                scanned = result.getText();
-
-                                // TODO: turn string to ??
-
-                                Toast.makeText(activity, String.format("Code scanned: %s", scanned), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-                scannerView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mCodeScanner.startPreview();
-                    }
-                });
-            }
-            else
-            {
+                openCamera();
+            } else {
+                // request camera permissions
                 ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.CAMERA}, 401);
             }
-        }
-        else
-        {
+        } else {
             // if version is below m then write code here,
+            Toast.makeText(this.getContext(), "Please update the minimum SDK version", Toast.LENGTH_SHORT).show();
         }
+
         return root;
     }
 
@@ -113,8 +86,12 @@ public class ScanFragment extends Fragment {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
-                mCodeScanner.startPreview();
+                // if camera is open
+                if (allowCamera) {
+                    mCodeScanner.startPreview();
+                } else {
+                    Toast.makeText(getActivity(), "A code cannot be scanned if the camera is off", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -133,9 +110,61 @@ public class ScanFragment extends Fragment {
         }
     }
 
+    private void openCamera() {
+        // from https://www.youtube.com/watch?v=drH63NpSWyk by Code Palace
+        // (https://www.youtube.com/channel/UCuudpdbKmQWq2PPzYgVCWlA)
+        if (openCamera) {
+            return;
+        }
+        openCamera = true;
+        allowCamera = true;
+
+        mCodeScanner = new CodeScanner(getActivity(), scannerView);
+        mCodeScanner.setDecodeCallback(new DecodeCallback() {
+            @Override
+            public void onDecoded(@NonNull final Result result) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // do something after scanning
+                        scanned = result.getText();
+
+                        // TODO: turn string to ??
+
+                        Toast.makeText(getActivity(), String.format("Code scanned: %s", scanned), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        scannerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCodeScanner.startPreview();
+            }
+        });
+    }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        // request code
+//        Log.e("Permissions code:", String.valueOf(requestCode));
+//        if (requestCode == 401) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                openCamera();
+//                allowCamera = true;
+//            } else {
+//                Toast.makeText(this.getContext(), "Please accept camera permissions, otherwise, the scan will not work", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    }
+
     @Override
     public void onResume() {
         super.onResume();
+        if (!openCamera && ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            openCamera();
+        }
         if (allowCamera) mCodeScanner.startPreview();
     }
 
