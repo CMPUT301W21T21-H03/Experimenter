@@ -272,7 +272,7 @@ public class GraphMaker {
         List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0, (float) stats[0]));
         entries.add(new BarEntry(1, (float) stats[1]));
-        BarData data = new BarData(new BarDataSet(entries, String.format("Binomial Trial - %.2f% Success", stats[2])));
+        BarData data = new BarData(new BarDataSet(entries, String.format("Binomial Trial - %.2f%% Success", stats[2])));
 
 
         BarChart chart = new BarChart(context);
@@ -375,6 +375,10 @@ public class GraphMaker {
         chart.getLegend().setTextColor(beige1);
 
 
+        chart.getXAxis().setAxisMinimum( - 2);
+        chart.getXAxis().setAxisMaximum(  chart.getXAxis().getAxisMaximum() + 2);
+
+
         chart.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         chart.setBorderColor(R.color.beige1);
         chart.setDescription(null);
@@ -440,7 +444,7 @@ public class GraphMaker {
 
         @Override
         public String getAxisLabel(float value, AxisBase axis) {
-            return (Math.abs(value - (int) value) < 0.01f) ? labels.get((int) value) : "";
+            return (Math.abs(value - (int) value) < 0.01f) &&(value < labels.size()) &&(value>= 0)? labels.get((int) value) : "";
         }
     }
 

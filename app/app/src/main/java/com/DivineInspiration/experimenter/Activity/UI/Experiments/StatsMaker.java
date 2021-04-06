@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
@@ -14,15 +13,10 @@ import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.zip.Inflater;
-
-import kotlin.NotImplementedError;
 
 public class StatsMaker {
 
@@ -30,7 +24,7 @@ public class StatsMaker {
     public static View makeStatsView(Context context, List<Trial> trials) {
         final String type = trials.get(0).getTrialType();
         DecimalFormat fmt = new DecimalFormat("0.##");
-        double[] quarts = calcQuartiles(trials);
+
         View view = LayoutInflater.from(context).inflate(R.layout.stat_view, null);
 
         TextView total = view.findViewById(R.id.statTotal);
@@ -59,6 +53,7 @@ public class StatsMaker {
         }
 
         if (!type.equals(Trial.BINOMIAL)) {
+            double[] quarts = calcQuartiles(trials);
             passes.setVisibility(View.GONE);
             mean.setText(String.format("Median: %.4f", calcMedian(trials)));
             minMax.setText(String.format("Min: %s, Max: %s", fmt.format(quarts[2]), fmt.format(quarts[3])));
@@ -125,9 +120,8 @@ public class StatsMaker {
         List<Double> values;
         switch (type) {
             case Trial.BINOMIAL:
-                //TODO to be implemented, return a list of ratio for each unique user
-                throw new NotImplementedError();
-
+                values = trials.stream().map(trial -> (double) (((BinomialTrial) trial).getPass() ? 1 : 0)).collect(Collectors.toList()); //type casting madness
+                break;
             case Trial.NONNEGATIVE:
                 values = trials.stream().map(trial -> (double) ((NonNegativeTrial) trial).getCount()).collect(Collectors.toList()); //type casting madness
                 break;
