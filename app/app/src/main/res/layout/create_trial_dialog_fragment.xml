@@ -137,7 +137,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="22dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@color/black2"
+                    android:backgroundTint="@color/black2"
                     android:text="Pass"
                     android:textColor="@color/beige1" />
 
@@ -154,7 +154,7 @@
                     android:layout_marginTop="22dp"
                     android:layout_marginEnd="297dp"
                     android:layout_marginBottom="132dp"
-                    android:background="@color/black2"
+                    android:backgroundTint="@color/black2"
                     android:text="Fail"
                     android:textColor="@color/beige1" />
 
@@ -177,7 +177,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="center|right"
-                    android:layout_marginEnd="68dp"
+                    android:layout_marginEnd="62dp"
                     android:layout_marginBottom="83dp"
                     android:text="V2"
                     android:textSize="30dp" />
