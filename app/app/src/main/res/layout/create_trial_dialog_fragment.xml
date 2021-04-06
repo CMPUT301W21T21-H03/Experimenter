@@ -109,98 +109,86 @@
 
             </FrameLayout>
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="212dp">
-
-                <Button
-                    android:id="@+id/binomial_fail_decrement_button"
-                    android:layout_width="39dp"
-                    android:layout_height="27dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="97dp"
-                    android:layout_marginBottom="88dp"
-                    android:gravity="center"
-                    android:text="-"
-                    android:textAlignment="center"
-                    android:textColor="@color/beige1"
-                    android:textSize="8sp" />
+                android:layout_height="162dp">
 
                 <Button
                     android:id="@+id/binomial_pass_button"
-                    android:layout_width="104dp"
-                    android:layout_height="62dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_width="105dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:backgroundTint="@color/black2"
                     android:text="Pass"
-                    android:textColor="@color/beige1" />
+                    android:textColor="@color/beige1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/binomial_fail_button"
-                    android:layout_width="104dp"
-                    android:layout_height="58dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="right"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginEnd="297dp"
-                    android:layout_marginBottom="132dp"
+                    android:layout_width="105dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:backgroundTint="@color/black2"
                     android:text="Fail"
-                    android:textColor="@color/beige1" />
+                    android:textColor="@color/beige1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/binomial_fail_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="center|left"
-                    android:layout_marginStart="62dp"
-                    android:layout_marginBottom="83dp"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="84dp"
+                    android:layout_marginBottom="30dp"
+                    android:gravity="center"
                     android:text="V1"
-                    android:textSize="30dp" />
+                    android:textSize="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/binomial_pass_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="center|right"
-                    android:layout_marginEnd="62dp"
-                    android:layout_marginBottom="83dp"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginBottom="30dp"
+                    android:gravity="center"
                     android:text="V2"
-                    android:textSize="30dp" />
+                    android:textSize="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <Button
-                    android:id="@+id/binomial_pass_decrement_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="26dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="357dp"
-                    android:layout_marginTop="99dp"
-                    android:layout_marginEnd="14dp"
-                    android:layout_marginBottom="87dp"
-                    android:gravity="center|top"
+                    android:id="@+id/binomial_pass_decrement"
+                    android:layout_width="53dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="4dp"
                     android:text="-"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/beige1"
-                    android:textSize="8sp" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.333"
+                    app:layout_constraintStart_toEndOf="@+id/binomial_pass_textView"
+                    app:layout_constraintTop_toBottomOf="@+id/binomial_pass_button"
+                    app:layout_constraintVertical_bias="0.367" />
 
-            </RelativeLayout>
+                <Button
+                    android:id="@+id/binomial_fail_decrement"
+                    android:layout_width="53dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="4dp"
+                    android:text="-"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/binomial_fail_textView"
+                    app:layout_constraintHorizontal_bias="0.666"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/binomial_fail_button"
+                    app:layout_constraintVertical_bias="0.367" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </LinearLayout>
