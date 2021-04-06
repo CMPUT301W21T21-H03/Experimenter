@@ -1,5 +1,6 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
+import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class StatsTabFragment extends Fragment implements Refreshable {
     View buttonGroup;
     AppCompatImageButton backButton;
     ViewGroup graphHolder;
+    ViewGroup statHolder;
     ArrayList<Trial> trialList;
     private short currentlyVisible = 0;
 
@@ -58,13 +60,17 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         buttonGroup = view.findViewById(R.id.statButtonGroup);
         backButton = view.findViewById(R.id.statBackButton);
         graphHolder = view.findViewById(R.id.graphHolder);
+        statHolder = view.findViewById(R.id.statHolder);
 
         trialList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             trialList.add(new NonNegativeTrial());
         }
 
+        LayoutTransition layoutTransition = new LayoutTransition();
+        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
 
+        ((ViewGroup) view.findViewById(R.id.statFrame)).setLayoutTransition(layoutTransition);
 
         view.findViewById(R.id.histogramButton).setOnClickListener(v -> {
             showHistogram();
@@ -89,6 +95,7 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         buttonGroup.setVisibility(View.GONE);
         graphHolder.removeAllViews();
         graphHolder.addView(GraphMaker.makeHistogram(trialList, getContext()));
+        statHolder.removeAllViews();
     }
 
     private void showStats() {
@@ -97,7 +104,7 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         backButton.setVisibility(View.GONE);
         buttonGroup.setVisibility(View.VISIBLE);
         graphHolder.removeAllViews();
-        graphHolder.addView(StatsMaker.makeStatsView(getContext(), trialList));
+        statHolder.addView(StatsMaker.makeStatsView(getContext(), trialList));
 
     }
 
@@ -108,6 +115,7 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         buttonGroup.setVisibility(View.GONE);
         graphHolder.removeAllViews();
         graphHolder.addView(GraphMaker.makeLineChart(trialList, getContext()));
+        statHolder.removeAllViews();
     }
 
 
