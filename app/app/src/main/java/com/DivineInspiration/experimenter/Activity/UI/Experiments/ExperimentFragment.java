@@ -215,7 +215,7 @@ public class ExperimentFragment extends Fragment {
             setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!currentExperiment.getStatus().equals(Experiment.ENDED)){
+
                         Bundle args = new Bundle();
                         args.putSerializable("exp", currentExperiment);
 
@@ -231,11 +231,6 @@ public class ExperimentFragment extends Fragment {
                                 });
                         frag.setArguments(args);
                         frag.show(getChildFragmentManager(), "edit experiment frag");
-                    }
-                    else{
-                        Snackbar.make(getView(), "This experiment has ended!", Snackbar.LENGTH_LONG).show();
-                    }
-
                 }
             });
         } else {
@@ -292,8 +287,7 @@ public class ExperimentFragment extends Fragment {
         CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment((CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0"));
         dialogTrial.setArguments(trialBundle);
         dialogTrial.show(getChildFragmentManager(), "create trial frag");
-//        Snackbar snackbar = Snackbar.make(getView(),"Hello",Snackbar.LENGTH_SHORT);
-//        snackbar.show();
+
     }
 
     /**

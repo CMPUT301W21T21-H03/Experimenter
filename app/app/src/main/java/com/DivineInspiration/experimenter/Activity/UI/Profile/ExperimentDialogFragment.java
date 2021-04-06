@@ -261,16 +261,49 @@ public class ExperimentDialogFragment extends DialogFragment {
             dialog.setTitle("Edit experiment");
             exp = (Experiment) args.getSerializable("exp");
 
-            editExperimentName.setText(exp.getExperimentName());
-            editCity.setText(exp.getRegion());
-            editExperimentAbout.setText(exp.getExperimentDescription());
-            minTrial.setText(String.valueOf(exp.getMinimumTrials()));
-            requireGeo.setChecked(exp.isRequireGeo());
+            if(exp.getStatus().equals(Experiment.ENDED)){
 
-            statusSpinner.setSelection(indexOf(statusValues, exp.getStatus()));
-            trialSpinner.setVisibility(View.GONE);
 
-            view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
+
+                editExperimentAbout.setVisibility(View.GONE);
+                minTrial.setVisibility(View.GONE);
+                requireGeo.setVisibility(View.GONE);
+                nameInput.setVisibility(View.GONE);
+                countInput.setVisibility(View.GONE);
+                editExperimentName.setVisibility(View.GONE);
+                statusSpinner.setVisibility(View.GONE);
+                trialSpinner.setVisibility(View.GONE);
+                view.findViewById(R.id.endExp).setVisibility(View.GONE);
+                view.findViewById(R.id.editAboutInput).setVisibility(View.GONE);
+                view.findViewById(R.id.editRegionInput).setVisibility(View.GONE);
+                view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
+                dialog.setTitle("This experiment has ended. Delete?");
+            }
+            else {
+
+                editExperimentName.setText(exp.getExperimentName());
+                editCity.setText(exp.getRegion());
+                editExperimentAbout.setText(exp.getExperimentDescription());
+                minTrial.setText(String.valueOf(exp.getMinimumTrials()));
+                requireGeo.setChecked(exp.isRequireGeo());
+
+                statusSpinner.setSelection(indexOf(statusValues, exp.getStatus()));
+                trialSpinner.setVisibility(View.GONE);
+
+                view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
+
+                view.findViewById(R.id.endExp).setOnClickListener(v -> {
+                    exp.setStatus(Experiment.ENDED);
+                    //TODO add a warning dialog
+                    expManager.updateExperiment(exp, successful -> {
+                        dismiss();
+                        callback.onOperationDone(exp);
+                    });
+                    //TODO display a success message
+                });
+            }
+
+
 
             view.findViewById(R.id.deleteExp).setOnClickListener(v -> {
                 //TODO add a warning dialog!!
@@ -281,15 +314,7 @@ public class ExperimentDialogFragment extends DialogFragment {
                 //TODO display a success message
             });
 
-            view.findViewById(R.id.endExp).setOnClickListener(v -> {
-                exp.setStatus(Experiment.ENDED);
-                //TODO add a warning dialog
-                expManager.updateExperiment(exp, successful -> {
-                    dismiss();
-                    callback.onOperationDone(exp);
-                });
-                //TODO display a success message
-            });
+
         }
 
 
