@@ -13,8 +13,8 @@ public class NonNegativeTrial extends Trial {
     private int count;
 
     //constructor with location
-    public NonNegativeTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count, GeoPoint location){
-        super(trialID, trialUserID, trialExperimentID, trialDate,location);
+    public NonNegativeTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count, GeoPoint location){
+        super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate,location);
         this.trialType = Trial.NONNEGATIVE;
         this.count = count;
     }
@@ -22,7 +22,7 @@ public class NonNegativeTrial extends Trial {
     //mock object
     public NonNegativeTrial(){
 
-        super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
+        super("test", "test", "test","test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
         this.trialType = Trial.NONNEGATIVE;
         Random rng = new Random();
 
@@ -36,8 +36,8 @@ public class NonNegativeTrial extends Trial {
      * @param trialExperimentID
      * id of experiment
      */
-    public NonNegativeTrial(String trialUserID, String trialExperimentID) {
-        super(trialUserID, trialExperimentID);
+    public NonNegativeTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
+        super(trialUserID, trialOwnerName,trialExperimentID);
         this.trialType = Trial.NONNEGATIVE;
         this.count = 0;
     }
@@ -55,8 +55,8 @@ public class NonNegativeTrial extends Trial {
      * @param count
      * count value of this trial
      */
-    public NonNegativeTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count) {
-        super(trialID, trialUserID, trialExperimentID, trialDate);
+    public NonNegativeTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count) {
+        super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate);
         this.trialType = Trial.NONNEGATIVE;
         this.count = count;
     }
