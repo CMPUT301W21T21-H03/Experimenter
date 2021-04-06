@@ -17,8 +17,8 @@ public class CountTrial extends Trial {
 
 
     //constructor with location
-    public CountTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count, GeoPoint location){
-        super(trialID, trialUserID, trialExperimentID, trialDate, location);
+    public CountTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count, GeoPoint location){
+        super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate, location);
         this.trialType = Trial.COUNT;
         this.count = count;
     }
@@ -30,8 +30,8 @@ public class CountTrial extends Trial {
      * @param trialExperimentID
      * id of experiment
      */
-    public CountTrial(String trialUserID, String trialExperimentID) {
-        super(trialUserID, trialExperimentID);
+    public CountTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
+        super(trialUserID,trialOwnerName ,trialExperimentID);
         this.trialType = Trial.COUNT;
         this.count = 0;
     }
@@ -39,7 +39,7 @@ public class CountTrial extends Trial {
 
     public CountTrial(){
 
-        super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(20)));
+        super("test", "test", "test","test" ,LocalDate.now().plusDays(new Random().nextInt(20)));
         this.trialType = Trial.COUNT;
         this.count =new Random().nextInt(20);
     }
@@ -57,8 +57,8 @@ public class CountTrial extends Trial {
      * @param count
      * count value for this trial
      */
-    public CountTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, int count) {
-        super(trialID, trialUserID, trialExperimentID, trialDate);
+    public CountTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count) {
+        super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate);
         this.trialType = Trial.COUNT;
         this.count = count;
     }

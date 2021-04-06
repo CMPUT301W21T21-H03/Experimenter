@@ -32,43 +32,42 @@ on usage of card view
         android:paddingVertical="10dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/trialResult"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trial Result"
-            android:textSize="17.5sp"
-            android:textStyle="bold"
-            />
-        <View
-            android:id="@+id/sectionDivideLineName_trial"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:layout_marginVertical="4dp"
-            android:layout_weight="1"
-            android:background="@color/gray" />
-        <TextView
-            android:id="@+id/experimenterName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Experimenter name"
-            android:textSize="13sp"
-            />
-        <TextView
-            android:id="@+id/trialDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date"
-            android:textSize="13sp"
-            />
+            android:layout_height="30dp">
 
-        <TextView
-            android:id="@+id/trialCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="City"
-            android:textSize="12sp"
-            />
+            <TextView
+                android:id="@+id/trialResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trial Result"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/experimenterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="Experimenter name"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/trialDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Date"
+                android:textSize="9dp" />
+
+            <TextView
+                android:id="@+id/trialCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:text="City"
+                android:textSize="10dp" />
+        </FrameLayout>
 
 
 

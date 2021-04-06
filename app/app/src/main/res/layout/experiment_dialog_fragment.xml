@@ -101,11 +101,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
-
-
-
     <Spinner
         android:id="@+id/editExperimentSpinner"
         android:layout_width="match_parent"
