@@ -12,10 +12,10 @@ import java.util.UUID;
 public class Experiment implements Serializable {
 
     public static class sortByDescDate implements Comparator<Experiment> {
-
+        // Used to sort the experiments by chronological order
         @Override
         public int compare(Experiment o1, Experiment o2) {
-            return -(o1.getExperimentID().compareTo(o2.getExperimentID()));//since exp id is time sortable, reverse sorting gives the desired effect
+            return -(o1.getExperimentID().compareTo(o2.getExperimentID())); //since exp id is time sortable, reverse sorting gives the desired effect
         }
     }
 
@@ -35,42 +35,11 @@ public class Experiment implements Serializable {
     public static final String HIDDEN = "Unpublished";
 
     /**
-     * default constructor when no arguments are given, mostly for testing
+     * Constructor (Generates experimentId; mainly used for creating existing experiments after retrieval from Firestore)
+     * @param: experimentID:String, experimentName:String, ownerID:String, ownerName:String, experimentDescription:String, trialType:String
+     *          region:String, minimumTrials:int, requireGeo:boolean, status:String
      */
-    public Experiment() {
-        experimentName = "defaultExpName";
-        ownerName="defaultOwnerName";
-        ownerID = "null";
-        experimentID = "defaultExpID";
-        experimentDescription = "defaultDescrip";
-    }
-
-    @NotNull
-    public String toString(){
-        return String.format("%s, %s, %s", experimentName, ownerName, ownerID);
-    }
-
-    /**
-     * Main experiment constructor
-     * @param experimentID
-     * experiment ID (unique)
-     * @param experimentName
-     * experiment name
-     * @param ownerID
-     * owner of the experiment (ID)
-     * @param experimentDescription
-     * description of the experiment
-     * @param trialType
-     * type of the trial
-     * @param region
-     * region on which the experiment is performed
-     * @param minimumTrials
-     * minimal number of trial for the experiment to be completed
-     * @param requireGeo
-     * boolean value of if the geolocation is required
-     */
-    public Experiment(String experimentID, String experimentName, String ownerID,String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo, String status ) {
-
+    public Experiment(String experimentID, String experimentName, String ownerID, String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo, String status) {
         this.experimentName = experimentName;
         this.experimentID = experimentID;
         this.ownerID = ownerID;
@@ -84,17 +53,11 @@ public class Experiment implements Serializable {
     }
 
     /**
-     * Experiment constructor
-     * @param experimentName
-     * name of experiment
-
-     * owner ID of experiment
-     * @param experimentDescription
-     * description of experiment
+     * Constructor (Generates experimentId; mainly used for creating new experiments)
+     * @param: experimentName:String, ownerID:String, ownerName:String, experimentDescription:String, trialType:String
+     *          region:String, minimumTrials:int, requireGeo:boolean, status:String
      */
     public Experiment(String experimentName, String ownerID, String ownerName, String experimentDescription, String trialType, String region, int minimumTrials, boolean requireGeo, String status) {
-
-
         this.experimentName = experimentName;
         this.experimentID = IdGen.genExperimentId(ownerID);
         this.ownerID = ownerID;
@@ -107,10 +70,30 @@ public class Experiment implements Serializable {
         this.status = status;
     }
 
+    /**
+     * Mock object constructor for testing purposes
+     * @param: void
+     */
+    public Experiment() {
+        experimentName = "defaultExpName";
+        ownerName="defaultOwnerName";
+        ownerID = "null";
+        experimentID = "defaultExpID";
+        experimentDescription = "defaultDescrip";
+    }
 
+    /**
+     * Gets current status of the experiment
+     * @return: status:String
+     */
     public String getStatus(){
         return status;
     }
+
+    /**
+     * Sets new status of the experiment
+     * @param: status:String
+     */
     public void setStatus(String newStatus){
         status = newStatus;
     }
@@ -118,8 +101,7 @@ public class Experiment implements Serializable {
 
     /**
      * Gets the ID of the experiment
-     * @return
-     * the ID of the experiment
+     * @return: experimentID:String (the ID of the experiment)
      */
     public String getExperimentID() {
         return experimentID;
@@ -127,8 +109,7 @@ public class Experiment implements Serializable {
 
     /**
      * Gets the name of the experiment
-     * @return
-     * experiment name
+     * @return: experimentName:String (experiment name)
      */
     public String getExperimentName() {
         return experimentName;
@@ -136,8 +117,7 @@ public class Experiment implements Serializable {
 
     /**
      * Sets the experiment name
-     * @param experimentName
-     * experiment name
+     * @param: experimentName:String (experiment name)
      */
     public void setExperimentName(String experimentName) {
         this.experimentName = experimentName;
@@ -145,38 +125,31 @@ public class Experiment implements Serializable {
 
     /**
      * Gets owner ID of experiment
-     * @return
-     * the owner ID
+     * @return: ownerID:String (the owner ID)
      */
     public String getOwnerID() {
         return ownerID;
     }
 
     /**
-     * Gets owner Name
-     * @return
-     * the owner name
+     * Gets owner name of the experiment
+     * @return: ownerName:String (the owner ID)
      */
     public String getOwnerName() {
         return ownerName;
     }
 
     /**
-     * The type of the experiment
-     * @return
-     * type of experiment where the mappings are ... TODO:
+     * The type of trials the experiment is for
+     * @return: trialType:String (type of experiment where the mappings are)
      */
     public String getTrialType() {
         return trialType;
     }
 
-//    public void setTrialType(int trialType) {
-//        this.trialType = trialType;
-//    }
-
     /**
      * Gets the region of this particular experiment
-     * @return
+     * @return: region:String
      */
     public String getRegion() {
         return region;
@@ -184,17 +157,15 @@ public class Experiment implements Serializable {
 
     /**
      * Sets the region of this experiment
-     * @param region
-     * the new region
+     * @param: region:String (the new region)
      */
     public void setRegion(String region) {
         this.region = region;
     }
 
     /**
-     * Gets the minimum number of trials
-     * @return
-     * the minimum number of trials
+     * Gets the minimum number of trials that the experiment needs
+     * @return: minimumTrials:int (the minimum number of trials)
      */
     public int getMinimumTrials() {
         return minimumTrials;
@@ -202,8 +173,7 @@ public class Experiment implements Serializable {
 
     /**
      * Sets the minimum number of trials
-     * @param minimumTrials
-     * new minimum
+     * @param: minimumTrials:int
      */
     public void setMinimumTrials(int minimumTrials) {
         this.minimumTrials = minimumTrials;
@@ -211,8 +181,7 @@ public class Experiment implements Serializable {
 
     /**
      * gets experiment description
-     * @return
-     * the experiment description string
+     * @return: experimentDescription:String
      */
     public String getExperimentDescription() {
         return experimentDescription;
@@ -220,17 +189,15 @@ public class Experiment implements Serializable {
 
     /**
      * Sets a new experiment description
-     * @param experimentDescription
-     * the new experiment description
+     * @param: experimentDescription:String
      */
     public void setExperimentDescription(String experimentDescription) {
         this.experimentDescription = experimentDescription;
     }
 
     /**
-     * Geological region required state
-     * @return
-     * state of geological requirement
+     * Is geological region required for the experiment
+     * @return: requireGeo:boolean
      */
     public boolean isRequireGeo() {
         return requireGeo;
@@ -238,9 +205,14 @@ public class Experiment implements Serializable {
 
     /**
      * Sets if geological region is required
-     * @param requireGeo
+     * @param: requireGeo:boolean
      */
     public void setRequireGeo(boolean requireGeo) {
         this.requireGeo = requireGeo;
+    }
+
+    @NotNull
+    public String toString(){
+        return String.format("%s, %s, %s", experimentName, ownerName, ownerID);
     }
 }
