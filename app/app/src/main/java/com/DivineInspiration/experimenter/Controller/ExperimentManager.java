@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class acts talks to the Firestore database
+ * This class talks to the Firestore database
  * in order to store and retrieve experiment data.
  * The class uses singleton pattern.
  */
@@ -36,7 +36,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
     private String TAG = "DATABASE";
 
     /**
-     * When experiment data retrieved from database is ready,
+     * When experiment data is retrieved from database is ready,
      * it is passed along as a parameter by the interface method.
      * Utilized for: queryAll, queryUserExperiment, queryUserSubs
      */
@@ -61,7 +61,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * Get singleton instance of the class
-     * @return experiment manager
+     * @return: singleton:ExperimentManager
      */
     public static ExperimentManager getInstance() {
         if (singleton == null) {
@@ -113,7 +113,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * Unsubscribe the given user from the given experiment.
      * @param: userId:String (The user that wants to unsubscribe)
      * @param: experimentId:String (The experiment the user wants to unsubscribe from)
-     * @param: callback:OnOperationDone (The class to call after the operation is done.
+     * @param: callback:OnOperationDone (The class to call after the operation is done).
      * @return: void
      */
     public void unSubFromExperiment(String userId, String experimentId, OnOperationDone callback) {
@@ -156,7 +156,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
-
     /**
      * Delete the given experiment from database.
      * @param: experimentId:String (experiment we want to delete).
@@ -181,8 +180,8 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Adds a new experiment to database
-     * @param: experimentId:String (experiment we want to add).
+     * Adds a new experiment to database.
+     * @param: experiment:Experiment (experiment we want to add).
      * @param: callback:OnOperationDone (The class to call after the operation is done).
      * @return: void
      */
@@ -272,18 +271,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
                 }
             }
         });
-    }
-
-
-    /**
-     * TODO ?
-     *
-     * @param keywords
-     * @param callback
-     */
-    public void querySearch(String keywords, OnExperimentListReadyListener callback) {
-        //TODO to be implemented
-        callback.onExperimentsReady(null);
     }
 
     /**
