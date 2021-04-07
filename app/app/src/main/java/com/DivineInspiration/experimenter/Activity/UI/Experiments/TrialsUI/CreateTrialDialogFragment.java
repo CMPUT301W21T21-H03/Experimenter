@@ -1,7 +1,14 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.DivineInspiration.experimenter.Controller.TrialManager;
@@ -23,6 +31,15 @@ import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
+
+import org.osmdroid.util.GeoPoint;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 public class CreateTrialDialogFragment extends DialogFragment {
 
@@ -43,13 +60,16 @@ public class CreateTrialDialogFragment extends DialogFragment {
     int failNum = 0;
     int passNum = 0;
     int count = 0;
+    double myLat = 0;
+    double myLong = 0;
+    GeoPoint trialLocation = null;
 
-    public interface OnTrialCreatedListener{
+    public interface OnTrialCreatedListener {
         void onTrialAdded(Trial trial);
 
     }
 
-    public CreateTrialDialogFragment(OnTrialCreatedListener callback){
+    public CreateTrialDialogFragment(OnTrialCreatedListener callback) {
         super();
         this.callback = callback;
     }
@@ -63,7 +83,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
         init(view);
         trialTypeCheck = exp.getTrialType();
         visibility(trialTypeCheck);
-
+        gettingLocation();
 
         AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
                 .setView(view)
@@ -77,7 +97,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                switch (trialTypeCheck){
+                switch (trialTypeCheck) {
                     case "Binomial trial":
                         binomialTrialDialog(args, exp);
                         break;
@@ -105,90 +125,113 @@ public class CreateTrialDialogFragment extends DialogFragment {
 
     }
 
-    public void binomialTrialDialog(Bundle args, Experiment exp){
-
-        for(int i = 0; i<passNum; i++){
+    public void binomialTrialDialog(Bundle args, Experiment exp) {
+        trialLocation = new GeoPoint(myLong,myLat);
+        for (int i = 0; i < passNum; i++) {
             BinomialTrial binomialTrial = new BinomialTrial(
                     args.getString("experimenterID"),
                     args.getString("experimenterName"),
                     exp.getExperimentID(),
-                    true
+                    true,
+                    trialLocation
             );
-            TrialManager.getInstance().addTrial(binomialTrial,trials -> {
-                callback.onTrialAdded(binomialTrial);
+            TrialManager.getInstance().addTrial(binomialTrial, trials -> {
             });
-
+            callback.onTrialAdded(binomialTrial);
         }
-        for(int i = 0; i<failNum; i++){
+        for (int i = 0; i < failNum; i++) {
             BinomialTrial binomialTrial = new BinomialTrial(
                     args.getString("experimenterID"),
                     args.getString("experimenterName"),
                     exp.getExperimentID(),
-                    false
+                    false,
+                    trialLocation
             );
-            TrialManager.getInstance().addTrial(binomialTrial,trials -> {
-                callback.onTrialAdded(binomialTrial);
+            TrialManager.getInstance().addTrial(binomialTrial, trials -> {
             });
-
+            callback.onTrialAdded(binomialTrial);
         }
-
 
 
     }
 
-    public void countTrialDialog(Bundle args, Experiment exp){
-
+    public void countTrialDialog(Bundle args, Experiment exp) {
+        trialLocation = new GeoPoint(myLong,myLat);
         CountTrial countTrial = new CountTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
                 exp.getExperimentID(),
-                count
+                count,
+                trialLocation
         );
 
         TrialManager.getInstance().addTrial(countTrial, trials -> {
-            callback.onTrialAdded(countTrial);
         });
-
+        callback.onTrialAdded(countTrial);
     }
 
-    public void nonNegativeTrialDialog(Bundle args, Experiment exp){
+    public void nonNegativeTrialDialog(Bundle args, Experiment exp) {
+        trialLocation = new GeoPoint(myLong,myLat);
         NonNegativeTrial nonNegativeTrial = new NonNegativeTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
                 exp.getExperimentID(),
-                count
+                count,
+                trialLocation
         );
         TrialManager.getInstance().addTrial(nonNegativeTrial, trials -> {
-            callback.onTrialAdded(nonNegativeTrial);
         });
-
+        callback.onTrialAdded(nonNegativeTrial);
     }
 
-    public void measurementTrialDialog(Bundle args, Experiment exp, String measure){
+    public void measurementTrialDialog(Bundle args, Experiment exp, String measure) {
+        trialLocation = new GeoPoint(myLong,myLat);
         double measureValue = Double.valueOf(measure);
         MeasurementTrial measurementTrial = new MeasurementTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
                 exp.getExperimentID(),
-                measureValue
+                measureValue,
+                trialLocation
         );
         TrialManager.getInstance().addTrial(measurementTrial, trials -> {
-            callback.onTrialAdded(measurementTrial);
         });
-
+        callback.onTrialAdded(measurementTrial);
     }
 
-    public void init(View view){
+    public void init(View view) {
         measurementTextBox = view.findViewById(R.id.editMeasurementValue);
         countNNTrial = view.findViewById(R.id.value_trial);
         failButton = view.findViewById(R.id.binomial_fail_button);
         passButton = view.findViewById(R.id.binomial_pass_button);
-        negativeCountNNButton  = view.findViewById(R.id.decrease_trial_value);
+        negativeCountNNButton = view.findViewById(R.id.decrease_trial_value);
         positiveCountNNButton = view.findViewById(R.id.increase_trial_value);
         failNumTrial = view.findViewById(R.id.binomial_fail_textView);
         trueNumTrial = view.findViewById(R.id.binomial_pass_textView);
         subButtonOne = view.findViewById(R.id.binomial_fail_decrement);
         subButtonTwo = view.findViewById(R.id.binomial_pass_decrement);
+    }
+
+    public void gettingLocation() {
+        final LocationListener mLocationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                myLong = location.getLongitude();
+                myLat = location.getLatitude();
+
+            }
+        };
+
+        LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            },301);
+            return;
+        }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
     }
 
     public void visibility(String trialTypeCheck){
@@ -307,5 +350,6 @@ public class CreateTrialDialogFragment extends DialogFragment {
 
             }
         });
+
     }
 }
