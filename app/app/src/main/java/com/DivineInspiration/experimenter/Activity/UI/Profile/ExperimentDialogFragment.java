@@ -110,9 +110,7 @@ public class ExperimentDialogFragment extends DialogFragment {
         // get current user
         User localUser = UserManager.getInstance().getLocalUser();
 
-
         init(view);
-
 
         // shows dialog (must be called at start)
         dialog.show();

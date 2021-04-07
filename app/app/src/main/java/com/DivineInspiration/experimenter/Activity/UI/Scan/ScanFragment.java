@@ -20,12 +20,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.DivineInspiration.experimenter.Activity.MainActivity;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRCodeDialogFragment;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
@@ -113,8 +115,16 @@ public class ScanFragment extends Fragment {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
-                mCodeScanner.startPreview();
+                // if camera is open
+                if (allowCamera) {
+//                    mCodeScanner.startPreview();
+                    // debug testing
+                    QRCodeDialogFragment frag = new QRCodeDialogFragment();
+//                    frag.setArguments(args);
+                    frag.show(getChildFragmentManager(), "QR code fragment");
+                } else {
+                    Toast.makeText(getActivity(), "A code cannot be scanned if the camera is off", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

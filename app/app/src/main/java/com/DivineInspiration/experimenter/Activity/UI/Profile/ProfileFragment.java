@@ -187,6 +187,7 @@ public class ProfileFragment extends Fragment {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 new EditProfileDialogFragment(new UserManager.OnUserReadyListener() {
                     @Override
                     public void onUserReady(User user) {
