@@ -24,7 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// Talks to firebase
+/**
+ * This class talks to the Firestore database
+ * in order to store and retrieve trial data.
+ * The class uses singleton pattern.
+ */
 public class TrialManager extends ArrayList<Trial> {
 
     private static TrialManager singleton;
@@ -33,11 +37,20 @@ public class TrialManager extends ArrayList<Trial> {
     private String TAG = "TrialManager";
     DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    // Callback when trials are ready
+    /**
+     * When trial data is retrieved from database is ready,
+     * it is passed along as a parameter by the interface method.
+     * Utilized for: getUserTrials, queryExperimentTrials
+     */
     public interface OnTrialListReadyListener {
         void onTrialsReady(List<Trial> trials);
     }
 
+    /**
+     * When trial datum is retrieved from database is ready,
+     * it is passed along as a parameter by the interface method.
+     * Utilized for: addTrial
+     */
     public interface OnTrialReadyListener {
         void onTrialReady(Trial trials);
     }
@@ -47,13 +60,11 @@ public class TrialManager extends ArrayList<Trial> {
      */
     public TrialManager() {
         db = FirebaseFirestore.getInstance();
-
     }
 
     /**
-     * Get singleton instance
-     *
-     * @return experiment manager
+     * Get singleton instance of the class
+     * @return: singleton:TrialManager
      */
     public static TrialManager getInstance() {
         if (singleton == null) {
@@ -71,12 +82,12 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * Adds a trial to database
-     *
-     * @param trial Trial to be added
+     * Adds a new trial to database
+     * @param: trial:Trial (trial we want to add).
+     * @param: callback:OnTrialReadyListener (The class to call after the operation is done).
+     * @return: void
      */
     public void addTrial(Trial trial, OnTrialReadyListener callback) {
-
         // Store standard trial data
         Map<String, Object> doc = new HashMap<>();
         doc.put("TrialType", trial.getTrialType());
@@ -118,12 +129,11 @@ public class TrialManager extends ArrayList<Trial> {
                 });
     }
 
-
     /**
-     * Gets all trials created by an experimenter
-     *
-     * @param userId   user ID of owner
-     * @param callback callback function
+     * Queries the trials that the given user is performed.
+     * @param: userId:String (The user to query trials for).
+     * @param: callback:OnTrialReadyListener (The class to call after the operation is done).
+     * @return: void
      */
     public void getUserTrials(String userId, OnTrialListReadyListener callback) {
 
@@ -149,13 +159,13 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * Gets all trials created for an experiment
-     *
-     * @param experimentId user ID of owner
-     * @param callback     callback function
+     * Queries the trials that performed for a given experiment.
+     * @param: experimentId:String (The user to query trials for).
+     * @param: callback:OnTrialReadyListener (The class to call after the operation is done).
+     *         The data is passed as a parameter of this method.
+     * @return: void
      */
     public void queryExperimentTrials(String experimentId, OnTrialListReadyListener callback) {
-
         db.collection("Trials").whereEqualTo("ExperimentID", experimentId).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -178,10 +188,9 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * Converts data from a QueryDocumentSnapshot into a Trial object
-     *
-     * @param snapshot The QueryDocumentSnapshot storing the trial data
-     * @return A Trial object containing all of the data contained in snapshot.
+     * This method returns a Trial object by constructing it using the data from the document snapshot.
+     * @param: snapshot:QueryDocumentSnapshot (The Firestore document to retrieve the trial details from).
+     * @return: :Trial (Constructed using info from document).
      */
     private Trial trialFromSnapshot(QueryDocumentSnapshot snapshot) {
 
