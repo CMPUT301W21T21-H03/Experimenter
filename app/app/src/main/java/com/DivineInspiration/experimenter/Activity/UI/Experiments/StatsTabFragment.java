@@ -2,7 +2,6 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.animation.LayoutTransition;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
-import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -49,10 +46,8 @@ public class StatsTabFragment extends Fragment implements Refreshable {
 
         Bundle args = getArguments();
         if (args != null) {
-            Log.d("woah", args.getString("experimentID", ""));
             TrialManager.getInstance().queryExperimentTrials(args.getString("experimentID", ""), trials -> {
-               trialList = trials;
-//            trialList = new ArrayList<>();
+                trialList = trials;
                 init(view);
             });
         }
@@ -70,8 +65,7 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         warningText = view.findViewById(R.id.statWarningText);
 
 
-
-       // Testing data
+        // Testing data
 //        for (int i = 0; i < 5; i++) {
 //            trialList.add(new MeasurementTrial());
 //        }
@@ -94,7 +88,8 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         });
 
         if (trialList.size() == 0) {
-            Log.d("woah", "loc A");
+
+
             showWarning();
         } else {
             showStats();
@@ -141,7 +136,6 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         statHolder.removeAllViews();
         warningText.setVisibility(View.GONE);
     }
-
 
 
     private void showWarning() {

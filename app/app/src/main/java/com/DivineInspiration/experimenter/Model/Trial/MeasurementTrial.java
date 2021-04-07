@@ -1,7 +1,10 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
+import android.annotation.SuppressLint;
+
 import com.DivineInspiration.experimenter.Model.User;
 
+import org.jetbrains.annotations.NotNull;
 import org.osmdroid.util.GeoPoint;
 
 import java.time.LocalDate;
@@ -79,5 +82,10 @@ public class MeasurementTrial extends Trial {
         value = newValue;
     }
 
+    @SuppressLint("DefaultLocale")
+    @NotNull
+    public String toString(){
+        return String.format("MeasureTrial %s: %.3f, date: %s", trialID, value, trialDate.toString());
+    }
 
 }

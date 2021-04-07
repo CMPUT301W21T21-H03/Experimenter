@@ -140,7 +140,12 @@ public class StatsMaker {
         sortDouble(values);
         int size = values.size();
         //returns median regardless if its the list is odd or even
-        return (values.get(size / 2 - 1) + values.get((size / 2))) / 2; //magic
+
+        if(size % 2 == 1){
+            return values.get(size/2);
+        }
+        else{
+        return (values.get(size / 2 - 1) + values.get((size / 2))) / 2; }
 
 
     }
