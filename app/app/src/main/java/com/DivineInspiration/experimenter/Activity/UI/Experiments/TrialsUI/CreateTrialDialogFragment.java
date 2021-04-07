@@ -166,7 +166,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
      * @param: exp:Experiment (the experiment this trial is being performed for).
      */
     public void countTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new GeoPoint(myLong,myLat);
+        trialLocation = new GeoPoint(myLat, myLong);
         CountTrial countTrial = new CountTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
@@ -186,7 +186,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
      * @param: exp:Experiment (the experiment this trial is being performed for).
      */
     public void nonNegativeTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new GeoPoint(myLong,myLat);
+        trialLocation = new GeoPoint(myLat, myLong);
         NonNegativeTrial nonNegativeTrial = new NonNegativeTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
@@ -205,7 +205,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
      * @param: exp:Experiment (the experiment this trial is being performed for).
      */
     public void measurementTrialDialog(Bundle args, Experiment exp, String measure) {
-        trialLocation = new GeoPoint(myLong,myLat);
+        trialLocation = new GeoPoint(myLat, myLong);
         double measureValue = Double.valueOf(measure);
         MeasurementTrial measurementTrial = new MeasurementTrial(
                 args.getString("experimenterID"),
