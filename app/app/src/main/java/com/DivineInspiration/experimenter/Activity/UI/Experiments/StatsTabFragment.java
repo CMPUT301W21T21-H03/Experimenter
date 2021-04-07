@@ -106,6 +106,7 @@ public class StatsTabFragment extends Fragment implements Refreshable {
 //            Log.d("woah", "Loc B");
 //            showWarning();
 //        }
+
     }
 
     private void showHistogram() {
