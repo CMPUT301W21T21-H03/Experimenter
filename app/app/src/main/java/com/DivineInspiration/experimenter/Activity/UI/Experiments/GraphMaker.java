@@ -16,7 +16,6 @@ import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
-import com.github.mikephil.charting.charts.CandleStickChart;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -46,6 +45,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * This class uses a factory pattern, handles making Chart objects, which can either be a Histogram/Bar chart or Line graph/line + box plot.
+ */
 @SuppressLint("DefaultLocale")
 public class GraphMaker {
     /*
@@ -58,8 +61,19 @@ public class GraphMaker {
     static DateTimeFormatter shortFormatter = DateTimeFormatter.ofPattern("MM/dd");
 
 
-    //!! this assumes all trials are of the same kind
-    public static Chart<?> makeHistogram(ArrayList<Trial> trials, Context context) {
+    /**
+     * <b>Note: </b> This function assumes all given trials are of the same type as the first element.
+     * Makes a Histogram like chart, depending on the types of trial given
+     *
+     * @param trials  a list of trial to be used.
+     * @param context a context to inflate view from
+     * @return an appropriate chart for the given trial type
+     * @throws IllegalArgumentException if given list is empty
+     */
+    public static Chart<?> makeHistogram(List<Trial> trials, Context context) {
+        if (trials.size() == 0) {
+            throw new IllegalArgumentException("Trials list provide is empty!");
+        }
         switch (trials.get(0).getTrialType()) {
             case Trial.COUNT:
                 return makeCountBarGraph(trials, context);
@@ -74,8 +88,22 @@ public class GraphMaker {
         }
     }
 
-    public static Chart<?> makeLineChart(ArrayList<Trial> trials, Context context) {
 
+    /**
+     * <b>Note: </b> This function assumes all given trials are of the same type as the first element.
+     * Makes a Line graph like chart, depending on the types of trial given
+     *
+     * @param trials  a list of trial to be used.
+     * @param context a context to inflate view from
+     * @return an appropriate chart for the given trial type
+     * @throws IllegalArgumentException if given list is empty
+     */
+    public static Chart<?> makeLineChart(List<Trial> trials, Context context) {
+        if (trials.size() == 0) {
+            throw new IllegalArgumentException("Trials list provide is empty!");
+        }
+
+        //first put trials in date buckets since all 3 functions needs it
         List<List<Trial>> trialsDateBucket = groupTrialByDate(trials);
         switch (trials.get(0).getTrialType()) {
             case Trial.COUNT:
@@ -85,8 +113,7 @@ public class GraphMaker {
                 return makeBinomialLineGraph(trialsDateBucket, context);
             case Trial.MEASURE://switch abuse
             case Trial.NONNEGATIVE:
-                return  makeNonNegCandlestick(trialsDateBucket, context);
-
+                return makeCandlestick(trialsDateBucket, context);
 
             default:
                 return null;
@@ -94,8 +121,15 @@ public class GraphMaker {
     }
 
 
-
-    private static Chart<?> makeNonNegCandlestick(List<List<Trial>> trialsBucket, Context context){
+    /**
+     * Makes a candle stick graph + line graph for Non-negative and measurement trials.
+     * The candle sticks represents the current Q1, median and Q3, while the line graph represents the current mean.
+     *
+     * @param trialsBucket
+     * @param context
+     * @return
+     */
+    private static Chart<?> makeCandlestick(List<List<Trial>> trialsBucket, Context context) {
         /*
         https://medium.com/@neerajmoudgil/candlestick-chart-using-philjay-mpandroidchart-library-how-to-bf657ddf3a28
         how make candle stick chart with MPandroid
@@ -111,6 +145,8 @@ public class GraphMaker {
 
         int dateIndex = 0;
         int entryIndex = 0;
+
+        //iterate over each from start to end, even if there is new data for that day
         while (currentDate.isBefore(lastDate)) {
             if (trialsBucket.get(dateIndex).get(0).getTrialDate().equals(currentDate)) {
                 currentTrials.addAll(trialsBucket.get(dateIndex));
@@ -118,19 +154,25 @@ public class GraphMaker {
             }
             lineEntry.add(new Entry(entryIndex, (float) StatsMaker.calcMean(currentTrials)));
             double[] quartiles = StatsMaker.calcQuartiles(currentTrials);
-            candleEntries.add(new CandleEntry(entryIndex, (float)quartiles[1], (float)quartiles[0], (float)quartiles[1], (float)quartiles[0]));
+            candleEntries.add(new CandleEntry(entryIndex, (float) quartiles[1], (float) quartiles[0], (float) quartiles[1], (float) quartiles[0]));
             dates.add(shortFormatter.format(currentDate));
             entryIndex++;
             currentDate = currentDate.plusDays(1);
         }
 
-
-
-
         return makeCombinedChart(context, lineEntry, candleEntries, dates);
     }
 
-    private static CombinedChart makeCombinedChart(Context context, List<Entry> lineEntries, List<CandleEntry> candleEntries, List<String> labels){
+    /**
+     * Using relevant data to make a combined chart that includes candle sticks and line graph
+     *
+     * @param context
+     * @param lineEntries
+     * @param candleEntries
+     * @param labels
+     * @return
+     */
+    private static CombinedChart makeCombinedChart(Context context, List<Entry> lineEntries, List<CandleEntry> candleEntries, List<String> labels) {
         LineDataSet lineDataSet = new LineDataSet(lineEntries, "Count Mean Over Time");
         CandleDataSet candleDataSet = new CandleDataSet(candleEntries, "Quartiles over time");
         LineData lineData = new LineData();
@@ -140,6 +182,8 @@ public class GraphMaker {
         candleDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         candleDataSet.setColor(Color.WHITE);
         candleDataSet.setShadowColor(ContextCompat.getColor(context, R.color.beige1));
+        candleDataSet.setIncreasingColor(ContextCompat.getColor(context, R.color.green1));
+        candleDataSet.setIncreasingPaintStyle(Paint.Style.STROKE);
         candleDataSet.setDecreasingColor(ContextCompat.getColor(context, R.color.green1));
         candleDataSet.setDecreasingPaintStyle(Paint.Style.STROKE);
 
@@ -161,9 +205,16 @@ public class GraphMaker {
         return chart;
     }
 
-    private static Chart<?> makeMeasurementHistogram(List<Trial> trials, Context context) {
-        List<List<Trial>> trialBuckets = groupTrialByRange(trials, 10);
 
+    /**
+     * Makes a histogram for measurement trial. This method will by default divide given data into 10 buckets, or the number of trials if there are too few trials.
+     *
+     * @param trials
+     * @param context
+     * @return
+     */
+    private static Chart<?> makeMeasurementHistogram(List<Trial> trials, Context context) {
+        List<List<Trial>> trialBuckets = groupTrialByRange(trials, Math.min(10, trials.size()));
 
         List<BarEntry> entries = new ArrayList<>();
         List<String> labels = new ArrayList<>();
@@ -172,7 +223,7 @@ public class GraphMaker {
         int i = 0;
         for (List<Trial> list : trialBuckets) {
             entries.add(new BarEntry(i, (float) list.size()));
-            labels.add(String.format("%s-%s", deciFormat.format(findMinMeasuremnt(list)), deciFormat.format(findMaxMeasuremnt(list))));
+            labels.add(String.format("%s-%s", deciFormat.format(findMinMeasurement(list)), deciFormat.format(findMaxMeasurement(list))));
             i++;
         }
         BarChart chart = new BarChart(context);
@@ -194,7 +245,13 @@ public class GraphMaker {
     }
 
 
-    private static Chart<?> makeNonNegativeHistogram(ArrayList<Trial> trials, Context context) {
+    /**
+     * Makes a histogram showing the distribution of NonNegative trials submitted.
+     * @param trials
+     * @param context
+     * @return
+     */
+    private static Chart<?> makeNonNegativeHistogram(List<Trial> trials, Context context) {
         List<List<Trial>> trialBuckets = groupTrialsByValue(trials);
 
         List<BarEntry> entries = new ArrayList<>();
@@ -207,7 +264,6 @@ public class GraphMaker {
             i++;
         }
         BarChart chart = new BarChart(context);
-
 
         BarData data = new BarData(new BarDataSet(entries, "Distribution of NonNeg Trials submitted"));
         chart.setData(data);
@@ -228,7 +284,12 @@ public class GraphMaker {
 
     }
 
-    //
+    /**
+     * Makes a line graph representing the mean success rate over time.
+     * @param trialsBucket
+     * @param context
+     * @return
+     */
     private static Chart<?> makeBinomialLineGraph(List<List<Trial>> trialsBucket, Context context) {
         double success = 0;
         double fail = 0;
@@ -267,11 +328,18 @@ public class GraphMaker {
         return chart;
     }
 
+    /**
+     * Makes a bar graph consisting of 2 bars. Indicating number of successes and fails.
+     * @param trials
+     * @param context
+     * @return
+     */
     private static Chart<?> makeBinomialBarGraph(List<Trial> trials, Context context) {
         double[] stats = StatsMaker.calcBinomialStats(trials);
         List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0, (float) stats[0]));
-        entries.add(new BarEntry(1, (float) stats[1]));
+        entries.add(new BarEntry(2, (float) stats[1]));
+
         BarData data = new BarData(new BarDataSet(entries, String.format("Binomial Trial - %.2f%% Success", stats[2])));
 
 
@@ -281,19 +349,27 @@ public class GraphMaker {
 
         List<String> labels = new ArrayList<>();
         labels.add("Success");
+        labels.add("");
         labels.add("Fail");
 
         //axis settings
         XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
         chart.getXAxis().setValueFormatter(formatter);
         chart.getAxisLeft().setAxisMinimum(0);
-        chart.getAxisLeft().setSpaceTop(25f);
+        chart.getAxisLeft().setAxisMaximum((float) Math.max(stats[0], stats[1]) * 1.3f);
         chart.setScaleEnabled(false);
 
         styleLineBarChart(context, chart, formatter);
         return chart;
     }
 
+
+    /**
+     * Makes a single, mostly meaning bar to represent the total count of the Count trials submitted so far.
+     * @param trials
+     * @param context
+     * @return
+     */
     private static Chart<?> makeCountBarGraph(List<Trial> trials, Context context) {
         double sum = StatsMaker.calcSum(trials);
         List<BarEntry> entries = new ArrayList<>();
@@ -320,9 +396,15 @@ public class GraphMaker {
 
     }
 
-    /*https://stackoverflow.com/a/29812532/12471420*/
-    private static Chart<?> makeCountLineGraph(List<List<Trial>> trialsBucket, Context context) {
 
+    /**
+     * Makes a line graph to represent the growth of total count over time.
+     * @param trialsBucket
+     * @param context
+     * @return
+     */
+    private static Chart<?> makeCountLineGraph(List<List<Trial>> trialsBucket, Context context) {
+        /*https://stackoverflow.com/a/29812532/12471420*/
         float sum = 0;
         LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();
         LocalDate lastDate = trialsBucket.get(trialsBucket.size() - 1).get(0).getTrialDate();
@@ -357,6 +439,13 @@ public class GraphMaker {
         return chart;
     }
 
+
+    /**
+     * Common chart styling settings for other chart making functions.
+     * @param context
+     * @param chart
+     * @param formatter
+     */
     private static void styleLineBarChart(Context context, BarLineChartBase chart, ValueFormatter formatter) {
         final int beige1 = ContextCompat.getColor(context, R.color.beige1);
 
@@ -375,8 +464,8 @@ public class GraphMaker {
         chart.getLegend().setTextColor(beige1);
 
 
-        chart.getXAxis().setAxisMinimum( - 2);
-        chart.getXAxis().setAxisMaximum(  chart.getXAxis().getAxisMaximum() + 2);
+        chart.getXAxis().setAxisMinimum(-2);
+        chart.getXAxis().setAxisMaximum(chart.getXAxis().getAxisMaximum() + 2);
 
 
         chart.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -386,15 +475,19 @@ public class GraphMaker {
         chart.setNoDataTextColor(ContextCompat.getColor(context, R.color.beige1));
 
 
-
-
     }
 
+    /**
+     * Groups a list of trial into ranges, given the number of desired ranges.
+     * @param trials
+     * @param numberOfBuckets
+     * @return a List of List of trials, where each inner list has trials belonging in a common range.
+     */
     public static List<List<Trial>> groupTrialByRange(List<Trial> trials, int numberOfBuckets) {
 
         //TODO theres got to be a better way write the following size
-        double bucketSize = (findMaxMeasuremnt(trials) -
-                findMinMeasuremnt(trials)) / numberOfBuckets;
+        double bucketSize = (findMaxMeasurement(trials) -
+                findMinMeasurement(trials)) / numberOfBuckets;
         //divide by bucket size then take floor/ceil should put each value in a range
         List<List<Trial>> output = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial ->
                 Math.ceil(((MeasurementTrial) trial).getValue() / bucketSize))).values());
@@ -403,17 +496,31 @@ public class GraphMaker {
         return output;
     }
 
-    //helper functions
-    public static double findMaxMeasuremnt(List<Trial> trials) {
+    /**
+     * Heler function to find the max value in a list of measurement trials
+     * @param trials
+     * @return
+     */
+    public static double findMaxMeasurement(List<Trial> trials) {
         return ((MeasurementTrial) Collections.max(trials, (t1, t2) -> Double.compare(((MeasurementTrial) t1).getValue(), ((MeasurementTrial) t2).getValue()))).getValue();
     }
 
-    //helper functions
-    public static double findMinMeasuremnt(List<Trial> trials) {
+    /**
+     * Heler function to find the min value in a list of measurement trials
+     * @param trials
+     * @return
+     */
+    public static double findMinMeasurement(List<Trial> trials) {
         return ((MeasurementTrial) Collections.min(trials, (t1, t2) -> Double.compare(((MeasurementTrial) t1).getValue(), ((MeasurementTrial) t2).getValue()))).getValue();
     }
 
-    public static List<List<Trial>> groupTrialByDate(ArrayList<Trial> trials) {
+
+    /**
+     * Groups a list of trial into buckets by their creation date
+     * @param trials
+     * @return a List of List of trials, where each inner list has trials has date in common
+     */
+    public static List<List<Trial>> groupTrialByDate(List<Trial> trials) {
         //divides trials into buckets by date
         List<List<Trial>> output = new ArrayList<>(trials.stream().collect(Collectors.groupingBy(trial ->
                 dateFormatter.format(trial.getTrialDate()))).values());
@@ -422,20 +529,33 @@ public class GraphMaker {
         return output;
     }
 
-    //currently only applicable/useful to non negative trial
+
+    /**
+     * Groups a list of non negative trials into buckets by their value
+     * @param trials
+     * @return a List of List of trials, where each inner list has trials belonging in a common count.
+     */
     public static List<List<Trial>> groupTrialsByValue(List<Trial> trials) {
+        //currently only applicable/useful to non negative trial
         //assert type is Non negative
         if (BuildConfig.DEBUG && !(trials.get(0).getTrialType().equals(Trial.NONNEGATIVE))) {
             throw new AssertionError("Assertion failed");
         }
 
+        //group by count
         List<List<Trial>> output = new ArrayList<>(trials.stream().collect(
                 Collectors.groupingBy(trial -> ((NonNegativeTrial) trial).getCount())).values()
         );
+        //sort
         output.sort((list1, list2) -> Integer.compare(((NonNegativeTrial) list1.get(0)).getCount(), ((NonNegativeTrial) list2.get(0)).getCount()));
         return output;
     }
 
+
+    /**
+     * This class is used to format axisLabels.
+     * Using a given set of labels, it will map floats to their corresponding labels
+     */
     private static class XAxisLabelFormatter extends ValueFormatter {
 
         List<String> labels;
@@ -446,7 +566,7 @@ public class GraphMaker {
 
         @Override
         public String getAxisLabel(float value, AxisBase axis) {
-            return (Math.abs(value - (int) value) < 0.01f) &&(value < labels.size()) &&(value>= 0)? labels.get((int) value) : "";
+            return (Math.abs(value - (int) value) < 0.01f) && (value < labels.size()) && (value >= 0) ? labels.get((int) value) : "";
         }
     }
 

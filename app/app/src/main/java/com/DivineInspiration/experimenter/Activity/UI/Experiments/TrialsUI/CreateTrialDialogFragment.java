@@ -6,33 +6,43 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Switch;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.DivineInspiration.experimenter.Controller.CommentManager;
-import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
-import com.DivineInspiration.experimenter.Model.Comment;
 import com.DivineInspiration.experimenter.Model.Experiment;
-import com.DivineInspiration.experimenter.Model.IdGen;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
+import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
+import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
+import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
-
-import java.time.LocalDate;
-import java.util.Date;
-
-import static com.DivineInspiration.experimenter.Activity.UI.Profile.EditProfileDialogFragment.TAG;
 
 public class CreateTrialDialogFragment extends DialogFragment {
 
 
     private final OnTrialCreatedListener callback;
     String trialTypeCheck;
-
+    CheckBox geoTrial;
+    EditText measurementTextBox;
+    TextView countNNTrial;
+    TextView failNumTrial;
+    TextView trueNumTrial;
+    Button negativeCountNNButton;
+    Button positiveCountNNButton;
+    Button passButton;
+    Button failButton;
+    Button subButtonOne;
+    Button subButtonTwo;
+    int failNum = 0;
+    int passNum = 0;
+    int count = 0;
 
     public interface OnTrialCreatedListener{
         void onTrialAdded(Trial trial);
@@ -50,8 +60,10 @@ public class CreateTrialDialogFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.create_trial_dialog_fragment, null);
         Bundle args = getArguments();
         Experiment exp = (Experiment) args.getSerializable("experiment");
-
+        init(view);
         trialTypeCheck = exp.getTrialType();
+        visibility(trialTypeCheck);
+
 
         AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
                 .setView(view)
@@ -83,10 +95,14 @@ public class CreateTrialDialogFragment extends DialogFragment {
                         break;
                 }
                 dialog.dismiss();
+
             }
+
         });
 
         return dialog;
+
+
     }
 
     public void binomialTrialDialog(Bundle args, Experiment exp){
@@ -241,19 +257,45 @@ public class CreateTrialDialogFragment extends DialogFragment {
             }
         });
 
-                );
-                TrialManager.getInstance().addTrial(binomialTrial,trials ->
-                {
-                });
-                callback.onTrialAdded(binomialTrial);
+    }
 
-                dialog.dismiss();
+    public void CountTrialButtonController(){
+        positiveCountNNButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count = count + 1;
+                countNNTrial.setText(String.valueOf(count));
             }
-
         });
+        negativeCountNNButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count = count - 1;
+                countNNTrial.setText(String.valueOf(count));
+            }
+        });
+    }
 
-        return dialog;
+    public void NNTrialButtonController(){
+        positiveCountNNButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count = count + 1;
+                countNNTrial.setText(String.valueOf(count));
+            }
+        });
+        negativeCountNNButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(count > 0){
+                    count = count - 1;
+                    countNNTrial.setText(String.valueOf(count));
+                }else{
+
+                }
 
 
+            }
+        });
     }
 }

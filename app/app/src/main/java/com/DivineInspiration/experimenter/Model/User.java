@@ -30,7 +30,7 @@ public class User {
      */
     public User(String userId){
         this.userId = userId;
-        userName = "UserName";
+        userName = "Anonymous";
         contactInfo = new UserContactInfo();
         description = "";
 

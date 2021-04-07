@@ -35,6 +35,18 @@ public class CountTrial extends Trial {
         this.trialType = Trial.COUNT;
         this.count = 0;
     }
+    /**
+     * Constructor
+     * @param trialUserID
+     * user of this trial
+     * @param trialExperimentID
+     * id of experiment
+     */
+    public CountTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count) {
+        super(trialUserID,trialOwnerName ,trialExperimentID);
+        this.trialType = Trial.COUNT;
+        this.count = count;
+    }
 
 
     public CountTrial(){
