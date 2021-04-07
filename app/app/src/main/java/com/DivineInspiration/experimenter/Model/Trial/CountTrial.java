@@ -42,10 +42,11 @@ public class CountTrial extends Trial {
      * @param trialExperimentID
      * id of experiment
      */
-    public CountTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count) {
+    public CountTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count, GeoPoint location) {
         super(trialUserID,trialOwnerName ,trialExperimentID);
         this.trialType = Trial.COUNT;
         this.count = count;
+        this.location = location;
     }
 
 

@@ -1,7 +1,14 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +21,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -27,6 +35,8 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 
 public class ProfileFragment extends Fragment {
@@ -42,7 +52,6 @@ public class ProfileFragment extends Fragment {
     TabLayout tabLayout;
     boolean otherUser = false;
     String otherUserId;
-
 
     // Declaring TextView
     TextView userID_home;
@@ -72,6 +81,7 @@ public class ProfileFragment extends Fragment {
      * @param view
      * @param savedInstanceState
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -80,6 +90,9 @@ public class ProfileFragment extends Fragment {
         toolbar = view.findViewById(R.id.expCollapsingToolbar);
         fab = view.findViewById(R.id.fab);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
+
+
+
 
         // setting up the Text View in ToolBar
         userName_home = view.findViewById(R.id.userName_Home);
@@ -266,6 +279,9 @@ public class ProfileFragment extends Fragment {
             dividerLineAbout_home.setVisibility(View.VISIBLE);
         }
     }
+
+
+
 
     /**
      * Home fragment
