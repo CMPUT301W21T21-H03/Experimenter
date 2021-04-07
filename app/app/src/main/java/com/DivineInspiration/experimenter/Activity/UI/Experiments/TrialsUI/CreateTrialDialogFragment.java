@@ -126,7 +126,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
     }
 
     public void binomialTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new GeoPoint(myLong,myLat);
+        trialLocation = new GeoPoint(myLat,myLong);
         for (int i = 0; i < passNum; i++) {
             BinomialTrial binomialTrial = new BinomialTrial(
                     args.getString("experimenterID"),
@@ -156,7 +156,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
     }
 
     public void countTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new GeoPoint(myLong,myLat);
+        trialLocation = new GeoPoint(myLat,myLong);
         CountTrial countTrial = new CountTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
@@ -171,7 +171,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
     }
 
     public void nonNegativeTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new GeoPoint(myLong,myLat);
+        trialLocation = new GeoPoint(myLat,myLong);
         NonNegativeTrial nonNegativeTrial = new NonNegativeTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
@@ -185,7 +185,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
     }
 
     public void measurementTrialDialog(Bundle args, Experiment exp, String measure) {
-        trialLocation = new GeoPoint(myLong,myLat);
+        trialLocation = new GeoPoint(myLat,myLong);
         double measureValue = Double.valueOf(measure);
         MeasurementTrial measurementTrial = new MeasurementTrial(
                 args.getString("experimenterID"),
@@ -213,14 +213,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
     }
 
     public void gettingLocation() {
-        final LocationListener mLocationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(@NonNull Location location) {
-                myLong = location.getLongitude();
-                myLat = location.getLatitude();
 
-            }
-        };
 
         LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -231,7 +224,16 @@ public class CreateTrialDialogFragment extends DialogFragment {
             },301);
             return;
         }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                myLong = location.getLongitude();
+                myLat = location.getLatitude();
+                Log.d("woah", "updating!");
+                mLocationManager.removeUpdates(this);
+            }
+        });
+
     }
 
     public void visibility(String trialTypeCheck){
