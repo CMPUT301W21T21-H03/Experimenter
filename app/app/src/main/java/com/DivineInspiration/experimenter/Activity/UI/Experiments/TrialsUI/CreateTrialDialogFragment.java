@@ -114,8 +114,10 @@ public class CreateTrialDialogFragment extends DialogFragment {
                     exp.getExperimentID(),
                     true
             );
-            TrialManager.getInstance().addTrial(binomialTrial,trials -> {});
-            callback.onTrialAdded(binomialTrial);
+            TrialManager.getInstance().addTrial(binomialTrial,trials -> {
+                callback.onTrialAdded(binomialTrial);
+            });
+
         }
         for(int i = 0; i<failNum; i++){
             BinomialTrial binomialTrial = new BinomialTrial(
@@ -124,8 +126,10 @@ public class CreateTrialDialogFragment extends DialogFragment {
                     exp.getExperimentID(),
                     false
             );
-            TrialManager.getInstance().addTrial(binomialTrial,trials -> {});
-            callback.onTrialAdded(binomialTrial);
+            TrialManager.getInstance().addTrial(binomialTrial,trials -> {
+                callback.onTrialAdded(binomialTrial);
+            });
+
         }
 
 
@@ -141,8 +145,10 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 count
         );
 
-        TrialManager.getInstance().addTrial(countTrial, trials -> {});
-        callback.onTrialAdded(countTrial);
+        TrialManager.getInstance().addTrial(countTrial, trials -> {
+            callback.onTrialAdded(countTrial);
+        });
+
     }
 
     public void nonNegativeTrialDialog(Bundle args, Experiment exp){
@@ -152,8 +158,10 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 exp.getExperimentID(),
                 count
         );
-        TrialManager.getInstance().addTrial(nonNegativeTrial, trials -> {});
-        callback.onTrialAdded(nonNegativeTrial);
+        TrialManager.getInstance().addTrial(nonNegativeTrial, trials -> {
+            callback.onTrialAdded(nonNegativeTrial);
+        });
+
     }
 
     public void measurementTrialDialog(Bundle args, Experiment exp, String measure){
@@ -164,8 +172,10 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 exp.getExperimentID(),
                 measureValue
         );
-        TrialManager.getInstance().addTrial(measurementTrial, trials -> {});
-        callback.onTrialAdded(measurementTrial);
+        TrialManager.getInstance().addTrial(measurementTrial, trials -> {
+            callback.onTrialAdded(measurementTrial);
+        });
+
     }
 
     public void init(View view){

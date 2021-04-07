@@ -63,6 +63,7 @@ public class ScanFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
+                mCodeScanner.startPreview();
             } else {
                 // request camera permissions
                 ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.CAMERA}, 401);
@@ -164,14 +165,14 @@ public class ScanFragment extends Fragment {
         super.onResume();
         if (!openCamera && ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             openCamera();
+            Log.v("Run", "1");
+            mCodeScanner.startPreview();
         }
-        if (allowCamera) mCodeScanner.startPreview();
     }
 
     @Override
     public void onPause() {
-        if (allowCamera) mCodeScanner.releaseResources();
+        if (openCamera) mCodeScanner.releaseResources();
         super.onPause();
     }
-
 }
