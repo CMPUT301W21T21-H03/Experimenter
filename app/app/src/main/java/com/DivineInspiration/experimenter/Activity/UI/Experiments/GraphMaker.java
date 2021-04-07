@@ -137,14 +137,7 @@ public class GraphMaker {
          */
 
 
-        Log.d("woah", "entering candle stick");
-        Log.d("woah", "number of buckets: " + trialsBucket.size());
 
-        for(List<Trial> l : trialsBucket){
-            for (Trial t : l){
-                Log.d("woah", t.toString());
-            }
-        }
 
         LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();
         LocalDate lastDate = trialsBucket.get(trialsBucket.size() - 1).get(0).getTrialDate();
@@ -174,7 +167,7 @@ public class GraphMaker {
             entryIndex++;
             currentDate = currentDate.plusDays(1);
         }
-   
+
 
         return makeCombinedChart(context, lineEntry, candleEntries, dates);
     }
@@ -189,13 +182,13 @@ public class GraphMaker {
      * @return
      */
     private static CombinedChart makeCombinedChart(Context context, List<Entry> lineEntries, List<CandleEntry> candleEntries, List<String> labels) {
-        Log.d("woah", "entering combined chart");
+
         LineDataSet lineDataSet = new LineDataSet(lineEntries, "Count Mean Over Time");
         CandleDataSet candleDataSet = new CandleDataSet(candleEntries, "Quartiles over time");
         LineData lineData = new LineData();
         CandleData candleData = new CandleData();
         lineData.addDataSet(lineDataSet);
-        Log.d("woah", "line data made");
+
         lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         candleDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         candleDataSet.setColor(Color.WHITE);
@@ -206,20 +199,20 @@ public class GraphMaker {
         candleDataSet.setDecreasingPaintStyle(Paint.Style.STROKE);
 
         candleData.addDataSet(candleDataSet);
-        Log.d("woah", "candle data made");
+
         CombinedData combinedData = new CombinedData();
         combinedData.setData(lineData);
         combinedData.setData(candleData);
-        Log.d("woah", "combined data made");
+
         CombinedChart chart = new CombinedChart(context);
         chart.setData(combinedData);
-        Log.d("woah", "chart data set");
+
         XAxisLabelFormatter formatter = new XAxisLabelFormatter(labels);
         chart.getXAxis().setValueFormatter(formatter);
         chart.getXAxis().setGranularity(1f);
 
         styleLineBarChart(context, chart, formatter);
-        Log.d("woah", "chart done");
+
         return chart;
     }
 
@@ -318,7 +311,7 @@ public class GraphMaker {
         List<String> dates = new ArrayList<>();
         int dateIndex = 0;
         int entryIndex = 0;
-        while (currentDate.isBefore(lastDate)) {
+        while (!currentDate.isAfter(lastDate)) {
             if (trialsBucket.get(dateIndex).get(0).getTrialDate().equals(currentDate)) {
                 double[] stats = StatsMaker.calcBinomialStats(trialsBucket.get(dateIndex));
                 success += stats[0];
@@ -431,7 +424,7 @@ public class GraphMaker {
         List<String> dates = new ArrayList<>();
         int dateIndex = 0;
         int entryIndex = 0;
-        while (currentDate.isBefore(lastDate)) {
+        while (!currentDate.isAfter(lastDate)) {
             if (trialsBucket.get(dateIndex).get(0).getTrialDate().equals(currentDate)) {
                 sum += StatsMaker.calcSum(trialsBucket.get(dateIndex));
                 dateIndex++;
