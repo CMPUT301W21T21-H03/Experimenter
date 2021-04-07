@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -34,54 +32,60 @@ import com.DivineInspiration.experimenter.R;
 
 import org.osmdroid.util.GeoPoint;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import static android.content.Context.LOCATION_SERVICE;
 
+/**
+ * This class deals with the UI of the trial data being recorded
+ */
 public class CreateTrialDialogFragment extends DialogFragment {
 
-
     private final OnTrialCreatedListener callback;
-    String trialTypeCheck;
+    String trialTypeCheck;              // The type of the trial we are dealing with
     CheckBox geoTrial;
-    EditText measurementTextBox;
-    TextView countNNTrial;
-    TextView failNumTrial;
-    TextView trueNumTrial;
-    Button negativeCountNNButton;
-    Button positiveCountNNButton;
-    Button passButton;
-    Button failButton;
-    Button subButtonOne;
-    Button subButtonTwo;
-    int failNum = 0;
-    int passNum = 0;
-    int count = 0;
+    EditText measurementTextBox;        // View for the measurement trial
+    TextView countNNTrial;              // View for the non-negative trial
+    Button negativeCountNNButton;       // View for the non-negative trial
+    Button positiveCountNNButton;       // View for the non-negative trial
+    TextView failNumTrial;              // View for the binomial trial
+    TextView trueNumTrial;              // View for the binomial trial
+    Button passButton;                  // View for the binomial trial
+    Button failButton;                  // View for the binomial trial
+    Button decrementFailNumButton;      // View for the binomial trial
+    Button decrementPassNumButton;      // View for the binomial trial
+    int failNum = 0;                    // Count no. of fails for the binomial trial
+    int passNum = 0;                    // Count no. of fails for the binomial trial
+    int count = 0;                      // Count for both non-negative and count trials
     double myLat = 0;
     double myLong = 0;
     GeoPoint trialLocation = null;
 
+    /**
+     * When trial data is retrieved, it is passed along as a parameter by the interface method.
+     */
     public interface OnTrialCreatedListener {
         void onTrialAdded(Trial trial);
-
     }
 
+    /**
+     * Constructor.
+     */
     public CreateTrialDialogFragment(OnTrialCreatedListener callback) {
         super();
         this.callback = callback;
     }
 
+    /**
+     * Runs when the dialog is first created.
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.create_trial_dialog_fragment, null);
+
         Bundle args = getArguments();
-        Experiment exp = (Experiment) args.getSerializable("experiment");
+        Experiment exp = (Experiment) args.getSerializable("experiment");       // Get the experiment the trial is for
         init(view);
-        trialTypeCheck = exp.getTrialType();
+        trialTypeCheck = exp.getTrialType();        // Get the trial type
         visibility(trialTypeCheck);
         gettingLocation();
 
@@ -96,7 +100,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // Call the appropriate method (when "OK" button of dialog is clicked) depending on type of the trial
                 switch (trialTypeCheck) {
                     case "Binomial trial":
                         binomialTrialDialog(args, exp);
@@ -115,18 +119,20 @@ public class CreateTrialDialogFragment extends DialogFragment {
                         break;
                 }
                 dialog.dismiss();
-
             }
-
         });
 
         return dialog;
-
-
     }
 
+    /**
+     * This method deals with the information retrieval and Trial object creation for when the type of the trial is binomial.
+     * @param: args:Bundle
+     * @param: exp:Experiment (the experiment this trial is being performed for).
+     */
     public void binomialTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new GeoPoint(myLat,myLong);
+        trialLocation = new GeoPoint(myLong,myLat);
+        // We create a separate Trial object for each 'Pass'
         for (int i = 0; i < passNum; i++) {
             BinomialTrial binomialTrial = new BinomialTrial(
                     args.getString("experimenterID"),
@@ -139,6 +145,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
             });
             callback.onTrialAdded(binomialTrial);
         }
+        // We create a separate Trial object for each 'Fail'
         for (int i = 0; i < failNum; i++) {
             BinomialTrial binomialTrial = new BinomialTrial(
                     args.getString("experimenterID"),
@@ -151,12 +158,15 @@ public class CreateTrialDialogFragment extends DialogFragment {
             });
             callback.onTrialAdded(binomialTrial);
         }
-
-
     }
 
+    /**
+     * This method deals with the information retrieval and Trial object creation for when the type of the trial is count.
+     * @param: args:Bundle
+     * @param: exp:Experiment (the experiment this trial is being performed for).
+     */
     public void countTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new GeoPoint(myLat,myLong);
+        trialLocation = new GeoPoint(myLat, myLong);
         CountTrial countTrial = new CountTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
@@ -170,8 +180,13 @@ public class CreateTrialDialogFragment extends DialogFragment {
         callback.onTrialAdded(countTrial);
     }
 
+    /**
+     * This method deals with the information retrieval and Trial object creation for when the type of the trial is non-negative.
+     * @param: args:Bundle
+     * @param: exp:Experiment (the experiment this trial is being performed for).
+     */
     public void nonNegativeTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new GeoPoint(myLat,myLong);
+        trialLocation = new GeoPoint(myLat, myLong);
         NonNegativeTrial nonNegativeTrial = new NonNegativeTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
@@ -184,8 +199,13 @@ public class CreateTrialDialogFragment extends DialogFragment {
         callback.onTrialAdded(nonNegativeTrial);
     }
 
+    /**
+     * This method deals with the information retrieval and Trial object creation for when the type of the trial is measurement.
+     * @param: args:Bundle
+     * @param: exp:Experiment (the experiment this trial is being performed for).
+     */
     public void measurementTrialDialog(Bundle args, Experiment exp, String measure) {
-        trialLocation = new GeoPoint(myLat,myLong);
+        trialLocation = new GeoPoint(myLat, myLong);
         double measureValue = Double.valueOf(measure);
         MeasurementTrial measurementTrial = new MeasurementTrial(
                 args.getString("experimenterID"),
@@ -199,6 +219,9 @@ public class CreateTrialDialogFragment extends DialogFragment {
         callback.onTrialAdded(measurementTrial);
     }
 
+    /**
+     * Initialize the View instance variables.
+     */
     public void init(View view) {
         measurementTextBox = view.findViewById(R.id.editMeasurementValue);
         countNNTrial = view.findViewById(R.id.value_trial);
@@ -208,8 +231,8 @@ public class CreateTrialDialogFragment extends DialogFragment {
         positiveCountNNButton = view.findViewById(R.id.increase_trial_value);
         failNumTrial = view.findViewById(R.id.binomial_fail_textView);
         trueNumTrial = view.findViewById(R.id.binomial_pass_textView);
-        subButtonOne = view.findViewById(R.id.binomial_fail_decrement);
-        subButtonTwo = view.findViewById(R.id.binomial_pass_decrement);
+        decrementFailNumButton = view.findViewById(R.id.binomial_fail_decrement);
+        decrementPassNumButton = view.findViewById(R.id.binomial_pass_decrement);
     }
 
     public void gettingLocation() {
@@ -236,6 +259,10 @@ public class CreateTrialDialogFragment extends DialogFragment {
 
     }
 
+    /**
+     *  This method deals with giving visibility to a certain Views depending on the trial.
+     * @param: trialTypeCheck:String
+     */
     public void visibility(String trialTypeCheck){
         measurementTextBox.setVisibility(View.GONE);
         countNNTrial.setVisibility(View.GONE);
@@ -245,16 +272,16 @@ public class CreateTrialDialogFragment extends DialogFragment {
         positiveCountNNButton.setVisibility(View.GONE);
         failNumTrial.setVisibility(View.GONE);
         trueNumTrial.setVisibility(View.GONE);
-        subButtonOne.setVisibility(View.GONE);
-        subButtonTwo.setVisibility(View.GONE);
+        decrementFailNumButton.setVisibility(View.GONE);
+        decrementPassNumButton.setVisibility(View.GONE);
         switch (trialTypeCheck){
             case "Binomial trial":
                 passButton.setVisibility(View.VISIBLE);
                 failButton.setVisibility(View.VISIBLE);
                 failNumTrial.setVisibility(View.VISIBLE);
                 trueNumTrial.setVisibility(View.VISIBLE);
-                subButtonOne.setVisibility(View.VISIBLE);
-                subButtonTwo.setVisibility(View.VISIBLE);
+                decrementFailNumButton.setVisibility(View.VISIBLE);
+                decrementPassNumButton.setVisibility(View.VISIBLE);
                 BinomialTrialButtonController();
 
                 break;
@@ -276,10 +303,12 @@ public class CreateTrialDialogFragment extends DialogFragment {
             default:
                 break;
         }
-
     }
 
-    public void BinomialTrialButtonController(){
+    /**
+     *  This method deals with the buttons control when the trial type is binomial.
+     */
+    public void BinomialTrialButtonController() {
         passButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,7 +325,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 failNumTrial.setText( String.valueOf(failNum));
             }
         });
-        subButtonOne.setOnClickListener(new View.OnClickListener() {
+        decrementFailNumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 failNum = failNum - 1;
@@ -304,16 +333,18 @@ public class CreateTrialDialogFragment extends DialogFragment {
             }
         });
 
-        subButtonTwo.setOnClickListener(new View.OnClickListener() {
+        decrementPassNumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 passNum = passNum - 1;
                 trueNumTrial.setText(String.valueOf(passNum));
             }
         });
-
     }
 
+    /**
+     *  This method deals with the buttons control when the trial type is count.
+     */
     public void CountTrialButtonController(){
         positiveCountNNButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,6 +362,9 @@ public class CreateTrialDialogFragment extends DialogFragment {
         });
     }
 
+    /**
+     *  This method deals with the buttons control when the trial type is non-negative.
+     */
     public void NNTrialButtonController(){
         positiveCountNNButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,6 +386,5 @@ public class CreateTrialDialogFragment extends DialogFragment {
 
             }
         });
-
     }
 }
