@@ -48,10 +48,11 @@ public class NonNegativeTrial extends Trial {
      * @param trialExperimentID
      * id of experiment
      */
-    public NonNegativeTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count) {
+    public NonNegativeTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count, GeoPoint location) {
         super(trialUserID, trialOwnerName,trialExperimentID);
         this.trialType = Trial.NONNEGATIVE;
         this.count = count;
+        this.location = location;
     }
 
     /**

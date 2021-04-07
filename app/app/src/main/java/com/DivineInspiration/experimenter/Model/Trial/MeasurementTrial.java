@@ -50,11 +50,12 @@ public class MeasurementTrial extends Trial {
      * @param trialUserID       user of this trial
      * @param trialExperimentID id of experiment
      */
-    public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, double value) {
+    public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, double value, GeoPoint location) {
         super(trialUserID, trialOwnerName ,trialExperimentID);
         this.trialType = Trial.MEASURE;
         this.trialExperimentID = trialExperimentID;
         this.value = value;
+        this.location = location;
     }
 
 
