@@ -93,7 +93,7 @@ public class StatsMaker {
 
         for (Trial t : trials) {
             //add 1 to val[0] if success, to val[1] if fail
-            val[((BinomialTrial) t).getPass() ? 1 : 0]++;
+            val[((BinomialTrial) t).getPass() ? 0 : 1]++;
         }
         val[2] = 100 * val[0] / trials.size();
         return val;

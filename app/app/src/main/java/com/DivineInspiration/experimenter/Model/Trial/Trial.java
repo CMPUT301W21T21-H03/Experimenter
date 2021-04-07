@@ -19,7 +19,6 @@ public abstract class Trial implements Serializable {
     String trialExperimentID;
     String trialOwnerName;
 
-
     GeoPoint location;
 
     public static final String COUNT = "Count trial";
@@ -27,6 +26,10 @@ public abstract class Trial implements Serializable {
     public static final String NONNEGATIVE = "Non-Negative trial";
     public static final String MEASURE = "Measurement trial";
 
+    /**
+     * Constructor
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, location:GeoPoint
+     */
     public Trial(String trialId, String userId, String trialOwnerName ,String trialExperimentID , LocalDate date, GeoPoint location){
         this.trialID = trialId;
         this.trialUserID = userId;
@@ -36,6 +39,10 @@ public abstract class Trial implements Serializable {
         this.location = location;
     }
 
+    /**
+     * Constructor
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate
+     */
     public Trial(String trialId, String userId, String trialOwnerName ,String trialExperimentID , LocalDate date){
         this.trialID = trialId;
         this.trialUserID = userId;
@@ -45,6 +52,10 @@ public abstract class Trial implements Serializable {
         this.location = null;
     }
 
+    /**
+     * Constructor
+     * @param: userId:String, trialOwnerName:String, trialExperimentID:String
+     */
     public Trial(String userId, String trialOwnerName ,String experimentId){
         this.trialUserID = userId;
         this.trialOwnerName = trialOwnerName;
@@ -65,14 +76,13 @@ public abstract class Trial implements Serializable {
 
     /**
      * Gets the type of this trial
-     * @return
-     * The experiment ID
+     * @return: :String (The experiment ID)
      */
     public String getTrialType() { return trialType; }
 
     /**
      * Gets the ID of the trial
-     * @return
+     * @return: :String (The trial ID)
      */
     public String getTrialID() {
         return trialID;
@@ -80,8 +90,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Trial date getter
-     * @return
-     * gets the trial date as a Java Date class
+     * @return :LocalDate (gets the trial date as a Java Date class)
      */
     public LocalDate getTrialDate() {
         return trialDate;
@@ -89,8 +98,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Gets the person doing the trial
-     * @return
-     * ID of the trial's user
+     * @return: :String (ID of the trial's user)
      */
     public String getTrialUserID() {
         return trialUserID;
@@ -98,8 +106,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Gets the experiment of this trial
-     * @return
-     * The experiment ID
+     * @return: :String (The experiment ID)
      */
     public String getTrialExperimentID() {
         return trialExperimentID;
@@ -107,8 +114,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Gets the Experimenter of this trial
-     * @return
-     * The Owner Name
+     * @return: :String (The Owner Name)
      */
     public String getTrialOwnerName() {
         return trialOwnerName;

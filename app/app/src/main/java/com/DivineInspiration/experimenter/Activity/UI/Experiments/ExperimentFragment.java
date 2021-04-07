@@ -321,7 +321,9 @@ public class ExperimentFragment extends Fragment {
                     return tabFragment;
 
                 case 3:
-                    return  new TrialMapTabFramgent();
+                    tabFragment = new TrialMapTabFramgent();
+                    tabFragment.setArguments(bundle);
+                    return tabFragment;
                 default:
                     return new PlaceHolderFragment();
             }

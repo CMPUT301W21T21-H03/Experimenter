@@ -16,39 +16,29 @@ import java.util.UUID;
 public class MeasurementTrial extends Trial {
     private double value;
 
-    //constructor with location
+    /**
+     * Constructor
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double, location:GeoPoint
+     */
     public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double value, GeoPoint location){
         super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate, location);
         this.trialType = Trial.MEASURE;
         this.value = value;
     }
 
-    //mock constructor
-    public MeasurementTrial() {
-
-        super("test", "test", "test", "test",LocalDate.now().plusDays(new Random().nextInt(40) - 20));
-        this.trialType = Trial.MEASURE;
-        Random rng = new Random();
-
-        value = rng.nextFloat() * 20;
-    }
-
     /**
      * Constructor
-     *
-     * @param trialUserID       user of this trial
-     * @param trialExperimentID id of experiment
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate
      */
     public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
         super(trialUserID, trialOwnerName ,trialExperimentID);
         this.trialType = Trial.MEASURE;
         this.trialExperimentID = trialExperimentID;
     }
+
     /**
      * Constructor
-     *
-     * @param trialUserID       user of this trial
-     * @param trialExperimentID id of experiment
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double, location:GeoPoint
      */
     public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, double value, GeoPoint location) {
         super(trialUserID, trialOwnerName ,trialExperimentID);
@@ -58,27 +48,39 @@ public class MeasurementTrial extends Trial {
         this.location = location;
     }
 
-
     /**
      * Constructor
-     *
-     * @param trialID           the id of this trial
-     * @param trialDate         the date of this trial
-     * @param trialUserID       user of this trial
-     * @param trialExperimentID id of experiment
-     * @param measurements      list of measurments for this trial
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double
      */
-    public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double measurements) {
+    public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double value) {
         super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate);
         this.trialType = Trial.MEASURE;
-
-        this.value = measurements;
+        this.value = value;
     }
 
+    /**
+     * Mock object constructor for testing purposes
+     * @param: void
+     */
+    public MeasurementTrial() {
+        super("test", "test", "test", "test",LocalDate.now().plusDays(new Random().nextInt(40) - 20));
+        this.trialType = Trial.MEASURE;
+        Random rng = new Random();
+        value = rng.nextFloat() * 20;
+    }
+
+    /**
+     * Gets current value of the measurement
+     * @return: value:int
+     */
     public double getValue() {
         return value;
     }
 
+    /**
+     * Sets value of the measurement
+     * @param: value:double (new measurement)
+     */
     public void setValue(double newValue) {
         value = newValue;
     }
@@ -88,5 +90,4 @@ public class MeasurementTrial extends Trial {
     public String toString(){
         return String.format("MeasureTrial %s: %.3f, date: %s", trialID, value, trialDate.toString());
     }
-
 }

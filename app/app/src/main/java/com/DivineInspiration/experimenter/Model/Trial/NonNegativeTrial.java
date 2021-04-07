@@ -12,41 +12,29 @@ import java.util.UUID;
 public class NonNegativeTrial extends Trial {
     private int count;
 
-    //constructor with location
+    /**
+     * Constructor
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int, location:GeoPoint
+     */
     public NonNegativeTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count, GeoPoint location){
         super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate,location);
         this.trialType = Trial.NONNEGATIVE;
         this.count = count;
     }
 
-    //mock object
-    public NonNegativeTrial(){
-
-        super("test", "test", "test","test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
-        this.trialType = Trial.NONNEGATIVE;
-        Random rng = new Random();
-
-        count = rng.nextInt(20);
-    }
-
     /**
      * Constructor
-     * @param trialUserID
-     * user of this trial
-     * @param trialExperimentID
-     * id of experiment
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate
      */
-    public NonNegativeTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
+    public NonNegativeTrial(String trialUserID, String trialOwnerName, String trialExperimentID) {
         super(trialUserID, trialOwnerName,trialExperimentID);
         this.trialType = Trial.NONNEGATIVE;
         this.count = 0;
     }
+
     /**
      * Constructor
-     * @param trialUserID
-     * user of this trial
-     * @param trialExperimentID
-     * id of experiment
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int, location:GeoPoint
      */
     public NonNegativeTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count, GeoPoint location) {
         super(trialUserID, trialOwnerName,trialExperimentID);
@@ -57,21 +45,23 @@ public class NonNegativeTrial extends Trial {
 
     /**
      * Constructor
-     * @param trialID
-     * the id of this trial
-     * @param trialDate
-     * the date of this trial
-     * @param trialUserID
-     * user of this trial
-     * @param trialExperimentID
-     * id of experiment
-     * @param count
-     * count value of this trial
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int
      */
     public NonNegativeTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count) {
         super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate);
         this.trialType = Trial.NONNEGATIVE;
         this.count = count;
+    }
+
+    /**
+     * Mock object constructor for testing purposes
+     * @param: void
+     */
+    public NonNegativeTrial(){
+        super("test", "test", "test","test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
+        this.trialType = Trial.NONNEGATIVE;
+        Random rng = new Random();
+        count = rng.nextInt(20);
     }
 
     /**
@@ -83,8 +73,7 @@ public class NonNegativeTrial extends Trial {
 
     /**
      * Sets count
-     * @param count
-     * new count
+     * @param: count:int (new count)
      */
     public void setCount(int count) {
         this.count = count;
@@ -92,7 +81,7 @@ public class NonNegativeTrial extends Trial {
 
     /**
      * Gets current count
-     * @return: count
+     * @return: count:int
      */
     public int getCount() {
         return count;
