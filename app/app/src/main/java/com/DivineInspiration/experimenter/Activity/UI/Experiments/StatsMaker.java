@@ -61,7 +61,8 @@ public class StatsMaker {
                 quartiles.setVisibility(View.GONE);
                 double[] binomialStats = calcBinomialStats(trials); //get binomial related stats
                 passes.setText(String.format("Passes:  %s,  Fails:  %s, Ratio:  %.2f", fmt.format(binomialStats[0]), fmt.format(binomialStats[1]), binomialStats[2]));
-
+            case Trial.MEASURE:
+                total.setVisibility(View.GONE);
         }
 
         if (!type.equals(Trial.BINOMIAL)) {
