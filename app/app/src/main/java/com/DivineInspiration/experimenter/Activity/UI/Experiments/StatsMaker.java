@@ -61,7 +61,8 @@ public class StatsMaker {
                 quartiles.setVisibility(View.GONE);
                 double[] binomialStats = calcBinomialStats(trials); //get binomial related stats
                 passes.setText(String.format("Passes:  %s,  Fails:  %s, Ratio:  %.2f", fmt.format(binomialStats[0]), fmt.format(binomialStats[1]), binomialStats[2]));
-
+            case Trial.MEASURE:
+                total.setVisibility(View.GONE);
         }
 
         if (!type.equals(Trial.BINOMIAL)) {
@@ -140,7 +141,12 @@ public class StatsMaker {
         sortDouble(values);
         int size = values.size();
         //returns median regardless if its the list is odd or even
-        return (values.get(size / 2 - 1) + values.get((size / 2))) / 2; //magic
+
+        if(size % 2 == 1){
+            return values.get(size/2);
+        }
+        else{
+        return (values.get(size / 2 - 1) + values.get((size / 2))) / 2; }
 
 
     }

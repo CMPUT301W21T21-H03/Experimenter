@@ -17,7 +17,6 @@ import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -65,10 +64,9 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         statHolder = view.findViewById(R.id.statHolder);
         warningText = view.findViewById(R.id.statWarningText);
 
-        trialList = new ArrayList<>();
 
-        //Testing data
-//        for (int i = 0; i < 100; i++) {
+        // Testing data
+//        for (int i = 0; i < 5; i++) {
 //            trialList.add(new MeasurementTrial());
 //        }
 
@@ -90,6 +88,8 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         });
 
         if (trialList.size() == 0) {
+
+
             showWarning();
         } else {
             showStats();
@@ -102,9 +102,10 @@ public class StatsTabFragment extends Fragment implements Refreshable {
     @Override
     public void onResume() {
         super.onResume();
-        if (trialList != null && trialList.size() == 0) {
-            showWarning();
-        }
+//        if (trialList != null && trialList.size() == 0) {
+//            Log.d("woah", "Loc B");
+//            showWarning();
+//        }
     }
 
     private void showHistogram() {
@@ -135,7 +136,6 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         statHolder.removeAllViews();
         warningText.setVisibility(View.GONE);
     }
-
 
 
     private void showWarning() {

@@ -62,7 +62,7 @@ public class ExperimentFragment extends Fragment {
     TabLayout tabLayout;
 
     // tab names
-    String[] tabNames = {"Trials", "Comments", "Stats"};
+    String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
    // private ArrayList<User> subscribers = new ArrayList<>();
 
     Experiment currentExperiment;
@@ -127,6 +127,7 @@ public class ExperimentFragment extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
             }
 
             @Override
@@ -150,7 +151,6 @@ public class ExperimentFragment extends Fragment {
                                 currentUserSubbed = true;
                             }
                         }
-
                         ((TextView) getView().findViewById(R.id.expFragSubCount))
                                 .setText(users.size() + " subscribers");
                     }
@@ -320,6 +320,8 @@ public class ExperimentFragment extends Fragment {
                     tabFragment.setArguments(bundle);
                     return tabFragment;
 
+                case 3:
+                    return  new TrialMapTabFramgent();
                 default:
                     return new PlaceHolderFragment();
             }
@@ -327,7 +329,7 @@ public class ExperimentFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 3;
+            return 4;
         }
     }
 

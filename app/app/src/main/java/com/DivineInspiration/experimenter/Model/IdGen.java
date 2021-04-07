@@ -10,6 +10,8 @@ import kotlin.NotImplementedError;
 
 public class IdGen {
 
+    static int counter = (int) (System.currentTimeMillis() % 1296);
+
     /**
      * Event listener
      */
@@ -78,9 +80,9 @@ public class IdGen {
      * the experiment ID string
      */
     public static String genExperimentId(String userId){
-
+        counter = (counter + 1) % 1296;
         // TODO This is not necessarilly unique. Should it be?
-        return "EXP" + base10To36((System.currentTimeMillis()/1000)) +userId.substring(3);
+        return "EXP" + base10To36((System.currentTimeMillis()/1000))+base10To36(counter) +userId.substring(5);
     }
 
     /**
@@ -93,7 +95,8 @@ public class IdGen {
      * a large int
      */
     public static String genTrialsId(String userId){
-        return "TRI" + base10To36((System.currentTimeMillis()/1000)) +userId.substring(3);
+        counter = (counter + 1) % 1296;
+        return "TRI" + base10To36((System.currentTimeMillis()/1000)) +base10To36(counter)+userId.substring(5);
     }
 
     /**
