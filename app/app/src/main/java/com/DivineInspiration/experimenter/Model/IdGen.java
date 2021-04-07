@@ -8,6 +8,9 @@ import com.google.firebase.installations.FirebaseInstallations;
 
 import kotlin.NotImplementedError;
 
+/**
+ * This class is used to generate unique Id's for users, experiments, trials & comments
+ */
 public class IdGen {
 
     static int counter = (int) (System.currentTimeMillis() % 1296);
