@@ -52,7 +52,8 @@ public class StatsTabFragment extends Fragment implements Refreshable {
             Log.d("woah", args.getString("experimentID", ""));
             TrialManager.getInstance().queryExperimentTrials(args.getString("experimentID", ""), trials -> {
                trialList = trials;
-//            trialList = new ArrayList<>();
+
+
                 init(view);
             });
         }

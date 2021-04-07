@@ -50,7 +50,6 @@ public class CountTrial extends Trial {
 
 
     public CountTrial(){
-
         super("test", "test", "test","test" ,LocalDate.now().plusDays(new Random().nextInt(20)));
         this.trialType = Trial.COUNT;
         this.count =new Random().nextInt(20);

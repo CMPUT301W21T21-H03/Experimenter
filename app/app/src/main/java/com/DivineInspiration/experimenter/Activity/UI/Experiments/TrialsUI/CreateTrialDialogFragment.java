@@ -148,7 +148,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
         TrialManager.getInstance().addTrial(countTrial, trials -> {
             callback.onTrialAdded(countTrial);
         });
-       
+
     }
 
     public void nonNegativeTrialDialog(Bundle args, Experiment exp){
