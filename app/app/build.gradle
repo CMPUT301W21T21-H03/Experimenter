@@ -74,4 +74,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0-beta02'
     // code scanner
     implementation 'com.budiyev.android:code-scanner:2.1.0'
+    // qr code generator
+    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.4'
+    implementation 'com.google.zxing:core:3.3.2'
 }
