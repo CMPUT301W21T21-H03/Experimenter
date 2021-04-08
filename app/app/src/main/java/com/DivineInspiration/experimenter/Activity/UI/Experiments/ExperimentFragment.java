@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.DivineInspiration.experimenter.Activity.Observer;
 import com.DivineInspiration.experimenter.Activity.Subject;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUi.TrialMapTabFramgent;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.CreateTrialDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.TrialsTabFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentDialogFragment;
@@ -40,12 +41,14 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * This class deals with the UI for displaying the experiment details. (It also contains 4 tabs: Trials, Comments, Stats, Data)
  * @see: experiment_fragment (Contains 4 tabs: Trials, Comments, Stats, Map)
  */
-public class ExperimentFragment extends Fragment implements Subject {
-    List<Trial> currentTrials = new ArrayList<>();          // The trials performed for the experiment
+public class ExperimentFragment extends Fragment implements Subject, TrialManager.OnTrialListReadyListener{
+    List<Trial> currentTrials = new ArrayList<>();            // The trials performed for the experiment
+
 
     // Text views to display experiment information
     private TextView experimentName;
@@ -248,7 +251,8 @@ public class ExperimentFragment extends Fragment implements Subject {
         super.onResume();
 
         TrialManager.getInstance().queryExperimentTrials(currentExperiment.getExperimentID(), trials -> {
-            currentTrials = trials;
+            currentTrials.clear();
+            currentTrials.addAll(trials);
             updateAll();
         });
     }
@@ -320,9 +324,18 @@ public class ExperimentFragment extends Fragment implements Subject {
      */
     @Override
     public void updateAll() {
+        Log.d("woah exp frag", ""+System.identityHashCode(currentTrials));
         for(Observer observer : observers){
+            Log.d("woah exp callback", ""+currentTrials.size());
             observer.update(currentTrials);
         }
+    }
+
+    @Override
+    public void onTrialsReady(List<Trial> trials) {
+        currentTrials = trials;
+        Log.d("woah exp callback", ""+currentTrials.size());
+        updateAll();
     }
 
     /**
@@ -342,11 +355,14 @@ public class ExperimentFragment extends Fragment implements Subject {
         public Fragment createFragment(int position) {
             Bundle bundle = new Bundle();
             bundle.putString("experimentID", currentExperiment.getExperimentID());
+            bundle.putSerializable("experiment", currentExperiment);
             Fragment tabFragment;
             switch (position) {
                 case 0:
-                    tabFragment = new TrialsTabFragment();
+                    tabFragment = new TrialsTabFragment(ExperimentFragment.this);
+                    tabFragment.setArguments(bundle);
                     addObserver((TrialsTabFragment)tabFragment);
+
                     updateAll();
                     return tabFragment;
                 case 1:
@@ -355,12 +371,14 @@ public class ExperimentFragment extends Fragment implements Subject {
                     return tabFragment;
                 case 2:
                     tabFragment = new StatsTabFragment();
+                    tabFragment.setArguments(bundle);
                     addObserver((StatsTabFragment)tabFragment);
                     updateAll();
                     return tabFragment;
 
                 case 3:
                     tabFragment = new TrialMapTabFramgent();
+                    tabFragment.setArguments(bundle);
                     addObserver((TrialMapTabFramgent)tabFragment);
                     updateAll();
                     return tabFragment;

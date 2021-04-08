@@ -80,6 +80,30 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
 
+    public void banUserFromExperiment(String userId, String experimentId, OnOperationDone callback){
+        initLocalUserId();
+
+        Map<String, Object> update = new HashMap<>();
+        List<String> ids = new ArrayList<>();
+        ids.add(userId);
+        update.put("BannedIds", ids);
+       db.collection("BlackList").document(experimentId).get().addOnCompleteListener(task -> {
+           if(task.isSuccessful()){
+               if(task.getResult().exists()){
+
+                   db.collection("BlackList").document(experimentId).update("BannedIds", FieldValue.arrayUnion(userId)).addOnCompleteListener( task1 -> {
+                       callback.done(task1.isSuccessful());
+                   });
+               }
+               else{
+                   db.collection("BlackList").document(experimentId).set(update, SetOptions.merge()).addOnCompleteListener( task1 -> {
+                       callback.done(task1.isSuccessful());
+                   });
+               }
+           }
+       });
+    }
+
     /**
      * Updates owner name in the Firestore database
      * @param: ownerId:String, newName:String, callback:OnOperationDone

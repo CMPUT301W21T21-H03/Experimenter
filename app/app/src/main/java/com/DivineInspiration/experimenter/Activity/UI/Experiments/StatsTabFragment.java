@@ -2,7 +2,6 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.animation.LayoutTransition;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,6 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Activity.Observer;
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.CreateTrialDialogFragment;
-import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
-import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
@@ -88,8 +84,7 @@ public class StatsTabFragment extends Fragment implements Observer {
 
         if (trialList.size() > 2) {
             showStats();
-        }else
-        {
+        } else {
             showWarning();
         }
 
@@ -151,17 +146,25 @@ public class StatsTabFragment extends Fragment implements Observer {
      */
 
 
-
     @Override
     public void update(Object data) {
+
         trialList.clear();
         trialList.addAll((List<Trial>) data);
 
-        if(getView() != null){
+
+//        for(Trial i : trialList){
+////            Log.d("woah stats", i.toString());
+//        }
+//        Log.d("woah","outside list hash"+ System.identityHashCode(trialList));
+//        Log.d("woah","outside object hash"+ System.identityHashCode(data));
+        if (getView() != null) {
+//            Log.d("woah","inside "+ trialList.size());
             if (trialList.size() > 2) {
+//                Log.d("woah","show stats "+ trialList.size());
                 showStats();
-            }else
-            {
+            } else {
+//                Log.d("woah","show warning "+ trialList.size());
                 showWarning();
             }
         }

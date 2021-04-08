@@ -22,10 +22,23 @@ public abstract class Trial implements Serializable {
 
     LatLng location;
 
+    public boolean isIgnored() {
+        return ignored;
+    }
+
+    public void setIgnored(boolean ignored) {
+        this.ignored = ignored;
+    }
+
+    boolean ignored = false;
+
     public static final String COUNT = "Count trial";
     public static final String BINOMIAL = "Binomial trial";
     public static final String NONNEGATIVE = "Non-Negative trial";
     public static final String MEASURE = "Measurement trial";
+
+
+
 
     /**
      * Constructor
