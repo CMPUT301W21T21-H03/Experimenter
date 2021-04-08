@@ -451,6 +451,11 @@ public class StatisticsTest {
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnText("+");
         solo.clickOnText("+");
         solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
@@ -471,6 +476,47 @@ public class StatisticsTest {
     }
     @Test
     public void checkBinomialTrialLineGraph() {
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0,1);
+        solo.clickOnMenuItem("Ok");
+
+        while (solo.waitForText("Testing Binomial trial stats", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
+
+        //adding pass trials
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        for (int i = 0; i < 3; i++) {
+            solo.clickOnView(solo.getView(R.id.binomial_pass_button));
+        }
+        for (int i = 0; i < 2; i++) {
+            solo.clickOnView(solo.getView(R.id.binomial_fail_button));
+        }
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnMenuItem("Stats");
+
+        while (solo.waitForText("Line graph", 1, 1000) == false) {
+            solo.drag(200, 200, 300, 100, 10);
+        }
+        solo.clickOnMenuItem("Line graph");
+        solo.drag(200, 200, 300, 100, 10);
+        solo.drag(200, 200, 300, 100, 10);
+
+
+        //we check if the back button is there cause it only shows up when the line graph does
+        assertTrue(solo.waitForView(R.id.statBackButton));
+    }
+    @Test
+    public void checkNonNegTrialLineGraph() {
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -512,32 +558,238 @@ public class StatisticsTest {
         //we check if the back button is there cause it only shows up when the line graph does
         assertTrue(solo.waitForView(R.id.statBackButton));
     }
-    @Test
-    public void checkNonNegTrialLineGraph() {
 
-    }
     @Test
     public void checkMeasuringTrialLineGraph() {
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial stats");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0,3);
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
 
+        while (solo.waitForText("Testing measuring trial stats", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "12.3");
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "1");
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "3.9");
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnMenuItem("Stats");
+
+        while (solo.waitForText("Line graph", 1, 1000) == false) {
+            solo.drag(200, 200, 300, 100, 10);
+        }
+        solo.clickOnMenuItem("Line graph");
+        solo.drag(200, 200, 300, 100, 10);
+        solo.drag(200, 200, 300, 100, 10);
+
+
+        //we check if the back button is there cause it only shows up when the line graph does
+        assertTrue(solo.waitForView(R.id.statBackButton));
     }
 
     @Test
     public void checkCountTrialHistogram() {
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing count trial line graph");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0, 0);
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
 
+        while (solo.waitForText("Testing count trial line graph", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
+
+        //create trial on experiment
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnText("+");
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnText("+");
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnText("+");
+        solo.clickOnText("+");
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnMenuItem("Stats");
+
+        while (solo.waitForText("Histogram", 1, 1000) == false) {
+            solo.drag(200, 200, 300, 100, 10);
+        }
+        solo.clickOnMenuItem("Histogram");
+        solo.drag(200, 200, 300, 100, 10);
+        solo.drag(200, 200, 300, 100, 10);
+
+
+        //we check if the back button is there cause it only shows up when the line graph does
+        assertTrue(solo.waitForView(R.id.statBackButton));
     }
 
     @Test
     public void checkBinomialTrialHistogram() {
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0,1);
+        solo.clickOnMenuItem("Ok");
 
+        while (solo.waitForText("Testing Binomial trial stats", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
+
+        //adding pass trials
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        for (int i = 0; i < 3; i++) {
+            solo.clickOnView(solo.getView(R.id.binomial_pass_button));
+        }
+        for (int i = 0; i < 2; i++) {
+            solo.clickOnView(solo.getView(R.id.binomial_fail_button));
+        }
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnMenuItem("Stats");
+
+        while (solo.waitForText("Histogram", 1, 1000) == false) {
+            solo.drag(200, 200, 300, 100, 10);
+        }
+        solo.clickOnMenuItem("Histogram");
+        solo.drag(200, 200, 300, 100, 10);
+        solo.drag(200, 200, 300, 100, 10);
+
+
+        //we check if the back button is there cause it only shows up when the line graph does
+        assertTrue(solo.waitForView(R.id.statBackButton));
     }
 
     @Test
     public void checkNonNegCTrialHistogram() {
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0,1);
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
 
+        while (solo.waitForText("Testing Binomial trial stats", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
+
+        //adding pass trials
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnCheckBox(0);
+        for (int i = 0; i < 3; i++) {
+            solo.clickOnView(solo.getView(R.id.binomial_pass_button));
+        }
+        for (int i = 0; i < 2; i++) {
+            solo.clickOnView(solo.getView(R.id.binomial_fail_button));
+        }
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnMenuItem("Stats");
+
+        while (solo.waitForText("Histogram", 1, 1000) == false) {
+            solo.drag(200, 200, 300, 100, 10);
+        }
+        solo.clickOnMenuItem("Histogram");
+        solo.drag(200, 200, 300, 100, 10);
+        solo.drag(200, 200, 300, 100, 10);
+
+
+        //we check if the back button is there cause it only shows up when the line graph does
+        assertTrue(solo.waitForView(R.id.statBackButton));
     }
 
     @Test
     public void checkMeasuringTrialHistogram() {
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial stats");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0,3);
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
 
+        while (solo.waitForText("Testing measuring trial stats", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "12.3");
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "1");
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "3.9");
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnMenuItem("Stats");
+
+        while (solo.waitForText("Histogram", 1, 1000) == false) {
+            solo.drag(200, 200, 300, 100, 10);
+        }
+        solo.clickOnMenuItem("Histogram");
+        solo.drag(200, 200, 300, 100, 10);
+        solo.drag(200, 200, 300, 100, 10);
+
+
+        //we check if the back button is there cause it only shows up when the line graph does
+        assertTrue(solo.waitForView(R.id.statBackButton));
     }
 }
