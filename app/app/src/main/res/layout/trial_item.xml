@@ -65,7 +65,7 @@ on usage of card view
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:text="City"
+                android:text=""
                 android:textSize="10dp" />
         </FrameLayout>
 
