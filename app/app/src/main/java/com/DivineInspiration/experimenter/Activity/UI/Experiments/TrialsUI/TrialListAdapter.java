@@ -54,12 +54,10 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         String type = myTrial.getTrialType();
         switch (type){
             case "Binomial trial":
-                if(type == "Binomial trial"){
-                    if(((BinomialTrial)myTrial).getPass()){
-                        ans = "Pass";
-                    }else{
-                        ans = "False";
-                    }
+                if(((BinomialTrial)myTrial).getPass()){
+                    ans = "Pass";
+                }else{
+                    ans = "False";
                 }
                 break;
             case "Count trial":
@@ -79,7 +77,7 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         holder.getTrialResult().setText("Result: "+ans);
         holder.getExperimenterName().setText("Experimenter: "+ myTrial.getTrialOwnerName());
         holder.getTrialDate().setText(myTrial.getTrialDate().toString());
-        GeoPoint geoPoint = TrialManager.getInstance().osmToFireStore(myTrial.getLocation());
+        GeoPoint geoPoint = TrialManager.getInstance().latLngToGeoPoint(myTrial.getLocation());
         DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
         String LAT = String.valueOf(decimalFormat.format(geoPoint.getLatitude()));
