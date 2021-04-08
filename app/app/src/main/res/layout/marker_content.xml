@@ -5,19 +5,27 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:backgroundTint="@color/black3"
+    android:clickable="false"
     app:cardCornerRadius="4dp">
-        <TextView
-            android:id="@+id/markerContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textAlignment="gravity"
-            android:textSize="12sp"
-            android:textColor="@color/beige1"
-            android:text=""
-            android:ellipsize="end"
-            android:lines="1"
-            android:padding="2dp"
-            />
+        <LinearLayout
+            android:id="@+id/markerContentHolder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/markerContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAlignment="gravity"
+                android:textSize="12sp"
+                android:textColor="@color/beige1"
+                android:text=""
+                android:padding="2dp"
+                />
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 

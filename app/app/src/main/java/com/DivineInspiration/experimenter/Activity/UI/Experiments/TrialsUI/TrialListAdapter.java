@@ -54,12 +54,10 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         String type = myTrial.getTrialType();
         switch (type){
             case "Binomial trial":
-                if(type == "Binomial trial"){
-                    if(((BinomialTrial)myTrial).getPass()){
-                        ans = "Pass";
-                    }else{
-                        ans = "False";
-                    }
+                if(((BinomialTrial)myTrial).getPass()){
+                    ans = "Pass";
+                }else{
+                    ans = "False";
                 }
                 break;
             case "Count trial":

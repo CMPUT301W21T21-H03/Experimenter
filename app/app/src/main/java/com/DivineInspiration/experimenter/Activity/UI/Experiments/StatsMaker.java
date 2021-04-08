@@ -125,13 +125,18 @@ public class StatsMaker {
     public static double[] calcQuartiles(List<Trial> trials) {
         List<Double> values = sortDouble(getDoubles(trials));
         int size = values.size();
-        List<Double> upper = values.subList((size / 2) + 1, size);
+        List<Double> upper = values.subList((size / 2) + (size % 2 == 1? 1:0), size);
         List<Double> lower = values.subList(0, size/2);
 
-
-
-
-
+//        for(Double d: values){
+//            Log.d("woah values", d + "");
+//        }
+//        for(Double d: upper){
+//            Log.d("woah upper", d + "");
+//        }
+//        for(Double d: lower){
+//            Log.d("woah lower", d + "");
+//        }
         //Q1, Q3, min, max
         return new double[]{calcMedianSortedDouble(lower), calcMedianSortedDouble(upper), values.get(0), values.get(size - 1)};
     }

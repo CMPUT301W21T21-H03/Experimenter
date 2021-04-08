@@ -10,7 +10,6 @@ import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 
 import com.DivineInspiration.experimenter.Activity.Observer;
 import com.DivineInspiration.experimenter.Activity.Subject;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUi.TrialMapTabFramgent;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.CreateTrialDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.TrialsTabFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentDialogFragment;
@@ -330,11 +330,14 @@ public class ExperimentFragment extends Fragment implements Subject {
 
             Bundle bundle = new Bundle();
             bundle.putString("experimentID", currentExperiment.getExperimentID());
+            bundle.putSerializable("experiment", currentExperiment);
             Fragment tabFragment;
             switch (position) {
                 case 0:
                     tabFragment = new TrialsTabFragment();
+                    tabFragment.setArguments(bundle);
                     addObserver((TrialsTabFragment)tabFragment);
+
                     updateAll();
                     return tabFragment;
                 case 1:
@@ -343,12 +346,14 @@ public class ExperimentFragment extends Fragment implements Subject {
                     return tabFragment;
                 case 2:
                     tabFragment = new StatsTabFragment();
+                    tabFragment.setArguments(bundle);
                     addObserver((StatsTabFragment)tabFragment);
                     updateAll();
                     return tabFragment;
 
                 case 3:
                     tabFragment = new TrialMapTabFramgent();
+                    tabFragment.setArguments(bundle);
                     addObserver((TrialMapTabFramgent)tabFragment);
                     updateAll();
                     return tabFragment;
