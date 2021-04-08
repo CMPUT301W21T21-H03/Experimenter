@@ -1,57 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/black1"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
- <FrameLayout
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:layout_gravity="center">
-     <androidx.appcompat.widget.AppCompatImageButton
-         android:id="@+id/statBackButton"
-         android:layout_width="40dp"
-         android:layout_height="40dp"
-         android:layout_margin="10dp"
-         android:background="@drawable/arrow_back"
-         android:visibility="gone"/>
+<!--    https://github.com/PhilJay/MPAndroidChart/issues/1147#issuecomment-227452773
+fixing scollview and graph-->
+   <androidx.core.widget.NestedScrollView
+       android:fillViewport="true"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <FrameLayout
+           android:id="@+id/statFrame"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
 
-     <androidx.appcompat.widget.LinearLayoutCompat
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_gravity="center"
-         android:orientation="vertical"
-         android:id="@+id/statButtonGroup"
-         android:visibility="gone">
+           android:animateLayoutChanges="true">
 
-         <androidx.appcompat.widget.AppCompatButton
-             android:id="@+id/lineGraphButton"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginBottom="20dp"
-             android:background="@color/black3"
-             android:text="Line graph over time" />
+           <androidx.appcompat.widget.AppCompatImageButton
+               android:id="@+id/statBackButton"
+               android:layout_width="40dp"
+               android:layout_height="40dp"
+               android:layout_margin="10dp"
+               android:background="@drawable/arrow_back"
+               android:elevation="20dp"
+               android:visibility="gone" />
+           <androidx.appcompat.widget.LinearLayoutCompat
+               android:id="@+id/graphHolder"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_gravity="center_horizontal" />
 
-         <androidx.appcompat.widget.AppCompatButton
-             android:id="@+id/histogramButton"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:background="@color/black3"
-             android:text="Histogram" />
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="vertical"
+               android:gravity="center_horizontal"
+               android:elevation="10dp">
+               <TextView
+                   android:id="@+id/statWarningText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="No data available yet!"
+                   android:textSize="30dp"
+                   android:layout_margin="20dp"
+                   />
 
-     </androidx.appcompat.widget.LinearLayoutCompat>
+               <androidx.appcompat.widget.LinearLayoutCompat
+                   android:id="@+id/statHolder"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center_horizontal" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/graphHolder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+               <androidx.appcompat.widget.LinearLayoutCompat
+                   android:id="@+id/statButtonGroup"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center_horizontal"
+                   android:orientation="horizontal"
+                   android:visibility="gone"
+                   android:layout_margin="40dp">
 
- </FrameLayout>
 
+                   <androidx.appcompat.widget.AppCompatButton
+                       android:id="@+id/lineGraphButton"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginHorizontal="20dp"
+                       android:background="@color/black3"
+                       android:text="Line graph" />
+
+                   <androidx.appcompat.widget.AppCompatButton
+                       android:id="@+id/histogramButton"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginHorizontal="20dp"
+                       android:background="@color/black3"
+                       android:text="Histogram" />
+
+               </androidx.appcompat.widget.LinearLayoutCompat>
+           </LinearLayout>
+
+
+       </FrameLayout>
+   </androidx.core.widget.NestedScrollView>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

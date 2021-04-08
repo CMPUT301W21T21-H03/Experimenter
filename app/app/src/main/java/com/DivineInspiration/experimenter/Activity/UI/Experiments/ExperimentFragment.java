@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,14 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.DivineInspiration.experimenter.Activity.Observer;
+import com.DivineInspiration.experimenter.Activity.Subject;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.CreateTrialDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.TrialsTabFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentDialogFragment;
+
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
@@ -27,13 +34,15 @@ import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ExperimentFragment extends Fragment {
+public class ExperimentFragment extends Fragment implements Subject {
+    List<Trial> currentTrials = new ArrayList<>();
+
     // text views
     private TextView experimentName;
     private TextView ownerName;
@@ -54,11 +63,11 @@ public class ExperimentFragment extends Fragment {
 
     // nav
     ViewPager2 pager;
-    HomeFragmentAdapter adapter;
+    ExperimentTabsAdapter adapter;
     TabLayout tabLayout;
 
     // tab names
-    String[] tabNames = {"Trials", "Comments", "Stats"};
+    String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
    // private ArrayList<User> subscribers = new ArrayList<>();
 
     Experiment currentExperiment;
@@ -98,7 +107,7 @@ public class ExperimentFragment extends Fragment {
 
         // view pager
         pager = view.findViewById(R.id.expPager);
-        adapter = new HomeFragmentAdapter(this);
+        adapter = new ExperimentTabsAdapter(this);
         pager.setAdapter(adapter);
         tabLayout = view.findViewById(R.id.Tablayout);
         // set tab names
@@ -123,6 +132,7 @@ public class ExperimentFragment extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
             }
 
             @Override
@@ -146,7 +156,6 @@ public class ExperimentFragment extends Fragment {
                                 currentUserSubbed = true;
                             }
                         }
-
                         ((TextView) getView().findViewById(R.id.expFragSubCount))
                                 .setText(users.size() + " subscribers");
                     }
@@ -176,33 +185,11 @@ public class ExperimentFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
                     case 0:
-                        Bundle args = new Bundle();
-                        args.putSerializable("experiment", currentExperiment);
-                        // new trial
-                        switch (currentExperiment.getTrialType()) {
-                            case Trial.BINOMIAL:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_binomialTest, args);
-                                break;
-                            case Trial.MEASURE:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_nonNegativeTest, args);
-                                break;
-                            case Trial.NONNEGATIVE:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_measureTest, args);
-                                break;
-                            default:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_countTest, args);
-                                break;
-                        }
+                        TrialDialogSelect();
                         break;
-
                     case 1:
                         // New comment
                         Bundle bundle = new Bundle();
@@ -214,7 +201,6 @@ public class ExperimentFragment extends Fragment {
                         dialog.setArguments(bundle);
                         dialog.show(getChildFragmentManager(), "create comment frag");
                         break;
-
                     default:
                         // Stats
                 }
@@ -231,7 +217,7 @@ public class ExperimentFragment extends Fragment {
             setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!currentExperiment.getStatus().equals(Experiment.ENDED)){
+
                         Bundle args = new Bundle();
                         args.putSerializable("exp", currentExperiment);
 
@@ -247,11 +233,6 @@ public class ExperimentFragment extends Fragment {
                                 });
                         frag.setArguments(args);
                         frag.show(getChildFragmentManager(), "edit experiment frag");
-                    }
-                    else{
-                        Snackbar.make(getView(), "This experiment has ended!", Snackbar.LENGTH_LONG).show();
-                    }
-
                 }
             });
         } else {
@@ -268,6 +249,17 @@ public class ExperimentFragment extends Fragment {
             });
         }
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        TrialManager.getInstance().queryExperimentTrials(currentExperiment.getExperimentID(), trials -> {
+            currentTrials = trials;
+            updateAll();
+        });
     }
 
     private void init(View view) {
@@ -293,19 +285,42 @@ public class ExperimentFragment extends Fragment {
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
         expCity.setText("Region: " + exp.getRegion());
-        trialNumber.setText(String.valueOf(exp.getMinimumTrials()) + " trials needed");
+        trialNumber.setText(exp.getMinimumTrials() + " trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
         status.setText(String.format("Status: %s", exp.getStatus()));
         toolbar.setTitle(exp.getExperimentName());
     }
 
+    public void TrialDialogSelect(){
+        Bundle trialBundle = new Bundle();
+        trialBundle.putString("experimenterID", userManager.getLocalUser().getUserId());
+        trialBundle.putString("experimenterName", userManager.getLocalUser().getUserName());
+        trialBundle.putSerializable("experiment", currentExperiment);
+        CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment(trial -> {
+//            ( (CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0")).onTrialAdded(trial);
+//            ( (CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f2")).onTrialAdded(trial);
+            currentTrials.add(0, trial);
+            updateAll();
+        });
+        dialogTrial.setArguments(trialBundle);
+        dialogTrial.show(getChildFragmentManager(), "create trial frag");
+
+    }
+
+    @Override
+    public void updateAll() {
+        for(Observer observer : observers){
+            observer.update(currentTrials);
+        }
+    }
+
     /**
      * Home fragment
      */
-    public class HomeFragmentAdapter extends FragmentStateAdapter {
+    public class ExperimentTabsAdapter extends FragmentStateAdapter {
 
-        public HomeFragmentAdapter(Fragment frag) {
+        public ExperimentTabsAdapter(Fragment frag) {
             super(frag);
         }
 
@@ -319,7 +334,8 @@ public class ExperimentFragment extends Fragment {
             switch (position) {
                 case 0:
                     tabFragment = new TrialsTabFragment();
-                    tabFragment.setArguments(bundle);
+                    addObserver((TrialsTabFragment)tabFragment);
+                    updateAll();
                     return tabFragment;
                 case 1:
                     tabFragment = new DiscussionForumFragment();
@@ -327,9 +343,15 @@ public class ExperimentFragment extends Fragment {
                     return tabFragment;
                 case 2:
                     tabFragment = new StatsTabFragment();
-                    tabFragment.setArguments(bundle);
+                    addObserver((StatsTabFragment)tabFragment);
+                    updateAll();
                     return tabFragment;
 
+                case 3:
+                    tabFragment = new TrialMapTabFramgent();
+                    addObserver((TrialMapTabFramgent)tabFragment);
+                    updateAll();
+                    return tabFragment;
                 default:
                     return new PlaceHolderFragment();
             }
@@ -337,7 +359,7 @@ public class ExperimentFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 3;
+            return 4;
         }
     }
 
@@ -357,7 +379,7 @@ public class ExperimentFragment extends Fragment {
             super.onViewCreated(view, savedInstanceState);
             ListView list = view.findViewById(R.id.placeHolderList);
 
-            String[] items = {"Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.",
+            String[] items = {"Russell’s", "Paradox", "tells", "us", "that", "Humans", "are", "bad", "at", "math.",
                     "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be",
                     "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very",
                     "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have",

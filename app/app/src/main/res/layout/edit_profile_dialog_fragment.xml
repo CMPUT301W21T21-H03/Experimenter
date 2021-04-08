@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/editExperimentName"
+        android:id="@+id/editProfileName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -28,7 +28,7 @@
         android:textColor="#FF2929"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editExperimentName" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfileName" />
 
     <EditText
         android:id="@+id/editTrialType"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTrialType" />
 
     <EditText
-        android:id="@+id/editExperimentCity"
+        android:id="@+id/editProfileCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -79,7 +79,7 @@
         android:textColor="#FF2929"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editExperimentCity" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfileCity" />
 
     <EditText
         android:id="@+id/editExperimentAbout"

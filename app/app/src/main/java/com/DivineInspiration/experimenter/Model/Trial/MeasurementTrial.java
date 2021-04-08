@@ -1,85 +1,94 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
+import android.annotation.SuppressLint;
+
 import com.DivineInspiration.experimenter.Model.User;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.GeoPoint;
+
+import org.jetbrains.annotations.NotNull;
+
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.Random;
-import java.util.UUID;
+
 
 public class MeasurementTrial extends Trial {
-    public ArrayList<Float> measurements = new ArrayList<Float>();
+    private double value;
 
-    //mock constructor
-    public MeasurementTrial(){
-
-        super("test", "test", "test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
-        this.trialType = Trial.COUNT;
-        Random rng = new Random();
-
-        for(int i = 0; i<rng.nextInt(20); i++){
-            measurements.add(rng.nextFloat() * 60 - 30);
-        }
-    }
     /**
      * Constructor
-     * @param trialUserID
-     * user of this trial
-     * @param trialExperimentID
-     * id of experiment
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double, location:GeoPoint
      */
-    public MeasurementTrial(String trialUserID, String trialExperimentID) {
-        super(trialUserID, trialExperimentID);
+    public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double value, LatLng location){
+        super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate, location);
+        this.trialType = Trial.MEASURE;
+        this.value = value;
+    }
+
+    /**
+     * Constructor
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate
+     */
+    public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
+        super(trialUserID, trialOwnerName ,trialExperimentID);
         this.trialType = Trial.MEASURE;
         this.trialExperimentID = trialExperimentID;
     }
 
     /**
      * Constructor
-     * @param trialID
-     * the id of this trial
-     * @param trialDate
-     * the date of this trial
-     * @param trialUserID
-     * user of this trial
-     * @param trialExperimentID
-     * id of experiment
-     * @param measurements
-     * list of measurments for this trial
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double, location:GeoPoint
      */
-    public MeasurementTrial(String trialID, String trialUserID, String trialExperimentID, LocalDate trialDate, ArrayList<Float> measurements) {
-        super(trialID, trialUserID, trialExperimentID, trialDate);
+    public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, double value, LatLng location) {
+        super(trialUserID, trialOwnerName ,trialExperimentID);
         this.trialType = Trial.MEASURE;
-
-        this.measurements = measurements;
+        this.trialExperimentID = trialExperimentID;
+        this.value = value;
+        this.location = location;
     }
 
     /**
-     * Adds measurement to measurements
-     * @param: measurement
+     * Constructor
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double
      */
-    public void addMeasurement(float measurement) {
-        measurements.add(measurement);
+    public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double value) {
+        super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate);
+        this.trialType = Trial.MEASURE;
+        this.value = value;
     }
 
     /**
-     * Gets all measurements
-     * @return: measurements:ArrayList<Float>
+     * Mock object constructor for testing purposes
+     * @param: void
      */
-    public ArrayList<Float> getMeasurements() {
-        return measurements;
+    public MeasurementTrial() {
+        super("test", "test", "test", "test",LocalDate.now().plusDays(new Random().nextInt(40) - 20));
+        this.trialType = Trial.MEASURE;
+        Random rng = new Random();
+        value = rng.nextFloat() * 20;
     }
 
     /**
-     * Return the average measurement
-     * @return: average measurement
+     * Gets current value of the measurement
+     * @return: value:int
      */
-    public float getAverageMeasurement() {
-        float total = 0;
-        for (float measurement : measurements) {
-            total += measurement;
-        }
-        return total / measurements.size();
+    public double getValue() {
+        return value;
+    }
+
+    /**
+     * Sets value of the measurement
+     * @param: value:double (new measurement)
+     */
+    public void setValue(double newValue) {
+        value = newValue;
+    }
+
+    @SuppressLint("DefaultLocale")
+    @NotNull
+    public String toString(){
+        return String.format("MeasureTrial %s: %.3f, date: %s", trialID, value, trialDate.toString());
     }
 }

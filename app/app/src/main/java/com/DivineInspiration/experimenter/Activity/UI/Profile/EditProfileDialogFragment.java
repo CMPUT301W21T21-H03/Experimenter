@@ -105,9 +105,9 @@ public class EditProfileDialogFragment extends DialogFragment {
         User newUser = newManager.getLocalUser();
 
         // get views
-        editName = view.findViewById(R.id.editExperimentName);
+        editName = view.findViewById(R.id.editProfileName);
         editAbout = view.findViewById(R.id.editExperimentAbout);
-        editCity = view.findViewById(R.id.editExperimentCity);
+        editCity = view.findViewById(R.id.editProfileCity);
         editEmail = view.findViewById(R.id.editTrialType);
         editProfileError1 = view.findViewById(R.id.profileError1);
         editProfileError2 = view.findViewById(R.id.profileError2);
@@ -181,7 +181,7 @@ public class EditProfileDialogFragment extends DialogFragment {
                 newManager.queryUserByName(newUser.getUserName(), user -> {
                     //if the user return is null, then the desired user name is not used
                     //or if the user fetched is the user currently logged in
-                    if(user == null || (user.getUserName().equals(newUser.getUserName()) && user.getUserId().equals(newUser.getUserId())) ){
+                    if(newUser.getUserName().equals("Anonymous") || user == null || (user.getUserName().equals(newUser.getUserName()) && user.getUserId().equals(newUser.getUserId())) ){
                         String currentName = user == null? "":user.getUserName(); //save user name only if trying to update current user, as in, no name update
 
                         //attempt to update user account
