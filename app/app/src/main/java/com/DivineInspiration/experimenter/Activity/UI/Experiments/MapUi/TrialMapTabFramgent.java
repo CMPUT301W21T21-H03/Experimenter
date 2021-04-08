@@ -14,19 +14,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 
 import com.DivineInspiration.experimenter.Activity.Observer;
-import com.DivineInspiration.experimenter.Controller.TrialManager;
+import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,8 +36,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,7 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
 
     List<Trial> trials = new ArrayList<>();
     GoogleMap map;
+    Experiment currentExperiment;
 
     @Nullable
     @Override
@@ -65,26 +68,25 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-
+        assert getArguments() != null;
+        currentExperiment =(Experiment) getArguments().getSerializable("experiment");
 
     }
-
-
-
 
 
     @Override
     public void update(Object data) {
         trials.clear();
-        trials.addAll((List<Trial>)data);
+        trials.addAll((List<Trial>) data);
         makeMarkers();
     }
 
-    private void makeMarkers(){
+    private void makeMarkers() {
 
-        if(map != null){
-            for(Trial trial: trials){
-                map.addMarker(new MarkerOptions().position(trial.getLocation()).title(MapHelper.getShortTrialDescription(trial)));
+        if (map != null) {
+            for (Trial trial : trials) {
+
+                map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(MapHelper.getShortTrialDescription(trial)));
             }
         }
     }
@@ -92,6 +94,7 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        map.setInfoWindowAdapter(new TrialInfoAdapter());
         LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{
@@ -105,12 +108,14 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 // mapController.setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
-             map.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Current Location").icon(bitmapDescriptorFromVector(getContext(), R.drawable.current_location_icon)));
-            map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
-            map.moveCamera(CameraUpdateFactory.zoomTo(9));
+                map.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).snippet("Current Location").icon(bitmapDescriptorFromVector(getContext(), R.drawable.current_location_icon)));
+                map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+                //    map.moveCamera(CameraUpdateFactory.zoomTo(9));
                 mLocationManager.removeUpdates(this);
             }
         });
+
+        makeMarkers();
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
@@ -124,4 +129,44 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
+
+    class TrialInfoAdapter implements GoogleMap.InfoWindowAdapter {
+/*
+https://stackoverflow.com/a/13904784/12471420
+custom info
+ */
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+
+            View v = LayoutInflater.from(getContext()).inflate(R.layout.marker_content, null);
+            ((TextView) v.findViewById(R.id.markerContent)).setText(marker.getSnippet());
+
+            if(UserManager.getInstance().getLocalUser().getUserId().equals(currentExperiment.getOwnerID()))
+            {
+                Button myButt = new Button(getContext());
+                myButt.setText("Ban User");
+                myButt.setBackgroundColor(getResources().getColor(R.color.black1, null));
+                myButt.setOnClickListener(viewClicked->{
+                    Log.d("woah", "button clicked");
+                });
+
+                ((LinearLayout)v.findViewById(R.id.markerContentHolder)).addView(myButt);
+
+            }
+            return v;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return  null;
+        }
+    }
+
+
 }
+
+
+
+

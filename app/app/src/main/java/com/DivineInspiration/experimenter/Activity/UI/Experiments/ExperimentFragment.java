@@ -330,11 +330,14 @@ public class ExperimentFragment extends Fragment implements Subject {
 
             Bundle bundle = new Bundle();
             bundle.putString("experimentID", currentExperiment.getExperimentID());
+            bundle.putSerializable("experiment", currentExperiment);
             Fragment tabFragment;
             switch (position) {
                 case 0:
                     tabFragment = new TrialsTabFragment();
+                    tabFragment.setArguments(bundle);
                     addObserver((TrialsTabFragment)tabFragment);
+
                     updateAll();
                     return tabFragment;
                 case 1:
@@ -343,12 +346,14 @@ public class ExperimentFragment extends Fragment implements Subject {
                     return tabFragment;
                 case 2:
                     tabFragment = new StatsTabFragment();
+                    tabFragment.setArguments(bundle);
                     addObserver((StatsTabFragment)tabFragment);
                     updateAll();
                     return tabFragment;
 
                 case 3:
                     tabFragment = new TrialMapTabFramgent();
+                    tabFragment.setArguments(bundle);
                     addObserver((TrialMapTabFramgent)tabFragment);
                     updateAll();
                     return tabFragment;
