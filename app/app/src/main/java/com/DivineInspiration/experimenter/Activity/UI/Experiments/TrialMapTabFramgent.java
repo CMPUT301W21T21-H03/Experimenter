@@ -23,15 +23,7 @@ import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
-import org.osmdroid.api.IMapController;
-import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.MapTileProviderBasic;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.CustomZoomButtonsController;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Marker;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +31,7 @@ import java.util.List;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class TrialMapTabFramgent extends Fragment implements Observer {
-    MapView map;
+
     List<Trial> trials;
 
     @Nullable

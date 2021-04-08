@@ -3,15 +3,16 @@ package com.DivineInspiration.experimenter.Model.Trial;
 import android.annotation.SuppressLint;
 
 import com.DivineInspiration.experimenter.Model.User;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.GeoPoint;
 
 import org.jetbrains.annotations.NotNull;
-import org.osmdroid.util.GeoPoint;
+
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.Random;
-import java.util.UUID;
+
 
 public class MeasurementTrial extends Trial {
     private double value;
@@ -20,7 +21,7 @@ public class MeasurementTrial extends Trial {
      * Constructor
      * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double, location:GeoPoint
      */
-    public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double value, GeoPoint location){
+    public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double value, LatLng location){
         super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate, location);
         this.trialType = Trial.MEASURE;
         this.value = value;
@@ -40,7 +41,7 @@ public class MeasurementTrial extends Trial {
      * Constructor
      * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double, location:GeoPoint
      */
-    public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, double value, GeoPoint location) {
+    public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, double value, LatLng location) {
         super(trialUserID, trialOwnerName ,trialExperimentID);
         this.trialType = Trial.MEASURE;
         this.trialExperimentID = trialExperimentID;
