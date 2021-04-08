@@ -10,7 +10,6 @@ import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentDialogFragment;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.BinomialTest;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.CountTest;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.MeasureTest;
-import com.DivineInspiration.experimenter.Activity.UI.TrialTests.NonNegativeTest;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
-import com.DivineInspiration.experimenter.Model.Comment;
 import com.DivineInspiration.experimenter.Model.Experiment;
-import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
-import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
-import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
-import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
@@ -41,7 +31,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ExperimentFragment extends Fragment {

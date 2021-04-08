@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.DivineInspiration.experimenter.Controller.CommentManager;
-import com.DivineInspiration.experimenter.Model.Comment;
+import com.DivineInspiration.experimenter.Model.Comment.Comment;
 import com.DivineInspiration.experimenter.R;
 
 import java.util.ArrayList;
@@ -31,10 +32,11 @@ public class DiscussionForumFragment extends Fragment implements CommentManager.
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
 
-        this.commentList = new ArrayList<>();
-        this.adapter = new CommentListAdapter();
         experiment = bundle.getString("experimentID");
         if (experiment == null) { throw new NullPointerException(); }
+
+        this.commentList = new ArrayList<>();
+        this.adapter = new CommentListAdapter(getContext(), getActivity().getSupportFragmentManager() , experiment);
     }
 
     @Nullable
@@ -51,9 +53,6 @@ public class DiscussionForumFragment extends Fragment implements CommentManager.
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-
-        // TODO replies
-
 
         return root;
     }

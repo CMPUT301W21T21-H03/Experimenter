@@ -3,7 +3,6 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -13,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.DivineInspiration.experimenter.Controller.CommentManager;
-import com.DivineInspiration.experimenter.Model.Comment;
+import com.DivineInspiration.experimenter.Model.Comment.Comment;
 import com.DivineInspiration.experimenter.Model.IdGen;
 import com.DivineInspiration.experimenter.R;
 
@@ -63,7 +62,9 @@ public class CreateCommentDialogFragment extends DialogFragment {
                             args.getString("commenterID"),
                             args.getString("commenterName"),
                             new Date(),
-                            commentText
+                            commentText,
+                            false,
+                            false
                     );
 
                     CommentManager.getInstance().addComment(comment, args.getString("experimentID"));

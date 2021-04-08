@@ -4,16 +4,14 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.DivineInspiration.experimenter.Model.Comment;
+import com.DivineInspiration.experimenter.Model.Comment.Comment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +26,10 @@ public class CommentManager {
 
     public interface OnCommentsReadyListener {
         void onCommentsReady(List<Comment> comments);
+    }
+
+    public interface OnRepliesReadyListener {
+        void onRepliesReady(List<Comment> replies, String commentID);
     }
 
     public CommentManager() { }
@@ -48,8 +50,15 @@ public class CommentManager {
         doc.put("ExperimentID", experimentID);
         doc.put("Date", comment.getDate());
         doc.put("Comment", comment.getComment());
+        doc.put("isReply", comment.isReply());
+        doc.put("hasReply", comment.getHasReplies());
 
-        db.collection("Comments").document(experimentID).collection("Comments").document(comment.getCommentId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Comments")
+                .document(experimentID)
+                .collection("Comments")
+                .document(comment.getCommentId())
+                .set(doc)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -71,9 +80,16 @@ public class CommentManager {
         doc.put("ExperimentID", experimentID);
         doc.put("Date", reply.getDate());
         doc.put("Comment", reply.getComment());
+        doc.put("isReply", reply.isReply());
+        doc.put("hasReply", reply.getHasReplies());
 
-        db.collection("Comments").document(experimentID).collection("Comments")
-                .document(commentID).collection("Replies").document(reply.getCommenterId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Comments")
+                .document(experimentID)
+                .collection("Comments")
+                .document(commentID)
+                .collection("Replies")
+                .document(reply.getCommenterId())
+                .set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -84,13 +100,35 @@ public class CommentManager {
                 }
             }
         });
+
+        db.collection("Comments")
+                .document(experimentID)
+                .collection("Comments")
+                .document(commentID)
+                .update("hasReply", true)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, commentID + " hasReply field updated successfully");
+                        }
+                        else {
+                            Log.d(TAG, commentID + " hasReply field update failed");
+                            throw new IllegalAccessError(commentID + " failed to update hasReply after adding reply " + reply.getCommentId());
+                        }
+                    }
+                });
     }
 
     // TODO Recursive delete
 
     public void removeComment (String commentID, String experimentID, OnCommentsReadyListener callback) {
 
-        db.collection("Comments").document(experimentID).collection("Comments").document(commentID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Comments")
+                .document(experimentID).collection("Comments")
+                .document(commentID)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -105,23 +143,35 @@ public class CommentManager {
 
     public void removeReply (String replyID, String commentID, String experimentID) {
 
-        db.collection("Comments").document(experimentID).collection("Comments")
-                .document(commentID).collection("Replies").document(replyID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "delete reply succeeded");
-                }
-                else {
-                    Log.d(TAG, "delete reply failed");
-                }
-            }
-        });
+        // TODO check is last reply removed
+        throw new UnsupportedOperationException();
+        //db.collection("Comments")
+        //        .document(experimentID)
+        //        .collection("Comments")
+        //        .document(commentID)
+        //        .collection("Replies")
+        //        .document(replyID)
+        //        .delete()
+        //        .addOnCompleteListener(new OnCompleteListener<Void>() {
+        //    @Override
+        //    public void onComplete(@NonNull Task<Void> task) {
+        //        if (task.isSuccessful()) {
+        //            Log.d(TAG, "delete reply succeeded");
+        //        }
+        //        else {
+        //            Log.d(TAG, "delete reply failed");
+        //        }
+        //    }
+        //});
     }
 
     public void getExperimentComments (String experimentID, OnCommentsReadyListener callback) {
 
-        db.collection("Comments").document(experimentID).collection("Comments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Comments")
+                .document(experimentID)
+                .collection("Comments")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
@@ -141,10 +191,15 @@ public class CommentManager {
         });
     }
 
-    public void getCommentReplies (String commentID, String experimentID, OnCommentsReadyListener callback) {
+    public void getCommentReplies (String commentID, String experimentID, OnRepliesReadyListener callback) {
 
-        db.collection("Comments").document(experimentID).collection("Comments")
-                .document(experimentID).collection("Replies").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Comments")
+                .document(experimentID)
+                .collection("Comments")
+                .document(commentID)
+                .collection("Replies")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
@@ -153,11 +208,12 @@ public class CommentManager {
                     for (QueryDocumentSnapshot snapshot : task.getResult()) {
                         output.add(commentFromSnapshot(snapshot));
                     }
-                    callback.onCommentsReady(output);
+                    Log.d(TAG, commentID + " reply retrieval succeeded");
+                    callback.onRepliesReady(output, commentID);
                 }
                 else {
-                    Log.d(TAG, "Comment retrieval failed");
-                    callback.onCommentsReady(null);
+                    Log.d(TAG, commentID + " reply retrieval failed");
+                    callback.onRepliesReady(null, commentID);
                 }
             }
         });
@@ -170,7 +226,9 @@ public class CommentManager {
                 snapshot.getString("CommenterID"),
                 snapshot.getString("CommenterName"),
                 snapshot.getDate("Date"),
-                snapshot.getString("Comment")
+                snapshot.getString("Comment"),
+                snapshot.getBoolean("isReply"),
+                snapshot.getBoolean("hasReply")
         );
     }
 
