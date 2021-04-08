@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.DivineInspiration.experimenter.Activity.Observer;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
@@ -19,21 +20,19 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrialsTabFragment extends Fragment implements TrialManager.OnTrialListReadyListener, CreateTrialDialogFragment.OnTrialCreatedListener {
+public class TrialsTabFragment extends Fragment implements Observer {
 
     private TrialListAdapter adapter;
-    private List<Trial> trialArrayList;
+    private List<Trial> trialArrayList = new ArrayList<>();
     String experimentID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
 
         this.trialArrayList = new ArrayList<>();
         this.adapter = new TrialListAdapter();
-        experimentID = bundle.getString("experimentID");
-        if (experimentID == null) { throw new NullPointerException(); }
+
     }
 
     @Nullable
@@ -43,7 +42,7 @@ public class TrialsTabFragment extends Fragment implements TrialManager.OnTrialL
         View view = inflater.inflate(R.layout.trial_list, container, false);
 
 
-        TrialManager.getInstance().queryExperimentTrials(experimentID, this);
+
 //        CommentManager.getInstance().getExperimentComments(experiment, this);
         RecyclerView recycler = view.findViewById(R.id.trialList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -52,20 +51,18 @@ public class TrialsTabFragment extends Fragment implements TrialManager.OnTrialL
         return view;
     }
 
+
+
+
+
     @Override
-    public void onTrialAdded(Trial trial) {
+    public void update(Object data) {
 
-        trialArrayList.add(0, trial);
-        adapter.setTrials(trialArrayList);
-        adapter.notifyDataSetChanged();
+        trialArrayList.clear();
+        trialArrayList.addAll((List<Trial>) data);
+        if(adapter != null){
+            adapter.notifyDataSetChanged();
+        }
+
     }
-    @Override
-    public void onTrialsReady(List<Trial> trials) {
-        trialArrayList = trials;
-        adapter.setTrials(trials);
-    }
-
-
-
-
 }

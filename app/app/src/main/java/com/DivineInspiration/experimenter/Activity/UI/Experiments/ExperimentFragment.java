@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.DivineInspiration.experimenter.Activity.Observer;
+import com.DivineInspiration.experimenter.Activity.Subject;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.CreateTrialDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.TrialsTabFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentDialogFragment;
@@ -26,18 +29,20 @@ import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
-import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
+import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ExperimentFragment extends Fragment {
+public class ExperimentFragment extends Fragment implements Subject {
+    List<Trial> currentTrials = new ArrayList<>();
+
     // text views
     private TextView experimentName;
     private TextView ownerName;
@@ -58,7 +63,7 @@ public class ExperimentFragment extends Fragment {
 
     // nav
     ViewPager2 pager;
-    HomeFragmentAdapter adapter;
+    ExperimentTabsAdapter adapter;
     TabLayout tabLayout;
 
     // tab names
@@ -102,7 +107,7 @@ public class ExperimentFragment extends Fragment {
 
         // view pager
         pager = view.findViewById(R.id.expPager);
-        adapter = new HomeFragmentAdapter(this);
+        adapter = new ExperimentTabsAdapter(this);
         pager.setAdapter(adapter);
         tabLayout = view.findViewById(R.id.Tablayout);
         // set tab names
@@ -180,13 +185,11 @@ public class ExperimentFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
                     case 0:
                         TrialDialogSelect();
                         break;
-
                     case 1:
                         // New comment
                         Bundle bundle = new Bundle();
@@ -198,7 +201,6 @@ public class ExperimentFragment extends Fragment {
                         dialog.setArguments(bundle);
                         dialog.show(getChildFragmentManager(), "create comment frag");
                         break;
-
                     default:
                         // Stats
                 }
@@ -247,6 +249,17 @@ public class ExperimentFragment extends Fragment {
             });
         }
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        TrialManager.getInstance().queryExperimentTrials(currentExperiment.getExperimentID(), trials -> {
+            currentTrials = trials;
+            updateAll();
+        });
     }
 
     private void init(View view) {
@@ -284,18 +297,29 @@ public class ExperimentFragment extends Fragment {
         trialBundle.putString("experimenterID", userManager.getLocalUser().getUserId());
         trialBundle.putString("experimenterName", userManager.getLocalUser().getUserName());
         trialBundle.putSerializable("experiment", currentExperiment);
-        CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment((CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0"));
+        CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment(trial -> {
+//            ( (CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0")).onTrialAdded(trial);
+//            ( (CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f2")).onTrialAdded(trial);
+            updateAll();
+        });
         dialogTrial.setArguments(trialBundle);
         dialogTrial.show(getChildFragmentManager(), "create trial frag");
 
     }
 
+    @Override
+    public void updateAll() {
+        for(Observer observer : observers){
+            observer.update(currentTrials);
+        }
+    }
+
     /**
      * Home fragment
      */
-    public class HomeFragmentAdapter extends FragmentStateAdapter {
+    public class ExperimentTabsAdapter extends FragmentStateAdapter {
 
-        public HomeFragmentAdapter(Fragment frag) {
+        public ExperimentTabsAdapter(Fragment frag) {
             super(frag);
         }
 
@@ -309,7 +333,8 @@ public class ExperimentFragment extends Fragment {
             switch (position) {
                 case 0:
                     tabFragment = new TrialsTabFragment();
-                    tabFragment.setArguments(bundle);
+                    addObserver((TrialsTabFragment)tabFragment);
+                    updateAll();
                     return tabFragment;
                 case 1:
                     tabFragment = new DiscussionForumFragment();
@@ -317,12 +342,14 @@ public class ExperimentFragment extends Fragment {
                     return tabFragment;
                 case 2:
                     tabFragment = new StatsTabFragment();
-                    tabFragment.setArguments(bundle);
+                    addObserver((StatsTabFragment)tabFragment);
+                    updateAll();
                     return tabFragment;
 
                 case 3:
                     tabFragment = new TrialMapTabFramgent();
-                    tabFragment.setArguments(bundle);
+                    addObserver((TrialMapTabFramgent)tabFragment);
+                    updateAll();
                     return tabFragment;
                 default:
                     return new PlaceHolderFragment();

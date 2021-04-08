@@ -9,8 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.DivineInspiration.experimenter.Controller.UserManager;
-import com.DivineInspiration.experimenter.Model.Comment;
+
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;

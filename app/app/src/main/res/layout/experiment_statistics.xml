@@ -59,7 +59,7 @@ fixing scollview and graph-->
                    android:layout_height="wrap_content"
                    android:layout_gravity="center_horizontal"
                    android:orientation="horizontal"
-                   android:visibility="visible"
+                   android:visibility="gone"
                    android:layout_margin="40dp">
 
 
