@@ -7,12 +7,7 @@
     android:backgroundTint="@color/black3"
     android:clickable="false"
     app:cardCornerRadius="4dp">
-        <LinearLayout
-            android:id="@+id/markerContentHolder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal">
+
 
             <TextView
                 android:id="@+id/markerContent"
@@ -26,6 +21,6 @@
                 android:padding="2dp"
                 />
 
-        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 

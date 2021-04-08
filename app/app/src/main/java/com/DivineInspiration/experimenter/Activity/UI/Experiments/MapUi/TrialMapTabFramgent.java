@@ -38,7 +38,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.InstanceCreator;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +52,7 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
     List<Trial> trials = new ArrayList<>();
     GoogleMap map;
     Experiment currentExperiment;
+    Gson gson = new Gson();
 
     @Nullable
     @Override
@@ -82,7 +86,6 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
     }
 
     private void makeMarkers() {
-
         if (map != null) {
             for (Trial trial : trials) {
 
@@ -141,20 +144,15 @@ custom info
         public View getInfoWindow(Marker marker) {
 
             View v = LayoutInflater.from(getContext()).inflate(R.layout.marker_content, null);
+
+            if(marker.getSnippet().equals("Current Location")){
+                return  null;
+            }
+
             ((TextView) v.findViewById(R.id.markerContent)).setText(marker.getSnippet());
 
-            if(UserManager.getInstance().getLocalUser().getUserId().equals(currentExperiment.getOwnerID()))
-            {
-                Button myButt = new Button(getContext());
-                myButt.setText("Ban User");
-                myButt.setBackgroundColor(getResources().getColor(R.color.black1, null));
-                myButt.setOnClickListener(viewClicked->{
-                    Log.d("woah", "button clicked");
-                });
 
-                ((LinearLayout)v.findViewById(R.id.markerContentHolder)).addView(myButt);
-
-            }
+            v.setClickable(false);
             return v;
         }
 
@@ -163,8 +161,6 @@ custom info
             return  null;
         }
     }
-
-
 }
 
 
