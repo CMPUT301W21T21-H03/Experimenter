@@ -128,6 +128,12 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                 } else {
                     addButton.hide();
                 }
+                if(position == 3){
+                    pager.setUserInputEnabled(false);
+                }
+                else{
+                    pager.setUserInputEnabled(true);
+                }
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) { }

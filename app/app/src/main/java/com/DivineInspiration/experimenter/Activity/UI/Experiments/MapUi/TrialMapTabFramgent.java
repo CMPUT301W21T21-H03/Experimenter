@@ -89,7 +89,9 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         if (map != null) {
             for (Trial trial : trials) {
 
-                map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(MapHelper.getShortTrialDescription(trial)));
+                if(!trial.isIgnored()){
+                    map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(MapHelper.getShortTrialDescription(trial)));
+                }
             }
         }
     }
