@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class deals with the UI for displaying the trials for a given experiment. (One of the tab of Experiment fragment)
+ * This class deals with the UI for displaying the trials for a given experiment. (One of the tab (Trials tab) of Experiment fragment)
  * It is one of the tabs of Experiment fragment.
  * @see: trial_list
  */

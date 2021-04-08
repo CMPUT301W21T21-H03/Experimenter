@@ -19,9 +19,13 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.TrialsTabFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -29,11 +33,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.List;
+
 /**
  * This class deals with the UI for displaying the experiment details. (It also contains 4 tabs: Trials, Comments, Stats, Data)
  * @see: profile_fragment (Contains 3 tabs: Experiments, Subscriptions, Trials)
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements TrialManager.OnTrialListReadyListener {
 
     // Instance variables
     FloatingActionButton floating_addButton;
@@ -47,6 +53,8 @@ public class ProfileFragment extends Fragment {
     // Manager classes (The controllers that act as an interface between 'Model' and 'View')
     UserManager user_manager = UserManager.getInstance();
     ExperimentManager experimentManager = ExperimentManager.getInstance();
+
+    List<Trial> userTrials;             // The trials performed by this user
 
     // Declaring TextView
     TextView userID_home;
@@ -256,6 +264,9 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    public void onTrialsReady(List<Trial> trials) {
+        userTrials = trials;
+    }
 
     /**
      * Subclass
@@ -303,7 +314,10 @@ public class ProfileFragment extends Fragment {
                     experimentListTabFragment.setArguments(bundle);
                     return experimentListTabFragment;
                 case 2:
-                    return new TestFrag();
+                    TrialsTabFragment tabFragment = new TrialsTabFragment(ProfileFragment.this);
+                    TrialManager.getInstance().getUserTrials(otherUserId, ProfileFragment.this);
+                    tabFragment.update(userTrials);
+                    return tabFragment;
                 default:
                     return new TestFrag();
             }
