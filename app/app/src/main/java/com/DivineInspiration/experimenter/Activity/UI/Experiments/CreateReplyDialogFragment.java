@@ -10,6 +10,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Controller.CommentManager;
 import com.DivineInspiration.experimenter.Model.Comment.Comment;
@@ -18,15 +19,15 @@ import com.DivineInspiration.experimenter.R;
 
 import java.util.Date;
 
-public class CreateCommentDialogFragment extends DialogFragment {
+public class CreateReplyDialogFragment extends DialogFragment {
 
-    private OnCommentCreatedListener callback;
+    private OnReplyCreatedListener callback;
 
-    public interface OnCommentCreatedListener {
-        void onCommentAdded(Comment comment);
+    public interface OnReplyCreatedListener {
+        void onReplyAdded(Comment reply, String commentID);
     }
 
-    public CreateCommentDialogFragment(OnCommentCreatedListener callback) {
+    public CreateReplyDialogFragment(OnReplyCreatedListener callback) {
         super();
         this.callback = callback;
     }
@@ -37,7 +38,7 @@ public class CreateCommentDialogFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.create_comment_dialog_fagment, null);
         AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
                 .setView(view)
-                .setMessage("Create Comment")
+                .setMessage("Create Reply")
                 .setPositiveButton("Ok", null)
                 .setNegativeButton("Cancel", null)
                 .create();
@@ -57,18 +58,18 @@ public class CreateCommentDialogFragment extends DialogFragment {
                 else {
 
                     Bundle args = getArguments();
-                    Comment comment = new Comment(
+                    Comment reply = new Comment(
                             IdGen.genCommentId(args.getString("experimentID")),
                             args.getString("commenterID"),
                             args.getString("commenterName"),
                             new Date(),
                             commentText,
-                            false,
+                            true,
                             false
                     );
 
-                    CommentManager.getInstance().addComment(comment, args.getString("experimentID"));
-                    callback.onCommentAdded(comment);
+                    CommentManager.getInstance().addReply(reply, args.getString("commentID"), args.getString("experimentID"));
+                    callback.onReplyAdded(reply, args.getString("commentID"));
                     dialog.dismiss();
                 }
             }

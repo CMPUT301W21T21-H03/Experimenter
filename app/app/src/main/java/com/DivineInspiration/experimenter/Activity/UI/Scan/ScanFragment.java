@@ -1,35 +1,23 @@
 package com.DivineInspiration.experimenter.Activity.UI.Scan;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.DivineInspiration.experimenter.Activity.MainActivity;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRCodeDialogFragment;
-import com.DivineInspiration.experimenter.Controller.ExperimentManager;
-import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.R;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -38,9 +26,6 @@ import com.google.zxing.Result;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ScanFragment extends Fragment {
 //    private static final int MY_CAMERA_REQUEST_CODE = 100;
     private CodeScanner mCodeScanner;
@@ -48,6 +33,7 @@ public class ScanFragment extends Fragment {
     boolean openCamera = false;
     CodeScannerView scannerView;
     Button scan;
+    Button debug;
     // scanned code
     String scanned;
 
@@ -83,6 +69,7 @@ public class ScanFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 //        scannerView = view.findViewById(R.id.scannerView);
         scan = view.findViewById(R.id.scanButton);
+        debug = view.findViewById(R.id.debug_btn);
 //        new IntentIntegrator(this.getActivity()).initiateScan(); // `this` is the current Activity
 //
         // when scan button is clicked
@@ -91,10 +78,20 @@ public class ScanFragment extends Fragment {
             public void onClick(View v) {
                 // if camera is open
                 if (allowCamera) {
-                    mCodeScanner.startPreview();
+                     mCodeScanner.startPreview();
                 } else {
                     Toast.makeText(getActivity(), "A code cannot be scanned if the camera is off", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        // when debug btn is clicked
+        debug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QRCodeDialogFragment frag = new QRCodeDialogFragment();
+//                    frag.setArguments(args);
+                frag.show(getChildFragmentManager(), "QR code fragment");
             }
         });
     }
@@ -113,6 +110,9 @@ public class ScanFragment extends Fragment {
         }
     }
 
+    /**
+     * Opens the camera
+     */
     private void openCamera() {
         // from https://www.youtube.com/watch?v=drH63NpSWyk by Code Palace
         // (https://www.youtube.com/channel/UCuudpdbKmQWq2PPzYgVCWlA)
@@ -162,18 +162,25 @@ public class ScanFragment extends Fragment {
 //        }
 //    }
 
+    /**
+     * When the fragment is back
+     */
     @Override
     public void onResume() {
         super.onResume();
         if (!openCamera && ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             openCamera();
-            Log.v("Run", "1");
+//            Log.v("Run", "1");
             mCodeScanner.startPreview();
         }
     }
 
+    /**
+     * When the fragment is paused
+     */
     @Override
     public void onPause() {
+        // remove QR scanner resources (I think it close the camera?)
         if (openCamera) mCodeScanner.releaseResources();
         super.onPause();
     }

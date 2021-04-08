@@ -2,6 +2,7 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -124,9 +125,15 @@ public class StatsMaker {
     public static double[] calcQuartiles(List<Trial> trials) {
         List<Double> values = sortDouble(getDoubles(trials));
         int size = values.size();
+        List<Double> upper = values.subList((size / 2) + 1, size);
+        List<Double> lower = values.subList(0, size/2);
+
+
+
+
+
         //Q1, Q3, min, max
-        double[] outputs = {values.get(size / 4), values.get(3 * size / 4), values.get(0), values.get(size - 1)};
-        return outputs;
+        return new double[]{calcMedianSortedDouble(lower), calcMedianSortedDouble(upper), values.get(0), values.get(size - 1)};
     }
 
 
@@ -146,9 +153,22 @@ public class StatsMaker {
             return values.get(size/2);
         }
         else{
-        return (values.get(size / 2 - 1) + values.get((size / 2))) / 2; }
+        return (values.get(size / 2 - 1) + values.get((size / 2))) / 2;
+        }
+    }
 
+    public static double calcMedianSortedDouble(List<Double> values) {
+        /*https://stackoverflow.com/a/51747735/12471420*/
 
+        int size = values.size();
+        //returns median regardless if its the list is odd or even
+
+        if(size % 2 == 1){
+            return values.get(size/2);
+        }
+        else{
+            return (values.get(size / 2 - 1) + values.get((size / 2))) / 2;
+        }
     }
 
     /**

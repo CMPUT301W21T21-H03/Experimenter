@@ -69,16 +69,17 @@ public class QRCodeDialogFragment extends DialogFragment {
             Log.v("Error Render", e.toString());
         }
 
-
+        // create the dialog with a save and an ok button
         AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
                 .setView(view)
                 .setMessage("QR Code")
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        saveImage();
+                        QRGSaver qrgSaver = new QRGSaver();
+                        Log.e("message: ", message);
+                        qrgSaver.save(Environment.getExternalStorageDirectory().getPath() + "/Experimenter/", message, bitmap, QRGContents.ImageType.IMAGE_PNG);
                     }
-
                 })
                 .setNegativeButton("Ok", null)
                 .create();
@@ -98,32 +99,5 @@ public class QRCodeDialogFragment extends DialogFragment {
         dialog.show();
 
         return dialog;
-    }
-
-    private void saveImage() {
-        FileOutputStream outputStream = null;
-        File file = Environment.getExternalStorageDirectory();
-        File dir = new File(file.getAbsolutePath() + "/Experimenter");
-        dir.mkdirs();
-
-        String filename = String.format("Experimenter-%d.png", System.currentTimeMillis());
-        File outFile = new File(dir,filename);
-        try {
-            outputStream = new FileOutputStream(outFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, outputStream);
-        try {
-            outputStream.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            outputStream.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

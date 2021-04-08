@@ -2,6 +2,7 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.animation.LayoutTransition;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,25 +13,28 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 
+import com.DivineInspiration.experimenter.Activity.Observer;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.CreateTrialDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 /**
  * Fragment to handle displaying stats and graphs of a experiment
  */
-public class StatsTabFragment extends Fragment implements Refreshable {
+public class StatsTabFragment extends Fragment implements Observer {
 
 
     View buttonGroup;
     AppCompatImageButton backButton;
     ViewGroup graphHolder;
     ViewGroup statHolder;
-    List<Trial> trialList;
+    List<Trial> trialList = new ArrayList<>();
     TextView warningText;
 
 
@@ -44,14 +48,8 @@ public class StatsTabFragment extends Fragment implements Refreshable {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Bundle args = getArguments();
-        if (args != null) {
-            TrialManager.getInstance().queryExperimentTrials(args.getString("experimentID", ""), trials -> {
-                trialList = trials;
-                init(view);
-            });
-        }
 
+        init(getView());
 
     }
 
@@ -87,14 +85,13 @@ public class StatsTabFragment extends Fragment implements Refreshable {
             showStats();
         });
 
-        if (trialList.size() == 0) {
 
-
-            showWarning();
-        } else {
+        if (trialList.size() > 2) {
             showStats();
+        }else
+        {
+            showWarning();
         }
-
 
     }
 
@@ -124,6 +121,7 @@ public class StatsTabFragment extends Fragment implements Refreshable {
         backButton.setVisibility(View.GONE);
         buttonGroup.setVisibility(View.VISIBLE);
         graphHolder.removeAllViews();
+        statHolder.removeAllViews();
         statHolder.addView(StatsMaker.makeStatsView(getContext(), trialList));
         warningText.setVisibility(View.GONE);
     }
@@ -151,18 +149,22 @@ public class StatsTabFragment extends Fragment implements Refreshable {
     /**
      * To be called when the content trialList should be updated
      */
+
+
+
     @Override
-    public void refresh() {
-        Bundle args = getArguments();
-        if (args != null) {
-            TrialManager.getInstance().queryExperimentTrials(args.getString("experimentID", ""), trials -> {
-                trialList = trials;
+    public void update(Object data) {
+        trialList.clear();
+        trialList.addAll((List<Trial>) data);
 
-            });
+        if(getView() != null){
+            if (trialList.size() > 2) {
+                showStats();
+            }else
+            {
+                showWarning();
+            }
         }
 
-        if (trialList.size() > 0) {
-            showStats();
-        }
     }
 }

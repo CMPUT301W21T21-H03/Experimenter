@@ -1,14 +1,15 @@
 package com.DivineInspiration.experimenter;
 
-import com.DivineInspiration.experimenter.Model.Comment;
+import com.DivineInspiration.experimenter.Model.Comment.Comment;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.Assert.*;
+
+// TODO Invalid methods
 
 public class TestComment {
     private Comment getMockComment() {
