@@ -32,15 +32,19 @@ android {
 //graphs!
 repositories {
     maven { url 'https://jitpack.io' }
+    maven { url 'https://artifactory.cloud.mapquest.com/artifactory/et-android-binaries'  }
     mavenCentral()
 }
 
 
 dependencies {
+
+    //mapquest
+    implementation('com.mapquest:mapping-android-sdk:2.0.10')
+
     //preference manager
     implementation 'androidx.preference:preference:1.1.1'
-    //mapView
-    implementation 'org.osmdroid:osmdroid-android:6.1.10'
+
     //graph
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
