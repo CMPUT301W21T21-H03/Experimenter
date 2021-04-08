@@ -1,8 +1,8 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.User;
+import com.google.android.gms.maps.model.LatLng;
 
-import org.osmdroid.util.GeoPoint;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,7 +16,7 @@ public class BinomialTrial extends Trial {
      * Constructor
      * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int, location:GeoPoint
      */
-    public BinomialTrial(String trialID, String trialUserID, String trialOwnerName, String trialExperimentID, LocalDate trialDate, boolean pass, GeoPoint location){
+    public BinomialTrial(String trialID, String trialUserID, String trialOwnerName, String trialExperimentID, LocalDate trialDate, boolean pass, LatLng location){
         super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate,location);
         this.trialType = Trial.BINOMIAL;
         this.pass = pass;
@@ -36,7 +36,7 @@ public class BinomialTrial extends Trial {
      * Constructor
      * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, pass:boolean, location:GeoPoint
      */
-    public BinomialTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, boolean pass, GeoPoint location) {
+    public BinomialTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, boolean pass, LatLng location) {
         super(trialUserID, trialOwnerName, trialExperimentID);
         this.trialType = Trial.BINOMIAL;
         this.pass = pass;

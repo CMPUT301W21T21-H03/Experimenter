@@ -9,13 +9,14 @@ import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.osmdroid.util.GeoPoint;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -71,14 +72,15 @@ public class TrialManager extends ArrayList<Trial> {
             singleton = new TrialManager();
         }
         return singleton;
+
     }
 
-    public com.google.firebase.firestore.GeoPoint osmToFireStore(GeoPoint geoPoint) {
-        return geoPoint == null ? null : (new com.google.firebase.firestore.GeoPoint(geoPoint.getLatitude(), geoPoint.getLongitude()));
+    public GeoPoint latLngToGeoPoint(LatLng latLng) {
+        return latLng == null ? null : (new GeoPoint(latLng.latitude, latLng.longitude));
     }
 
-    public GeoPoint fireStoreToOsm(com.google.firebase.firestore.GeoPoint geoPoint) {
-        return geoPoint == null ? null : (new GeoPoint(geoPoint.getLatitude(), geoPoint.getLongitude()));
+    public LatLng geoPointToLatLng(GeoPoint geoPoint) {
+        return geoPoint == null ? null : (new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude()));
     }
 
     /**
@@ -96,7 +98,7 @@ public class TrialManager extends ArrayList<Trial> {
         doc.put("OwnerID", trial.getTrialUserID());
         doc.put("OwnerName",trial.getTrialOwnerName());
         doc.put("ExperimentID", trial.getTrialExperimentID());
-        doc.put("Location", osmToFireStore(trial.getLocation()));
+        doc.put("Location", latLngToGeoPoint(trial.getLocation()));
 
         // Store data specific to a trial type
         switch (trial.getTrialType()) {
@@ -195,7 +197,7 @@ public class TrialManager extends ArrayList<Trial> {
     private Trial trialFromSnapshot(QueryDocumentSnapshot snapshot) {
 
         Trial trial = null;
-        GeoPoint geoPoint = fireStoreToOsm(snapshot.getGeoPoint("Location"));
+        LatLng geoPoint = geoPointToLatLng(snapshot.getGeoPoint("Location"));
         switch (snapshot.getString("TrialType")) {
 
 

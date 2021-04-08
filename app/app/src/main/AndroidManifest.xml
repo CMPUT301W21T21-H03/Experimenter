@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
+
 <!--  requests storage and camera  -->
  
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -26,7 +27,13 @@
         android:theme="@style/Theme.Experimenter"
         tools:targetApi="q"
         >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAj87Lk-FKBtfcZcCkDD-Ia4vN_VdZNxyA" />
         <activity android:name=".Activity.MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
