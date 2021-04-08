@@ -127,9 +127,21 @@ public class ScanFragment extends Fragment {
                         // do something after scanning
                         scanned = result.getText();
 
-                        // TODO: turn string to ??
+                        // TODO: here
+                        try {
+                            // format: experimentID-result
+                            // add result to manager if the form above
 
-                        Toast.makeText(getActivity(), String.format("Code scanned: %s", scanned), Toast.LENGTH_SHORT).show();
+                            // otherwise, goto arbitrary bar code database and fetch the result
+                            // if not found, throw error or something such that the Toast can be shown
+
+                            // otherwise fetch the action of arbitrary bar code and do it
+
+                            ;
+                        } catch (Exception e) {
+                            Toast.makeText(getActivity(), "Code scanned is not valid", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
             }
