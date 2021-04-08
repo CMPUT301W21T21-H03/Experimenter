@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.DivineInspiration.experimenter.Activity.Observer;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 
@@ -56,7 +57,10 @@ public class TrialsTabFragment extends Fragment implements Observer {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trial_list, container, false);
 
-        adapter = new TrialListAdapter(trialArrayList, callback);
+
+        adapter = new TrialListAdapter(trialArrayList, callback, (Experiment) getArguments().getSerializable("experiment"));
+//        CommentManager.getInstance().getExperimentComments(experiment, this);
+
         RecyclerView recycler = view.findViewById(R.id.trialList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
