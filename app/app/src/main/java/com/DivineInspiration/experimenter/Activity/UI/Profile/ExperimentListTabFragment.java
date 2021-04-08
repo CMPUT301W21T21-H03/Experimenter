@@ -21,88 +21,91 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class deals with the UI for displaying the experiments of the owner (in his device). (One of the tab of Experiment fragment)
+ * It is on the home page and one of deals with both the Experiments and Subscriptions tabs of Profile fragment.
+ * @see: experiment_list
+ */
 public class ExperimentListTabFragment extends Fragment implements ExperimentDialogFragment.OnExperimentOperationDoneListener, Refreshable {
     private ExperimentAdapter adapter;
-    ArrayList<Experiment> exps = new ArrayList<>();
+    ArrayList<Experiment> exps = new ArrayList<>();     // All the experiments of the local user (i.e. all that the user has created).
 
     /**
-     * Experiment list fragment on create
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * Runs when the view is created. Similar to the activity's onCreate
+     * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
+     * @return: :View
      */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Log.d("stuff", "onCreateView");
         return inflater.inflate(R.layout.experiment_list, container, false);
     }
 
     /**
-     * Experiment list fragment on view
-     *
-     * @param view
-     * @param savedInstanceState
+     * Runs when the view is fully created
+     * @param: savedInstanceState:Bundle
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // inits
-        adapter = new ExperimentAdapter(exps);
+        adapter = new ExperimentAdapter(exps);      // Initialize the adapter
 
-        // gets recycler list
+        // Get the recycler list
         RecyclerView recycler = view.findViewById(R.id.experimentList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
         recycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-        refresh();
+        refresh();      // Refresh the display
     }
 
     /**
+     * This is the method that must be implemented due to interface inheritance of ExperimentDialogFragment.OnExperimentOperationDoneListener
      * When experiment is added, update list
-     *
-     * @param experiment
+     * @param: experiment:Experiment
      */
     @Override
     public void onOperationDone(Experiment experiment) {
-        // add experiment to start of list
-        exps.add(0, experiment);
-        // refresh
-        adapter.notifyItemInserted(0);
+        exps.add(0, experiment);            // Add experiment to start of list to maintain chronological order
+        adapter.notifyItemInserted(0);    // Refresh the display
     }
 
 
+    /**
+     * This method is run to refresh the display of the experiments in case of any changes.
+     */
     @Override
     public void refresh() {
-        // get all experiments from database
-
+        // Get all experiments from database for the particular user
         String userID;
         String type;
         Bundle bundle = this.getArguments();
         assert (bundle != null);
         type = bundle.getString("type");
 
-        if (bundle.containsKey("userId")) {
+        if (bundle.containsKey("userId")) {        // If we are given the user id (Occurs when we want to view the profile of another user and not local user).
             userID = bundle.getString("userId");
-        } else {
+        } else {                                  // This occurs most of the time when we want to display experiments of the local user.
             userID = UserManager.getInstance().getLocalUser().getUserId();
         }
 
-        if(type.equals("sub")){
+        if(type.equals("sub")) {                    // If we want to display the experiments the user has subscribed to
             ExperimentManager.getInstance().queryUserSubs(userID, experiments -> loadList(experiments));
-        }else if(type.equals("exp")){
+        } else if(type.equals("exp")) {             // If we want to display the experiments the user owns
             ExperimentManager.getInstance().queryUserExperiment(userID, experiments -> loadList(experiments));
-        }else{
+        } else {
             throw new RuntimeException("oh no!");
         }
     }
 
+    /**
+     * This method is run to update the experiments with ones given by the parameter.
+     * @param:  experiments:List<Experiment>
+     * @return: void
+     */
     private void loadList(List<Experiment> experiments){
-        // update experiment list
+        // Update experiment list
         exps.clear();
         exps.addAll(experiments);
         exps.sort(new Experiment.sortByDescDate());

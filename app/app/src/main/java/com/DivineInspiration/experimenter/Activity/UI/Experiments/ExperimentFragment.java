@@ -41,10 +41,16 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentFragment extends Fragment implements Subject, TrialManager.OnTrialListReadyListener{
-    List<Trial> currentTrials = new ArrayList<>();
 
-    // text views
+/**
+ * This class deals with the UI for displaying the experiment details. (It also contains 4 tabs: Trials, Comments, Stats, Data)
+ * @see: experiment_fragment (Contains 4 tabs: Trials, Comments, Stats, Map)
+ */
+public class ExperimentFragment extends Fragment implements Subject, TrialManager.OnTrialListReadyListener{
+    List<Trial> currentTrials = new ArrayList<>();            // The trials performed for the experiment
+
+
+    // Text views to display experiment information
     private TextView experimentName;
     private TextView ownerName;
     private TextView subNumber;
@@ -56,32 +62,28 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     private TextView status;
     private FloatingActionButton addButton;
 
-    // managers
+    Experiment currentExperiment;           // The current experiment we are displaying the info for
+
+    // Manager classes (The controllers that act as an interface between 'Model' and 'View')
     ExperimentManager experimentManager = ExperimentManager.getInstance();
     UserManager userManager = UserManager.getInstance();
 
-    boolean currentUserSubbed = false;
+    boolean currentUserSubbed = false;      // Is the local user of the device subscribed to the experiment
 
-    // nav
-    ViewPager2 pager;
+    // Navigation
+    ViewPager2 pager;                       // Enables swiping between tabs
     ExperimentTabsAdapter adapter;
     TabLayout tabLayout;
 
-    // tab names
+    // The different tabs that will be displayed
     String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
-   // private ArrayList<User> subscribers = new ArrayList<>();
-
-    Experiment currentExperiment;
 
     CollapsingToolbarLayout toolbar;
 
     /**
-     * On create
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * Runs when the view is created. Similar to the activity's onCreate
+     * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
+     * @return: :View
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,28 +92,25 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     }
 
     /**
-     * On view
-     *
-     * @param view
-     * @param savedInstanceState
+     * Runs when the view is fully created
+     * @param: savedInstanceState:Bundle
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        init(view);
+        init(view);         // Initialize the views
 
-        // get experiment and set the text
+        // Get experiment and set details to be displayed
         currentExperiment = (Experiment) getArguments().getSerializable("experiment");
-
         updateText(currentExperiment);
 
-        // view pager
+        // View pager
         pager = view.findViewById(R.id.expPager);
         adapter = new ExperimentTabsAdapter(this);
         pager.setAdapter(adapter);
         tabLayout = view.findViewById(R.id.Tablayout);
-        // set tab names
+        // Set tab names
         new TabLayoutMediator(tabLayout, pager, true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
@@ -119,37 +118,34 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
             }
         }).attach();
 
+        // Display the floating add button on bottom left only on the first 2 tabs (trials and comments)
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 if((position == 0 || position == 1) && currentUserSubbed && !currentExperiment.getStatus().equals(Experiment.ENDED) ){
                     addButton.show();
-                }
-                else{
+                } else {
                     addButton.hide();
                 }
             }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
+            public void onTabReselected(TabLayout.Tab tab) { }
         });
 
 
-        // get experiment that you subbed to
+        // Get the subscribers to the current experiment and do appropriate actions (see below);
+        // if the current local user is a subscriber to the experiment.
+        // If so: we toggle the sub switch, display the add button (for tabs 1 & 2), and set currentUserSubbed to true.
         UserManager.getInstance().queryExperimentSubs(currentExperiment.getExperimentID(),
                 new UserManager.OnUserListReadyListener() {
                     @Override
                     public void onUserListReady(ArrayList<User> users) {
-                       // subscribers.clear();
-                       // subscribers.addAll(users);
                         for (int i = 0; i < users.size(); i++) {
+                            // We now go through all the subscribers and check if current local user is one of them
                             if (UserManager.getInstance().getLocalUser().getUserId()
                                     .equals(users.get(i).getUserId())) {
                                 subSwitch.setChecked(true);
@@ -158,41 +154,41 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                             }
                         }
                         ((TextView) getView().findViewById(R.id.expFragSubCount))
-                                .setText(users.size() + " subscribers");
+                                .setText(users.size() + " subscribers");    // Display the no. of subscribers in the info part
                     }
                 });
 
-        // toggle sub to experiment
+        // Toggle sub to experiment (When button on the top right is toggled)
         subSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     experimentManager.subToExperiment(userManager.getLocalUser().getUserId(),
                             currentExperiment.getExperimentID(), null);
-                    // on check, it should be set visible again
+                    // On check, it should be set visible again (as the user can add trials and comments if he/she is subscribed)
                     addButton.show();
                     currentUserSubbed = true;
                 } else {
                     experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(),
                             currentExperiment.getExperimentID(), null);
-                    // if changed to unsub, it should be set invisible again
+                    // if changed to unsubscribed, addButton should be set invisible again
                     addButton.hide();
                     currentUserSubbed = false;
                 }
             }
         });
 
-        // when add trial button is clicked
+        // When add button is clicked. Depending on the tab it was clicked on, there will be different actions.
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
-                    case 0:
+                    case 0:                 // If add button is clicked on Trials tab, the user wants to add a trial.
                         TrialDialogSelect();
                         break;
-                    case 1:
-                        // New comment
+                    case 1:                 // If add button is clicked on Trials tab, the user wants to add a comment.
+                        // Make a bundle of the info we want to pass
                         Bundle bundle = new Bundle();
                         bundle.putString("commenterID", userManager.getLocalUser().getUserId());
                         bundle.putString("commenterName", userManager.getLocalUser().getUserName());
@@ -203,25 +199,25 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                         dialog.show(getChildFragmentManager(), "create comment frag");
                         break;
                     default:
-                        // Stats
+                        // Do nothing
                 }
             }
         });
 
-        // setting and profile view
+        // Settings and profile view of the owner
         View setting = view.findViewById(R.id.setting);
         View profile = view.findViewById(R.id.profile);
 
-        // when local user is owner
-        if (userManager.getLocalUser().getUserId().equals(currentExperiment.getOwnerID())) {
+        // When local user is owner himself, we don't display the profile icon
+        // but, when the local user is owner, we display the settings button so he can edit experiment details.
+        if (userManager.getLocalUser().getUserId().equals(currentExperiment.getOwnerID())) {    // Local user is the owner of the experiment
             profile.setVisibility(View.GONE);
             setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                         Bundle args = new Bundle();
                         args.putSerializable("exp", currentExperiment);
-
+                        // User(i.e, owner wants to edit the experiment)
                         ExperimentDialogFragment frag = new ExperimentDialogFragment(
                                 experiment -> {
                                     if (experiment != null) {
@@ -236,21 +232,18 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                         frag.show(getChildFragmentManager(), "edit experiment frag");
                 }
             });
-        } else {
+        } else {                                                                            // Local user is not the owner of the experiment
             setting.setVisibility(View.GONE);
-            // when the profile is clicked
+            // When the profile icon is clicked. User wants to view the profile of the owner
             profile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Bundle bundle = new Bundle();
-                    bundle.putString("user", currentExperiment.getOwnerID().toString());
-                    Navigation.findNavController(v).navigate(R.id.expTouser, bundle);
+                    bundle.putString("user", currentExperiment.getOwnerID());               // Get the owner's id
+                    Navigation.findNavController(v).navigate(R.id.expTouser, bundle);       // Go to view the owner's profile
                 }
             });
         }
-
-
     }
 
     @Override
@@ -264,8 +257,13 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         });
     }
 
+    /**
+     * This method initializes the views (instance variables)
+     * @param: view:View (The view from onCreateView)
+     * @return: void
+     */
     private void init(View view) {
-        // get text views
+        // Get the text views
         experimentName = view.findViewById(R.id.experimentName_expFrag);
         ownerName = view.findViewById(R.id.ownerName_expFrag);
         subNumber = view.findViewById(R.id.expFragSubCount);
@@ -277,12 +275,17 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         status = view.findViewById(R.id.status_exp);
         addButton = view.findViewById(R.id.experiment_fragment_add_button);
 
-        // title is transparent when expanded
+        // Title is transparent when expanded
         toolbar = view.findViewById(R.id.expCollapsingToolbar);
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
     }
 
+    /**
+     * This method updates the experiment information that is displayed
+     * @param: exp:Experiment (The experiment to display the information for)
+     * @return: void
+     */
     private void updateText(Experiment exp) {
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
@@ -294,11 +297,18 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         toolbar.setTitle(exp.getExperimentName());
     }
 
-    public void TrialDialogSelect(){
+    /**
+     * This method is called when the add button is selected when the current tab is Trial
+     * @param: void
+     * @return: void
+     */
+    public void TrialDialogSelect() {
+        // Prepare a bundle with the relevant information
         Bundle trialBundle = new Bundle();
         trialBundle.putString("experimenterID", userManager.getLocalUser().getUserId());
         trialBundle.putString("experimenterName", userManager.getLocalUser().getUserName());
         trialBundle.putSerializable("experiment", currentExperiment);
+        // Go and display the UI to create a new trial
         CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment(trial -> {
 //            ( (CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0")).onTrialAdded(trial);
 //            ( (CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f2")).onTrialAdded(trial);
@@ -307,9 +317,11 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         });
         dialogTrial.setArguments(trialBundle);
         dialogTrial.show(getChildFragmentManager(), "create trial frag");
-
     }
 
+    /**
+     * This method is called when info has changed and all the observers need to update their views
+     */
     @Override
     public void updateAll() {
         Log.d("woah exp frag", ""+System.identityHashCode(currentTrials));
@@ -330,15 +342,17 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
      * Home fragment
      */
     public class ExperimentTabsAdapter extends FragmentStateAdapter {
-
         public ExperimentTabsAdapter(Fragment frag) {
             super(frag);
         }
-
         @NonNull
         @Override
+        /**
+         * Create the appropriate fragment depending on the position of the tab
+         * @param: position:int (position in adapter)
+         * @return: :Fragment
+         */
         public Fragment createFragment(int position) {
-
             Bundle bundle = new Bundle();
             bundle.putString("experimentID", currentExperiment.getExperimentID());
             bundle.putSerializable("experiment", currentExperiment);
@@ -373,11 +387,16 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
             }
         }
 
+        /**
+         * Get item count
+         * @return: :int (number of items in list)
+         */
         @Override
         public int getItemCount() {
             return 4;
         }
     }
+
 
     /**
      * Placeholder fragment

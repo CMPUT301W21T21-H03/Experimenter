@@ -22,6 +22,11 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class deals with the UI for displaying the trials for a given experiment. (One of the tab of Experiment fragment)
+ * It is one of the tabs of Experiment fragment.
+ * @see: trial_list
+ */
 public class TrialsTabFragment extends Fragment implements Observer {
 
     private TrialListAdapter adapter;
@@ -41,15 +46,17 @@ public class TrialsTabFragment extends Fragment implements Observer {
 
     }
 
+    /**
+     * Runs when the view is created. Similar to the activity's onCreate
+     * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
+     * @return: :View
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.trial_list, container, false);
 
-
         adapter = new TrialListAdapter(trialArrayList, callback);
-//        CommentManager.getInstance().getExperimentComments(experiment, this);
         RecyclerView recycler = view.findViewById(R.id.trialList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
@@ -57,10 +64,10 @@ public class TrialsTabFragment extends Fragment implements Observer {
         return view;
     }
 
-
-
-
-
+    /**
+     * Implementation of the observer interface. This method updates its data
+     * when update method is called form ExperimentFragment (which is the observable).
+     */
     @Override
     public void update(Object data) {
       Log.d("woah trial tab", "" +   ((List<Trial>) data).size());
@@ -68,9 +75,7 @@ public class TrialsTabFragment extends Fragment implements Observer {
             trialArrayList.addAll((List<Trial>) data);
         Log.d("woah trial tab", "" +   ((List<Trial>) data).size());
 
-
-
-        if(adapter != null){
+        if (adapter != null){
             adapter.notifyDataSetChanged();
         }
 

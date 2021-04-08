@@ -24,28 +24,23 @@ import java.util.List;
 
 public class ExploreFragment extends Fragment implements ExperimentManager.OnExperimentListReadyListener {
 
-    // adapter list of the experiments in the explore tab
-    private ExploreListAdapter exploreListAdapter;
-    // data list contains all the experiments in the database
-    private List<Experiment> dataList = new ArrayList<>();
-    // shown list only contains of experiments shown on screen
-    // TODO?: if there is time and for more efficiency, this could be an int list that only contain
-    // the indexes of the data list shown
-    private List<Experiment> shownList = new ArrayList<>();
+    private ExploreListAdapter exploreListAdapter;          // Adapter list of the experiments in the explore tab
+    private List<Experiment> dataList = new ArrayList<>();  // Data list contains all the experiments in the database
 
-    // search text
-    private CharSequence searchText;
+    // TODO?: if there is time and for more efficiency, this could be an int list that only contain indexes of the datalist
+    private List<Experiment> shownList = new ArrayList<>(); // Shown list only contains of experiments shown on screen
+
+    private CharSequence searchText;                        // Search text entered by the user
 
     /**
-     * Fragment initializer
-     * @param savedInstanceState
-     * the bundle
+     * Fragment initializer, similar to activity's onCreate
+     * @param: savedInstanceState:Bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // inits all three lists
+        // Initializing the 3 lists
         this.exploreListAdapter = new ExploreListAdapter();
         this.dataList = new ArrayList<>();
         this.shownList = new ArrayList<>();
@@ -53,28 +48,22 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
 
     /**
      * When view is created
-     * @param inflater
-     * @param container
-     * Container containing fragment
-     * @param savedInstanceState
-     * the bundle
-     * @return
-     * the view
+     * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
+     * @return: :View
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        // Log.d("ExploreFragment", "Begin queryAll");
-
-        // query from database
+        // Query the experiments from database, the Experiments will be returned via a callback to onExperimentsReady
         ExperimentManager.getInstance().queryAll(this);
+
         View root = inflater.inflate(R.layout.fragment_explore, container, false);
 
-        // initing explore list
+        // Initializing explore list
         RecyclerView experimentListView = root.findViewById(R.id.list_experiments);
         experimentListView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         experimentListView.setAdapter(exploreListAdapter);
         experimentListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+
         // Create the listener
 //        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
 //            public void onItemClick(AdapterView<?> listDrinks, View itemView, int position, long id) {
@@ -88,7 +77,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
 
         EditText search = root.findViewById(R.id.explore_search_bar);
 
-        // search -> filter results
+        // Search -> filter results
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -98,21 +87,17 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 searchText = charSequence;
-                // Debug
-                // Log.v("Thing:", charSequence.toString());
-                // filter text
                 filter();
             }
         });
-
         return root;
     }
 
     /**
-     * Simple filter function that updates the array list
+     * This method filters the experiments so as to display only the experiments that meet search criteria
      */
     public void filter() {
-        // if string is empty, reinit with all data
+        // if string is empty, re-initialize with all data (i.e., all the experiments)
         if (searchText.length() == 0) {
             exploreListAdapter.setData(dataList);
         } else {
@@ -127,25 +112,20 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
                     shownList.add(dataList.get(i));
                 }
             }
-            // store the new filtered result and refresh adapter
+            // Store the new filtered result and refresh adapter
             exploreListAdapter.setData(shownList);
             exploreListAdapter.notifyDataSetChanged();
         }
     }
 
     /**
-     * When experiment is ready from the database
-     * @param queryList
-     * list of experiment
+     * This as a interface implementation method; when the experiment data requested is ready,
+     * ExperimentManager calls this method and passes the data as a parameter.
+     * The method then updates the list of experiments that are being shown
+     * @param: queryList:List<Experiment> (list of experiment)
      */
     @Override
     public void onExperimentsReady(List<Experiment> queryList) {
-        // debug print
-//        for (Experiment experiment : queryList) {
-//            Log.d("ExploreFragment", experiment.getExperimentID());
-//        }
-
-        // store the data from the database
         dataList = queryList;
         shownList = queryList;
         exploreListAdapter.setData(shownList);

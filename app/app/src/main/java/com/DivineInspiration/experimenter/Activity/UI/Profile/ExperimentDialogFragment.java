@@ -30,10 +30,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class provides the UI for an owner to creating or edit an experiment
+ * @see: experiment_dialog_fragment
+ * Runs either when: addButton is clicked while on Experiments tab of home page (creates new experiment)
+ *                   settings button is clicked in the ExperimentFragment
+ */
 public class ExperimentDialogFragment extends DialogFragment {
-
-
-    // inits
+    // Instance variables
     OnExperimentOperationDoneListener callback;
     ExperimentManager expManager = ExperimentManager.getInstance();
     TextView editExperimentName;
@@ -43,33 +47,27 @@ public class ExperimentDialogFragment extends DialogFragment {
     TextView minTrial;
     CheckBox requireGeo;
     Spinner statusSpinner;
-    // error text
-
-    TextView experimentError3;
 
     Experiment exp;
-
     Fragment parentFrag;
 
-    // options for experiment
+    // Options for the type of experiment (will be displayed in a drop-down fashion).
     private String[] expOptions = {"Counting", "Binomial", "NonNegative", "Measuring"};
     private String[] expValues = {Trial.COUNT, Trial.BINOMIAL, Trial.NONNEGATIVE, Trial.MEASURE};
     private String currentExpSelection;
 
-    //options for status
+    // Options for the status of the experiment (will be displayed in a drop-down fashion).
     private String[] statusOptions = {"On going", "Hidden"};
     private String[] statusValues = {Experiment.ONGOING, Experiment.HIDDEN};
     private String currentStatusSelection;
 
     TextInputLayout nameInput;
-
     TextInputLayout countInput;
-
-
     AlertDialog dialog;
 
     /**
-     * When experiment is added
+     * When experiment is added, notify those who implement this interface. (Cause most probably they are displaying experiments)
+     * Implemented by: ExperimentListTabFragment so refresh of experiments page on home screen can be done
      */
     public interface OnExperimentOperationDoneListener {
         void onOperationDone(Experiment experiment);
@@ -77,8 +75,7 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Fragment Constructor
-     *
-     * @param callback callback function
+     * @param: callback:OnExperimentOperationDoneListener (callback function)
      */
     public ExperimentDialogFragment(OnExperimentOperationDoneListener callback) {
         super();
@@ -87,43 +84,40 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Shows alert message on the bottom of the parent fragment page
-     * @param error   is the alert an error
-     * @param message message
+     * @param: error:boolean (is the alert an error).
+     * @param: message:String (message to display).
      */
     private void showAlert(boolean error, String message) {
         Snackbar snackbar = Snackbar.make(parentFrag.getView(), message, Snackbar.LENGTH_LONG);
-        snackbar.getView().setBackgroundColor(Color.parseColor(error ? "#913c3c" : "#2e6b30"));
+        snackbar.getView().setBackgroundColor(Color.parseColor(error ? "#913c3c" : "#2e6b30")); // Depending on error chose green or red color
         snackbar.show();
     }
 
     /**
-     * Created dialog
-     *
-     * @param savedInstanceState the bundle
-     * @return dialog
+     * Runs when the dialog is created.
+     * @param: savedInstanceState:Bundle
+     * @return: dialog:Dialog
      */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        // create view
+        // Create view
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.experiment_dialog_fragment, null);
-        // get current user
+        // Get current local user of the device
         User localUser = UserManager.getInstance().getLocalUser();
 
-        init(view);
+        init(view);     // Initialize the View's in the dialog UI
 
-        // shows dialog (must be called at start)
+        // Shows the dialog (must be called at start)
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String editExperimentNameText = editExperimentName.getText().toString();
                 String editCityText = editCity.getText().toString();
-                // optional?
-                String editExperimentAboutText = editExperimentAbout.getText().toString();
+                String editExperimentAboutText = editExperimentAbout.getText().toString();      // Optional
 
-
-                // if invalid or empty, show error
+                // If entered data is invalid or empty, show error
                 boolean validFlag = true;
                 if (editExperimentNameText.length() == 0) {
                     // display error
@@ -136,31 +130,28 @@ public class ExperimentDialogFragment extends DialogFragment {
                     validFlag = false;
                 }
 
-                // if not valid in any step, return
+                // If not valid in any step in the 2 if's above, return
                 if (!validFlag) {
                     return;
                 }
 
 
-                if (exp == null) {
-                    //no extra arguments => just create new experiment
-                    // generate new experiment and add to experiment manager
-
+                if (exp == null) {  // Here, we create a new experiment using info entered in the dialog
+                    // Construct a new Experiment object and add it using experiment manager
                     Experiment temp = new Experiment(editExperimentNameText, localUser.getUserId(), localUser.getUserName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), Experiment.ONGOING);
                     expManager.getInstance().addExperiment(temp, successful -> {
                         if (successful) {
-
-                            // show success
+                            // Show success message at bottom of screen
                             showAlert(false, "Created new experiment!");
                             callback.onOperationDone(temp);
                         } else {
-                            // failed to create experiment
+                            // Show failed to create experiment message at bottom of screen
                             showAlert(true, "Failed to create experiment!");
                         }
                     });
-                } else {
+                } else { // Here we update and already existing experiment using info entered in the dialog
                     showAlert(false, "Created new experiment!");
-                    //edit an existing id
+
                     exp.setExperimentName(editExperimentNameText);
                     exp.setStatus(currentStatusSelection);
                     exp.setRequireGeo(requireGeo.isChecked());
@@ -168,30 +159,32 @@ public class ExperimentDialogFragment extends DialogFragment {
                     exp.setExperimentDescription(editExperimentAboutText);
                     exp.setRegion(editCityText);
 
-
                     expManager.updateExperiment(exp, successful -> {
-
                         if (successful) {
-                            // show success
+                            // Show success message at bottom of screen
                             showAlert(false, "Edit experiment successful!");
                             callback.onOperationDone(exp);
                         } else {
-                            // failed to create experiment
+                            // Show failed to create experiment message at bottom of screen
                             showAlert(true, "Failed to edit experiment!");
                         }
                     });
                 }
 
-                // closes dialog
-                dialog.dismiss();
+                dialog.dismiss();       // Close dialog
             }
         });
 
         return dialog;
     }
 
+    /**
+     * This method initializes the views (instance variables)
+     * @param: view:View (The dialog view)
+     * @return: void
+     */
     private void init(View view) {
-
+        // Dialog for creating a new experiment
         dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
                 .setView(view)
                 .setTitle("Create new experiment")
@@ -202,9 +195,8 @@ public class ExperimentDialogFragment extends DialogFragment {
        // dialog.getWindow().setBackgroundDrawableResource(R.color.black1);
         parentFrag = getParentFragment();
 
-        // inits all the parts of dialog
+        // Initializing all the parts of dialog
         editExperimentName = view.findViewById(R.id.editExperimentName);
-
         editCity = view.findViewById(R.id.editExperimentCity);
         editExperimentAbout = view.findViewById(R.id.editExperimentAbout);
         minTrial = view.findViewById(R.id.editExperimentMin);
@@ -213,56 +205,48 @@ public class ExperimentDialogFragment extends DialogFragment {
         nameInput = view.findViewById(R.id.expNameInput);
         countInput = view.findViewById(R.id.expCountInput);
 
-
-
-
-        //trial spinner
+        // Trial spinner (dropdown to choose the type of the trial the experiment needs)
         trialSpinner = view.findViewById(R.id.editExperimentSpinner);
         trialSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                currentExpSelection = expValues[position];
+                currentExpSelection = expValues[position];      // The selection of trial made by the user
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                currentExpSelection = expValues[0];
+                currentExpSelection = expValues[0];             // Default selection of trial
             }
         });
-
         ArrayAdapter trialAdapter = new ArrayAdapter(getContext(), R.layout.create_experiment_spinner_item, expOptions);
         trialAdapter.setDropDownViewResource(R.layout.create_experiment_spinner_item);
         trialSpinner.setAdapter(trialAdapter);
 
 
-        //status spinner
+        // Status spinner (dropdown to choose the status of the experiment)
         statusSpinner = view.findViewById(R.id.statusSpinner);
         statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                currentStatusSelection = statusValues[position];
+                currentStatusSelection = statusValues[position];    // The selection of status made by the user
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                currentStatusSelection = statusValues[0];
+                currentStatusSelection = statusValues[0];           // Default selection of trial
             }
         });
-
         ArrayAdapter statusAdapter = new ArrayAdapter(getContext(), R.layout.create_experiment_spinner_item, statusOptions);
         statusAdapter.setDropDownViewResource(R.layout.create_experiment_spinner_item);
         statusSpinner.setAdapter(statusAdapter);
 
 
+        // Here, we deal with initialization when the dialog is created to edit an existing experiment
+        // We come here when the settings icon is clicked on the right hand top corner
         Bundle args = getArguments();
         if (args != null) {
             dialog.setTitle("Edit experiment");
             exp = (Experiment) args.getSerializable("exp");
 
-            if(exp.getStatus().equals(Experiment.ENDED)){
-
-
-
+            if (exp.getStatus().equals(Experiment.ENDED)) {     // If the experiment has ended
                 editExperimentAbout.setVisibility(View.GONE);
                 minTrial.setVisibility(View.GONE);
                 requireGeo.setVisibility(View.GONE);
@@ -277,20 +261,19 @@ public class ExperimentDialogFragment extends DialogFragment {
                 view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
                 dialog.setTitle("This experiment has ended. Delete?");
             }
-            else {
-
+            else {                                          // If the experiment is still ongoing
+                // Get edited information from the dialog
                 editExperimentName.setText(exp.getExperimentName());
                 editCity.setText(exp.getRegion());
                 editExperimentAbout.setText(exp.getExperimentDescription());
                 minTrial.setText(String.valueOf(exp.getMinimumTrials()));
                 requireGeo.setChecked(exp.isRequireGeo());
-
                 statusSpinner.setSelection(indexOf(statusValues, exp.getStatus()));
                 trialSpinner.setVisibility(View.GONE);
 
                 view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
 
-                view.findViewById(R.id.endExp).setOnClickListener(v -> {
+                view.findViewById(R.id.endExp).setOnClickListener(v -> {    // If the owner chooses to end the experiment
                     exp.setStatus(Experiment.ENDED);
                     //TODO add a warning dialog
                     expManager.updateExperiment(exp, successful -> {
@@ -301,7 +284,7 @@ public class ExperimentDialogFragment extends DialogFragment {
                 });
             }
 
-            view.findViewById(R.id.deleteExp).setOnClickListener(v -> {
+            view.findViewById(R.id.deleteExp).setOnClickListener(v -> {     // If the owner chooses to delete the experiment
                 //TODO add a warning dialog!!
                 expManager.deleteExperiment(exp.getExperimentID(), successful -> {
                     dismiss();
@@ -310,8 +293,6 @@ public class ExperimentDialogFragment extends DialogFragment {
                 //TODO display a success message
             });
         }
-
-
     }
 
 

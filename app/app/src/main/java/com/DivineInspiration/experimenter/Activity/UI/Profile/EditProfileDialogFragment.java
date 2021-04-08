@@ -24,27 +24,30 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.regex.Pattern;
 
-
+/**
+ * This class provides the UI for a user to create or edit his/her own profile
+ * @see: edit_profile_dialog_fragment
+ * Runs when: 'EDIT' button is clicked on the home page
+ */
 public class EditProfileDialogFragment extends DialogFragment {
-    // inits
+    // Instance variables
     TextView editName;
     TextView editAbout;
     TextView editCity;
     TextView editEmail;
-    // error texts
+    // Error texts
     TextView editProfileError1;
     TextView editProfileError2;
     TextView editProfileError3;
 
-    // user manager
-    UserManager newManager = UserManager.getInstance();
-    UserManager.OnUserReadyListener callback;
+    UserManager newManager = UserManager.getInstance();        // User manager
+    UserManager.OnUserReadyListener callback;                  // Callback for UserManager to tell us when User is ready after retrieval form database
 
     public static String TAG = "edit Profile";
 
     /**
      * Constructor
-     * @param callback
+     * @param: callback:UserManager.OnUserReadyListener
      */
     public EditProfileDialogFragment(UserManager.OnUserReadyListener callback){
         super();
@@ -52,22 +55,11 @@ public class EditProfileDialogFragment extends DialogFragment {
     }
 
     /**
-     * Checks if name is taken
-     * @param email
-     * @return
-     */
-    private boolean nameTaken(String email) {
-        // TODO: check if name is taken
-        return false;
-    }
-
-    /**
-     * Checks if email is valid
-     * @param email
-     * @return
+     * Checks if email entered by the user is valid
+     * @param: email:String
+     * @return: :boolean
      */
     private boolean checkEmailValid(String email) {
-        // check if email is valid
         // from https://stackoverflow.com/questions/8204680/java-regex-email second answer
         // by Jason Buberel: https://stackoverflow.com/users/202275/jason-buberel
         // on stackoverflow.com
@@ -77,34 +69,31 @@ public class EditProfileDialogFragment extends DialogFragment {
     }
 
     /**
-     * Shows alert message on the bottom of the parent fragment page
-     * @param error
-     * is the alert an error
-     * @param message
-     * message
+     * Shows alert message on the bottom of the parent fragment page is info was successfully edited
+     * @param: error:boolean (true is the alert is due to an error, else false)
+     * @param: message:String (message to display)
      */
     private void showAlert(boolean error, String message) {
         Snackbar snackbar = Snackbar.make(getParentFragment().getView(), message, Snackbar.LENGTH_LONG);
-        snackbar.getView().setBackgroundColor(Color.parseColor(error ? "#913c3c" : "#2e6b30"));
+        snackbar.getView().setBackgroundColor(Color.parseColor(error ? "#913c3c" : "#2e6b30"));     // USe appropriate color (green or red) depending on error
         snackbar.show();
     }
 
     /**
-     * When dialog is created
-     * @param savedInstanceState
-     * @return
-     * dialog
+     * Runs when the dialog is created.
+     * @param: savedInstanceState:Bundle
+     * @return: dialog:Dialog
      */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
-        // new view
+        // Create view
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_profile_dialog_fragment, null);
-        // get current user
+
+        // Get the current local user
         User newUser = newManager.getLocalUser();
 
-        // get views
+        // Initialize the views
         editName = view.findViewById(R.id.editProfileName);
         editAbout = view.findViewById(R.id.editExperimentAbout);
         editCity = view.findViewById(R.id.editProfileCity);
@@ -113,13 +102,13 @@ public class EditProfileDialogFragment extends DialogFragment {
         editProfileError2 = view.findViewById(R.id.profileError2);
         editProfileError3 = view.findViewById(R.id.profileError3);
 
-        // set it to the right values
+        // Display the info
         editName.setText(newUser.getUserName());
         editAbout.setText(newUser.getDescription());
         editCity.setText(newUser.getContactInfo().getCityName());
         editEmail.setText(newUser.getContactInfo().getEmail());
 
-        // generate alert message
+        // Generate alert message
         final AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setView(view)
                 .setMessage("Edit Profile")
@@ -127,18 +116,18 @@ public class EditProfileDialogFragment extends DialogFragment {
                 .setNegativeButton("Cancel",null)
                 .create();
 
-        // shows dialog (must be called at start)
+        // Shows dialog (must be called at start)
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // get strings
+                // Get strings
                 String editNameText = editName.getText().toString();
                 String editAboutText = editAbout.getText().toString();
                 String editCityText = editCity.getText().toString();
                 String editEmailText = editEmail.getText().toString();
 
-                // reset all
+                // Reset all
                 editProfileError1.setVisibility(TextView.GONE);
                 editProfileError2.setVisibility(TextView.GONE);
                 editProfileError3.setVisibility(TextView.GONE);
@@ -157,30 +146,23 @@ public class EditProfileDialogFragment extends DialogFragment {
                     editProfileError2.setVisibility(TextView.VISIBLE);
                     validFlag = false;
                 }
-                //city may be blank
-//                if (editCityText.length()==0) {
-//                    editProfileError3.setVisibility(TextView.VISIBLE);
-//                    validFlag = false;
-//                }
 
-                // if not valid in any step, return
+                // If not valid in any of the above steps, return
                 if (!validFlag) {
                     return;
                 }
 
-                // new user
+                // New user
                 newUser.setUserName(editNameText);
                 newUser.setDescription(editAboutText);
                 newUser.getContactInfo().setCityName(editCityText);
                 newUser.getContactInfo().setEmail(editEmailText);
 
-                //try catch is not needed here
-
-                // updates manager by changes an existing user
-                //first check if the user name exist already
+                // Updates the info in the database through user manager
+                // first check if the user name exist already
                 newManager.queryUserByName(newUser.getUserName(), user -> {
-                    //if the user return is null, then the desired user name is not used
-                    //or if the user fetched is the user currently logged in
+                    // if the user return is null, then the desired user name is not used
+                    // or if the user fetched is the user currently logged in
                     if(newUser.getUserName().equals("Anonymous") || user == null || (user.getUserName().equals(newUser.getUserName()) && user.getUserId().equals(newUser.getUserId())) ){
                         String currentName = user == null? "":user.getUserName(); //save user name only if trying to update current user, as in, no name update
 
@@ -214,7 +196,6 @@ public class EditProfileDialogFragment extends DialogFragment {
 
             }
         });
-
         return  dialog;
     }
 }
