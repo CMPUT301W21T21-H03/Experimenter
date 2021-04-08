@@ -10,15 +10,20 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
+import com.google.firebase.firestore.GeoPoint;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 
 public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.ViewHolder> {
 
@@ -74,7 +79,12 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         holder.getTrialResult().setText("Result: "+ans);
         holder.getExperimenterName().setText("Experimenter: "+ myTrial.getTrialOwnerName());
         holder.getTrialDate().setText(myTrial.getTrialDate().toString());
-//        holder.getTrialLocation().setText(myTrial.getLocation().toString());
+        GeoPoint geoPoint = TrialManager.getInstance().osmToFireStore(myTrial.getLocation());
+        DecimalFormat decimalFormat = new DecimalFormat("0.##");
+
+        String LAT = String.valueOf(decimalFormat.format(geoPoint.getLatitude()));
+        String LONG = String.valueOf(decimalFormat.format(geoPoint.getLongitude()));
+        holder.getTrialLocation().setText("Location: "+LAT+" , "+LONG);
 
     }
 
