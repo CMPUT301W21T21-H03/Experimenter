@@ -35,6 +35,7 @@ public class StatisticsTest {
 
     @Test
     public void checkCountTrialStats() {
+        solo.waitForView(solo.getView(R.id.fab));
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing count trial statistics");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -98,7 +99,7 @@ public class StatisticsTest {
         assertTrue(solo.waitForText("Q1:", 1, 2000));
         assertTrue(solo.waitForText("1", 3, 2000));
         assertTrue(solo.waitForText("Q3:", 1, 2000));
-        //assertTrue(solo.waitForText("12.5", 1, 2000));
+        assertTrue(solo.waitForText("12.5", 1, 2000));
         assertTrue(solo.waitForText("Min:", 1, 2000));
         assertTrue(solo.waitForText("1", 3, 2000));
         assertTrue(solo.waitForText("Max:", 1, 2000));
@@ -135,6 +136,7 @@ public class StatisticsTest {
     }
     @Test
     public void checkBinomialTrialStats() {
+        solo.waitForView(solo.getView(R.id.fab));
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -205,6 +207,7 @@ public class StatisticsTest {
 
     @Test
     public void checkNonNegTrialStats() {
+        solo.waitForView(solo.getView(R.id.fab));
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing nonNeg trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -318,6 +321,7 @@ public class StatisticsTest {
 
     @Test
     public void checkMeasuringTrialStats() {
+        solo.waitForView(solo.getView(R.id.fab));
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -423,6 +427,7 @@ public class StatisticsTest {
 
     @Test
     public void checkCountTrialLineGraph() {
+        solo.waitForView(solo.getView(R.id.fab));
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing count trial line graph");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
