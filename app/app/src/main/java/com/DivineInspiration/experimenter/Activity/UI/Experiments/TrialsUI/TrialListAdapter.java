@@ -13,11 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
+import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
+import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.firebase.firestore.GeoPoint;
 
@@ -29,17 +32,22 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
 
     private List<Trial> trials = new ArrayList<>();
     private TrialManager.OnTrialListReadyListener callback;
+    private Experiment experiment;
+
+    private User localUser;
 
     // Constructor
     public TrialListAdapter() {
         super();
     }
 
-    public TrialListAdapter(List<Trial> trials, TrialManager.OnTrialListReadyListener callback) {
+    public TrialListAdapter(List<Trial> trials, TrialManager.OnTrialListReadyListener callback, Experiment experiment) {
         super();
-        Log.d("woah trial adapter", "" +   trials.size());
-        this.trials=trials;
+        Log.d("woah trial adapter", "" + trials.size());
+        this.trials = trials;
         this.callback = callback;
+        localUser = UserManager.getInstance().getLocalUser();
+        this.experiment = experiment;
     }
 
     @NonNull
@@ -81,10 +89,18 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         holder.getExperimenterName().setText("Experimenter: " + myTrial.getTrialOwnerName());
         holder.getTrialDate().setText(myTrial.getTrialDate().toString());
         holder.getTrialCard().setOnClickListener(v -> {
-            holder.getBanButton().setVisibility(View.VISIBLE);
-            holder.getBanButton().setOnClickListener(v1 -> {
-                holder.getBanButton().setVisibility(View.GONE);
+            Button banButton = holder.getBanButton();
+            if (banButton.getVisibility() == View.GONE && localUser.getUserId().equals(experiment.getOwnerID())) {
+                banButton.setVisibility(View.VISIBLE);
+            } else if (banButton.getVisibility() == View.VISIBLE) {
+                banButton.setVisibility(View.GONE);
+            }
+            banButton.setOnClickListener(v1 -> {
+
+
                 ExperimentManager.getInstance().banUserFromExperiment(myTrial.getTrialUserID(), myTrial.getTrialExperimentID(), done -> instantBanUpdate(myTrial.getTrialUserID()));
+
+
             });
         });
 
@@ -106,7 +122,7 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
             }
             updatedTrials.add(t);
         }
-        Log.d("woah instantUpdate", ""+trials.size());
+        Log.d("woah instantUpdate", "" + trials.size());
         callback.onTrialsReady(updatedTrials);
     }
 
