@@ -1,6 +1,7 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +39,11 @@ public class TrialsTabFragment extends Fragment implements Observer {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        adapter = new TrialListAdapter(trialArrayList);
+
         View view = inflater.inflate(R.layout.trial_list, container, false);
 
 
-
+        adapter = new TrialListAdapter(trialArrayList);
 //        CommentManager.getInstance().getExperimentComments(experiment, this);
         RecyclerView recycler = view.findViewById(R.id.trialList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -61,6 +62,7 @@ public class TrialsTabFragment extends Fragment implements Observer {
         trialArrayList.clear();
         trialArrayList.addAll((List<Trial>) data);
         if(adapter != null){
+            Log.d("woah", "trial adapter");
             adapter.notifyDataSetChanged();
         }
 
