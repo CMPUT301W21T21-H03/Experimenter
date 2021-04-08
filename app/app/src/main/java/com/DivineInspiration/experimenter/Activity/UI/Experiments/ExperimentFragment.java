@@ -300,6 +300,7 @@ public class ExperimentFragment extends Fragment implements Subject {
         CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment(trial -> {
 //            ( (CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0")).onTrialAdded(trial);
 //            ( (CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f2")).onTrialAdded(trial);
+            currentTrials.add(0, trial);
             updateAll();
         });
         dialogTrial.setArguments(trialBundle);
