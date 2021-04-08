@@ -4,10 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<androidx.core.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,14 +12,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/comment_list_forum"
+            android:id="@+id/trial_list_tab_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/comment_item">
+            tools:listitem="@layout/trial_item">
 
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

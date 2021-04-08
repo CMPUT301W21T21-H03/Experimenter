@@ -22,8 +22,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class talks to the Firestore database
+ * in order to store and retrieve experiment data.
+ * The class uses singleton pattern.
+ */
 public class ExperimentManager extends ArrayList<Experiment> {
-    // Singleton ArrayList
+    // Singleton object
     private static ExperimentManager singleton;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -31,45 +36,54 @@ public class ExperimentManager extends ArrayList<Experiment> {
     private String TAG = "DATABASE";
 
     /**
-     * When experiment is ready
+     * When experiment data is retrieved from database is ready,
+     * it is passed along as a parameter by the interface method.
+     * Utilized for: queryAll, queryUserExperiment, queryUserSubs
      */
     public interface OnExperimentListReadyListener {
         void onExperimentsReady(List<Experiment> experiments);
     }
 
-
+    /**
+     * When operation on database is done, the parameter indicates
+     * success or failure talking to the database
+     * Utilized for: updateOwnerName, unSubFromExperiment. subFromExperiment, deleteExperiment
+     *              addExperiment, updateExperiment
+     */
     public interface OnOperationDone {
         void done(boolean successful);
     }
 
     /**
-     * Constructor
+     * Empty constructor
      */
-    private ExperimentManager() {
-
-    }
+    private ExperimentManager() { }
 
     /**
-     * Get singleton instance
-     *
-     * @return experiment manager
+     * Get singleton instance of the class
+     * @return: singleton:ExperimentManager
      */
     public static ExperimentManager getInstance() {
         if (singleton == null) {
             singleton = new ExperimentManager();
         }
-
         return singleton;
     }
 
-
-    private void initLocalUserId(){
-        if(localUserId == null) localUserId = UserManager.getInstance().getLocalUser().getUserId();
+    /**
+     * Initializes the local user of the device
+     * @return: void
+     */
+    private void initLocalUserId() {
+        if (localUserId == null)
+            localUserId = UserManager.getInstance().getLocalUser().getUserId();
     }
 
 
     /**
-     * Update owner name
+     * Updates owner name in the Firestore database
+     * @param: ownerId:String, newName:String, callback:OnOperationDone
+     * @return: void
      */
     public void updateOwnerName(String ownerId, String newName, OnOperationDone callback) {
         initLocalUserId();
@@ -96,10 +110,11 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Unsubscribe from experiment
-     *
-     * @param userId       user ID
-     * @param experimentId experiment to unsub from
+     * Unsubscribe the given user from the given experiment.
+     * @param: userId:String (The user that wants to unsubscribe)
+     * @param: experimentId:String (The experiment the user wants to unsubscribe from)
+     * @param: callback:OnOperationDone (The class to call after the operation is done).
+     * @return: void
      */
     public void unSubFromExperiment(String userId, String experimentId, OnOperationDone callback) {
         initLocalUserId();
@@ -118,10 +133,11 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Add subscriber to experiment
-     *
-     * @param userId       user ID
-     * @param experimentId experiment ID of subscriber
+     * Subscribe the given user from the given experiment.
+     * @param: userId:String (The user that wants to unsubscribe).
+     * @param: experimentId:String (The experiment the user wants to subscribe to).
+     * @param: callback:OnOperationDone (The class to call after the operation is done.
+     * @return: void
      */
     public void subToExperiment(String userId, String experimentId, OnOperationDone callback) {
         initLocalUserId();
@@ -140,13 +156,11 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
-    // TODO An experiment in the database acts as both a collection and a document. Do we now need to
-    //      delete the comments in the experiment collection as well?
-
     /**
-     * Delete experiment from database
-     *
-     * @param experimentId experiment ID
+     * Delete the given experiment from database.
+     * @param: experimentId:String (experiment we want to delete).
+     * @param: callback:OnOperationDone (The class to call after the operation is done).
+     * @return: void
      */
     public void deleteExperiment(String experimentId, OnOperationDone callback) {
         initLocalUserId();
@@ -166,15 +180,16 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Adds an experiment to database
-     *
-     * @param experiment experiment
+     * Adds a new experiment to database.
+     * @param: experiment:Experiment (experiment we want to add).
+     * @param: callback:OnOperationDone (The class to call after the operation is done).
+     * @return: void
      */
     public void addExperiment(Experiment experiment, OnOperationDone callback) {
         initLocalUserId();
         //TODO handle on add failed?
 
-        // put into database
+        // Put into database
         Map<String, Object> doc = new HashMap<>();
         doc.put("ExperimentName", experiment.getExperimentName());
         doc.put("OwnerID", experiment.getOwnerID());
@@ -187,7 +202,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
         doc.put("Status", experiment.getStatus());
         doc.put("SubscriberIDs", new ArrayList<>());
 
-
+        // Get document and add to database
         db.collection("Experiments").document(experiment.getExperimentID()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -201,15 +216,19 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
+    /**
+     * Updates an existing experiment to database.
+     * @param: experimentId:String (experiment we want to add).
+     * @param: callback:OnOperationDone (The class to call after the operation is done).
+     * @return: void
+     */
     public void updateExperiment(Experiment experiment, OnOperationDone callback) {
-        //how to rename functions 101
         initLocalUserId();
         //TODO handle on add failed?
 
-        // put into database
+        // Put into database
         Map<String, Object> doc = new HashMap<>();
         doc.put("ExperimentName", experiment.getExperimentName());
-
         doc.put("OwnerName", experiment.getOwnerName());
         doc.put("ExperimentDescription", experiment.getExperimentDescription());
         doc.put("TrialType", experiment.getTrialType());
@@ -218,8 +237,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
         doc.put("RequireGeo", experiment.isRequireGeo());
         doc.put("Status", experiment.getStatus());
 
-
-
+        // Get document and add to database
         db.collection("Experiments").document(experiment.getExperimentID()).set(doc, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -233,6 +251,12 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
+    /**
+     * Updates an existing experiment to database. This is an overloaded method.
+     * @param: experimentId:String (experiment we want to add).
+     * @param: callback:OnOperationDone (The class to call after the operation is done).
+     * @return: void
+     */
     public void updateExperiment(Experiment experiment, Map<String, Object> fieldsToUpdate, OnOperationDone callback) {
         initLocalUserId();
         //how to rename functions 101
@@ -249,23 +273,11 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
-
     /**
-     * TODO ?
-     *
-     * @param keywords
-     * @param callback
-     */
-    public void querySearch(String keywords, OnExperimentListReadyListener callback) {
-        //TODO to be implemented
-        callback.onExperimentsReady(null);
-    }
-
-    /**
-     * Gets experiments that the user is subscribed to
-     *
-     * @param userId   user ID
-     * @param callback callback function
+     * Queries the experiments that the given user is subscribed to.
+     * @param: userId:String (The user to query experiments for).
+     * @param: callback:OnExperimentListReadyListener (We return an ArrayList of Experiment by passing it as parameter of the callback method)
+     * @return: void
      */
     public void queryUserSubs(String userId, OnExperimentListReadyListener callback) {
         initLocalUserId();
@@ -289,10 +301,10 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Gets all experiments that belong to the owner
-     *
-     * @param userId   user ID of owner
-     * @param callback callback function
+     * Queries the database for all the experiments that belong to the owner.
+     * @param: userId:String (The user to query experiments for).
+     * @param: callback:OnExperimentListReadyListener (We return an ArrayList of Experiment by passing it as parameter of the callback method)
+     * @return: void
      */
     public void queryUserExperiment(String userId, OnExperimentListReadyListener callback) {
         initLocalUserId();
@@ -319,9 +331,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Gets all the experiments
-     *
-     * @param callback callback function
+     * Queries all the experiments that are currently in the database.
+     * @param: callback:OnExperimentListReadyListener (We return an ArrayList of Experiment by passing it as parameter of the callback method)
+     * @return: void
      */
     public void queryAll(OnExperimentListReadyListener callback) {
         initLocalUserId();
@@ -348,14 +360,11 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Gets experiments from snapshot
-     *
-     * @param snapshot query snapshot
-     * @return a new experiment instance from snapshot
+     * This method returns a Experiment object by constructing it using the data from the document snapshot.
+     * @param: snapshot:QueryDocumentSnapshot (The Firestore document to retrieve the experiment details from).
+     * @return: Experiment (Constructed using info from document).
      */
     private Experiment expFromSnapshot(QueryDocumentSnapshot snapshot) {
-
-        // returns a new experiment instance from snapshot
         return new Experiment(
                 snapshot.getId(),
                 snapshot.getString("ExperimentName"),
@@ -368,7 +377,5 @@ public class ExperimentManager extends ArrayList<Experiment> {
                 snapshot.getBoolean("RequireGeo"),
                 snapshot.getString("Status")
         );
-
     }
-
 }

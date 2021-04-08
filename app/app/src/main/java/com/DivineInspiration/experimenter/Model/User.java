@@ -9,11 +9,8 @@ public class User {
     private UserContactInfo contactInfo;
 
     /**
-     * User contructor
-     * @param username
-     * name of the person
-     * @param contactUserInfo
-     * contact info on that person
+     * User constructor
+     * @param: username:String, contactUserInfo:UserContactInfo
      */
     public User(String username, String userId, UserContactInfo contactUserInfo, String description) {
         this.userId = userId;
@@ -22,22 +19,20 @@ public class User {
         this.description = description;
     }
 
-
     /**
-     * Default constructor when initing user
-     * @param userId
-     * userID
+     * Default constructor when initializing the user
+     * @param: userId:String
      */
-    public User(String userId){
+    public User(String userId) {
         this.userId = userId;
-        userName = "UserName";
+        userName = "Anonymous";
         contactInfo = new UserContactInfo();
         description = "";
-
     }
 
     /**
-     * Default constructor when no arguments are given, mostly for testing
+     * Mock object constructor for testing purposes
+     * @param: void
      */
     public User() {
         userId = "defaultId";
@@ -48,8 +43,7 @@ public class User {
 
     /**
      * Gets contact info of user
-     * @return
-     * Contact person class of user
+     * @return: contactInfo:UserContactInfo (Contact person class of user)
      */
     public UserContactInfo getContactInfo() {
         return contactInfo;
@@ -57,8 +51,7 @@ public class User {
 
     /**
      * Sets new contact info of person
-     * @param contactInfo
-     * new contact info
+     * @param: contactInfo:UserContactInfo (new contact info)
      */
     public void setContactInfo(UserContactInfo contactInfo) {
         this.contactInfo = contactInfo;
@@ -66,8 +59,7 @@ public class User {
 
     /**
      * Gets name of user
-     * @return
-     * username
+     * @return: username:String
      */
     public String getUserName() {
         return userName;
@@ -75,8 +67,7 @@ public class User {
 
     /**
      * Sets username
-     * @param userName
-     * username
+     * @param: userName:String
      */
     public void setUserName(String userName) {
         this.userName = userName;
@@ -84,8 +75,7 @@ public class User {
 
     /**
      * Gets ID of user
-     * @return
-     * user ID
+     * @return: userID:String
      */
     public String getUserId() {
         return userId;
@@ -104,8 +94,7 @@ public class User {
 
     /**
      * Gets the User description
-     * @return
-     * the user description
+     * @return: description:String (the user description)
      */
     public String getDescription() {
         return description;
@@ -113,8 +102,7 @@ public class User {
 
     /**
      * Sets the user description
-     * @param newDescription
-     * the new user description
+     * @param: newDescription:String (the new user description)
      */
     public void setDescription(String newDescription){
         this.description = newDescription;

@@ -15,6 +15,10 @@ public class Comment {
     private boolean isReply;
     private boolean hasReplies;
 
+    /**
+     * Constructor
+     * @param: commentId:String, commenterId:String, commenterName:String, date:Date, comment:String
+     */
     public Comment(String commentId, String commenterId, String commenterName, Date date, String comment, boolean isReply, boolean hasReplies) {
         this.commentId = commentId;
         this.commenterId = commenterId;
@@ -28,7 +32,7 @@ public class Comment {
 
     /**
      * Gets the comment id
-     * @return: commentID: String
+     * @return: commentID:String
      */
     public String getCommentId() {
         return commentId;
@@ -36,7 +40,7 @@ public class Comment {
 
     /**
      * Gets the id of the user who made the comment
-     * @return: commenterName: String
+     * @return: commenterName:String
      */
     public String getCommenterId() {
         return commenterId;
@@ -44,7 +48,7 @@ public class Comment {
 
     /**
      * Gets the name of the user who made the comment
-     * @return: commenterName: String
+     * @return: commenterName:String
      */
     public String getCommenterName() {
         return commenterName;

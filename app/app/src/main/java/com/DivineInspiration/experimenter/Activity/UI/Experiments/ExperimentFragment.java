@@ -18,11 +18,15 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.CreateTrialDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.TrialsTabFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentDialogFragment;
+
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
-import com.DivineInspiration.experimenter.Model.Trial.Trial;
+import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -58,7 +62,7 @@ public class ExperimentFragment extends Fragment {
     TabLayout tabLayout;
 
     // tab names
-    String[] tabNames = {"Trials", "Comments", "Stats"};
+    String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
    // private ArrayList<User> subscribers = new ArrayList<>();
 
     Experiment currentExperiment;
@@ -123,6 +127,7 @@ public class ExperimentFragment extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
             }
 
             @Override
@@ -146,7 +151,6 @@ public class ExperimentFragment extends Fragment {
                                 currentUserSubbed = true;
                             }
                         }
-
                         ((TextView) getView().findViewById(R.id.expFragSubCount))
                                 .setText(users.size() + " subscribers");
                     }
@@ -180,27 +184,7 @@ public class ExperimentFragment extends Fragment {
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
                     case 0:
-                        Bundle args = new Bundle();
-                        args.putSerializable("experiment", currentExperiment);
-                        // new trial
-                        switch (currentExperiment.getTrialType()) {
-                            case Trial.BINOMIAL:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_binomialTest, args);
-                                break;
-                            case Trial.MEASURE:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_nonNegativeTest, args);
-                                break;
-                            case Trial.NONNEGATIVE:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_measureTest, args);
-                                break;
-                            default:
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_navigation_experimentFragment_to_countTest, args);
-                                break;
-                        }
+                        TrialDialogSelect();
                         break;
 
                     case 1:
@@ -231,7 +215,7 @@ public class ExperimentFragment extends Fragment {
             setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!currentExperiment.getStatus().equals(Experiment.ENDED)){
+
                         Bundle args = new Bundle();
                         args.putSerializable("exp", currentExperiment);
 
@@ -247,11 +231,6 @@ public class ExperimentFragment extends Fragment {
                                 });
                         frag.setArguments(args);
                         frag.show(getChildFragmentManager(), "edit experiment frag");
-                    }
-                    else{
-                        Snackbar.make(getView(), "This experiment has ended!", Snackbar.LENGTH_LONG).show();
-                    }
-
                 }
             });
         } else {
@@ -293,11 +272,22 @@ public class ExperimentFragment extends Fragment {
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
         expCity.setText("Region: " + exp.getRegion());
-        trialNumber.setText(String.valueOf(exp.getMinimumTrials()) + " trials needed");
+        trialNumber.setText(exp.getMinimumTrials() + " trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
         status.setText(String.format("Status: %s", exp.getStatus()));
         toolbar.setTitle(exp.getExperimentName());
+    }
+
+    public void TrialDialogSelect(){
+        Bundle trialBundle = new Bundle();
+        trialBundle.putString("experimenterID", userManager.getLocalUser().getUserId());
+        trialBundle.putString("experimenterName", userManager.getLocalUser().getUserName());
+        trialBundle.putSerializable("experiment", currentExperiment);
+        CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment((CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0"));
+        dialogTrial.setArguments(trialBundle);
+        dialogTrial.show(getChildFragmentManager(), "create trial frag");
+
     }
 
     /**
@@ -330,6 +320,10 @@ public class ExperimentFragment extends Fragment {
                     tabFragment.setArguments(bundle);
                     return tabFragment;
 
+                case 3:
+                    tabFragment = new TrialMapTabFramgent();
+                    tabFragment.setArguments(bundle);
+                    return tabFragment;
                 default:
                     return new PlaceHolderFragment();
             }
@@ -337,7 +331,7 @@ public class ExperimentFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 3;
+            return 4;
         }
     }
 
@@ -357,7 +351,7 @@ public class ExperimentFragment extends Fragment {
             super.onViewCreated(view, savedInstanceState);
             ListView list = view.findViewById(R.id.placeHolderList);
 
-            String[] items = {"Russell’s", "Paradox", "tellswhat", "us", "that", "Humans", "are", "bad", "at", "math.",
+            String[] items = {"Russell’s", "Paradox", "tells", "us", "that", "Humans", "are", "bad", "at", "math.",
                     "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be",
                     "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very",
                     "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have",

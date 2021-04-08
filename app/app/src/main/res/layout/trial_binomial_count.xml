@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black2">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,6 +69,7 @@
             android:layout_margin="20dp"
             android:text="Require Geo Location"
             android:textAlignment="inherit"
+            android:textColor="@color/beige1"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -82,7 +84,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Passed: 0"
-                android:textColor="#1B1B1B"
+                android:textColor="@color/beige1"
                 android:textSize="30sp" />
 
             <TextView
@@ -92,7 +94,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Failed: 0"
-                android:textColor="#1B1B1B"
+                android:textColor="@color/beige1"
                 android:textSize="30sp" />
         </LinearLayout>
 

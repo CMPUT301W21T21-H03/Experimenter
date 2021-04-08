@@ -33,34 +33,34 @@ public class TestComment {
         assertEquals("Testivus has changed", mockComment.getComment());
     }
 
-    @Test
-    /* Here, we test the replies feature for each Comment class */
-    public void testReplies() {
-        Comment mockComment = getMockComment();
-
-        // Testing getReplies()
-        ArrayList<Comment> mockReplies = new ArrayList<>();
-
-        for (int i = 0; i < 3; ++i) {
-            Comment reply = getMockComment();
-            mockReplies.add(reply);
-            mockComment.addReply(reply);
-        }
-
-        ArrayList<Comment> replies = mockComment.getReplies();
-        for (int i = 0; i < 3; ++i) {
-            assertEquals(mockReplies.get(i), replies.get(i));
-        }
-
-        // Testing deleteReply()
-        Comment reply = mockComment.getReply(2);
-        mockComment.deleteReply(reply);
-        assertEquals(2, mockComment.getReplies().size());
-
-        replies = mockComment.getReplies();
-        for (int i = 0; i < 2; ++i) {
-            assertEquals(mockReplies.get(i), replies.get(i));
-        }
-
-    }
+//    @Test
+//    /* Here, we test the replies feature for each Comment class */
+//    public void testReplies() {
+//        Comment mockComment = getMockComment();
+//
+//        // Testing getReplies()
+//        ArrayList<Comment> mockReplies = new ArrayList<>();
+//
+//        for (int i = 0; i < 3; ++i) {
+//            Comment reply = getMockComment();
+//            mockReplies.add(reply);
+//            mockComment.addReply(reply);
+//        }
+//
+//        ArrayList<Comment> replies = mockComment.getReplies();
+//        for (int i = 0; i < 3; ++i) {
+//            assertEquals(mockReplies.get(i), replies.get(i));
+//        }
+//
+//        // Testing deleteReply()
+//        Comment reply = mockComment.getReply(2);
+//        mockComment.deleteReply(reply);
+//        assertEquals(2, mockComment.getReplies().size());
+//
+//        replies = mockComment.getReplies();
+//        for (int i = 0; i < 2; ++i) {
+//            assertEquals(mockReplies.get(i), replies.get(i));
+//        }
+//
+//    }
 }

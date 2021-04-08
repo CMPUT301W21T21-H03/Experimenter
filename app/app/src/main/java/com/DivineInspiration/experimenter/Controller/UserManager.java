@@ -26,43 +26,57 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserManager{
+/**
+ * This class talks to the Firestore database
+ * in order to store and retrieve user data.
+ * It also manages the storage of user data locally on the device.
+ * The class uses singleton pattern.
+ */
+public class UserManager {
 
-    /*
+    /* Reference citation:
     Name: Obaro Ogbo
     Link: https://www.androidauthority.com/how-to-store-data-locally-in-android-app-717190/
     Date: September 21, 2016
     License: unknown
     Usage: android local storage
      */
-    private SharedPreferences pref;
-    private static UserManager local= null;
+    private SharedPreferences pref;                 // Used to get the data about the local user which is stored locally on the device.
+    private static UserManager singleton = null;    // Singleton object
 
     private String TAG = "USER";
 
     private User user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     /**
-     * Required extends
+     * An exception that gets thrown if we have no local user data
      */
     public class ContextNotSetException extends RuntimeException {}
 
-    // required interfaces
+    /**
+     * When user data is retrieved from database is ready,
+     * it is passed along as a parameter by the interface method.
+     * Utilized for:
+     */
     public interface OnUserReadyListener {
         void onUserReady(User user);
     }
 
-    // when user is ready
+    /**
+     * When user datum is retrieved from database is ready,
+     * it is passed along as a parameter by the interface method.
+     * Utilized for:
+     */
     public interface OnUserListReadyListener {
         void onUserListReady(ArrayList<User> users);
     }
 
-//    private UserManager()  {
-//    }
+//    private UserManager() { }
 
     /**
-     * Gets the current user
-     * @return the current user
+     * Gets the current local user of the device.
+     * @return: :User (the current user).
      * @Warning getLocalUser might return null if used during init
      */
     public User getLocalUser(){
@@ -71,44 +85,41 @@ public class UserManager{
 
     /**
      * Provide context so that LocalUserManager can fetch the sharedPreference
-     * @param context context to be used.
+     * @param: context context to be used.
      */
-    public void setContext(Context context)  {
+    public void setContext(Context context) {
         pref = context.getSharedPreferences("USER_CONFIG", Context.MODE_PRIVATE);
     }
 
     /**
-     * Makes an instances of LocalUserManager
-     * <b>Note:</b> if making an instance of this class for the first time, initialize it via {@link #setContext(Context context)}, and if needed register callback via
-     * @return an instance of LocalUserManager
+     * Get singleton instance of the class
+     * @return: singleton:UserManager
      */
     public static UserManager getInstance(){
-        if (local == null){
-            local = new UserManager();
+        if (singleton == null){
+            singleton = new UserManager();
         }
-        return local;
+        return singleton;
     }
 
     /**
-     * Initializes a local user
-     * @param callback
-     * callback
+     * Initializes the local user of the device
+     * @param: callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
      */
     public void initializeLocalUser(OnUserReadyListener callback)  {
-        if(pref == null){
+        if (pref == null) {
             throw new ContextNotSetException();
         }
-        if(pref.contains("User")){
 
+        if (pref.contains("User")){
             Gson gson = new Gson();
             user = gson.fromJson(pref.getString("User", ""), User.class);
             updateUser(user, null);
-            if(callback != null){
+            if (callback != null) {
                 callback.onUserReady(user);
             }
-        }
-        else{
-            // no id currently exist, needs to create a new one
+        } else{
+            // No id currently exist, so we create a new one
             IdGen.genUserId(new IdGen.onIdReadyListener(){
                 @Override
                 public void onIdReady(String id) {
@@ -119,28 +130,25 @@ public class UserManager{
     }
 
     /**
-     * Gets user from firebase
-     * @param id
-     * ID of the user
-     * @param callback
-     * callback
+     * Queries the user from Firestore database given the user's id.
+     * @param: userId:String (ID of the user)
+     * @param: callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
      */
     @SuppressWarnings("unchecked")
-    public void queryUserById(String id, OnUserReadyListener callback){
+    public void queryUserById(String userId, OnUserReadyListener callback){
 
-        DocumentReference doc = db.collection("Users").document(id);
+        DocumentReference doc = db.collection("Users").document(userId);
         doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     if(document!=null &&document.exists() && document.get("Contacts") instanceof Map){
 
                         callback.onUserReady(userFromSnapshot(document));
                     }
 
-                }
-                else{
+                } else{
                     callback.onUserReady(null);
                 }
             }
@@ -148,9 +156,9 @@ public class UserManager{
     }
 
     /**
-     * returns a single user matching the name
-     * @param name
-     * @param callback
+     * Queries the user from Firestore database given the user's name.
+     * @param: name:String (ID of the user)
+     * @param: callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
      */
     public void queryUserByName(String name, OnUserReadyListener callback){
 
@@ -159,8 +167,7 @@ public class UserManager{
            if(task.isSuccessful() && callback!= null){
                if (task.getResult().size() == 0){
                    callback.onUserReady(null);
-               }
-               else{
+               } else{
                    for(QueryDocumentSnapshot doc: task.getResult()){
                        callback.onUserReady(userFromSnapshot(doc));
                    }
@@ -172,11 +179,9 @@ public class UserManager{
     }
 
     /**
-     * Get user
-     * @param document
-     * document
-     * @return
-     * the user
+     * This method returns a User object by constructing it using the data from the document snapshot.
+     * @param: snapshot:QueryDocumentSnapshot (The Firestore document to retrieve the user details from).
+     * @return: :User (Constructed using info from document).
      */
     private User userFromSnapshot(DocumentSnapshot document){
         Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
@@ -193,11 +198,10 @@ public class UserManager{
     }
 
     /**
-     * Query experiments from database
-     * @param expId
-     * experiment ID
-     * @param callback
-     * callback function
+     * Queries the subscribers of the given experiment.
+     * @param: expId:String (The user to query experiments for).
+     * @param: callback:OnUserListReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @return: void
      */
     @SuppressWarnings("unchecked")
     public void queryExperimentSubs(String expId, OnUserListReadyListener callback){
@@ -206,12 +210,11 @@ public class UserManager{
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()){
-                             ArrayList<String> userIds = (ArrayList<String>)task.getResult().get("SubscriberIDs");
+                             ArrayList<String> userIds = (ArrayList<String>) task.getResult().get("SubscriberIDs");
 
-                             if (userIds == null || userIds.size() ==0){
+                             if (userIds == null || userIds.size() == 0){
                                  callback.onUserListReady(new ArrayList<User>());
-                             }
-                             else{
+                             } else{
                                  db.collection("Users").whereIn("__name__", userIds).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                      @Override
                                      public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -225,10 +228,9 @@ public class UserManager{
                                      }
                                  });
                              }
-
                         } else {
                             // TODO: error
-                            Log.d(TAG, "oh no!");
+                            Log.d(TAG, "oh no! WTF");
                         }
                     }
                 }
@@ -236,18 +238,17 @@ public class UserManager{
     }
 
     /**
-     * Updates the local user. This method will update the user stored in memory, locally, and in firebase.
+     * Updates (or creates if not existing) the local user. This method will update the user stored in memory, locally, and in Firestore.
      * If the user's Id already exist, then the exist user document will be updated(replaced).
      * <b>Note:</b> Changing user id or creating new users requires UserReadyCalled to be registered to LocalUserManager
      * <b>Note2:</b> Upon changing user id, user should be given the option to permanently delete the old profile. Then be switched to the new profile
-     * @throws ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
-     * @param newUser
-     * user to be made or updated
-     * @param callback
-     * callback
+     * @throws: ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
+     * @param: newUser:User (user to be made or updated)
+     * @param: callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @return: void
      */
     public void updateUser(User newUser, OnUserReadyListener callback){
-        if(pref == null){
+        if (pref == null){
             throw new ContextNotSetException();
         }
         user = newUser;
@@ -255,7 +256,6 @@ public class UserManager{
         SharedPreferences.Editor prefEditor = pref.edit();
         prefEditor.putString("User", gson.toJson(user));
         prefEditor.apply();
-
 
         Map<String, Object> doc = new HashMap<>();
             doc.put("UserDescription", user.getDescription());

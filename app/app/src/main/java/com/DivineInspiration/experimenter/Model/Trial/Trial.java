@@ -3,6 +3,8 @@ package com.DivineInspiration.experimenter.Model.Trial;
 import com.DivineInspiration.experimenter.Model.IdGen;
 import com.DivineInspiration.experimenter.Model.User;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
@@ -15,37 +17,72 @@ public abstract class Trial implements Serializable {
     LocalDate trialDate;
     String trialUserID;
     String trialExperimentID;
+    String trialOwnerName;
+
+    GeoPoint location;
 
     public static final String COUNT = "Count trial";
     public static final String BINOMIAL = "Binomial trial";
     public static final String NONNEGATIVE = "Non-Negative trial";
     public static final String MEASURE = "Measurement trial";
 
-
-    public Trial(String trialId, String userId, String trialExperimentID , LocalDate date){
+    /**
+     * Constructor
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, location:GeoPoint
+     */
+    public Trial(String trialId, String userId, String trialOwnerName ,String trialExperimentID , LocalDate date, GeoPoint location){
         this.trialID = trialId;
         this.trialUserID = userId;
+        this.trialOwnerName = trialOwnerName;
         this.trialExperimentID = trialExperimentID;
         this.trialDate = date;
-    }
-
-    public Trial(String userId, String experimentId){
-        this.trialUserID = userId;
-        this.trialExperimentID = experimentId;
-        this.trialDate = LocalDate.now();
-        this.trialID = IdGen.genTrialsId(userId);
+        this.location = location;
     }
 
     /**
+     * Constructor
+     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate
+     */
+    public Trial(String trialId, String userId, String trialOwnerName ,String trialExperimentID , LocalDate date){
+        this.trialID = trialId;
+        this.trialUserID = userId;
+        this.trialOwnerName = trialOwnerName;
+        this.trialExperimentID = trialExperimentID;
+        this.trialDate = date;
+        this.location = null;
+    }
+
+    /**
+     * Constructor
+     * @param: userId:String, trialOwnerName:String, trialExperimentID:String
+     */
+    public Trial(String userId, String trialOwnerName ,String experimentId){
+        this.trialUserID = userId;
+        this.trialOwnerName = trialOwnerName;
+        this.trialExperimentID = experimentId;
+        this.trialDate = LocalDate.now();
+        this.trialID = IdGen.genTrialsId(userId);
+        this.location = null;
+    }
+
+    public GeoPoint getLocation() {
+        return location;
+    }
+
+    public void setLocation(GeoPoint location) {
+        this.location = location;
+    }
+
+
+    /**
      * Gets the type of this trial
-     * @return
-     * The experiment ID
+     * @return: :String (The experiment ID)
      */
     public String getTrialType() { return trialType; }
 
     /**
      * Gets the ID of the trial
-     * @return
+     * @return: :String (The trial ID)
      */
     public String getTrialID() {
         return trialID;
@@ -53,8 +90,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Trial date getter
-     * @return
-     * gets the trial date as a Java Date class
+     * @return :LocalDate (gets the trial date as a Java Date class)
      */
     public LocalDate getTrialDate() {
         return trialDate;
@@ -62,8 +98,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Gets the person doing the trial
-     * @return
-     * ID of the trial's user
+     * @return: :String (ID of the trial's user)
      */
     public String getTrialUserID() {
         return trialUserID;
@@ -71,11 +106,17 @@ public abstract class Trial implements Serializable {
 
     /**
      * Gets the experiment of this trial
-     * @return
-     * The experiment ID
+     * @return: :String (The experiment ID)
      */
     public String getTrialExperimentID() {
         return trialExperimentID;
     }
 
+    /**
+     * Gets the Experimenter of this trial
+     * @return: :String (The Owner Name)
+     */
+    public String getTrialOwnerName() {
+        return trialOwnerName;
+    }
 }

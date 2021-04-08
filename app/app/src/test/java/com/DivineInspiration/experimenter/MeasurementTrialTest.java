@@ -41,49 +41,49 @@ public class MeasurementTrialTest {
     private UserContactInfo mockContactInfo() {
         return new UserContactInfo("Edmonton", "abcd@gmail.com");
     }
-
-    @Test
-    public void addMeasurementTest(){
-        MeasurementTrial trial = mockMeasurementTrial();
-        ArrayList<Float> measurements = new ArrayList<Float>();
-        assertEquals(measurements, trial.getMeasurements());
-
-        trial.addMeasurement((float)6.3);
-        measurements.add((float)6.3);
-        assertEquals(measurements, trial.getMeasurements());
-
-        trial.addMeasurement((float)0.0);
-        measurements.add((float)0.0);
-        assertEquals(measurements, trial.getMeasurements());
-
-        trial.addMeasurement((float)-5.0);
-        measurements.add((float)-5.0);
-        assertEquals(measurements, trial.getMeasurements());
-    }
-
-    @Test
-    public void averageMeasureumentTest() {
-        MeasurementTrial trial = mockMeasurementTrial();
-        boolean isNan = Double.isNaN(trial.getAverageMeasurement());
-        assertTrue(isNan);
-
-        trial.addMeasurement((float)6.3);
-        assertEquals(6.3, trial.getAverageMeasurement(), 0.01);
-
-
-        trial.addMeasurement((float)0.0);
-        assertEquals(3.15, trial.getAverageMeasurement(), 0.01);
-
-        trial.addMeasurement((float)-5.0);
-        assertEquals(0.433333, trial.getAverageMeasurement(), 0.01);
-
-        trial.addMeasurement((float)1000000.123);
-        assertEquals(250000.35575, trial.getAverageMeasurement(), 0.01);
-
-        trial.addMeasurement((float)-2000000.123);
-        assertEquals(-199999.74, trial.getAverageMeasurement(), 0.01);
-
-    }
-
+//
+//    @Test
+//    public void addMeasurementTest(){
+//        MeasurementTrial trial = mockMeasurementTrial();
+//        ArrayList<Float> measurements = new ArrayList<Float>();
+//        assertEquals(measurements, trial.getMeasurements());
+//
+//        trial.addMeasurement((float)6.3);
+//        measurements.add((float)6.3);
+//        assertEquals(measurements, trial.getMeasurements());
+//
+//        trial.addMeasurement((float)0.0);
+//        measurements.add((float)0.0);
+//        assertEquals(measurements, trial.getMeasurements());
+//
+//        trial.addMeasurement((float)-5.0);
+//        measurements.add((float)-5.0);
+//        assertEquals(measurements, trial.getMeasurements());
+//    }
+//
+//    @Test
+//    public void averageMeasureumentTest() {
+//        MeasurementTrial trial = mockMeasurementTrial();
+//        boolean isNan = Double.isNaN(trial.getAverageMeasurement());
+//        assertTrue(isNan);
+//
+//        trial.addMeasurement((float)6.3);
+//        assertEquals(6.3, trial.getAverageMeasurement(), 0.01);
+//
+//
+//        trial.addMeasurement((float)0.0);
+//        assertEquals(3.15, trial.getAverageMeasurement(), 0.01);
+//
+//        trial.addMeasurement((float)-5.0);
+//        assertEquals(0.433333, trial.getAverageMeasurement(), 0.01);
+//
+//        trial.addMeasurement((float)1000000.123);
+//        assertEquals(250000.35575, trial.getAverageMeasurement(), 0.01);
+//
+//        trial.addMeasurement((float)-2000000.123);
+//        assertEquals(-199999.74, trial.getAverageMeasurement(), 0.01);
+//
+//    }
+//
 
 }
