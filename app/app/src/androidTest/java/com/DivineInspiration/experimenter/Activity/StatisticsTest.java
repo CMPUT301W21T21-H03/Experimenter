@@ -162,7 +162,6 @@ public class StatisticsTest {
             solo.clickOnView(solo.getView(R.id.binomial_fail_button));
         }
         solo.clickOnMenuItem("Ok");
-        assertTrue(solo.waitForText("Result: Pass", 2, 2000));
 
         solo.clickOnMenuItem("Stats");
         assertTrue(solo.waitForText("Total Trial Count:", 1, 2000));
@@ -176,7 +175,7 @@ public class StatisticsTest {
         assertTrue(solo.waitForText("Mean:", 1, 2000));
         assertTrue(solo.waitForText("0.6000", 1, 2000));
         assertTrue(solo.waitForText("Standard Deviation", 1, 2000));
-        assertTrue(solo.waitForText("0.4899", 3, 2000));
+        assertTrue(solo.waitForText("0.4899", 1, 2000));
 
         solo.clickOnMenuItem("Trials");
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
@@ -186,6 +185,7 @@ public class StatisticsTest {
         solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
+        solo.clickOnMenuItem("Stats");
         assertTrue(solo.waitForText("Total Trial Count:", 1, 2000));
         assertTrue(solo.waitForText("30", 1, 2000));
         assertTrue(solo.waitForText("Passes:", 1, 2000));
@@ -197,7 +197,7 @@ public class StatisticsTest {
         assertTrue(solo.waitForText("Mean:", 1, 2000));
         assertTrue(solo.waitForText("0.6667", 1, 2000));
         assertTrue(solo.waitForText("Standard Deviation", 1, 2000));
-        assertTrue(solo.waitForText("0.4714", 3, 2000));
+        assertTrue(solo.waitForText("0.4714", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
@@ -472,6 +472,7 @@ public class StatisticsTest {
 
         solo.drag(200, 200, 100, 300, 10);
         solo.drag(200, 200, 100, 300, 10);
+        solo.waitForView(solo.getView(R.id.setting), 1, 2000);
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
 
@@ -520,6 +521,7 @@ public class StatisticsTest {
 
         solo.drag(200, 200, 100, 300, 10);
         solo.drag(200, 200, 100, 300, 10);
+        solo.waitForView(solo.getView(R.id.setting), 1, 2000);
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
     }
@@ -575,6 +577,7 @@ public class StatisticsTest {
 
         solo.drag(200, 200, 100, 300, 10);
         solo.drag(200, 200, 100, 300, 10);
+        solo.waitForView(solo.getView(R.id.setting), 1, 2000);
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
     }
@@ -629,6 +632,7 @@ public class StatisticsTest {
 
         solo.drag(200, 200, 100, 300, 10);
         solo.drag(200, 200, 100, 300, 10);
+        solo.waitForView(solo.getView(R.id.setting), 1, 2000);
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
     }
@@ -684,6 +688,7 @@ public class StatisticsTest {
 
         solo.drag(200, 200, 100, 300, 10);
         solo.drag(200, 200, 100, 300, 10);
+        solo.waitForView(solo.getView(R.id.setting), 1, 2000);
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
     }
@@ -731,6 +736,7 @@ public class StatisticsTest {
 
         solo.drag(200, 200, 100, 300, 10);
         solo.drag(200, 200, 100, 300, 10);
+        solo.waitForView(solo.getView(R.id.setting), 1, 2000);
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
     }
@@ -785,6 +791,7 @@ public class StatisticsTest {
 
         solo.drag(200, 200, 100, 300, 10);
         solo.drag(200, 200, 100, 300, 10);
+        solo.waitForView(solo.getView(R.id.setting), 1, 2000);
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
     }
@@ -839,6 +846,7 @@ public class StatisticsTest {
 
         solo.drag(200, 200, 100, 300, 10);
         solo.drag(200, 200, 100, 300, 10);
+        solo.waitForView(solo.getView(R.id.setting), 1, 2000);
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
     }
