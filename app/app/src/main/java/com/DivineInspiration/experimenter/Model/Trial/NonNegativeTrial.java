@@ -1,8 +1,9 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.User;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.GeoPoint;
 
-import org.osmdroid.util.GeoPoint;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,7 +17,7 @@ public class NonNegativeTrial extends Trial {
      * Constructor
      * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int, location:GeoPoint
      */
-    public NonNegativeTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count, GeoPoint location){
+    public NonNegativeTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count, LatLng location){
         super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate,location);
         this.trialType = Trial.NONNEGATIVE;
         this.count = count;
@@ -36,7 +37,7 @@ public class NonNegativeTrial extends Trial {
      * Constructor
      * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int, location:GeoPoint
      */
-    public NonNegativeTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count, GeoPoint location) {
+    public NonNegativeTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count, LatLng location) {
         super(trialUserID, trialOwnerName,trialExperimentID);
         this.trialType = Trial.NONNEGATIVE;
         this.count = count;

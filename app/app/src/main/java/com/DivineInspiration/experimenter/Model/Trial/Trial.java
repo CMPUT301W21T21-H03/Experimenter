@@ -2,8 +2,9 @@ package com.DivineInspiration.experimenter.Model.Trial;
 
 import com.DivineInspiration.experimenter.Model.IdGen;
 import com.DivineInspiration.experimenter.Model.User;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.GeoPoint;
 
-import org.osmdroid.util.GeoPoint;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public abstract class Trial implements Serializable {
     String trialExperimentID;
     String trialOwnerName;
 
-    GeoPoint location;
+    LatLng location;
 
     public static final String COUNT = "Count trial";
     public static final String BINOMIAL = "Binomial trial";
@@ -30,7 +31,7 @@ public abstract class Trial implements Serializable {
      * Constructor
      * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, location:GeoPoint
      */
-    public Trial(String trialId, String userId, String trialOwnerName ,String trialExperimentID , LocalDate date, GeoPoint location){
+    public Trial(String trialId, String userId, String trialOwnerName ,String trialExperimentID , LocalDate date, LatLng location){
         this.trialID = trialId;
         this.trialUserID = userId;
         this.trialOwnerName = trialOwnerName;
@@ -65,11 +66,11 @@ public abstract class Trial implements Serializable {
         this.location = null;
     }
 
-    public GeoPoint getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 
-    public void setLocation(GeoPoint location) {
+    public void setLocation(LatLng location) {
         this.location = location;
     }
 
