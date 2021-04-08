@@ -119,7 +119,7 @@ public class CommentManager {
                 .collection("Comments")
                 .document(commentID)
                 .collection("Replies")
-                .document(reply.getCommenterId())
+                .document(reply.getCommentId())
                 .set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
