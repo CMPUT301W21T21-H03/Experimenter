@@ -131,7 +131,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
      * @param: exp:Experiment (the experiment this trial is being performed for).
      */
     public void binomialTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new GeoPoint(myLong,myLat);
+        trialLocation = new GeoPoint(myLat, myLong);
         // We create a separate Trial object for each 'Pass'
         for (int i = 0; i < passNum; i++) {
             BinomialTrial binomialTrial = new BinomialTrial(
