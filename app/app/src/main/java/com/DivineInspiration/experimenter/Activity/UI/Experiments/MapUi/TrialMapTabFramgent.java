@@ -73,7 +73,7 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         assert getArguments() != null;
-        currentExperiment =(Experiment) getArguments().getSerializable("experiment");
+        currentExperiment = (Experiment)getArguments().getSerializable("experiment");
 
     }
 
