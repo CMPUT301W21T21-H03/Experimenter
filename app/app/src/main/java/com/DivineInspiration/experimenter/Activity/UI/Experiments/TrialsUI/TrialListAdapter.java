@@ -1,15 +1,17 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
@@ -23,20 +25,21 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static androidx.constraintlayout.motion.widget.Debug.getLocation;
-
 public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.ViewHolder> {
 
     private List<Trial> trials = new ArrayList<>();
+    private TrialManager.OnTrialListReadyListener callback;
 
     // Constructor
     public TrialListAdapter() {
         super();
     }
 
-    public TrialListAdapter(List<Trial> trials) {
+    public TrialListAdapter(List<Trial> trials, TrialManager.OnTrialListReadyListener callback) {
         super();
-        this.trials = trials;
+        Log.d("woah trial adapter", "" +   trials.size());
+        this.trials=trials;
+        this.callback = callback;
     }
 
     @NonNull
@@ -52,40 +55,60 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         Trial myTrial = trials.get(position);
         String ans = "";
         String type = myTrial.getTrialType();
-        switch (type){
+        switch (type) {
             case "Binomial trial":
-                if(((BinomialTrial)myTrial).getPass()){
+                if (((BinomialTrial) myTrial).getPass()) {
                     ans = "Pass";
-                }else{
+                } else {
                     ans = "False";
                 }
                 break;
             case "Count trial":
-                ans = String.valueOf(((CountTrial)myTrial).getCount());
+                ans = String.valueOf(((CountTrial) myTrial).getCount());
                 break;
             case "Non-Negative trial":
-                ans = String.valueOf(((NonNegativeTrial)myTrial).getCount());
+                ans = String.valueOf(((NonNegativeTrial) myTrial).getCount());
                 break;
             case "Measurement trial":
-                ans = String.valueOf(((MeasurementTrial)myTrial).getValue());
+                ans = String.valueOf(((MeasurementTrial) myTrial).getValue());
                 break;
             default:
                 break;
         }
 
 
-        holder.getTrialResult().setText("Result: "+ans);
-        holder.getExperimenterName().setText("Experimenter: "+ myTrial.getTrialOwnerName());
+        holder.getTrialResult().setText("Result: " + ans + (myTrial.isIgnored() ? " - Ignored" : ""));
+        holder.getExperimenterName().setText("Experimenter: " + myTrial.getTrialOwnerName());
         holder.getTrialDate().setText(myTrial.getTrialDate().toString());
+        holder.getTrialCard().setOnClickListener(v -> {
+            holder.getBanButton().setVisibility(View.VISIBLE);
+            holder.getBanButton().setOnClickListener(v1 -> {
+                holder.getBanButton().setVisibility(View.GONE);
+                ExperimentManager.getInstance().banUserFromExperiment(myTrial.getTrialUserID(), myTrial.getTrialExperimentID(), done -> instantBanUpdate(myTrial.getTrialUserID()));
+            });
+        });
+
         GeoPoint geoPoint = TrialManager.getInstance().latLngToGeoPoint(myTrial.getLocation());
         DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
-        String LAT = String.valueOf(decimalFormat.format(geoPoint.getLatitude()));
-        String LONG = String.valueOf(decimalFormat.format(geoPoint.getLongitude()));
-        holder.getTrialLocation().setText("Location: "+LAT+" , "+LONG);
+        String LAT = decimalFormat.format(geoPoint.getLatitude());
+        String LONG = decimalFormat.format(geoPoint.getLongitude());
+        holder.getTrialLocation().setText("Location: " + LAT + " , " + LONG);
 
     }
 
+    private void instantBanUpdate(String bannedId) {
+        Log.d("woah", "instant updating");
+        List<Trial> updatedTrials = new ArrayList<>();
+        for (Trial t : trials) {
+            if (t.getTrialUserID().equals(bannedId)) {
+                t.setIgnored(true);
+            }
+            updatedTrials.add(t);
+        }
+        Log.d("woah instantUpdate", ""+trials.size());
+        callback.onTrialsReady(updatedTrials);
+    }
 
 
     @Override
@@ -108,7 +131,7 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         private final TextView trialResult;
 
 
-
+        private final Button banButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -118,6 +141,7 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
             trialDate = v.findViewById(R.id.trialDate);
             trialLocation = v.findViewById(R.id.trialCity);
             trialResult = v.findViewById(R.id.trialResult);
+            banButton = v.findViewById(R.id.trialBan);
 
         }
 
@@ -139,6 +163,10 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
 
         public TextView getTrialResult() {
             return trialResult;
+        }
+
+        public Button getBanButton() {
+            return banButton;
         }
     }
 }

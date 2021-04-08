@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -170,25 +171,40 @@ public class TrialManager extends ArrayList<Trial> {
      * @return: void
      */
     public void queryExperimentTrials(String experimentId, OnTrialListReadyListener callback) {
-        db.collection("Trials").whereEqualTo("ExperimentID", experimentId).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (callback != null) {
-                                List<Trial> output = new ArrayList<>();
-                                for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                    output.add(trialFromSnapshot(snapshot));
+        db.collection("BlackList").document(experimentId).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+             List<String> bannedIds = (List<String>) task.getResult().get("BannedIds");
+
+                HashSet<String> bannedIdSet = new HashSet<>();
+                if(bannedIds != null){
+                    bannedIdSet.addAll(bannedIds);
+                }
+                db.collection("Trials").whereEqualTo("ExperimentID", experimentId).get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (callback != null) {
+                                        List<Trial> output = new ArrayList<>();
+                                        for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                                            Trial t = trialFromSnapshot(snapshot);
+                                            if(bannedIds != null && bannedIdSet.contains(t.getTrialUserID())){
+                                                t.setIgnored(true);
+                                            }
+                                            output.add(t);
+                                        }
+                                        callback.onTrialsReady(output);
+                                        Log.d(TAG, "getExperimentTrials successful");
+                                    }
+                                } else {
+                                    Log.d(TAG, "getExperimentTrials failed");
+                                    callback.onTrialsReady(null);
                                 }
-                                callback.onTrialsReady(output);
-                                Log.d(TAG, "getExperimentTrials successful");
                             }
-                        } else {
-                            Log.d(TAG, "getExperimentTrials failed");
-                            callback.onTrialsReady(null);
-                        }
-                    }
-                });
+                        });
+            }
+        });
+
     }
 
     /**

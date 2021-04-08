@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.DivineInspiration.experimenter.Activity.Observer;
+import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
@@ -25,7 +26,11 @@ public class TrialsTabFragment extends Fragment implements Observer {
 
     private TrialListAdapter adapter;
     private List<Trial> trialArrayList = new ArrayList<>();
-    String experimentID;
+
+    private TrialManager.OnTrialListReadyListener callback;
+    public  TrialsTabFragment(TrialManager.OnTrialListReadyListener callback){
+        this.callback = callback;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class TrialsTabFragment extends Fragment implements Observer {
         View view = inflater.inflate(R.layout.trial_list, container, false);
 
 
-        adapter = new TrialListAdapter(trialArrayList);
+        adapter = new TrialListAdapter(trialArrayList, callback);
 //        CommentManager.getInstance().getExperimentComments(experiment, this);
         RecyclerView recycler = view.findViewById(R.id.trialList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -58,11 +63,14 @@ public class TrialsTabFragment extends Fragment implements Observer {
 
     @Override
     public void update(Object data) {
+      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());
+            trialArrayList.clear();
+            trialArrayList.addAll((List<Trial>) data);
+        Log.d("woah trial tab", "" +   ((List<Trial>) data).size());
 
-        trialArrayList.clear();
-        trialArrayList.addAll((List<Trial>) data);
+
+
         if(adapter != null){
-            Log.d("woah", "trial adapter");
             adapter.notifyDataSetChanged();
         }
 

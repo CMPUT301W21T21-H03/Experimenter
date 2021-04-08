@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentFragment extends Fragment implements Subject {
+public class ExperimentFragment extends Fragment implements Subject, TrialManager.OnTrialListReadyListener{
     List<Trial> currentTrials = new ArrayList<>();
 
     // text views
@@ -257,7 +258,8 @@ public class ExperimentFragment extends Fragment implements Subject {
         super.onResume();
 
         TrialManager.getInstance().queryExperimentTrials(currentExperiment.getExperimentID(), trials -> {
-            currentTrials = trials;
+            currentTrials.clear();
+            currentTrials.addAll(trials);
             updateAll();
         });
     }
@@ -310,9 +312,18 @@ public class ExperimentFragment extends Fragment implements Subject {
 
     @Override
     public void updateAll() {
+        Log.d("woah exp frag", ""+System.identityHashCode(currentTrials));
         for(Observer observer : observers){
+            Log.d("woah exp callback", ""+currentTrials.size());
             observer.update(currentTrials);
         }
+    }
+
+    @Override
+    public void onTrialsReady(List<Trial> trials) {
+        currentTrials = trials;
+        Log.d("woah exp callback", ""+currentTrials.size());
+        updateAll();
     }
 
     /**
@@ -334,7 +345,7 @@ public class ExperimentFragment extends Fragment implements Subject {
             Fragment tabFragment;
             switch (position) {
                 case 0:
-                    tabFragment = new TrialsTabFragment();
+                    tabFragment = new TrialsTabFragment(ExperimentFragment.this);
                     tabFragment.setArguments(bundle);
                     addObserver((TrialsTabFragment)tabFragment);
 
