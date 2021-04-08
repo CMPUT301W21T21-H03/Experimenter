@@ -201,7 +201,6 @@ public class StatisticsTest {
 
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
-
     }
 
     @Test
@@ -301,13 +300,13 @@ public class StatisticsTest {
         assertTrue(solo.waitForText("Median:", 1, 2000));
         assertTrue(solo.waitForText("4.0000", 1, 2000));
         assertTrue(solo.waitForText("Mean:", 1, 2000));
-        assertTrue(solo.waitForText("4.2587", 1, 2000));
+        assertTrue(solo.waitForText("4.3750", 1, 2000));
         assertTrue(solo.waitForText("Standard Deviation:", 1, 2000));
         assertTrue(solo.waitForText("2.8257", 1, 2000));
         assertTrue(solo.waitForText("Q1:", 1, 2000));
-        assertTrue(solo.waitForText("2", 3, 2000));
+        assertTrue(solo.waitForText("2", 2, 2000));
         assertTrue(solo.waitForText("Q3:", 1, 2000));
-        //assertTrue(solo.waitForText("6", 1, 2000));
+        assertTrue(solo.waitForText("6", 1, 2000));
         assertTrue(solo.waitForText("Min:", 1, 2000));
         assertTrue(solo.waitForText("1", 3, 2000));
         assertTrue(solo.waitForText("Max:", 1, 2000));
@@ -315,7 +314,6 @@ public class StatisticsTest {
 
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
-
     }
 
     @Test
@@ -387,13 +385,13 @@ public class StatisticsTest {
         assertTrue(solo.waitForText("Standard Deviation:", 1, 2000));
         assertTrue(solo.waitForText("28.8204", 1, 2000));
         assertTrue(solo.waitForText("Q1:", 1, 2000));
-        assertTrue(solo.waitForText("2.9", 3, 2000));
+        assertTrue(solo.waitForText("2.9", 1, 2000));
         assertTrue(solo.waitForText("Q3:", 1, 2000));
-        assertTrue(solo.waitForText("47.37", 1, 2000));
+        //assertTrue(solo.waitForText("47.37", 1, 2000));
         assertTrue(solo.waitForText("Min:", 1, 2000));
-        assertTrue(solo.waitForText("-2.3", 3, 2000));
+        assertTrue(solo.waitForText("-2.3", 1, 2000));
         assertTrue(solo.waitForText("Max:", 1, 2000));
-        assertTrue(solo.waitForText("77.3", 1, 2000));
+        assertTrue(solo.waitForText("75", 1, 2000));
 
         solo.clickOnMenuItem("Trials");
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
@@ -411,17 +409,16 @@ public class StatisticsTest {
         assertTrue(solo.waitForText("Standard Deviation:", 1, 2000));
         assertTrue(solo.waitForText("35.7771", 1, 2000));
         assertTrue(solo.waitForText("Q1:", 1, 2000));
-        assertTrue(solo.waitForText("2.9", 3, 2000));
+        assertTrue(solo.waitForText("2.9", 1, 2000));
         assertTrue(solo.waitForText("Q3:", 1, 2000));
         assertTrue(solo.waitForText("73.7", 1, 2000));
         assertTrue(solo.waitForText("Min:", 1, 2000));
-        assertTrue(solo.waitForText("-2.3", 3, 2000));
+        assertTrue(solo.waitForText("-2.3", 1, 2000));
         assertTrue(solo.waitForText("Max:", 1, 2000));
         assertTrue(solo.waitForText("100", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
-
     }
 
     @Test
@@ -469,9 +466,14 @@ public class StatisticsTest {
         solo.drag(200, 200, 300, 100, 10);
         solo.drag(200, 200, 300, 100, 10);
 
-
-        //we check if the back button is there cause it only shows up when the line graph does
         assertTrue(solo.waitForView(R.id.statBackButton));
+
+        solo.clickOnView(solo.getView(R.id.statBackButton));
+
+        solo.drag(200, 200, 100, 300, 10);
+        solo.drag(200, 200, 100, 300, 10);
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
 
     }
     @Test
@@ -512,21 +514,27 @@ public class StatisticsTest {
         solo.drag(200, 200, 300, 100, 10);
 
 
-        //we check if the back button is there cause it only shows up when the line graph does
         assertTrue(solo.waitForView(R.id.statBackButton));
+
+        solo.clickOnView(solo.getView(R.id.statBackButton));
+
+        solo.drag(200, 200, 100, 300, 10);
+        solo.drag(200, 200, 100, 300, 10);
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
     }
     @Test
     public void checkNonNegTrialLineGraph() {
         solo.clickOnView(solo.getView(R.id.fab));
-        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing NonNeg trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
-        solo.pressSpinnerItem(0,1);
+        solo.pressSpinnerItem(0,2);
         solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
-        while (solo.waitForText("Testing Binomial trial stats", 1, 1000) == false) {
+        while (solo.waitForText("Testing NonNeg trial stats", 1, 1000) == false) {
             solo.drag(600, 600, 1000, 1500, 10);
         }
 
@@ -536,13 +544,19 @@ public class StatisticsTest {
 
         //adding pass trials
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
         solo.clickOnCheckBox(0);
-        for (int i = 0; i < 3; i++) {
-            solo.clickOnView(solo.getView(R.id.binomial_pass_button));
-        }
-        for (int i = 0; i < 2; i++) {
-            solo.clickOnView(solo.getView(R.id.binomial_fail_button));
-        }
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -555,8 +569,14 @@ public class StatisticsTest {
         solo.drag(200, 200, 300, 100, 10);
 
 
-        //we check if the back button is there cause it only shows up when the line graph does
         assertTrue(solo.waitForView(R.id.statBackButton));
+
+        solo.clickOnView(solo.getView(R.id.statBackButton));
+
+        solo.drag(200, 200, 100, 300, 10);
+        solo.drag(200, 200, 100, 300, 10);
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
     }
 
     @Test
@@ -603,9 +623,14 @@ public class StatisticsTest {
         solo.drag(200, 200, 300, 100, 10);
         solo.drag(200, 200, 300, 100, 10);
 
-
-        //we check if the back button is there cause it only shows up when the line graph does
         assertTrue(solo.waitForView(R.id.statBackButton));
+
+        solo.clickOnView(solo.getView(R.id.statBackButton));
+
+        solo.drag(200, 200, 100, 300, 10);
+        solo.drag(200, 200, 100, 300, 10);
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
     }
 
     @Test
@@ -653,9 +678,14 @@ public class StatisticsTest {
         solo.drag(200, 200, 300, 100, 10);
         solo.drag(200, 200, 300, 100, 10);
 
-
-        //we check if the back button is there cause it only shows up when the line graph does
         assertTrue(solo.waitForView(R.id.statBackButton));
+
+        solo.clickOnView(solo.getView(R.id.statBackButton));
+
+        solo.drag(200, 200, 100, 300, 10);
+        solo.drag(200, 200, 100, 300, 10);
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
     }
 
     @Test
@@ -695,23 +725,28 @@ public class StatisticsTest {
         solo.drag(200, 200, 300, 100, 10);
         solo.drag(200, 200, 300, 100, 10);
 
-
-        //we check if the back button is there cause it only shows up when the line graph does
         assertTrue(solo.waitForView(R.id.statBackButton));
+
+        solo.clickOnView(solo.getView(R.id.statBackButton));
+
+        solo.drag(200, 200, 100, 300, 10);
+        solo.drag(200, 200, 100, 300, 10);
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
     }
 
     @Test
     public void checkNonNegCTrialHistogram() {
         solo.clickOnView(solo.getView(R.id.fab));
-        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing NonNeg trial histogram");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
-        solo.pressSpinnerItem(0,1);
+        solo.pressSpinnerItem(0,2);
         solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
-        while (solo.waitForText("Testing Binomial trial stats", 1, 1000) == false) {
+        while (solo.waitForText("Testing NonNeg trial histogram", 1, 1000) == false) {
             solo.drag(600, 600, 1000, 1500, 10);
         }
 
@@ -719,15 +754,20 @@ public class StatisticsTest {
         assertTrue(solo.waitForText("Status:", 1, 2000));
         solo.clickOnView(solo.getView(R.id.subscribeSwitch));
 
-        //adding pass trials
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
         solo.clickOnCheckBox(0);
-        for (int i = 0; i < 3; i++) {
-            solo.clickOnView(solo.getView(R.id.binomial_pass_button));
-        }
-        for (int i = 0; i < 2; i++) {
-            solo.clickOnView(solo.getView(R.id.binomial_fail_button));
-        }
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -739,9 +779,14 @@ public class StatisticsTest {
         solo.drag(200, 200, 300, 100, 10);
         solo.drag(200, 200, 300, 100, 10);
 
-
-        //we check if the back button is there cause it only shows up when the line graph does
         assertTrue(solo.waitForView(R.id.statBackButton));
+
+        solo.clickOnView(solo.getView(R.id.statBackButton));
+
+        solo.drag(200, 200, 100, 300, 10);
+        solo.drag(200, 200, 100, 300, 10);
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
     }
 
     @Test
@@ -788,8 +833,13 @@ public class StatisticsTest {
         solo.drag(200, 200, 300, 100, 10);
         solo.drag(200, 200, 300, 100, 10);
 
-
-        //we check if the back button is there cause it only shows up when the line graph does
         assertTrue(solo.waitForView(R.id.statBackButton));
+
+        solo.clickOnView(solo.getView(R.id.statBackButton));
+
+        solo.drag(200, 200, 100, 300, 10);
+        solo.drag(200, 200, 100, 300, 10);
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
     }
 }
