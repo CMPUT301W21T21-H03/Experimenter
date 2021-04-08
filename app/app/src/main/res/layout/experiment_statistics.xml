@@ -3,19 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black1"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal">
 
 <!--    https://github.com/PhilJay/MPAndroidChart/issues/1147#issuecomment-227452773
 fixing scollview and graph-->
    <androidx.core.widget.NestedScrollView
        android:fillViewport="true"
        android:layout_width="match_parent"
-       android:layout_height="match_parent">
+       android:layout_height="match_parent"
+       android:layout_gravity="center_horizontal">
        <FrameLayout
            android:id="@+id/statFrame"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-
+        android:layout_gravity="center_horizontal"
            android:animateLayoutChanges="true">
 
            <androidx.appcompat.widget.AppCompatImageButton
@@ -30,7 +32,8 @@ fixing scollview and graph-->
                android:id="@+id/graphHolder"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:layout_gravity="center_horizontal" />
+               android:layout_gravity="center_horizontal"
+               android:orientation="vertical"/>
 
            <LinearLayout
                android:layout_width="match_parent"
@@ -38,14 +41,6 @@ fixing scollview and graph-->
                android:orientation="vertical"
                android:gravity="center_horizontal"
                android:elevation="10dp">
-               <TextView
-                   android:id="@+id/statWarningText"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="No data available yet!"
-                   android:textSize="30dp"
-                   android:layout_margin="20dp"
-                   />
 
                <androidx.appcompat.widget.LinearLayoutCompat
                    android:id="@+id/statHolder"

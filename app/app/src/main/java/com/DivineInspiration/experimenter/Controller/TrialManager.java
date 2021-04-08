@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * This class talks to the Firestore database
@@ -84,6 +85,10 @@ public class TrialManager extends ArrayList<Trial> {
 
     public LatLng geoPointToLatLng(GeoPoint geoPoint) {
         return geoPoint == null ? null : (new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude()));
+    }
+
+    public List<Trial> filterIgnoredTrials(List<Trial> listToFilter){
+        return listToFilter.stream().filter(trial -> !trial.isIgnored()).collect(Collectors.toList());
     }
 
     /**
