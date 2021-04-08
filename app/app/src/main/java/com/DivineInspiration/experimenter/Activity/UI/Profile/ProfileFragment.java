@@ -1,14 +1,8 @@
 package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +15,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -36,22 +29,24 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import static android.content.Context.LOCATION_SERVICE;
-
-
+/**
+ * This class deals with the UI for displaying the experiment details. (It also contains 4 tabs: Trials, Comments, Stats, Data)
+ * @see: profile_fragment (Contains 3 tabs: Experiments, Subscriptions, Trials)
+ */
 public class ProfileFragment extends Fragment {
 
-
-    // Inits
-    FloatingActionButton fab;
+    // Instance variables
+    FloatingActionButton floating_addButton;
     Button editProfileButton;
-    UserManager manager = UserManager.getInstance();
-    ExperimentManager experimentManager = ExperimentManager.getInstance();
     ViewPager2 pager;
     HomeFragmentAdapter adapter;
     TabLayout tabLayout;
-    boolean otherUser = false;
+    boolean otherUser = false;          // otherUser is true when the user is viewing profile of another user; if false then displaying info for local user
     String otherUserId;
+
+    // Manager classes (The controllers that act as an interface between 'Model' and 'View')
+    UserManager user_manager = UserManager.getInstance();
+    ExperimentManager experimentManager = ExperimentManager.getInstance();
 
     // Declaring TextView
     TextView userID_home;
@@ -62,39 +57,33 @@ public class ProfileFragment extends Fragment {
     View dividerLineName_home;
     View dividerLineAbout_home;
 
-
-    // main page tab names
+    // The different tabs that will be displayed
     private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
-    CollapsingToolbarLayout toolbar;
+    CollapsingToolbarLayout toolbar;        // Toolbar 'disappears' as you scroll down.
 
     /**
      * Constructor
+     * @param: void
      */
     public ProfileFragment() {
         super(R.layout.profile_fragment);
-        // Log.d("MESSAGE", "fragment, constructor");
     }
 
     /**
-     * When view is created
-     *
-     * @param view
-     * @param savedInstanceState
+     * Runs when the view is fully created
+     * @param: savedInstanceState:Bundle
      */
     @SuppressLint("MissingPermission")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // gets everything from view
+        // Initialize the view instance variables
         toolbar = view.findViewById(R.id.expCollapsingToolbar);
-        fab = view.findViewById(R.id.fab);
+        floating_addButton = view.findViewById(R.id.fab);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
 
-
-
-
-        // setting up the Text View in ToolBar
+        // Setting up the the Views to display the user information (on the home page)
         userName_home = view.findViewById(R.id.userName_Home);
         userID_home = view.findViewById(R.id.userID_Home);
         userEmail_home = view.findViewById(R.id.email_Home);
@@ -103,9 +92,10 @@ public class ProfileFragment extends Fragment {
         dividerLineName_home = view.findViewById(R.id.sectionDivideLineName_home);
         dividerLineAbout_home = view.findViewById(R.id.sectionDivideLineAbout_home);
 
-        if (getArguments() != null) {
+
+        if (getArguments() != null) {       // This means the current instance of the object was not instantiated by another class, hence arguments are null
             String userID = getArguments().getString("user");
-            if (!userID.equals(manager.getLocalUser().getUserId())) {
+            if (!userID.equals(user_manager.getLocalUser().getUserId())) {
                 otherUser = true;
                 otherUserId = userID;
             }
@@ -114,12 +104,10 @@ public class ProfileFragment extends Fragment {
             otherUserId = null;
         }
 
-//
 //        // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
 //        ((ViewGroup) view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
-
-        // viewpager
+        // Viewpager (to enable swiping between the tabs)
         pager = view.findViewById(R.id.expPager);
         if (otherUser) {
             adapter = new HomeFragmentAdapter(this, otherUserId);
@@ -129,9 +117,9 @@ public class ProfileFragment extends Fragment {
 
         pager.setAdapter(adapter);
 
-        tabLayout = view.findViewById(R.id.Tablayout);
+        tabLayout = view.findViewById(R.id.Tablayout);      // To display the tab headings
 
-        // when new tab is selected
+        // Setting the tab layout
         new TabLayoutMediator(tabLayout, pager, true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
@@ -139,56 +127,51 @@ public class ProfileFragment extends Fragment {
             }
         }).attach();
 
-        // when a new tab is selected
+        // When a new tab is selected
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
+            public void onTabUnselected(TabLayout.Tab tab) { }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onTabReselected(TabLayout.Tab tab) { }
 
-            }
-
-            // hide fab when on trials or subscriptions
+            // Hide fab when on trials or subscriptions
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if ((tab.getPosition() == 0) && (!otherUser)) {
-                    fab.show();
+                    floating_addButton.show();      // Only show the add button on 1st tab (Experiments)
                 } else {
-                    fab.hide();
+                    floating_addButton.hide();
                 }
             }
         });
 
-        // setup local user
-        if (!otherUser) {
-            manager.setContext(getContext());
-            manager.initializeLocalUser(new UserManager.OnUserReadyListener() {
+        // Setup local user
+        if (!otherUser) {       // If we want to display info for current local user
+            user_manager.setContext(getContext());
+            user_manager.initializeLocalUser(new UserManager.OnUserReadyListener() {
                 @Override
                 public void onUserReady(User user) {
                     displayUserToolbar(user);
                 }
             });
-
-        } else {
+        } else {                // If we want to display info when some user is viewing another's profile
             UserManager.getInstance().queryUserById(otherUserId, new UserManager.OnUserReadyListener() {
                 @Override
                 public void onUserReady(User user) {
                     displayUserToolbar(user);
                 }
             });
-            fab.setVisibility(View.GONE);
-            editProfileButton.setVisibility(View.GONE);
+            floating_addButton.setVisibility(View.GONE);    // Remove the floating action button as a user should have no write control when viewing another user
+            editProfileButton.setVisibility(View.GONE);     // Remove the edit profile button as ,,         ,,          ,,          ,,      ,,      ,,      ,,
         }
 
-
-        // title is transparent when expanded
+        // Title is transparent when expanded
         toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
         toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
-        // fab onclick
-        fab.setOnClickListener(new View.OnClickListener() {
+        // Floating action button onClick (Happens when local user wants to add an experiment), we go and create ExperimentDialogFragment
+        floating_addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*https://stackoverflow.com/a/61178226/12471420*/
@@ -196,11 +179,10 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        // when edit profile button is clicker -> trigger dialog box
+        // When edit profile button is clicker -> trigger dialog box (create EditProfileDialogFragment)
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 new EditProfileDialogFragment(new UserManager.OnUserReadyListener() {
                     @Override
                     public void onUserReady(User user) {
@@ -210,7 +192,6 @@ public class ProfileFragment extends Fragment {
                         if (expListFrag instanceof Refreshable) {
                             ((Refreshable) expListFrag).refresh();
                         }
-
                     }
                 }).show(getChildFragmentManager(), "Edit Profile");
             }
@@ -218,44 +199,38 @@ public class ProfileFragment extends Fragment {
     }
 
     /**
-     * On resume
+     * OnResume
      */
     @Override
     public void onResume() {
         super.onResume();
         if (otherUserId != null) {
-            manager.queryUserById(otherUserId, user -> {
+            user_manager.queryUserById(otherUserId, user -> {
                 displayUserToolbar(user);
             });
         } else {
-            displayUserToolbar(manager.getLocalUser());
+            displayUserToolbar(user_manager.getLocalUser());
         }
 
     }
 
-
     /**
-     * Displaying the user info
-     *
-     * @param user user
+     * Displaying the user info on the screen
+     * @param: user:User
      */
     private void displayUserToolbar(User user) {
-
-        if(user == null){
+        if (user == null) {  // Safety check
             return;
         }
 
-
-        // setting the user info in UI
+        // Setting the user info in UI
         toolbar.setTitle(user.getUserName());
-
         userID_home.setText(user.getUserId());
         userCity_home.setText(user.getContactInfo().getCityName());
         userEmail_home.setText(user.getContactInfo().getEmail());
         userDescription_home.setText(user.getDescription());
         userName_home.setText(user.getUserName());
 
-        // TODO: optimize below?? (Low priority)
         // Setting Visibility of text Views
         // Visibility for City and Email
         String cityText = user.getContactInfo().getCityName();
@@ -282,9 +257,8 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
-
     /**
+     * Subclass
      * Home fragment
      */
     public class HomeFragmentAdapter extends FragmentStateAdapter {
@@ -292,8 +266,7 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Constructor
-         *
-         * @param frag
+         * @param: frag:Fragment
          */
         public HomeFragmentAdapter(Fragment frag) {
             super(frag);
@@ -305,10 +278,9 @@ public class ProfileFragment extends Fragment {
         }
 
         /**
-         * When fragment is created
-         *
-         * @param position position in adapter
-         * @return
+         * Create the appropriate fragment depending on the position of the tab
+         * @param: position:int (position in adapter)
+         * @return: :Fragment
          */
         @NonNull
         @Override
@@ -339,8 +311,7 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Get item count
-         *
-         * @return number of items in list
+         * @return: :int (number of items in list)
          */
         @Override
         public int getItemCount() {
@@ -377,6 +348,4 @@ public class ProfileFragment extends Fragment {
 
         }
     }
-
 }
-
