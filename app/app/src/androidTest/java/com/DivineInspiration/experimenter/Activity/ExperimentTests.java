@@ -40,6 +40,8 @@ public class ExperimentTests {
     //issue with test if multiples of exact same experiment
     @Test
     public void checkCountExperimentCreationAndDeletion() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
 
         //creates counting experiment
@@ -81,6 +83,8 @@ public class ExperimentTests {
     @Test
     public void checkBinomialExperimentCreationAndDeletion() {
         //creates Binomial experiment
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Test Binomial Experiment");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region1");
@@ -120,6 +124,8 @@ public class ExperimentTests {
     @Test
     public void checkNonNegExperimentCreationAndDeletion() {
         //Creates Non-neg experiment
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Test NonNegative Experiment");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region2");
@@ -158,6 +164,8 @@ public class ExperimentTests {
     @Test
     public void checkMeasuringExperimentCreationAndDeletion(){
         //creates Measuring experiment
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Test measuring Experiment");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region3");
@@ -194,7 +202,8 @@ public class ExperimentTests {
     //checks to see that the title/region/description are cut off at the current place
     @Test
     public void checkExperimentCreationOverCharLimit() {
-        //creates experiment over the 100/100/500 allowed characters
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing the character Limit test " +
                 "Testing the character Limit test Testing the character Limit test Testing the character Limit test " +
@@ -274,6 +283,8 @@ public class ExperimentTests {
 
     @Test
     public void checkExperimentUnpublish() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
 
         int randomInt = (int)Math.floor(Math.random()*(100000000-0+1)+0);
@@ -309,6 +320,8 @@ public class ExperimentTests {
     }
     @Test
     public void checkEditExperiment() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing edit");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Testing region0");
@@ -365,6 +378,8 @@ public class ExperimentTests {
     }
     @Test
     public void checkSubscribe() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing subscribe");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");

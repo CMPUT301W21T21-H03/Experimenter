@@ -38,6 +38,7 @@ public class ExploreTest {
     @Test
     public void checkSearch() {
         solo.assertCurrentActivity("Wrong activity",MainActivity .class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
 
         //creates the experiment that we will search for

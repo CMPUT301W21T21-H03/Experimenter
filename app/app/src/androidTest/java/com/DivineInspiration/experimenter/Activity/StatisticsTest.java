@@ -35,7 +35,8 @@ public class StatisticsTest {
 
     @Test
     public void checkCountTrialStats() {
-        solo.waitForView(solo.getView(R.id.fab));
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing count trial statistics");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -136,7 +137,8 @@ public class StatisticsTest {
     }
     @Test
     public void checkBinomialTrialStats() {
-        solo.waitForView(solo.getView(R.id.fab));
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -207,7 +209,8 @@ public class StatisticsTest {
 
     @Test
     public void checkNonNegTrialStats() {
-        solo.waitForView(solo.getView(R.id.fab));
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing nonNeg trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -321,7 +324,8 @@ public class StatisticsTest {
 
     @Test
     public void checkMeasuringTrialStats() {
-        solo.waitForView(solo.getView(R.id.fab));
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -427,7 +431,8 @@ public class StatisticsTest {
 
     @Test
     public void checkCountTrialLineGraph() {
-        solo.waitForView(solo.getView(R.id.fab));
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing count trial line graph");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -484,6 +489,8 @@ public class StatisticsTest {
     }
     @Test
     public void checkBinomialTrialLineGraph() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -532,6 +539,8 @@ public class StatisticsTest {
     }
     @Test
     public void checkNonNegTrialLineGraph() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing NonNeg trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -589,6 +598,8 @@ public class StatisticsTest {
 
     @Test
     public void checkMeasuringTrialLineGraph() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -644,6 +655,8 @@ public class StatisticsTest {
 
     @Test
     public void checkCountTrialHistogram() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing count trial line graph");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -700,6 +713,8 @@ public class StatisticsTest {
 
     @Test
     public void checkBinomialTrialHistogram() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -748,6 +763,8 @@ public class StatisticsTest {
 
     @Test
     public void checkNonNegCTrialHistogram() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing NonNeg trial histogram");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -803,6 +820,8 @@ public class StatisticsTest {
 
     @Test
     public void checkMeasuringTrialHistogram() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial stats");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");

@@ -36,6 +36,8 @@ public class TrialTests {
     @Test
     public void checkAddCountTrial() {
         //creates the count experiment
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing count trial");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -78,8 +80,6 @@ public class TrialTests {
 
         assertFalse(solo.waitForText("Result: 1", 2, 2000));
 
-        //TODO add check if you can add a non geo location on one that requires it
-
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
     }
@@ -87,6 +87,8 @@ public class TrialTests {
     @Test
     public void checkAddBinomialTrial() {
         //creates the Binomial experiment
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -149,6 +151,8 @@ public class TrialTests {
     @Test
     public void checkAddNonNegTrial() {
         //creates the NonNeg experiment
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing nonNeg trial");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -197,6 +201,8 @@ public class TrialTests {
     @Test
     public void checkAddMeasuringTrial() {
         //creates the count experiment
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");

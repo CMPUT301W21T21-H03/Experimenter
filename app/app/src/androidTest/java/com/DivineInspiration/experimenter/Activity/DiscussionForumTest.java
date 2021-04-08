@@ -36,6 +36,8 @@ public class DiscussionForumTest {
     @Test
     public void checkAddComment() {
         //creates test experiment
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
         solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Test discussion forum experiment");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
@@ -112,6 +114,75 @@ public class DiscussionForumTest {
         while (solo.waitForText("Created by", 1, 1000) == false) {
             solo.drag(600, 600, 1000, 1500, 10);
         }
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
+    }
+
+    @Test
+    public void checkAddReply() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Test discussion forum experiment");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment for discussion forum intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0,0);
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        while (solo.waitForText("Test discussion forum experiment", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
+
+        //creates the comment
+        solo.clickOnMenuItem("Comments");
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test comment");
+        solo.clickOnMenuItem("Ok");
+
+        //creates the reply
+        solo.clickOnView(solo.getView(R.id.add_reply_button));
+        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test reply");
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.view_replies_button));
+        assertTrue(solo.waitForText("this is a test reply", 1, 2000));
+
+        //second reply
+        solo.clickOnView(solo.getView(R.id.add_reply_button));
+        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test reply2");
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.view_replies_button));
+        assertTrue(solo.waitForText("this is a test reply2", 1, 2000));
+
+        //creates a second comment
+        solo.clickOnMenuItem("Comments");
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test comment");
+        solo.clickOnMenuItem("Ok");
+
+        //reply 3
+        solo.clickOnView(solo.getView(R.id.add_reply_button));
+        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test reply3");
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.view_replies_button));
+        assertTrue(solo.waitForText("this is a test reply3", 1, 2000));
+
+        //reply 4
+        solo.clickOnView(solo.getView(R.id.add_reply_button));
+        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test reply4");
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.view_replies_button));
+        assertTrue(solo.waitForText("this is a test reply4", 1, 2000));
+
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
     }
