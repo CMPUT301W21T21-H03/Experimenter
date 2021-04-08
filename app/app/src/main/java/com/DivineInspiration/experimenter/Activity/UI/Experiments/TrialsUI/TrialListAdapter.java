@@ -79,12 +79,15 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         holder.getTrialResult().setText("Result: "+ans);
         holder.getExperimenterName().setText("Experimenter: "+ myTrial.getTrialOwnerName());
         holder.getTrialDate().setText(myTrial.getTrialDate().toString());
-        GeoPoint geoPoint = TrialManager.getInstance().osmToFireStore(myTrial.getLocation());
-        DecimalFormat decimalFormat = new DecimalFormat("0.##");
+        if(myTrial.getLocation() != null){
+            GeoPoint geoPoint = TrialManager.getInstance().latLngToGeoPoint(myTrial.getLocation());
+            DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
-        String LAT = String.valueOf(decimalFormat.format(geoPoint.getLatitude()));
-        String LONG = String.valueOf(decimalFormat.format(geoPoint.getLongitude()));
-        holder.getTrialLocation().setText("Location: "+LAT+" , "+LONG);
+            String LAT = String.valueOf(decimalFormat.format(geoPoint.getLatitude()));
+            String LONG = String.valueOf(decimalFormat.format(geoPoint.getLongitude()));
+            holder.getTrialLocation().setText("Location: "+LAT+" , "+LONG);
+        }
+
 
     }
 
