@@ -4,11 +4,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Insets;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowInsets;
+import android.view.WindowMetrics;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +60,23 @@ public class QRCodeDialogFragment extends DialogFragment {
         try {
             // Getting QR-Code as Bitmap
             bitmap = qrgEncoder.getBitmap();
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                WindowMetrics windowMetrics = getActivity().getWindowManager().getCurrentWindowMetrics();
+                Insets insets = windowMetrics.getWindowInsets()
+                        .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
+
+                qrImage.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,(int)(( windowMetrics.getBounds().height()) * 0.4)));
+            } else {
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+                qrImage.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,(int)(displayMetrics.heightPixels * 0.4)));
+            }
+
+            Log.d("Testing","" + bitmap.getHeight());
+
             // Setting Bitmap to ImageView
             qrImage.setImageBitmap(bitmap);
         } catch (Exception e) {

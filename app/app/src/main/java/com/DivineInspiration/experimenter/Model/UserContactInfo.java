@@ -1,5 +1,8 @@
 package com.DivineInspiration.experimenter.Model;
 
+/**
+ * A class holding contact information for a user
+ */
 public class UserContactInfo {
     private String cityName;
     private String email;
