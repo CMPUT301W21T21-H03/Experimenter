@@ -26,6 +26,10 @@ public class DiscussionForumFragment extends Fragment implements CommentManager.
     private CommentListAdapter adapter;
     private String experiment;
 
+    /**
+     * On fragment create
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,15 @@ public class DiscussionForumFragment extends Fragment implements CommentManager.
         this.adapter = new CommentListAdapter(getContext(), getActivity().getSupportFragmentManager() , experiment);
     }
 
+    /**
+     * On creating the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * bundle
+     * @return
+     * the view itself
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,6 +68,11 @@ public class DiscussionForumFragment extends Fragment implements CommentManager.
         return root;
     }
 
+    /**
+     * When the comments are ready
+     * @param comments
+     * list of comments
+     */
     @Override
     public void onCommentsReady(List<Comment> comments) {
         Log.d("COMMENT FRAG", "COMMENTS READY");
@@ -63,6 +81,11 @@ public class DiscussionForumFragment extends Fragment implements CommentManager.
         adapter.setComments(comments);
     }
 
+    /**
+     * Adding a comment
+     * @param comment
+     * comment to be added
+     */
     @Override
     public void onCommentAdded(Comment comment) {
         commentList.add(0,comment);

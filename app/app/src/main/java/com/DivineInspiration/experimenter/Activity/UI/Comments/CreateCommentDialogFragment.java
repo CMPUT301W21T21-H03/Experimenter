@@ -22,15 +22,29 @@ public class CreateCommentDialogFragment extends DialogFragment {
 
     private OnCommentCreatedListener callback;
 
+    /**
+     * When the comment is created
+     */
     public interface OnCommentCreatedListener {
         void onCommentAdded(Comment comment);
     }
 
+    /**
+     * Constructor for when the comment dialog fragment is created
+     * @param callback
+     * callback function for when the comment is done creating
+     */
     public CreateCommentDialogFragment(OnCommentCreatedListener callback) {
         super();
         this.callback = callback;
     }
 
+    /**
+     * When creating the dialog
+     * @param savedInstanceState
+     * @return
+     * the dialog itself
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

@@ -241,6 +241,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         private final RecyclerView replyList;
         private boolean repliesShown;
 
+        /**
+         * Holder of the view
+         * @param v
+         * view
+         */
         public ViewHolder(View v) {
             super(v);
 
@@ -253,20 +258,58 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
             repliesShown = false;
         }
 
+        /**
+         * Gets the card
+         * @return
+         * card view
+         */
         public CardView getCard() { return card; }
 
+        /**
+         * Gets the commenter's name
+         * @return
+         * commenter's name
+         */
         public TextView getCommenterName() { return commenterName; }
 
+        /**
+         * Gets the comment text
+         * @return
+         * the comment content
+         */
         public TextView getCommentText() { return commentText; }
 
+        /**
+         * Gets the add reply button
+         * @return
+         * reply button
+         */
         public Button getAddReplyButton() { return addReplyButton; }
 
+        /**
+         * Gets the reply button
+         * @return
+         * the reply button
+         */
         public Button getViewRepliesButton() { return viewRepliesButton; }
 
+        /**
+         * Gets the list of replies
+         * @return
+         * list of replies
+         */
         public RecyclerView getReplyList() { return replyList; }
 
+        /**
+         * If the replies are shown to the user
+         * @return
+         * if the reply is visiable
+         */
         public boolean getRepliesShown() { return repliesShown; }
 
+        /**
+         * Change if the replies are shown
+         */
         public void changeRepliesShown() { repliesShown = !repliesShown; }
     }
 }

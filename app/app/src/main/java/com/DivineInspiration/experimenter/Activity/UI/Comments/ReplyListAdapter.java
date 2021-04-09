@@ -95,6 +95,9 @@ public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.View
         notifyItemInserted(replies.size() - 1);
     }
 
+    /**
+     * View holding all the replies
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final CardView card;
@@ -102,6 +105,11 @@ public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.View
         private final TextView commentText;
         private final Button addReplyButton;
 
+        /**
+         * Constructor for replies
+         * @param v
+         * view
+         */
         public ViewHolder(View v) {
             super(v);
 
@@ -111,12 +119,31 @@ public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.View
             addReplyButton = v.findViewById(R.id.add_reply_button);
         }
 
+        /**
+         * Gets the card
+         * @return
+         * card itself
+         */
         public CardView getCard() { return card; }
 
+        /**
+         * Gets the name of teh commenter
+         * @return
+         * the commenter's name
+         */
         public TextView getCommenterName() { return commenterName; }
 
+        /**
+         * Get the content of the comment
+         * @return
+         * comment body
+         */
         public TextView getCommentText() { return commentText; }
 
+        /**
+         * Gets tge reply button
+         * @return the reply button
+         */
         public Button getAddReplyButton() { return addReplyButton; }
     }
 }
