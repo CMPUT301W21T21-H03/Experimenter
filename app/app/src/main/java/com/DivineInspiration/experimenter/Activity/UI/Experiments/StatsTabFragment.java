@@ -31,7 +31,7 @@ public class StatsTabFragment extends Fragment implements Observer {
     ViewGroup graphHolder;
     ViewGroup statHolder;
     List<Trial> trialList = new ArrayList<>();
-    TextView warningText;
+
 
 
     @Nullable
@@ -44,20 +44,15 @@ public class StatsTabFragment extends Fragment implements Observer {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         init(getView());
-
     }
 
     private void init(View view) {
-
 
         buttonGroup = view.findViewById(R.id.statButtonGroup);
         backButton = view.findViewById(R.id.statBackButton);
         graphHolder = view.findViewById(R.id.graphHolder);
         statHolder = view.findViewById(R.id.statHolder);
-        warningText = view.findViewById(R.id.statWarningText);
-
 
         // Testing data
 //        for (int i = 0; i < 5; i++) {
@@ -81,13 +76,7 @@ public class StatsTabFragment extends Fragment implements Observer {
             showStats();
         });
 
-
-        if (trialList.size() > 2) {
-            showStats();
-        } else {
-            showWarning();
-        }
-
+      showStats();
     }
 
 
@@ -108,7 +97,7 @@ public class StatsTabFragment extends Fragment implements Observer {
         graphHolder.removeAllViews();
         graphHolder.addView(GraphMaker.makeHistogram(trialList, getContext()));
         statHolder.removeAllViews();
-        warningText.setVisibility(View.GONE);
+
     }
 
     private void showStats() {
@@ -118,7 +107,7 @@ public class StatsTabFragment extends Fragment implements Observer {
         graphHolder.removeAllViews();
         statHolder.removeAllViews();
         statHolder.addView(StatsMaker.makeStatsView(getContext(), trialList));
-        warningText.setVisibility(View.GONE);
+
     }
 
     private void showLineGraph() {
@@ -128,30 +117,17 @@ public class StatsTabFragment extends Fragment implements Observer {
         graphHolder.removeAllViews();
         graphHolder.addView(GraphMaker.makeLineChart(trialList, getContext()));
         statHolder.removeAllViews();
-        warningText.setVisibility(View.GONE);
+
     }
-
-
-    private void showWarning() {
-        warningText.setVisibility(View.VISIBLE);
-        backButton.setVisibility(View.GONE);
-        buttonGroup.setVisibility(View.GONE);
-        graphHolder.removeAllViews();
-        statHolder.removeAllViews();
-    }
-
 
     /**
      * To be called when the content trialList should be updated
      */
-
-
     @Override
     public void update(Object data) {
 
         trialList.clear();
         trialList.addAll((List<Trial>) data);
-
 
 //        for(Trial i : trialList){
 ////            Log.d("woah stats", i.toString());
@@ -160,14 +136,9 @@ public class StatsTabFragment extends Fragment implements Observer {
 //        Log.d("woah","outside object hash"+ System.identityHashCode(data));
         if (getView() != null) {
 //            Log.d("woah","inside "+ trialList.size());
-            if (trialList.size() > 2) {
-//                Log.d("woah","show stats "+ trialList.size());
-                showStats();
-            } else {
-//                Log.d("woah","show warning "+ trialList.size());
-                showWarning();
-            }
-        }
 
+                showStats();
+
+        }
     }
 }

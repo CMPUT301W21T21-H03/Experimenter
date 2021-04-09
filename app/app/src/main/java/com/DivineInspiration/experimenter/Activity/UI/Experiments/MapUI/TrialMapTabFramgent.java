@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUi;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUI;
 
 import android.Manifest;
 import android.content.Context;
@@ -10,12 +10,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +22,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Activity.Observer;
-import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
@@ -39,9 +35,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
-import com.google.gson.InstanceCreator;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +67,7 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         assert getArguments() != null;
-        currentExperiment =(Experiment) getArguments().getSerializable("experiment");
+        currentExperiment = (Experiment)getArguments().getSerializable("experiment");
 
     }
 
@@ -89,7 +83,9 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         if (map != null) {
             for (Trial trial : trials) {
 
-                map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(MapHelper.getShortTrialDescription(trial)));
+                if(!trial.isIgnored()){
+                    map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(MapHelper.getShortTrialDescription(trial)));
+                }
             }
         }
     }

@@ -24,6 +24,7 @@ import com.google.zxing.WriterException;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 import androidmads.library.qrgenearator.QRGContents;
@@ -35,17 +36,6 @@ public class QRCodeDialogFragment extends DialogFragment {
     String message;
     Bitmap bitmap;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -54,8 +44,8 @@ public class QRCodeDialogFragment extends DialogFragment {
 
         qrImage = view.findViewById(R.id.qrImage);
 
-        // TODO: set the string message
-        message = "1253453452";
+        // set the string message
+        message = getArguments().getString("message");
         // factory method + generate
         QRFactory qrFactory = new QRFactory();
         QRGEncoder qrgEncoder = qrFactory.generate(message);
@@ -77,8 +67,9 @@ public class QRCodeDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         QRGSaver qrgSaver = new QRGSaver();
-                        Log.e("message: ", message);
-                        qrgSaver.save(Environment.getExternalStorageDirectory().getPath() + "/Experimenter/", message, bitmap, QRGContents.ImageType.IMAGE_PNG);
+                        Log.e("QR",  "Saved message - " + message);
+
+                        boolean fileSaved = qrgSaver.save(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/QRCodes", message, bitmap, QRGContents.ImageType.IMAGE_JPEG);
                     }
                 })
                 .setNegativeButton("Ok", null)

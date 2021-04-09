@@ -27,9 +27,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * This class talks to the Firestore database
+ * This class talks to the FireStore database
  * in order to store and retrieve trial data.
  * The class uses singleton pattern.
  */
@@ -60,7 +61,7 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * Trial Manager constructor
+     * Trial manager constructor
      */
     public TrialManager() {
         db = FirebaseFirestore.getInstance();
@@ -68,29 +69,74 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Get singleton instance of the class
-     * @return: singleton:TrialManager
+     * @return
+     * singleton instance
      */
     public static TrialManager getInstance() {
         if (singleton == null) {
             singleton = new TrialManager();
         }
         return singleton;
-
     }
 
+    /**
+     * Convert lat-lng to geo point
+     * @param latLng
+     * lat-lng form
+     * @return
+     * geo point form
+     */
     public GeoPoint latLngToGeoPoint(LatLng latLng) {
         return latLng == null ? null : (new GeoPoint(latLng.latitude, latLng.longitude));
     }
 
+    /**
+     * Convert geo point to lat-lng
+     * @param geoPoint
+     * geo point form
+     * @return
+     * lat-lng form
+     */
     public LatLng geoPointToLatLng(GeoPoint geoPoint) {
         return geoPoint == null ? null : (new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude()));
     }
 
     /**
+     * Filters the ignored trials
+     * @param listToFilter
+     * the list to be filtered
+     * @return
+     * filtered list
+     */
+    public List<Trial> filterIgnoredTrials(List<Trial> listToFilter){
+        return listToFilter.stream().filter(trial -> !trial.isIgnored()).collect(Collectors.toList());
+    }
+
+    /**
+     * Deleting a trial
+     * @param trialId
+     * the trial ID to be deleted
+     */
+    public void deleteTrial(String trialId){
+        db.collection("Trials").document(trialId).delete();
+    }
+
+    public void deleteAllTrialOfExperiment(String experimentId){
+        db.collection("Trials").whereEqualTo("ExperimentID", experimentId).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                for(QueryDocumentSnapshot snap: task.getResult()){
+                    snap.getReference().delete();
+                }
+            }
+        });
+    }
+
+    /**
      * Adds a new trial to database
-     * @param: trial:Trial (trial we want to add).
-     * @param: callback:OnTrialReadyListener (The class to call after the operation is done).
-     * @return: void
+     * @param trial
+     * trial to be added
+     * @param callback
+     * class call after operation is done
      */
     public void addTrial(Trial trial, OnTrialReadyListener callback) {
         // Store standard trial data
@@ -135,10 +181,11 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * Queries the trials that the given user is performed.
-     * @param: userId:String (The user to query trials for).
-     * @param: callback:OnTrialReadyListener (The class to call after the operation is done).
-     * @return: void
+     * Queries the trials that the given user is performed
+     * @param userId
+     * ID of user
+     * @param callback
+     * class to call after the operation is done
      */
     public void getUserTrials(String userId, OnTrialListReadyListener callback) {
 
@@ -164,11 +211,11 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * Queries the trials that performed for a given experiment.
-     * @param: experimentId:String (The user to query trials for).
-     * @param: callback:OnTrialReadyListener (The class to call after the operation is done).
-     *         The data is passed as a parameter of this method.
-     * @return: void
+     * Queries the trials that performed for a given experiment
+     * @param experimentId
+     * ID of experiment
+     * @param callback
+     * class to call after the operation is done
      */
     public void queryExperimentTrials(String experimentId, OnTrialListReadyListener callback) {
         db.collection("BlackList").document(experimentId).get().addOnCompleteListener(task -> {
@@ -208,42 +255,37 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * This method returns a Trial object by constructing it using the data from the document snapshot.
-     * @param: snapshot:QueryDocumentSnapshot (The Firestore document to retrieve the trial details from).
-     * @return: :Trial (Constructed using info from document).
+     * Returns a trial object by constructing it using the data from the document snapshot
+     * @param snapshot
+     * the FireStore document to retrieve the trial details from
+     * @return
+     * trial from FireStore
      */
     private Trial trialFromSnapshot(QueryDocumentSnapshot snapshot) {
 
         Trial trial = null;
         LatLng geoPoint = geoPointToLatLng(snapshot.getGeoPoint("Location"));
         switch (snapshot.getString("TrialType")) {
-
-
             case Trial.BINOMIAL:
-
                 trial = new BinomialTrial(snapshot.getString("TrialId"),
                         snapshot.getString("OwnerID"), snapshot.getString("OwnerName"),snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
                         snapshot.getBoolean("Pass"), geoPoint);
                 break;
-
             case Trial.COUNT:
                 trial = new CountTrial(snapshot.getString("TrialId"),
                         snapshot.getString("OwnerID"),snapshot.getString("OwnerName") ,snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
                         snapshot.getLong("Count").intValue(), geoPoint);
                 break;
-
             case Trial.MEASURE:
                 trial = new MeasurementTrial(snapshot.getString("TrialId"),
                         snapshot.getString("OwnerID"),snapshot.getString("OwnerName") ,snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
                         snapshot.getDouble("Value"), geoPoint);
                 break;
-
             case Trial.NONNEGATIVE:
                 trial = new NonNegativeTrial(snapshot.getString("TrialId"),
                         snapshot.getString("OwnerID"),snapshot.getString("OwnerName") ,snapshot.getString("ExperimentID"), LocalDate.parse(snapshot.getString("Date")),
                         snapshot.getLong("Count").intValue(), geoPoint);
                 break;
-
             default:
                 throw new IllegalArgumentException();
         }

@@ -17,8 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import com.DivineInspiration.experimenter.Controller.CommentManager;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
@@ -75,7 +78,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Fragment Constructor
-     * @param: callback:OnExperimentOperationDoneListener (callback function)
+     * @param callback
+     * callback for when the operation is done
      */
     public ExperimentDialogFragment(OnExperimentOperationDoneListener callback) {
         super();
@@ -84,8 +88,10 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Shows alert message on the bottom of the parent fragment page
-     * @param: error:boolean (is the alert an error).
-     * @param: message:String (message to display).
+     * @param error
+     * if the alert an error
+     * @param message
+     * message to display
      */
     private void showAlert(boolean error, String message) {
         Snackbar snackbar = Snackbar.make(parentFrag.getView(), message, Snackbar.LENGTH_LONG);
@@ -95,8 +101,10 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Runs when the dialog is created.
-     * @param: savedInstanceState:Bundle
-     * @return: dialog:Dialog
+     * @param savedInstanceState
+     * bundle
+     * @return
+     * the dialog to display
      */
     @NonNull
     @Override
@@ -107,9 +115,13 @@ public class ExperimentDialogFragment extends DialogFragment {
         User localUser = UserManager.getInstance().getLocalUser();
 
         init(view);     // Initialize the View's in the dialog UI
-
         // Shows the dialog (must be called at start)
         dialog.show();
+
+        if(exp!= null && exp.getStatus().equals(Experiment.ENDED)){
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setVisibility(View.GONE);
+        }
+
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,7 +146,6 @@ public class ExperimentDialogFragment extends DialogFragment {
                 if (!validFlag) {
                     return;
                 }
-
 
                 if (exp == null) {  // Here, we create a new experiment using info entered in the dialog
                     // Construct a new Experiment object and add it using experiment manager
@@ -170,7 +181,6 @@ public class ExperimentDialogFragment extends DialogFragment {
                         }
                     });
                 }
-
                 dialog.dismiss();       // Close dialog
             }
         });
@@ -180,8 +190,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * This method initializes the views (instance variables)
-     * @param: view:View (The dialog view)
-     * @return: void
+     * @param view
+     * dialog view
      */
     private void init(View view) {
         // Dialog for creating a new experiment
@@ -246,7 +256,7 @@ public class ExperimentDialogFragment extends DialogFragment {
             dialog.setTitle("Edit experiment");
             exp = (Experiment) args.getSerializable("exp");
 
-            if (exp.getStatus().equals(Experiment.ENDED)) {     // If the experiment has ended
+            if (exp.getStatus().equals(Experiment.ENDED)) {     // If the experiment has ended, only delete is available
                 editExperimentAbout.setVisibility(View.GONE);
                 minTrial.setVisibility(View.GONE);
                 requireGeo.setVisibility(View.GONE);
@@ -259,6 +269,7 @@ public class ExperimentDialogFragment extends DialogFragment {
                 view.findViewById(R.id.editAboutInput).setVisibility(View.GONE);
                 view.findViewById(R.id.editRegionInput).setVisibility(View.GONE);
                 view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
+
                 dialog.setTitle("This experiment has ended. Delete?");
             }
             else {                                          // If the experiment is still ongoing
@@ -284,22 +295,35 @@ public class ExperimentDialogFragment extends DialogFragment {
                 });
             }
 
-            view.findViewById(R.id.deleteExp).setOnClickListener(v -> {     // If the owner chooses to delete the experiment
-                //TODO add a warning dialog!!
+            view.findViewById(R.id.deleteExp).setOnClickListener(v -> {
+                // If the owner chooses to delete the experiment
+                // TODO: add a warning dialog!!
+
+                TrialManager.getInstance().deleteAllTrialOfExperiment(exp.getExperimentID());
+                CommentManager.getInstance().deleteAllCommentOfExperiment(exp.getExperimentID());
                 expManager.deleteExperiment(exp.getExperimentID(), successful -> {
                     dismiss();
                     callback.onOperationDone(null);
                 });
-                //TODO display a success message
+                // TODO: display a success message
             });
         }
     }
 
-
+    /**
+     * Index at a particular value
+     * @param arr
+     * array to find value
+     * @param val
+     * value to find
+     * @return
+     * index of the value
+     */
     private int indexOf(String[] arr, String val) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i].equals(val)) return i;
         }
+        // NOTE: 0???
         return 0;
     }
 }

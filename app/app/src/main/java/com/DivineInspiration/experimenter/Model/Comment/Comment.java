@@ -17,7 +17,20 @@ public class Comment {
 
     /**
      * Constructor
-     * @param: commentId:String, commenterId:String, commenterName:String, date:Date, comment:String
+     * @param commentId
+     * ID of comment
+     * @param commenterId
+     * ID of user who commented
+     * @param commenterName
+     * name of user who commented
+     * @param date
+     * date of when it was commented
+     * @param comment
+     * the comment content
+     * @param isReply
+     * if it is a reply
+     * @param hasReplies
+     * if it has any replies
      */
     public Comment(String commentId, String commenterId, String commenterName, Date date, String comment, boolean isReply, boolean hasReplies) {
         this.commentId = commentId;
@@ -31,8 +44,9 @@ public class Comment {
     }
 
     /**
-     * Gets the comment id
-     * @return: commentID:String
+     * Gets the comment's ID
+     * @return
+     * ID of comment
      */
     public String getCommentId() {
         return commentId;
@@ -40,7 +54,8 @@ public class Comment {
 
     /**
      * Gets the id of the user who made the comment
-     * @return: commenterName:String
+     * @return
+     * user ID of the commenter
      */
     public String getCommenterId() {
         return commenterId;
@@ -48,15 +63,17 @@ public class Comment {
 
     /**
      * Gets the name of the user who made the comment
-     * @return: commenterName:String
+     * @return
+     * name of user who commented
      */
     public String getCommenterName() {
         return commenterName;
     }
 
     /**
-     * Gets the comment that was made
-     * @return: comment:String
+     * Gets the content of the comment
+     * @return
+     * body/content of comment
      */
     public String getComment() {
         return comment;
@@ -64,7 +81,8 @@ public class Comment {
 
     /**
      * Gets the date the comment was made on
-     * @return: date:Date
+     * @return
+     * date if when comment was made
      */
     public Date getDate() {
         return date;
@@ -72,25 +90,41 @@ public class Comment {
 
     /**
      * Gets all the replies to the comment
-     * @return: replies:ArrayList<Comment>
+     * @return
+     * a list of all the comments that are replies to this comment
      */
     public List<Comment> getReplies() {
         return replies;
     }
 
     /**
-     * Edits the comment
-     * @param : commentString
+     * Edit comment
+     * @param comment
+     * new comment body
      */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
+    /**
+     * State of whether this is a reply of a comment
+     * @return
+     */
     public boolean isReply() {
         return isReply;
     }
 
+    /**
+     * If this comment has any replies
+     * @return
+     * if the comment has any replies
+     */
     public boolean getHasReplies() { return hasReplies; }
 
+    /**
+     * Sets if this comment has any replies
+     * @param hasReplies
+     * new state of if the comment has any replies
+     */
     public void setHasReplies(boolean hasReplies) { this.hasReplies = hasReplies; }
 }

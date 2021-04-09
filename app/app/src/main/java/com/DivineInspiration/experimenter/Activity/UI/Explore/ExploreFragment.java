@@ -27,14 +27,15 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
     private ExploreListAdapter exploreListAdapter;          // Adapter list of the experiments in the explore tab
     private List<Experiment> dataList = new ArrayList<>();  // Data list contains all the experiments in the database
 
-    // TODO?: if there is time and for more efficiency, this could be an int list that only contain indexes of the datalist
+    // TODO?: if there is time and for more efficiency, this could be an int list that only contain indexes of the datalist (probably not)
     private List<Experiment> shownList = new ArrayList<>(); // Shown list only contains of experiments shown on screen
 
     private CharSequence searchText;                        // Search text entered by the user
 
     /**
      * Fragment initializer, similar to activity's onCreate
-     * @param: savedInstanceState:Bundle
+     * @param savedInstanceState
+     * bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,8 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
     /**
      * When view is created
      * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
-     * @return: :View
+     * @return
+     * view
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -122,7 +124,8 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
      * This as a interface implementation method; when the experiment data requested is ready,
      * ExperimentManager calls this method and passes the data as a parameter.
      * The method then updates the list of experiments that are being shown
-     * @param: queryList:List<Experiment> (list of experiment)
+     * @param queryList
+     * list of experiments
      */
     @Override
     public void onExperimentsReady(List<Experiment> queryList) {

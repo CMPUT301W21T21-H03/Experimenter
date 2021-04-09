@@ -5,12 +5,15 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
 import com.DivineInspiration.experimenter.BuildConfig;
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
@@ -71,9 +74,15 @@ public class GraphMaker {
      * @return an appropriate chart for the given trial type
      * @throws IllegalArgumentException if given list is empty
      */
-    public static Chart<?> makeHistogram(List<Trial> trials, Context context) {
-        if (trials.size() == 0) {
-            throw new IllegalArgumentException("Trials list provide is empty!");
+    public static View makeHistogram(List<Trial> trials, Context context) {
+
+        if(trials == null){
+            return LayoutInflater.from(context).inflate(R.layout.stat_warning, null);
+        }
+
+        trials = TrialManager.getInstance().filterIgnoredTrials(trials);
+        if(trials.size() < 3){
+            return LayoutInflater.from(context).inflate(R.layout.stat_warning, null);
         }
         switch (trials.get(0).getTrialType()) {
             case Trial.COUNT:
@@ -99,9 +108,14 @@ public class GraphMaker {
      * @return an appropriate chart for the given trial type
      * @throws IllegalArgumentException if given list is empty
      */
-    public static Chart<?> makeLineChart(List<Trial> trials, Context context) {
-        if (trials.size() == 0) {
-            throw new IllegalArgumentException("Trials list provide is empty!");
+    public static View makeLineChart(List<Trial> trials, Context context) {
+        if(trials == null){
+            return LayoutInflater.from(context).inflate(R.layout.stat_warning, null);
+        }
+
+        trials = TrialManager.getInstance().filterIgnoredTrials(trials);
+        if(trials.size() < 3){
+            return LayoutInflater.from(context).inflate(R.layout.stat_warning, null);
         }
 
         //first put trials in date buckets since all 3 functions needs it

@@ -33,7 +33,8 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
     /**
      * Runs when the view is created. Similar to the activity's onCreate.
      * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
-     * @return: :View
+     * @return
+     * view
      */
     @Nullable
     @Override
@@ -43,7 +44,8 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
 
     /**
      * Runs when the view is fully created
-     * @param: savedInstanceState:Bundle
+     * @param savedInstanceState
+     * bundle
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -63,14 +65,14 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
     /**
      * This is the method that must be implemented due to interface inheritance of ExperimentDialogFragment.OnExperimentOperationDoneListener
      * When experiment is added, update list
-     * @param: experiment:Experiment
+     * @param experiment
+     * experiment to be added
      */
     @Override
     public void onOperationDone(Experiment experiment) {
         exps.add(0, experiment);            // Add experiment to start of list to maintain chronological order
         adapter.notifyItemInserted(0);    // Refresh the display
     }
-
 
     /**
      * This method is run to refresh the display of the experiments in case of any changes.
@@ -101,8 +103,8 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
 
     /**
      * This method is run to update the experiments with ones given by the parameter.
-     * @param:  experiments:List<Experiment>
-     * @return: void
+     * @param experiments
+     * list of all the experiment
      */
     private void loadList(List<Experiment> experiments){
         // Update experiment list

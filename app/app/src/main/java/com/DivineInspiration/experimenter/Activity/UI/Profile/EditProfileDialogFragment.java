@@ -43,7 +43,7 @@ public class EditProfileDialogFragment extends DialogFragment {
     UserManager newManager = UserManager.getInstance();        // User manager
     UserManager.OnUserReadyListener callback;                  // Callback for UserManager to tell us when User is ready after retrieval form database
 
-    public static String TAG = "edit Profile";
+    public static String TAG = "Edit Profile";
 
     /**
      * Constructor.
@@ -56,8 +56,10 @@ public class EditProfileDialogFragment extends DialogFragment {
 
     /**
      * Checks if email entered by the user is valid
-     * @param: email:String
-     * @return: :boolean
+     * @param email
+     * email to be checked
+     * @return
+     * if the email is valid
      */
     private boolean checkEmailValid(String email) {
         // from https://stackoverflow.com/questions/8204680/java-regex-email second answer
@@ -70,8 +72,10 @@ public class EditProfileDialogFragment extends DialogFragment {
 
     /**
      * Shows alert message on the bottom of the parent fragment page is info was successfully edited
-     * @param: error:boolean (true is the alert is due to an error, else false)
-     * @param: message:String (message to display)
+     * @param error
+     * true is the alert is due to an error, else false
+     * @param message
+     * message to display
      */
     private void showAlert(boolean error, String message) {
         Snackbar snackbar = Snackbar.make(getParentFragment().getView(), message, Snackbar.LENGTH_LONG);
@@ -81,8 +85,10 @@ public class EditProfileDialogFragment extends DialogFragment {
 
     /**
      * Runs when the dialog is created.
-     * @param: savedInstanceState:Bundle
-     * @return: dialog:Dialog
+     * @param savedInstanceState
+     * bundle
+     * @return
+     * dialog to create
      */
     @NonNull
     @Override
@@ -171,7 +177,10 @@ public class EditProfileDialogFragment extends DialogFragment {
                             if(user1 != null){
                                 showAlert(false, "Profile changed successfully");
                                 // show success
-                                if(!user1.getUserName().equals(currentName)){ // update owner name of all experiments only if the user name changed
+                                Log.d("woah name from database: " ,user1.getUserName());
+                                Log.d("woah currentname: " ,currentName);
+
+                                if(!user1.getUserName().equals(currentName) ||newUser.getUserName().equals("Anonymous")){ // update owner name of all experiments only if the user name changed
                                     ExperimentManager.getInstance().updateOwnerName(user1.getUserId(), user1.getUserName(), bool ->{
                                         callback.onUserReady(user1);
                                     });
@@ -193,7 +202,6 @@ public class EditProfileDialogFragment extends DialogFragment {
                         editProfileError1.setVisibility(TextView.VISIBLE);
                     }
                 });
-
             }
         });
         return  dialog;

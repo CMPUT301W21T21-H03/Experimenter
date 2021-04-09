@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
@@ -31,8 +32,13 @@ public class StatsMaker {
      */
     @SuppressLint("DefaultLocale")
     public static View makeStatsView(Context context, List<Trial> trials) {
-        if(trials == null || trials.size() == 0){
-            throw new IllegalArgumentException("Trials list provide is empty!");
+        if(trials == null){
+            return LayoutInflater.from(context).inflate(R.layout.stat_warning, null);
+        }
+
+        trials = TrialManager.getInstance().filterIgnoredTrials(trials);
+        if(trials.size() < 3){
+            return LayoutInflater.from(context).inflate(R.layout.stat_warning, null);
         }
         final String type = trials.get(0).getTrialType();
         DecimalFormat fmt = new DecimalFormat("0.##");
@@ -242,12 +248,9 @@ public class StatsMaker {
                     break;
                 case Trial.NONNEGATIVE:
                     sum += ((NonNegativeTrial) t).getCount();
-
                     break;
                 case Trial.BINOMIAL:
-
                     sum += ((BinomialTrial) t).getPass() ? 1 : 0;
-
                     break;
                 case Trial.MEASURE:
                     sum += ((MeasurementTrial) t).getValue();
@@ -256,6 +259,4 @@ public class StatsMaker {
         }
         return sum;
     }
-
-
 }

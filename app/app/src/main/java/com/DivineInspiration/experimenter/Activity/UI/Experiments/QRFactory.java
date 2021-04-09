@@ -1,10 +1,20 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.google.zxing.WriterException;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -12,8 +22,6 @@ import androidmads.library.qrgenearator.QRGSaver;
 
 public class QRFactory {
     // message is the QR's string representation
-    private String message;
-    private Bitmap bitmap;
 
     /**
      * Generates the QR code from a string and returns a QR encoder object from
@@ -35,9 +43,28 @@ public class QRFactory {
     /**
      * Saves QR code into storage
      */
-    public void saveImage() {
+    public boolean saveImage(Context context, Bitmap bitmap, String fileName) throws IOException {
+        /*
+        thanks bud
+        https://stackoverflow.com/a/63777157/12471420
+         */
         // Save with location, value, bitmap returned and type of Image(JPG/PNG).
-        QRGSaver qrgSaver = new QRGSaver();
-        qrgSaver.save("/", message, bitmap, QRGContents.ImageType.IMAGE_JPEG);
+        OutputStream outputStream;
+
+        ContentResolver resolver = context.getContentResolver();
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+        values.put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
+        values.put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/"+"Experimenter");
+
+        Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        outputStream = resolver.openOutputStream(uri);
+
+        boolean success = false;
+       success =  bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        outputStream.flush();
+        outputStream.close();
+return  success;
+
     }
 }

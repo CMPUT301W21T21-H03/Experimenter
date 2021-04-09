@@ -18,8 +18,21 @@ public class MeasurementTrial extends Trial {
     private double value;
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double, location:GeoPoint
+     * The constructor
+     * @param trialID
+     * ID of trial
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param trialDate
+     * date of when the trial occurred
+     * @param value
+     * measurement value
+     * @param location
+     * location of where the trial occurred
      */
     public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double value, LatLng location){
         super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate, location);
@@ -27,9 +40,15 @@ public class MeasurementTrial extends Trial {
         this.value = value;
     }
 
+
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate
+     * The constructor
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
      */
     public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
         super(trialUserID, trialOwnerName ,trialExperimentID);
@@ -37,9 +56,19 @@ public class MeasurementTrial extends Trial {
         this.trialExperimentID = trialExperimentID;
     }
 
+
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double, location:GeoPoint
+     * The constructor
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param value
+     * measurement value
+     * @param location
+     * location of where the trial occurred
      */
     public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, double value, LatLng location) {
         super(trialUserID, trialOwnerName ,trialExperimentID);
@@ -49,9 +78,21 @@ public class MeasurementTrial extends Trial {
         this.location = location;
     }
 
+
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, value:double
+     * The constructor
+     * @param trialID
+     * ID of trial
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param trialDate
+     * date of when the trial occurred
+     * @param value
+     * measurement value
      */
     public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double value) {
         super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate);
@@ -61,7 +102,6 @@ public class MeasurementTrial extends Trial {
 
     /**
      * Mock object constructor for testing purposes
-     * @param: void
      */
     public MeasurementTrial() {
         super("test", "test", "test", "test",LocalDate.now().plusDays(new Random().nextInt(40) - 20));
@@ -72,7 +112,8 @@ public class MeasurementTrial extends Trial {
 
     /**
      * Gets current value of the measurement
-     * @return: value:int
+     * @return
+     * value of value
      */
     public double getValue() {
         return value;
@@ -80,12 +121,18 @@ public class MeasurementTrial extends Trial {
 
     /**
      * Sets value of the measurement
-     * @param: value:double (new measurement)
+     * @param newValue
+     * new value
      */
     public void setValue(double newValue) {
         value = newValue;
     }
 
+    /**
+     * String representation of trial
+     * @return
+     * pretty print of trial
+     */
     @SuppressLint("DefaultLocale")
     @NotNull
     public String toString(){
