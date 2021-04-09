@@ -91,7 +91,7 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Shows alert message on the bottom of the parent fragment page
-     * @param erroris the alert an error
+     * @param error if the alert an error
      * @param message alert message to display
      */
     private void showAlert(boolean error, String message) {
@@ -103,7 +103,7 @@ public class ExperimentDialogFragment extends DialogFragment {
     /**
      * Runs when the dialog is created.
      * @param savedInstanceState
-     * @return dialog
+     * @return dialog instance
      */
     @NonNull
     @Override

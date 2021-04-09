@@ -93,6 +93,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     /**
      * Runs when the view is fully created.
      * @param view
+     * view itself
      * @param savedInstanceState
      */
     @Override
@@ -216,7 +217,6 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
 
@@ -294,6 +294,9 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         }
     }
 
+    /**
+     * When the fragment is resumed
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -378,6 +381,11 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         }
     }
 
+    /**
+     * When the trials are ready from FireStore, updated list
+     * @param trials
+     * list of trials
+     */
     @Override
     public void onTrialsReady(List<Trial> trials) {
         currentTrials = trials;
@@ -389,6 +397,11 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
      */
     public class ExperimentTabsAdapter extends FragmentStateAdapter {
 
+        /**
+         * Experiment adapter
+         * @param frag
+         * fragment
+         */
         public ExperimentTabsAdapter(Fragment frag) {
             super(frag);
         }

@@ -49,6 +49,7 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
     /**
      * Runs when the view is fully created
      * @param view
+     * the view itself
      * @param savedInstanceState
      */
     @Override
