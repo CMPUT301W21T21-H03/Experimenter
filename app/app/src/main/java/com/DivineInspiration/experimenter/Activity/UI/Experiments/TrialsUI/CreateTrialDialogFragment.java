@@ -1,9 +1,9 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRCodeDialogFragment;
@@ -32,15 +31,19 @@ import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.firestore.GeoPoint;
 
+
+import java.util.List;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * This class deals with the UI of the trial data being recorded
  */
-public class CreateTrialDialogFragment extends DialogFragment {
+public class CreateTrialDialogFragment extends DialogFragment implements EasyPermissions.PermissionCallbacks {
 
     private final OnTrialCreatedListener callback;
     String trialTypeCheck;              // The type of the trial we are dealing with
@@ -59,12 +62,25 @@ public class CreateTrialDialogFragment extends DialogFragment {
     int failNum = 0;                    // Count no. of fails for the binomial trial
     int passNum = 0;                    // Count no. of fails for the binomial trial
     int count = 0;                      // Count for both non-negative and count trials
-    double myLat = 0;
-    double myLong = 0;
-    LatLng trialLocation = null;
-    boolean needLocation = false;
+    double myLat = 0;                   // Latitude of the trial
+    double myLong = 0;                  // Longitude of the Trial
+    LatLng trialLocation = null;        // LatLng to store the latitude and longitude
+    boolean needLocation = false;       // Boolean to see if the Experiment requires geoLocation or not
+
     String message;
     String measure;
+
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        getTrialLocation();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        getDialog().dismiss();
+    }
+
     /**
      * When trial data is retrieved, it is passed along as a parameter by the interface method.
      */
@@ -160,7 +176,6 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 frag.show(getParentFragmentManager(), "QR code fragment");
             }
         });
-
         return dialog;
     }
 
@@ -295,29 +310,6 @@ public class CreateTrialDialogFragment extends DialogFragment {
         geoTrialCheckBox = view.findViewById(R.id.checkBoxTrial);
     }
 
-    public void gettingLocation() {
-
-
-        LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-            },301);
-            return;
-        }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
-            @Override
-            public void onLocationChanged(@NonNull Location location) {
-                myLong = location.getLongitude();
-                myLat = location.getLatitude();
-                Log.d("woah", "updating!");
-                mLocationManager.removeUpdates(this);
-            }
-        });
-
-    }
 
     /**
      *  This method deals with giving visibility to a certain Views depending on the trial.
@@ -376,11 +368,11 @@ public class CreateTrialDialogFragment extends DialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 needLocation = true;
-                gettingLocation();
+                checkLocationPermission();
             }
         });
         if(needLocation){
-            gettingLocation();
+            checkLocationPermission();
         }else{
 
         }
@@ -463,6 +455,37 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 } else {
 
                 }
+            }
+        });
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @AfterPermissionGranted(123)
+    private void checkLocationPermission() {
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+        if (EasyPermissions.hasPermissions(this.getContext(), perms)) {
+            getTrialLocation();
+        } else {
+            EasyPermissions.requestPermissions(this, "We need Location Services permission to add Trials",
+                    123, perms);
+        }
+    }
+    @SuppressLint("MissingPermission")
+    public void getTrialLocation(){
+        LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                myLong = location.getLongitude();
+                myLat = location.getLatitude();
+                Log.d("woah", "updating!");
+                mLocationManager.removeUpdates(this);
             }
         });
     }
