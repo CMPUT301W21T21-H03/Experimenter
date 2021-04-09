@@ -24,6 +24,7 @@ import androidx.fragment.app.DialogFragment;
 import com.DivineInspiration.experimenter.R;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
+import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.integration.android.IntentIntegrator;
