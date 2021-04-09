@@ -27,6 +27,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -43,7 +46,7 @@ public class QRCodeDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         // create view
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.qr_code_dialog_fragment, null);
-
+        fileName = view.findViewById(R.id.qrFileName);
         qrImage = view.findViewById(R.id.qrImage);
 
         // set the string message
@@ -72,7 +75,8 @@ public class QRCodeDialogFragment extends DialogFragment {
                         Log.e("QR",  "Saved message - " + message);
 
                         try {
-                            qrFactory.saveImage(getContext(), qrgEncoder.getBitmap(), fileName.getText().toString());
+                            String name = fileName.getText().toString();
+                            qrFactory.saveImage(getContext(), qrgEncoder.getBitmap(), name.equals("")? LocalDateTime.now().toString():name);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

@@ -43,11 +43,11 @@
 
     <ImageView
         android:id="@+id/qrImage"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/qrNameInput"
         app:layout_constraintTop_toBottomOf="@+id/qrNameInput"
-        tools:srcCompat="@tools:sample/avatars"
-        android:layout_height="0dp" />
+        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>
