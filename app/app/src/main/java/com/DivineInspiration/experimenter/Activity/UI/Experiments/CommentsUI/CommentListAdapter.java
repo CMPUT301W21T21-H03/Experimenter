@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments.CommentsUI;
 
 import android.content.Context;
 import android.os.Bundle;

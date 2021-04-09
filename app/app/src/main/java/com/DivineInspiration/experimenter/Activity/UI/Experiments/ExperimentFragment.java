@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.DivineInspiration.experimenter.Activity.Observer;
 import com.DivineInspiration.experimenter.Activity.Subject;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.CommentsUI.CreateCommentDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.CommentsUI.DiscussionForumFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUI.TrialMapTabFramgent;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.CreateTrialDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.TrialsTabFragment;

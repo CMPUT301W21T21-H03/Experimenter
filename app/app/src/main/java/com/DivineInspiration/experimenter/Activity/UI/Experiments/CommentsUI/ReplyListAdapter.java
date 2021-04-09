@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments.CommentsUI;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +15,7 @@ import com.DivineInspiration.experimenter.Model.Comment.Comment;
 import com.DivineInspiration.experimenter.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.ViewHolder> {
 
