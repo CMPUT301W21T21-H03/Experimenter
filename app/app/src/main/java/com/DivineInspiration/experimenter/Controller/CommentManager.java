@@ -59,7 +59,7 @@ public class CommentManager {
     }
 
     /**
-     * Adds a new comment to the database.
+     * Adds a new comment to the database
      * @param: comment:Comment (comment we want to add).
      * @param: experimentID:String (The experiment the comment belongs to).
      * @return: void

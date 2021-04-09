@@ -92,7 +92,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     }
 
     /**
-     * Runs when the view is fully created
+     * Runs when the view is fully created.
      * @param: savedInstanceState:Bundle
      */
     @Override

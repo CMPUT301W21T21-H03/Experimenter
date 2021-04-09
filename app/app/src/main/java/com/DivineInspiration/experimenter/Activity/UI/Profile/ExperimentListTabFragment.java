@@ -31,7 +31,7 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
     ArrayList<Experiment> exps = new ArrayList<>();     // All the experiments of the local user (i.e. all that the user has created).
 
     /**
-     * Runs when the view is created. Similar to the activity's onCreate
+     * Runs when the view is created. Similar to the activity's onCreate.
      * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
      * @return: :View
      */
