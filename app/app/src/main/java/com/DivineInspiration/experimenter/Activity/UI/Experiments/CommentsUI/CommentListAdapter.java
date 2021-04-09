@@ -119,7 +119,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     public int getItemCount() { return comments.size(); }
 
     public void setComments(List<Comment> comments) {
+
         this.comments.clear();
+        this.replies.clear();
+        this.replyAdapters.clear();
+
         this.comments.addAll(comments);
 
         this.replies.clear();
@@ -132,6 +136,12 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         Log.d("Comment", "Comments: " + comments.toString());
         Log.d("Comment", "Replies: " + replies.toString());
         Log.d("Comment", "Comment IDs:");
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(0, comment);
+        this.replies.put(comment.getCommentId(), new ArrayList<>());
+        notifyItemInserted(0);
     }
 
     @Override
@@ -148,9 +158,16 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     @Override
     public void onReplyAdded(Comment reply, String commentID) {
+
         replies.get(commentID).add(reply);
-        replyAdapters.get(commentID).setReplies(replies.get(commentID));
-        replyAdapters.get(commentID).notifyDataSetChanged();
+        replyAdapters.get(commentID).addReply(reply);   // Dataset update handled in method
+
+        for (int i = 0; i < comments.size(); i++) {
+            if (comments.get(i).getCommentId().equals(commentID)) {
+                comments.get(i).setHasReplies(true);
+                notifyItemChanged(i);
+            }
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

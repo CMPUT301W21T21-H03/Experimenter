@@ -49,11 +49,16 @@ public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.View
     @Override
     public int getItemCount() { return replies.size(); }
 
-    public void setReplies(List<Comment> comments) {
+    public void setReplies(List<Comment> replies) {
         this.replies.clear();
-        this.replies.addAll(comments);
+        this.replies.addAll(replies);
 
         notifyDataSetChanged();
+    }
+
+    public void addReply(Comment reply) {
+        this.replies.add(reply);
+        notifyItemInserted(replies.size() - 1);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
