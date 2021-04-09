@@ -14,3 +14,24 @@
         Usage: To use callback interface to handle async functions
          */
 ```
+
+```
+/* Reference citation:
+Name: Obaro Ogbo
+Link: https://www.androidauthority.com/how-to-store-data-locally-in-android-app-717190/
+Date: September 21, 2016
+License: unknown
+Usage: android local storage
+ */
+```
+
+https://stackoverflow.com/a/53379134/12471420
+
+```
+no clicking: https://stackoverflow.com/questions/30425786/how-to-click-views-behind-a-toolbar/62691616#62691616
+missing constructors: https://stackoverflow.com/questions/9054894/custom-surfaceview-causing-nosuchmethodexception
+```
+
+```
+    // from https://www.youtube.com/watch?v=drH63NpSWyk & https://github.com/yuriy-budiyev/code-scanner
+```
