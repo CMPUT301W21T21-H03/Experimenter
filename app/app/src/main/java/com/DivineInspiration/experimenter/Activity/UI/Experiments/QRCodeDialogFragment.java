@@ -2,46 +2,40 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.DivineInspiration.experimenter.R;
-import com.google.zxing.WriterException;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.time.LocalDateTime;
 
-import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
-import androidmads.library.qrgenearator.QRGSaver;
+
 
 public class QRCodeDialogFragment extends DialogFragment {
     ImageView qrImage;
     String message;
     Bitmap bitmap;
+    TextView fileName;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         // create view
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.qr_code_dialog_fragment, null);
-
+        fileName = view.findViewById(R.id.qrFileName);
         qrImage = view.findViewById(R.id.qrImage);
 
         // set the string message
@@ -66,26 +60,22 @@ public class QRCodeDialogFragment extends DialogFragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        QRGSaver qrgSaver = new QRGSaver();
-                        Log.e("QR",  "Saved message - " + message);
 
-                        boolean fileSaved = qrgSaver.save(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/QRCodes", message, bitmap, QRGContents.ImageType.IMAGE_JPEG);
+                        Log.e("QR", "Saved message - " + message);
+
+                        try {
+                            String name = fileName.getText().toString();
+                            name = name.equals("") ? LocalDateTime.now().toString() : name;
+                            if (qrFactory.saveImage(getContext(), qrgEncoder.getBitmap(), name)) {
+                                Toast.makeText(getContext(), "QR code saved as " + name + ".png", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 })
-                .setNegativeButton("Ok", null)
+                .setNegativeButton("Cancel", null)
                 .create();
-
-        // on save click, save QR code
-//        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // saves qr image
-//                MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "QR-code" , String.format("QR code for %s", message));
-////                QRGSaver qrgSaver = new QRGSaver();
-////                qrgSaver.save("", message, qrgEncoder.getBitmap(), QRGContents.ImageType.IMAGE_JPEG);
-//                dialog.dismiss();
-//            }
-//        });
 
         dialog.show();
 

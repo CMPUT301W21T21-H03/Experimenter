@@ -13,7 +13,7 @@
 <!--  requests storage and camera  -->
  
     <uses-permission android:name="android.permission.CAMERA"/>
-
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
 

@@ -1,6 +1,7 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUI;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUi;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +41,12 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
 import static android.content.Context.LOCATION_SERVICE;
 
-public class TrialMapTabFramgent extends Fragment implements Observer, OnMapReadyCallback {
+public class TrialMapTabFramgent extends Fragment implements Observer, OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
 
     List<Trial> trials = new ArrayList<>();
     GoogleMap map;
@@ -84,7 +89,7 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
             for (Trial trial : trials) {
 
                 if(!trial.isIgnored()){
-                    map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(MapHelper.getShortTrialDescription(trial)));
+                    map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUI.MapHelper.getShortTrialDescription(trial)));
                 }
             }
         }
@@ -94,26 +99,7 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         map.setInfoWindowAdapter(new TrialInfoAdapter());
-        LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-            }, 301);
-
-        }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
-            @Override
-            public void onLocationChanged(@NonNull Location location) {
-                // mapController.setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
-                map.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).snippet("Current Location").icon(bitmapDescriptorFromVector(getContext(), R.drawable.current_location_icon)));
-                map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
-                //    map.moveCamera(CameraUpdateFactory.zoomTo(9));
-                mLocationManager.removeUpdates(this);
-            }
-        });
-
+        checkMapLocationPermission();
         makeMarkers();
     }
 
@@ -128,6 +114,43 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+    @AfterPermissionGranted(123)
+    private void checkMapLocationPermission() {
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(this.getContext(), perms)) {
+                 myLocation();
+        } else {
+            EasyPermissions.requestPermissions(this, "We need Location Services permission to add Trials",
+                    123, perms);
+        }
+    }
+
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+      myLocation();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
+    }
+
+    @SuppressLint("MissingPermission")
+    public void myLocation(){
+        LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+            @SuppressLint("MissingPermission")
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                // mapController.setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
+                map.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).snippet("Current Location").icon(bitmapDescriptorFromVector(getContext(), R.drawable.current_location_icon)));
+                map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+                //    map.moveCamera(CameraUpdateFactory.zoomTo(9));
+                mLocationManager.removeUpdates(this);
+            }
+        });
+    }
 
 
     class TrialInfoAdapter implements GoogleMap.InfoWindowAdapter {
@@ -141,13 +164,13 @@ custom info
 
             View v = LayoutInflater.from(getContext()).inflate(R.layout.marker_content, null);
 
-            if(marker.getSnippet().equals("Current Location")){
-                return  null;
-            }
+
 
             ((TextView) v.findViewById(R.id.markerContent)).setText(marker.getSnippet());
 
-
+            if(marker.getSnippet().equals("Current Location")){
+                ((TextView) v.findViewById(R.id.markerContent)).setText("Current Location");
+            }
             v.setClickable(false);
             return v;
         }
