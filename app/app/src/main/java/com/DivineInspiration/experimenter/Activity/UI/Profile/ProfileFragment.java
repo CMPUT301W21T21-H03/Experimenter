@@ -39,30 +39,30 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class ProfileFragment extends Fragment {
 
     // Instance variables
-    FloatingActionButton floating_addButton;
-    Button editProfileButton;
-    ViewPager2 pager;
-    HomeFragmentAdapter adapter;
-    TabLayout tabLayout;
-    boolean otherUser = false;          // otherUser is true when the user is viewing profile of another user; if false then displaying info for local user
-    String otherUserId;
+    private FloatingActionButton floating_addButton;
+    private Button editProfileButton;
+    private ViewPager2 pager;
+    private HomeFragmentAdapter adapter;
+    private TabLayout tabLayout;
+    private boolean otherUser = false;          // otherUser is true when the user is viewing profile of another user; if false then displaying info for local user
+    private String otherUserId;
 
     // Manager classes (The controllers that act as an interface between 'Model' and 'View')
-    UserManager user_manager = UserManager.getInstance();
-    ExperimentManager experimentManager = ExperimentManager.getInstance();
+    private UserManager user_manager = UserManager.getInstance();
+    private ExperimentManager experimentManager = ExperimentManager.getInstance();
 
     // Declaring TextView
-    TextView userID_home;
-    TextView userName_home;
-    TextView userCity_home;
-    TextView userEmail_home;
-    TextView userDescription_home;
-    View dividerLineName_home;
-    View dividerLineAbout_home;
+    private TextView userID_home;
+    private TextView userName_home;
+    private TextView userCity_home;
+    private TextView userEmail_home;
+    private TextView userDescription_home;
+    private View dividerLineName_home;
+    private View dividerLineAbout_home;
 
     // The different tabs that will be displayed
     private final String[] tabNames = {"Experiments", "Subscriptions", "Barcodes"};
-    CollapsingToolbarLayout toolbar;        // Toolbar 'disappears' as you scroll down.
+    private CollapsingToolbarLayout toolbar;        // Toolbar 'disappears' as you scroll down.
 
     /**
      * Constructor
@@ -96,7 +96,6 @@ public class ProfileFragment extends Fragment {
         dividerLineName_home = view.findViewById(R.id.sectionDivideLineName_home);
         dividerLineAbout_home = view.findViewById(R.id.sectionDivideLineAbout_home);
 
-
         if (getArguments() != null) {       // This means the current instance of the object was not instantiated by another class, hence arguments are null
             String userID = getArguments().getString("user");
             if (!userID.equals(user_manager.getLocalUser().getUserId())) {
@@ -108,10 +107,7 @@ public class ProfileFragment extends Fragment {
             otherUserId = null;
         }
 
-        // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
-//        ((ViewGroup) view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-
-        // Viewpager (to enable swiping between the tabs)
+        // https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
         pager = view.findViewById(R.id.expPager);
         if (otherUser) {
             adapter = new HomeFragmentAdapter(this, otherUserId);

@@ -23,7 +23,8 @@ import java.util.Map;
  * The class uses singleton pattern.
  */
 public class CommentManager {
-    public static CommentManager singleton;         // Singleton object
+
+    private static CommentManager singleton;         // Singleton object
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private static final String TAG = "CommentManager";

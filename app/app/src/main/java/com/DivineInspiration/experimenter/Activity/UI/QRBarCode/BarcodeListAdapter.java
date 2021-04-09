@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class BarcodeListAdapter extends RecyclerView.Adapter<BarcodeListAdapter.ViewHolder>  {
 
-    List<StringPair> pairs = new ArrayList<>();
+    private List<StringPair> pairs = new ArrayList<>();
 
     /**
      * Constructor
@@ -29,7 +29,7 @@ public class BarcodeListAdapter extends RecyclerView.Adapter<BarcodeListAdapter.
     public BarcodeListAdapter(Context context){
         SharedPreferences pref = context.getSharedPreferences("Barcode", Context.MODE_PRIVATE);
         Map<String, ?> map = pref.getAll();
-       map.forEach((key, item) -> pairs.add(new StringPair(key, (String)item)));
+        map.forEach((key, item) -> pairs.add(new StringPair(key, (String)item)));
     }
 
     /**
@@ -42,7 +42,7 @@ public class BarcodeListAdapter extends RecyclerView.Adapter<BarcodeListAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder( LayoutInflater.from(parent.getContext()).inflate(R.layout.barcode_item, null));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.barcode_item, null));
     }
 
     /**
@@ -71,11 +71,11 @@ public class BarcodeListAdapter extends RecyclerView.Adapter<BarcodeListAdapter.
     /**
      * pair of strings
      */
-    class StringPair{
+    class StringPair {
         String a;
         String b;
 
-        StringPair(String a ,String b){
+        StringPair(String a, String b) {
             this.a = a;
             this.b = b;
         }
