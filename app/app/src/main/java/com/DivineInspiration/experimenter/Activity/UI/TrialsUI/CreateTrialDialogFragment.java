@@ -156,7 +156,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                             message = String.valueOf(count);
                             break;
                         case Trial.MEASURE:
-                            if(args.getBoolean("isScan") == false){
+                            if(!args.getBoolean("isScan")){
                                 measure = measurementTextBox.getText().toString();
                             }else{
                                 measure = args.getString("Value");
