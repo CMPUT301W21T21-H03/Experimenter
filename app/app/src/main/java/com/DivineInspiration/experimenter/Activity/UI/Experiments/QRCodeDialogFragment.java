@@ -2,17 +2,12 @@ package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,19 +17,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.DivineInspiration.experimenter.R;
-import com.google.zxing.WriterException;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
-import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
-import androidmads.library.qrgenearator.QRGSaver;
+
 
 public class QRCodeDialogFragment extends DialogFragment {
     ImageView qrImage;
@@ -73,12 +61,12 @@ public class QRCodeDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        Log.e("QR",  "Saved message - " + message);
+                        Log.e("QR", "Saved message - " + message);
 
                         try {
                             String name = fileName.getText().toString();
-                            name =  name.equals("")? LocalDateTime.now().toString():name;
-                            if(qrFactory.saveImage(getContext(), qrgEncoder.getBitmap(),name)){
+                            name = name.equals("") ? LocalDateTime.now().toString() : name;
+                            if (qrFactory.saveImage(getContext(), qrgEncoder.getBitmap(), name)) {
                                 Toast.makeText(getContext(), "QR code saved as " + name + ".png", Toast.LENGTH_LONG).show();
                             }
                         } catch (IOException e) {
@@ -88,7 +76,6 @@ public class QRCodeDialogFragment extends DialogFragment {
                 })
                 .setNegativeButton("Cancel", null)
                 .create();
-
 
         dialog.show();
 

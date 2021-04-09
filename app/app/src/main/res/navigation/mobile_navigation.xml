@@ -21,7 +21,7 @@
         android:id="@+id/navigation_scan"
         android:name="com.DivineInspiration.experimenter.Activity.UI.Scan.ScanFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_scan" />
+        tools:layout="@layout/scan_fragment" />
 
     <fragment
 

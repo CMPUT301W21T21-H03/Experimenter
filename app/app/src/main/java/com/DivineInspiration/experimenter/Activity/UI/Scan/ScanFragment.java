@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRCodeDialogFragment;
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRFactory;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
@@ -30,7 +28,6 @@ import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
 import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
-import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -39,10 +36,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.zxing.Result;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
-import java.io.IOException;
-
-import androidmads.library.qrgenearator.QRGEncoder;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -53,7 +46,7 @@ public class ScanFragment extends Fragment {
     boolean openCamera = false;
     CodeScannerView scannerView;
     Button scan;
-    Button debug;
+
     // scanned code
     String[] scanned;
     double myLat = 0;
@@ -62,7 +55,7 @@ public class ScanFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // from https://www.youtube.com/watch?v=drH63NpSWyk & https://github.com/yuriy-budiyev/code-scanner
-        View root = inflater.inflate(R.layout.fragment_scan, container, false);
+        View root = inflater.inflate(R.layout.scan_fragment, container, false);
         scannerView = root.findViewById(R.id.scanner);
 
         // check camera permissions
@@ -83,7 +76,7 @@ public class ScanFragment extends Fragment {
 //        scannerView = view.findViewById(R.id.scannerView);
 
         scan = view.findViewById(R.id.scanButton);
-        debug = view.findViewById(R.id.debug_btn);
+
 //        new IntentIntegrator(this.getActivity()).initiateScan(); // `this` is the current Activity
 //
         // when scan button is clicked
@@ -99,15 +92,7 @@ public class ScanFragment extends Fragment {
             }
         });
 
-        // when debug btn is clicked
-        debug.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                QRCodeDialogFragment frag = new QRCodeDialogFragment();
-//                    frag.setArguments(args);
-                frag.show(getChildFragmentManager(), "QR code fragment");
-            }
-        });
+
     }
 
     @Override
