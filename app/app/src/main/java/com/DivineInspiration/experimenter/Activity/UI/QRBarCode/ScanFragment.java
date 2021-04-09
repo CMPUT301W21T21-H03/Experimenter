@@ -41,15 +41,15 @@ import java.util.Map;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class ScanFragment extends Fragment {
-    boolean allowCamera = false;
-    boolean openCamera = false;
-    Button scan;
+    private boolean allowCamera = false;
+    private boolean openCamera = false;
+    private Button scan;
 
     // scanned code
-    String[] scanned;
-    double myLat = 0;
-    double myLong = 0;
-    CodeScannerView scannerView;
+    private String[] scanned;
+    private double myLat = 0;
+    private double myLong = 0;
+    private CodeScannerView scannerView;
     private CodeScanner mCodeScanner;
 
     /**
@@ -104,8 +104,6 @@ public class ScanFragment extends Fragment {
                 }
             }
         });
-
-
     }
 
     /**
@@ -240,7 +238,7 @@ public class ScanFragment extends Fragment {
     /**
      * Gets current location
      */
-    public void getLocation() {
+    private void getLocation() {
         LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{

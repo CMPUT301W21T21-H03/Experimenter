@@ -24,11 +24,11 @@ import java.util.List;
  */
 public class StatsTabFragment extends Fragment implements Observer {
 
-    View buttonGroup;
-    AppCompatImageButton backButton;
-    ViewGroup graphHolder;
-    ViewGroup statHolder;
-    List<Trial> trialList = new ArrayList<>();
+    private View buttonGroup;
+    private AppCompatImageButton backButton;
+    private ViewGroup graphHolder;
+    private ViewGroup statHolder;
+    private List<Trial> trialList = new ArrayList<>();
 
     /**
      * When creating view
@@ -69,11 +69,6 @@ public class StatsTabFragment extends Fragment implements Observer {
         graphHolder = view.findViewById(R.id.graphHolder);
         statHolder = view.findViewById(R.id.statHolder);
 
-        // Testing data
-//        for (int i = 0; i < 5; i++) {
-//            trialList.add(new MeasurementTrial());
-//        }
-
         LayoutTransition layoutTransition = new LayoutTransition();
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
 
@@ -91,18 +86,6 @@ public class StatsTabFragment extends Fragment implements Observer {
         });
 
       showStats();
-    }
-
-    /**
-     * When resuming the fragment
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-//        if (trialList != null && trialList.size() == 0) {
-//            Log.d("woah", "Loc B");
-//            showWarning();
-//        }
     }
 
     /**
@@ -147,13 +130,8 @@ public class StatsTabFragment extends Fragment implements Observer {
         trialList.clear();
         trialList.addAll((List<Trial>) data);
 
-//        for(Trial i : trialList){
-////            Log.d("woah stats", i.toString());
-//        }
-//        Log.d("woah","outside list hash"+ System.identityHashCode(trialList));
-//        Log.d("woah","outside object hash"+ System.identityHashCode(data));
         if (getView() != null) {
-                showStats();
+            showStats();
         }
     }
 }

@@ -32,10 +32,11 @@ import androidmads.library.qrgenearator.QRGEncoder;
 
 
 public class QRCodeDialogFragment extends DialogFragment {
-    ImageView qrImage;
-    String message;
-    Bitmap bitmap;
-    TextView fileName;
+
+    private ImageView qrImage;
+    private String message;
+    private Bitmap bitmap;
+    private TextView fileName;
 
     /**
      * When creating the QR dialog fragment

@@ -62,19 +62,19 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     private TextView status;
     private FloatingActionButton addButton;
 
-    ViewPager2 pager;
-    ExperimentTabsAdapter adapter;
-    TabLayout tabLayout;
-    CollapsingToolbarLayout toolbar;
-    AppBarLayout appBar;
+    private ViewPager2 pager;
+    private ExperimentTabsAdapter adapter;
+    private TabLayout tabLayout;
+    private CollapsingToolbarLayout toolbar;
+    private AppBarLayout appBar;
 
-    ExperimentManager experimentManager = ExperimentManager.getInstance();
-    UserManager userManager = UserManager.getInstance();
+    private ExperimentManager experimentManager = ExperimentManager.getInstance();
+    private UserManager userManager = UserManager.getInstance();
 
-    boolean currentUserSubbed = false;
+    private boolean currentUserSubbed = false;
 
-    String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
-    Experiment currentExperiment;
+    private String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
+    private Experiment currentExperiment;
 
 
     /**
@@ -351,7 +351,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
      * This method is called when the add button is selected when the current tab is Trial
      * Creates and displays a CreateTrialDialogFragment to create a new trial
      */
-    public void TrialDialogSelect() {
+    private void TrialDialogSelect() {
 
         // Prepare a bundle with the relevant information
         Bundle trialBundle = new Bundle();

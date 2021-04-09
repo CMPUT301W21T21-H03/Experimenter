@@ -41,7 +41,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     private FirebaseFirestore db;
     private String TAG = "TrialManager";
-    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * Interface definition for a callback to be invoked when {@link TrialManager} successfully

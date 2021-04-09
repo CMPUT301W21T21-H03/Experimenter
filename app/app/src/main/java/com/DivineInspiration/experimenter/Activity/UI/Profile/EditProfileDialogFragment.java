@@ -3,7 +3,6 @@ package com.DivineInspiration.experimenter.Activity.UI.Profile;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +16,6 @@ import androidx.fragment.app.DialogFragment;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 
-import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,20 +28,22 @@ import java.util.regex.Pattern;
  * Runs when: 'EDIT' button is clicked on the home page
  */
 public class EditProfileDialogFragment extends DialogFragment {
+
     // Instance variables
-    TextView editName;
-    TextView editAbout;
-    TextView editCity;
-    TextView editEmail;
+    private TextView editName;
+    private TextView editAbout;
+    private TextView editCity;
+    private TextView editEmail;
+
     // Error texts
-    TextView editProfileError1;
-    TextView editProfileError2;
-    TextView editProfileError3;
+    private TextView editProfileError1;
+    private TextView editProfileError2;
+    private TextView editProfileError3;
 
-    UserManager newManager = UserManager.getInstance();        // User manager
-    UserManager.OnUserReadyListener callback;                  // Callback for UserManager to tell us when User is ready after retrieval form database
+    private UserManager newManager = UserManager.getInstance();        // User manager
+    private UserManager.OnUserReadyListener callback;                  // Callback for UserManager to tell us when User is ready after retrieval form database
 
-    public static String TAG = "Edit Profile";
+    private static String TAG = "Edit Profile";
 
     /**
      * Constructor
