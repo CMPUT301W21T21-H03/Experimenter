@@ -84,15 +84,14 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
     }
 
     /**
-     * When trial data is retrieved, it is passed along as a parameter by the interface method.
      * Interface definition for a callback to be invoked when
-     * {@see com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment}
+     * {@link com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment}
      * creates a trial
      */
     public interface OnTrialCreatedListener {
 
         /**
-         * Called when {@see com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment}
+         * Called when {@link com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment}
          * creates a new trial
          * @param trial
          * The trial that was created
