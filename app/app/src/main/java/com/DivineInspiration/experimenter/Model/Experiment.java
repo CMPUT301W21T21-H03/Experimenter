@@ -1,14 +1,13 @@
 package com.DivineInspiration.experimenter.Model;
 
-import com.DivineInspiration.experimenter.Model.Trial.Trial;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.UUID;
 
+/**
+ * A class representing an experiment created by a user.
+ */
 public class Experiment implements Serializable {
 
     /**

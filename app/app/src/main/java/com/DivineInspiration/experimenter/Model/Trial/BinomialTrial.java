@@ -5,6 +5,10 @@ import com.google.android.gms.maps.model.LatLng;
 import java.time.LocalDate;
 import java.util.Random;
 
+/**
+ * A class representing an experiment trial completed by a user. Holds a boolean value indicating
+ * the success or failure of the trial.
+ */
 public class BinomialTrial extends Trial {
     private boolean pass;
 

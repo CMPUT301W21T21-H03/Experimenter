@@ -2,6 +2,9 @@ package com.DivineInspiration.experimenter.Model;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A class holding user profile information.
+ */
 public class User {
     private String userId;
     private String userName;

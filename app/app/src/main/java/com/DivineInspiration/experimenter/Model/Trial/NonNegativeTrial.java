@@ -4,6 +4,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.time.LocalDate;
 
+/**
+ * A class representing an experiment trial completed by a user. Holds a non-negative intger value
+ */
 public class NonNegativeTrial extends Trial {
     private int count;
 

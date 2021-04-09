@@ -8,7 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 
-
+/**
+ * A class representing an experiment trial completed by a user. Holds a floating point value.
+ */
 public class MeasurementTrial extends Trial {
     private double value;
 

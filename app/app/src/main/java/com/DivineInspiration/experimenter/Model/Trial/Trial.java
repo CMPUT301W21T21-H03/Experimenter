@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * A class representing an experiment trial completed by a user.
+ */
 public abstract class Trial implements Serializable {
 
     boolean ignored = false;
