@@ -3,12 +3,16 @@ package com.DivineInspiration.experimenter;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
+import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.Model.UserContactInfo;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -18,8 +22,16 @@ public class MeasurementTrialTest {
     private MeasurementTrial mockMeasurementTrial() {
         User user = mockTrialOwner();
         Experiment experiment = mockExperiment();
-        return new MeasurementTrial();
-    }
+
+        return new MeasurementTrial(
+                "test",
+                user.getUserId(),
+                user.getUserName(),
+                experiment.getExperimentID(),
+                LocalDate.now().plusDays(new Random().nextInt(40) - 20),
+                (new Random()).nextDouble(),
+                new LatLng(0, 0)
+        );    }
 
 
     private Experiment mockExperiment() {

@@ -1,13 +1,9 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
-import com.DivineInspiration.experimenter.Model.User;
 import com.google.android.gms.maps.model.LatLng;
 
-
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Random;
-import java.util.UUID;
 
 public class BinomialTrial extends Trial {
     private boolean pass;
@@ -33,18 +29,6 @@ public class BinomialTrial extends Trial {
      * @param trialUserID the user id of the user performing the trial
      * @param trialOwnerName the name of the user performing the trial
      * @param trialExperimentID the experiment id of the experiment the trial is being done for
-     */
-    public BinomialTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
-        super(trialUserID, trialOwnerName, trialExperimentID);
-        this.trialType = Trial.BINOMIAL;
-        this.pass = false;
-    }
-
-    /**
-     * Constructor
-     * @param trialUserID the user id of the user performing the trial
-     * @param trialOwnerName the name of the user performing the trial
-     * @param trialExperimentID the experiment id of the experiment the trial is being done for
      * @param pass whether the binomial trial passed ot failed
      * @param location the location coordinates of the trial
      */
@@ -53,30 +37,6 @@ public class BinomialTrial extends Trial {
         this.trialType = Trial.BINOMIAL;
         this.pass = pass;
         this.location = location;
-    }
-
-    /**
-     * Constructor
-     * @param trialID the trial ID
-     * @param trialUserID the user id of the user performing the trial
-     * @param trialOwnerName the name of the user performing the trial
-     * @param trialExperimentID the experiment id of the experiment the trial is being done for
-     * @param trialDate date the trial was carried out
-     * @param pass whether the binomial trial passed ot failed
-     */
-    public BinomialTrial(String trialID, String trialUserID, String trialOwnerName, String trialExperimentID, LocalDate trialDate, boolean pass) {
-        super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate);
-        this.trialType = Trial.BINOMIAL;
-        this.pass = pass;
-    }
-
-    /**
-     * Mock object constructor for testing purposes
-     */
-    public BinomialTrial() {
-        super("test", "test", "test","test", LocalDate.now().plusDays(new Random().nextInt(70) ));
-        this.trialType = Trial.BINOMIAL;
-        this.pass = new Random().nextBoolean();
     }
 
     /**

@@ -2,16 +2,11 @@ package com.DivineInspiration.experimenter.Model.Trial;
 
 import android.annotation.SuppressLint;
 
-import com.DivineInspiration.experimenter.Model.User;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.firestore.GeoPoint;
 
 import org.jetbrains.annotations.NotNull;
 
-
 import java.time.LocalDate;
-
-import java.util.Random;
 
 
 public class MeasurementTrial extends Trial {
@@ -40,23 +35,6 @@ public class MeasurementTrial extends Trial {
         this.value = value;
     }
 
-
-    /**
-     * The constructor
-     * @param trialUserID
-     * ID of user
-     * @param trialOwnerName
-     * name of the experimenter that did the trial
-     * @param trialExperimentID
-     * ID of the experiment
-     */
-    public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
-        super(trialUserID, trialOwnerName ,trialExperimentID);
-        this.trialType = Trial.MEASURE;
-        this.trialExperimentID = trialExperimentID;
-    }
-
-
     /**
      * The constructor
      * @param trialUserID
@@ -76,38 +54,6 @@ public class MeasurementTrial extends Trial {
         this.trialExperimentID = trialExperimentID;
         this.value = value;
         this.location = location;
-    }
-
-
-    /**
-     * The constructor
-     * @param trialID
-     * ID of trial
-     * @param trialUserID
-     * ID of user
-     * @param trialOwnerName
-     * name of the experimenter that did the trial
-     * @param trialExperimentID
-     * ID of the experiment
-     * @param trialDate
-     * date of when the trial occurred
-     * @param value
-     * measurement value
-     */
-    public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double value) {
-        super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate);
-        this.trialType = Trial.MEASURE;
-        this.value = value;
-    }
-
-    /**
-     * Mock object constructor for testing purposes
-     */
-    public MeasurementTrial() {
-        super("test", "test", "test", "test",LocalDate.now().plusDays(new Random().nextInt(40) - 20));
-        this.trialType = Trial.MEASURE;
-        Random rng = new Random();
-        value = rng.nextFloat() * 20;
     }
 
     /**
