@@ -270,7 +270,7 @@ public class TrialTests {
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);
         solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
-        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing QR code generation");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
@@ -278,7 +278,7 @@ public class TrialTests {
         solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
-        while (solo.waitForText("Testing measuring trial", 1, 1000) == false) {
+        while (solo.waitForText("Testing QR code generation", 1, 1000) == false) {
             solo.drag(600, 600, 1000, 1500, 10);
         }
 
@@ -297,6 +297,10 @@ public class TrialTests {
         solo.clickOnMenuItem("Save");
         solo.waitForText("Ok");
         solo.clickOnMenuItem("Ok");
+
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
     }
 
     @Test
@@ -304,7 +308,7 @@ public class TrialTests {
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);
         solo.waitForView(solo.getView(R.id.fab), 1, 2000);
         solo.clickOnView(solo.getView(R.id.fab));
-        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "testing barcode");
         solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
@@ -312,7 +316,7 @@ public class TrialTests {
         solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
-        while (solo.waitForText("Testing measuring trial", 1, 1000) == false) {
+        while (solo.waitForText("testing barcode", 1, 1000) == false) {
             solo.drag(600, 600, 1000, 1500, 10);
         }
 
@@ -327,8 +331,14 @@ public class TrialTests {
 
         assertTrue(solo.waitForView(R.id.scanButton));
 
-        solo.clickOnMenuItem("Save");
+        solo.clickLongOnScreen(0,0);
+
         solo.waitForText("Ok");
-        solo.clickOnMenuItem("Ok");
+        solo.clickOnMenuItem("Cancel");
+
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
+
     }
 }
