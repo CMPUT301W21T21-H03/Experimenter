@@ -160,6 +160,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                                 measure = measurementTextBox.getText().toString();
                             }else{
                                 measure = args.getString("Value");
+                                measurementTextBox.setText(measure);
                             }
                             measurementTrialDialog(args, exp, measure);
                             break;

@@ -26,6 +26,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A custom RecyclerView Adapter class. Displays a list of comments. Used by
+ * {@link com.DivineInspiration.experimenter.Activity.UI.Comments.DiscussionForumFragment}
+ * to create display comments.
+ * @see <a href="https://developer.android.com/guide/topics/ui/layout/recyclerview"> https://developer.android.com/guide/topics/ui/layout/recyclerview </a>
+ */
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.ViewHolder> implements CommentManager.OnRepliesReadyListener, CreateReplyDialogFragment.OnReplyCreatedListener {
 
     private CommentListAdapter thisAdapter;
@@ -37,6 +43,15 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     private String experimentID;
     private final CommentManager commentManager = CommentManager.getInstance();
 
+    /**
+     * Constructor
+     * @param context
+     * Current application context. Supply with getContext()
+     * @param fragmentManager
+     * A {@link FragmentManager} for the current Activity Fragment. Supply with getActivity().getSupportFragmentManager()
+     * @param experimentID
+     * ID of the experiment whose comments are being listed
+     */
     public CommentListAdapter(Context context, FragmentManager fragmentManager, String experimentID) {
         super();
         this.context = context;
@@ -45,6 +60,13 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         thisAdapter = this;
     }
 
+    /**
+     * On create
+     * @param parent
+     * @param viewType
+     * @return
+     * view
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,11 +74,17 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         return new ViewHolder(v);
     }
 
+    /**
+     * On bind view
+     * @param holder
+     * @param position
+     * position in adapter
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Comment comment = comments.get(position);
-        ReplyListAdapter adapter = new ReplyListAdapter(experimentID);
+        ReplyListAdapter adapter = new ReplyListAdapter();
         replyAdapters.put(comment.getCommentId(), adapter);
 
         // Set comment card text
@@ -115,9 +143,19 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     }
 
+    /**
+     * Gets the number of items
+     * @return
+     * the number of items in comments
+     */
     @Override
     public int getItemCount() { return comments.size(); }
 
+    /**
+     * Sets data in adapter
+     * @param comments
+     * the comment list
+     */
     public void setComments(List<Comment> comments) {
 
         this.comments.clear();
@@ -132,18 +170,28 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         }
 
         notifyDataSetChanged();
-        Log.d("Comment", "Num comments: " + comments.size());
-        Log.d("Comment", "Comments: " + comments.toString());
-        Log.d("Comment", "Replies: " + replies.toString());
-        Log.d("Comment", "Comment IDs:");
     }
 
+    /**
+     * Adds a new {@link Comment} to the data list
+     * @param comment
+     * the added comment
+     */
     public void addComment(Comment comment) {
         this.comments.add(0, comment);
         this.replies.put(comment.getCommentId(), new ArrayList<>());
         notifyItemInserted(0);
     }
 
+    /**
+     * This is a interface implementation method. When the requested reply data is ready,
+     * CommentManager calls this method and passes the data as a parameter.
+     * The method then updates the list of replies being shown for the specified comment
+     * @param replies
+     * list of replies
+     * @param commentID
+     * ID of the comment whose replies are being updated.
+     */
     @Override
     public void onRepliesReady(List<Comment> replies, String commentID) {
 
@@ -156,6 +204,15 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         Log.d("Comment", commentID + " Replies: " + replies.toString());
     }
 
+    /**
+     * This is a interface implementation method. When a reply is successfully added to the
+     * database, CommentManager calls this method and passes that reply as a parameter. The method
+     * then adds the new reply to a list of replies being shown for the specified comment
+     * @param reply
+     * reply to be added
+     * @param commentID
+     * ID of the comment whose replies are being updated.
+     */
     @Override
     public void onReplyAdded(Comment reply, String commentID) {
 
@@ -170,6 +227,10 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         }
     }
 
+    /**
+     * A custom {@link RecyclerView.ViewHolder} class. Displays comments as a card. Also contains
+     * a hidden {@link RecyclerView} of replies
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final CardView card;
