@@ -1,11 +1,10 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments;
+package com.DivineInspiration.experimenter.Activity.UI.Stats;
 
 import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

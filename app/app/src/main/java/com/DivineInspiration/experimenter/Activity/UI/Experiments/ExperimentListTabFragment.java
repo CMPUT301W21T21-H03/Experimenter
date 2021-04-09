@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Profile;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentAdapter;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;

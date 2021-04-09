@@ -20,7 +20,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRCodeDialogFragment;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;

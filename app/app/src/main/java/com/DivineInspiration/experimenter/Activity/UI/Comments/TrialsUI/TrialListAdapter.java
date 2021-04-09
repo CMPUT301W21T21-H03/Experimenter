@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI;
+package com.DivineInspiration.experimenter.Activity.UI.Comments.TrialsUI;
 
 import android.util.Log;
 import android.view.LayoutInflater;

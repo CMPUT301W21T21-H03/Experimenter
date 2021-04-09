@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments;
+package com.DivineInspiration.experimenter.Activity.UI.Scan;
 
 import android.Manifest;
 import android.app.Activity;
@@ -135,7 +135,7 @@ public class BarCodeDialogFramgent extends DialogFragment {
                             SharedPreferences.Editor editor = pref.edit();
                             editor.putString(result.getText(), params);
                             editor.apply();
-                            Toast.makeText(getContext(), "barcode instance saved", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "barcode instance saved\n" + result.getText(), Toast.LENGTH_LONG).show();
                         }
                         else{
                             Toast.makeText(getContext(), "Invalid bar code!", Toast.LENGTH_LONG).show();
@@ -160,7 +160,6 @@ public class BarCodeDialogFramgent extends DialogFragment {
      */
     @Override
     public void onResume() {
-
         super.onResume();
         Log.d("woah", String.valueOf(ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED));
         if (!openCamera && ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
