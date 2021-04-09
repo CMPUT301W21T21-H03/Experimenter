@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI;
+package com.DivineInspiration.experimenter.Activity.UI.Comments.TrialsUI;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -21,8 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.BarCodeDialogFramgent;
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRCodeDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Scan.BarCodeDialogFramgent;
+import com.DivineInspiration.experimenter.Activity.UI.Scan.QRCodeDialogFragment;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;

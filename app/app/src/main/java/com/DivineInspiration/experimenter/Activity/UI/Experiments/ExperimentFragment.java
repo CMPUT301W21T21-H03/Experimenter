@@ -22,11 +22,13 @@ import android.widget.TextView;
 import com.DivineInspiration.experimenter.Activity.Observer;
 import com.DivineInspiration.experimenter.Activity.Subject;
 
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUi.TrialMapTabFramgent;
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.CreateTrialDialogFragment;
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.TrialsUI.TrialsTabFragment;
-import com.DivineInspiration.experimenter.Activity.UI.Profile.ExperimentDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Comments.CreateCommentDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Comments.DiscussionForumFragment;
+import com.DivineInspiration.experimenter.Activity.UI.MapUi.TrialMapTabFramgent;
+import com.DivineInspiration.experimenter.Activity.UI.Comments.TrialsUI.CreateTrialDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Comments.TrialsUI.TrialsTabFragment;
 
+import com.DivineInspiration.experimenter.Activity.UI.Stats.StatsTabFragment;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;

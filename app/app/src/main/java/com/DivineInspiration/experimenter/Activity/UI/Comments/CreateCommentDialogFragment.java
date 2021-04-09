@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments;
+package com.DivineInspiration.experimenter.Activity.UI.Comments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

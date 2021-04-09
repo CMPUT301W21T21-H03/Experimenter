@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentListTabFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;

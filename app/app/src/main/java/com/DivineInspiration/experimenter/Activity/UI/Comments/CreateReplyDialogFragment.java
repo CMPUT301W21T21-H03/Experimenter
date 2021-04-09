@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments;
+package com.DivineInspiration.experimenter.Activity.UI.Comments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,7 +10,6 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Controller.CommentManager;
 import com.DivineInspiration.experimenter.Model.Comment.Comment;

@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments;
+package com.DivineInspiration.experimenter.Activity.UI.Scan;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;

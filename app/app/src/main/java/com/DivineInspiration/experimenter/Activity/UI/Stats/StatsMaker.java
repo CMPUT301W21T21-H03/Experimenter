@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments;
+package com.DivineInspiration.experimenter.Activity.UI.Stats;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
