@@ -108,7 +108,7 @@ public class ProfileFragment extends Fragment {
             otherUserId = null;
         }
 
-//        // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
+        // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
 //        ((ViewGroup) view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
         // Viewpager (to enable swiping between the tabs)
@@ -178,7 +178,7 @@ public class ProfileFragment extends Fragment {
         floating_addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*https://stackoverflow.com/a/61178226/12471420*/
+                // https://stackoverflow.com/a/61178226/12471420
                 new ExperimentDialogFragment((ExperimentDialogFragment.OnExperimentOperationDoneListener) getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(), "create experiment");
             }
         });
