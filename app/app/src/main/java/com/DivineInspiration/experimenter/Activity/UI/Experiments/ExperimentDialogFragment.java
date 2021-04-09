@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Profile;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
