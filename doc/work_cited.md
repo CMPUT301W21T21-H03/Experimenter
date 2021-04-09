@@ -51,3 +51,55 @@ missing constructors: https://stackoverflow.com/questions/9054894/custom-surface
     https://developer.android.com/guide/topics/ui/layout/recyclerview
      */
 // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
+
+```
+/*
+https://stackoverflow.com/a/13904784/12471420
+custom info
+ */
+```
+
+```
+    /*
+    https://stackoverflow.com/a/45564994/12471420
+     */
+```
+
+```
+/*
+https://developers.google.com/maps/documentation/android-sdk/start
+ */
+```
+
+```
+/*
+https://github.com/PhilJay/MPAndroidChart/wiki/IMarker-Interface
+show marker on click
+ */
+```
+
+```
+    /*
+    https://medium.com/@neerajmoudgil/candlestick-chart-using-philjay-mpandroidchart-library-how-to-bf657ddf3a28
+    how make candle stick chart with MPandroid
+     */
+```
+
+```
+    /*
+    on using MpAndroid
+    https://weeklycoding.com/mpandroidchart-documentation/setting-data/
+     */
+```
+
+```
+https://stackoverflow.com/a/63777157/12471420
+```
+
+```
+    /* https://stackoverflow.com/a/57013964/12471420 */
+```
+
+```
+* the QR encoder object from https://github.com/androidmads/QRGenerator
+```
