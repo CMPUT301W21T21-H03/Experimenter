@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Scan;
+package com.DivineInspiration.experimenter.Activity.UI.QRBarCode;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -6,19 +6,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 
-import com.google.zxing.WriterException;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
-import androidmads.library.qrgenearator.QRGSaver;
 
 public class QRFactory {
     // message is the QR's string representation

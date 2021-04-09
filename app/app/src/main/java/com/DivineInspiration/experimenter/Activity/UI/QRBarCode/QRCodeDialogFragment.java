@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Scan;
+package com.DivineInspiration.experimenter.Activity.UI.QRBarCode;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.DivineInspiration.experimenter.Activity.UI.Scan.QRFactory;
 import com.DivineInspiration.experimenter.R;
 
 import java.io.IOException;
