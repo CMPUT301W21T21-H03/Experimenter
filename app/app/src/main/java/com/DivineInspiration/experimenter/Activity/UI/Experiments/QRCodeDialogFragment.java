@@ -24,6 +24,7 @@ import com.google.zxing.WriterException;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 import androidmads.library.qrgenearator.QRGContents;
@@ -66,8 +67,9 @@ public class QRCodeDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         QRGSaver qrgSaver = new QRGSaver();
-                        Log.e("message: ", message);
-                        qrgSaver.save(Environment.getExternalStorageDirectory().getPath() + "/Experimenter/", message, bitmap, QRGContents.ImageType.IMAGE_PNG);
+                        Log.e("QR",  "Saved message - " + message);
+
+                        boolean fileSaved = qrgSaver.save(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/QRCodes", message, bitmap, QRGContents.ImageType.IMAGE_JPEG);
                     }
                 })
                 .setNegativeButton("Ok", null)

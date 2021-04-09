@@ -246,7 +246,7 @@ public class ExperimentDialogFragment extends DialogFragment {
             dialog.setTitle("Edit experiment");
             exp = (Experiment) args.getSerializable("exp");
 
-            if (exp.getStatus().equals(Experiment.ENDED)) {     // If the experiment has ended
+            if (exp.getStatus().equals(Experiment.ENDED)) {     // If the experiment has ended, only delete is available
                 editExperimentAbout.setVisibility(View.GONE);
                 minTrial.setVisibility(View.GONE);
                 requireGeo.setVisibility(View.GONE);
@@ -259,6 +259,7 @@ public class ExperimentDialogFragment extends DialogFragment {
                 view.findViewById(R.id.editAboutInput).setVisibility(View.GONE);
                 view.findViewById(R.id.editRegionInput).setVisibility(View.GONE);
                 view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
+                dialog.getButton(Dialog.BUTTON_POSITIVE).setVisibility(View.GONE);
                 dialog.setTitle("This experiment has ended. Delete?");
             }
             else {                                          // If the experiment is still ongoing
