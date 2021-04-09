@@ -43,8 +43,8 @@ public class QRCodeDialogFragment extends DialogFragment {
 
         qrImage = view.findViewById(R.id.qrImage);
 
-        // TODO: set the string message
-        message = "1253453452";
+        // set the string message
+        message = getArguments().getString("message");
         // factory method + generate
         QRFactory qrFactory = new QRFactory();
         QRGEncoder qrgEncoder = qrFactory.generate(message);

@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRCodeDialogFragment;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
@@ -53,6 +54,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
     Button failButton;                  // View for the binomial trial
     Button decrementFailNumButton;      // View for the binomial trial
     Button decrementPassNumButton;      // View for the binomial trial
+    Button generateQR;                  // View all trials
     int failNum = 0;                    // Count no. of fails for the binomial trial
     int passNum = 0;                    // Count no. of fails for the binomial trial
     int count = 0;                      // Count for both non-negative and count trials
@@ -96,6 +98,18 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 .setPositiveButton("Ok", null)
                 .setNegativeButton("Cancel", null)
                 .create();
+
+        // opens QR fragment
+        generateQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QRCodeDialogFragment frag = new QRCodeDialogFragment();
+                Bundle dialogArgs = new Bundle();
+                dialogArgs.putString("message", args.getString("experimenterID") + "-" + count);
+                frag.setArguments(dialogArgs);
+                frag.show(getParentFragmentManager(), "QR code fragment");
+            }
+        });
 
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
@@ -226,16 +240,17 @@ public class CreateTrialDialogFragment extends DialogFragment {
      * Initialize the View instance variables.
      */
     public void init(View view) {
-        measurementTextBox = view.findViewById(R.id.editMeasurementValue);
-        countNNTrial = view.findViewById(R.id.value_trial);
-        failButton = view.findViewById(R.id.binomial_fail_button);
-        passButton = view.findViewById(R.id.binomial_pass_button);
-        negativeCountNNButton = view.findViewById(R.id.decrease_trial_value);
-        positiveCountNNButton = view.findViewById(R.id.increase_trial_value);
-        failNumTrial = view.findViewById(R.id.binomial_fail_textView);
-        trueNumTrial = view.findViewById(R.id.binomial_pass_textView);
-        decrementFailNumButton = view.findViewById(R.id.binomial_fail_decrement);
-        decrementPassNumButton = view.findViewById(R.id.binomial_pass_decrement);
+        measurementTextBox =        view.findViewById(R.id.editMeasurementValue);
+        countNNTrial =              view.findViewById(R.id.value_trial);
+        failButton =                view.findViewById(R.id.binomial_fail_button);
+        passButton =                view.findViewById(R.id.binomial_pass_button);
+        negativeCountNNButton =     view.findViewById(R.id.decrease_trial_value);
+        positiveCountNNButton =     view.findViewById(R.id.increase_trial_value);
+        failNumTrial =              view.findViewById(R.id.binomial_fail_textView);
+        trueNumTrial =              view.findViewById(R.id.binomial_pass_textView);
+        decrementFailNumButton =    view.findViewById(R.id.binomial_fail_decrement);
+        decrementPassNumButton =    view.findViewById(R.id.binomial_pass_decrement);
+        generateQR =                view.findViewById(R.id.qr_code_generator);
     }
 
     public void gettingLocation() {
