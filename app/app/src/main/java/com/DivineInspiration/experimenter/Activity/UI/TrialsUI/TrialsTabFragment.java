@@ -70,10 +70,10 @@ public class TrialsTabFragment extends Fragment implements Observer {
      */
     @Override
     public void update(Object data) {
-        Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
-        trialList.clear();
-        trialList.addAll((List<Trial>) data);
-        Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
+      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
+      trialList.clear();
+      trialList.addAll((List<Trial>) data);
+      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
 
         if (adapter != null) {
             adapter.notifyDataSetChanged();
