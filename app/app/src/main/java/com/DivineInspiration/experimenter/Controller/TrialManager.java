@@ -91,6 +91,12 @@ public class TrialManager extends ArrayList<Trial> {
         return listToFilter.stream().filter(trial -> !trial.isIgnored()).collect(Collectors.toList());
     }
 
+
+    public void deleteTrial(String trialId){
+        db.collection("Trials").document(trialId).delete();
+    }
+
+
     /**
      * Adds a new trial to database
      * @param: trial:Trial (trial we want to add).
