@@ -96,7 +96,6 @@ public class CountTrial extends Trial {
 
     /**
      * Mock object constructor for testing purposes
-     * @param
      */
     public CountTrial(){
         super("test", "test", "test","test" ,LocalDate.now().plusDays(new Random().nextInt(20)));
@@ -112,6 +111,14 @@ public class CountTrial extends Trial {
     }
 
     /**
+     * Sets count
+     * @param count:int (new count)
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    /**
      * Decrements count by one
      */
     public void decrementCount() {
@@ -120,19 +127,9 @@ public class CountTrial extends Trial {
 
     /**
      * Gets current count
-     * @return
-     * current count
+     * @return count:int
      */
     public int getCount() {
         return count;
-    }
-
-    /**
-     * Set new count
-     * @param count
-     * new count
-     */
-    public void setCount(int count) {
-        this.count = count;
     }
 }
