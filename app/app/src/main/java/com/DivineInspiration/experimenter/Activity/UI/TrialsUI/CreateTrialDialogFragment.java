@@ -160,8 +160,6 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                                 measure = measurementTextBox.getText().toString();
                             }else{
                                 measure = args.getString("Value");
-                                measurementTextBox.setText(measure);
-
                             }
                             measurementTrialDialog(args, exp, measure);
                             break;
@@ -227,7 +225,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                         message = "null";
                         break;
                 }
-                dialogArgs.putString("message", args.getString("experimenterID") + "-" + trialTypeCheck + "-" + needLocation + "-" + message);
+                dialogArgs.putString("message", exp .getExperimentID() + "-" + trialTypeCheck + "-" + message);
                 frag.setArguments(dialogArgs);
                 frag.show(getParentFragmentManager(), "Bar code fragment");
             }
@@ -370,6 +368,15 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         geoTrialCheckBox = view.findViewById(R.id.checkBoxTrial);
         valueHolder = view.findViewById(R.id.valueHolder);
         locationWarning = view.findViewById(R.id.locationWarning);
+
+
+        if(getArguments().getBoolean("isScan")){
+
+            measure = getArguments().getString("Value");
+            measurementTextBox.setText(measure);
+            measurementTextBox.setClickable(false);
+            measurementTextBox.setEnabled(false);
+        }
     }
 
 
