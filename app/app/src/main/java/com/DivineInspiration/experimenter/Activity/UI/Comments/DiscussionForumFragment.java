@@ -66,8 +66,7 @@ public class DiscussionForumFragment extends Fragment implements CommentManager.
 
     @Override
     public void onCommentAdded(Comment comment) {
-        commentList.add(0, comment);
-        adapter.setComments(commentList);
-        adapter.notifyDataSetChanged();
+        commentList.add(0,comment);
+        adapter.addComment(comment);
     }
 }
