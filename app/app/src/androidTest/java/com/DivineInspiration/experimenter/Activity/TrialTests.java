@@ -265,4 +265,70 @@ public class TrialTests {
         solo.clickOnMenuItem("Delete");
 
     }
+    @Test
+    public void checkMakeQR() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0,3);
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        while (solo.waitForText("Testing measuring trial", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
+
+        //create positive measurement trial
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "12.3");
+        solo.clickOnView(solo.getView(R.id.qr_code_generator));
+
+        solo.waitForView(R.id.qrFileName);
+        solo.enterText((EditText) solo.getView(R.id.qrFileName), "Testing QR generator");
+
+        solo.clickOnMenuItem("Save");
+        solo.waitForText("Ok");
+        solo.clickOnMenuItem("Ok");
+    }
+
+    @Test
+    public void checkMakeBarCode() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing measuring trial");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0,3);
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
+
+        while (solo.waitForText("Testing measuring trial", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
+
+        //create positive measurement trial
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "12.3");
+        solo.clickOnView(solo.getView(R.id.barCodeButton));
+
+        assertTrue(solo.waitForView(R.id.scanButton));
+
+        solo.clickOnMenuItem("Save");
+        solo.waitForText("Ok");
+        solo.clickOnMenuItem("Ok");
+    }
 }

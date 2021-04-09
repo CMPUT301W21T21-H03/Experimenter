@@ -420,7 +420,9 @@ public class ExperimentTests {
         }
         solo.clickOnMenuItem("Delete");
     }
+    @Test
+    public void checkMap() {
 
-
+    }
 
 }
