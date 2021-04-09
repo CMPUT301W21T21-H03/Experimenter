@@ -1,14 +1,15 @@
 package com.DivineInspiration.experimenter.Model;
 
 public class UserContactInfo {
-
-    private int phoneNumber;
     private String cityName;
     private String email;
 
     /**
      * Contact person info constructor
-     * @param: cityName:String (city of person), email:String (email of person)
+     * @param cityName
+     * name of the city of the user
+     * @param email
+     * email of the user
      */
     public UserContactInfo(String cityName, String email) {
         this.cityName = cityName;
@@ -25,7 +26,8 @@ public class UserContactInfo {
 
     /**
      * Gets the user email
-     * @return: email:String
+     * @return
+     * email of user
      */
     public String getEmail() {
         return email;
@@ -33,7 +35,8 @@ public class UserContactInfo {
 
     /**
      * Set the user email
-     * @param: email:String
+     * @param email
+     * email of user
      */
     public void setEmail(String email) {
         this.email = email;
@@ -41,7 +44,8 @@ public class UserContactInfo {
 
     /**
      * Gets city name
-     * @return: cityName:String
+     * @return
+     * city name
      */
     public String getCityName() {
         return cityName;
@@ -49,7 +53,8 @@ public class UserContactInfo {
 
     /**
      * Sets city name
-     * @param: cityName:String
+     * @param cityName
+     * name of the city
      */
     public void setCityName(String cityName) {
         this.cityName = cityName;
