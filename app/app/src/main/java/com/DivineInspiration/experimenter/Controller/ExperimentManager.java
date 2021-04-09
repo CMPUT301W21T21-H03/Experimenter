@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -55,6 +56,12 @@ public class ExperimentManager extends ArrayList<Experiment> {
         void done(boolean successful);
     }
 
+
+
+    public interface OnExperimentReadyListener {
+        void onExperimentReady(Experiment experiment);
+    }
+
     /**
      * Get singleton instance of the class
      * @return
@@ -73,6 +80,27 @@ public class ExperimentManager extends ArrayList<Experiment> {
     private void initLocalUserId() {
         if (localUserId == null)
             localUserId = UserManager.getInstance().getLocalUser().getUserId();
+    }
+
+
+    /**
+     * query experiment using experiment id, callback returns the experiment if found, null otherwise
+     * @param experimentId
+     * experiment id to query
+     * @param callback
+     * callback to return to on complete
+     */
+    public void queryExperimentFromId(String experimentId, OnExperimentReadyListener callback)
+    {
+        db.collection("Experiments").document(experimentId).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                callback.onExperimentReady(expFromSnapshot(task.getResult()));
+            }
+            else{
+                callback.onExperimentReady(null);
+            }
+
+        });
     }
 
     /**
@@ -408,7 +436,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @return
      * experiment constructed from the database
      */
-    private Experiment expFromSnapshot(QueryDocumentSnapshot snapshot) {
+    private Experiment expFromSnapshot(DocumentSnapshot snapshot) {
         return new Experiment(
                 snapshot.getId(),
                 snapshot.getString("ExperimentName"),

@@ -20,8 +20,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
@@ -149,81 +151,14 @@ public class ScanFragment extends Fragment {
 
 
                         scanned = result.getText().split("-");
+                        String userId = UserManager.getInstance().getLocalUser().getUserId();
+                        ExperimentManager.getInstance().queryUserSubs(userId, experiments -> {
+                            boolean subbed = false;
 
-                        try {
-                            // format: experimentID-trialType-result
+                            for(Experiment exp : experiments){
 
-                            // TODO Check for subscripton
-
-                            String experimentID = scanned[0];
-                            String trialType = scanned[1];
-                            String needLocation = scanned[2];
-                            LatLng location = null;
-
-                            if (Boolean.parseBoolean(needLocation)) location = new LatLng(myLat, myLong);
-                            Trial scannedTrial = null;
-
-                            switch (trialType) {
-                                case Trial.BINOMIAL:
-
-                                    int successes = Integer.parseInt(scanned[3]);
-                                    int failures = Integer.parseInt(scanned[4]);
-                                    for (int i = 0; i < successes; i++) {
-                                        scannedTrial = new BinomialTrial(
-                                                UserManager.getInstance().getLocalUser().getUserId(),
-                                                UserManager.getInstance().getLocalUser().getUserName(),
-                                                experimentID,
-                                                true,
-                                                location
-                                        );
-                                    }
-                                    for (int i = 0; i < failures; i++) {
-                                        scannedTrial = new BinomialTrial(
-                                                UserManager.getInstance().getLocalUser().getUserId(),
-                                                UserManager.getInstance().getLocalUser().getUserName(),
-                                                experimentID,
-                                                false,
-                                                location
-                                        );
-                                    }
-
-                                    break;
-                                case Trial.COUNT:
-                                    scannedTrial = new CountTrial(
-                                            UserManager.getInstance().getLocalUser().getUserId(),
-                                            UserManager.getInstance().getLocalUser().getUserName(),
-                                            experimentID,
-                                            Integer.parseInt(scanned[3]),
-                                            location
-                                    );
-                                    break;
-                                case Trial.MEASURE:
-                                    scannedTrial = new MeasurementTrial(
-                                            UserManager.getInstance().getLocalUser().getUserId(),
-                                            UserManager.getInstance().getLocalUser().getUserName(),
-                                            experimentID,
-                                            Double.parseDouble(scanned[3]),
-                                            location
-                                    );
-                                    break;
-                                case Trial.NONNEGATIVE:
-                                    scannedTrial = new NonNegativeTrial(
-                                            UserManager.getInstance().getLocalUser().getUserId(),
-                                            UserManager.getInstance().getLocalUser().getUserName(),
-                                            experimentID,
-                                            Integer.parseInt(scanned[3]),
-                                            location
-                                    );
-                                    break;
-                                default:
-                                    throw new ClassNotFoundException();
                             }
-
-                            TrialManager.getInstance().addTrial(scannedTrial, trials -> {Log.d("Scan Fragment", "Trial added");});
-
-                        } catch (Exception e) {
-                            Toast.makeText(getActivity(), "Code scanned is not valid", Toast.LENGTH_SHORT).show();
-                        }
+                        });
 
                     }
                 });
