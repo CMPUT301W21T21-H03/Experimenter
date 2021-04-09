@@ -65,7 +65,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
     Button generateBar;                 // Button to show barcode dialog
     int failNum = 0;                    // Count no. of fails for the binomial trial
     int passNum = 0;                    // Count no. of fails for the binomial trial
-    int count = 0;                      // Count for both non-negative and count trials
+    int count = 1;                      // Count for both non-negative and count trials
     double myLat = 0;                   // Latitude of the trial
     double myLong = 0;                  // Longitude of the Trial
     LatLng trialLocation = null;        // LatLng to store the latitude and longitude
@@ -549,7 +549,10 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         negativeCountNNButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count = count - 1;
+                if(count>1){
+                    count = count - 1;
+                }
+
                 countNNTrial.setText(String.valueOf(count));
             }
         });
