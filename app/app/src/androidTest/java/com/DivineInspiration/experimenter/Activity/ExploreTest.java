@@ -52,7 +52,7 @@ public class ExploreTest {
         solo.clickOnMenuItem("Ok");
 
         //Searches for the experiment based on its name
-        solo.clickOnMenuItem("Explore");
+        solo.clickOnView(solo.getView(R.id.navigation_explore));
         assertTrue(solo.waitForText("Search", 1, 2000));
         solo.enterText((EditText) solo.getView(R.id.explore_search_bar), "Test searching Experiment");
         solo.clickOnView(solo.getView(R.id.experimentItemCard));
@@ -60,7 +60,7 @@ public class ExploreTest {
         assertTrue(solo.waitForText("Test searching Experiment", 1, 2000));
 
         //Searches for the experiment based on a part of its name
-        solo.clickOnMenuItem("Explore");
+        solo.clickOnView(solo.getView(R.id.navigation_explore));
         assertTrue(solo.waitForText("Search", 1, 2000));
         solo.enterText((EditText) solo.getView(R.id.explore_search_bar), "Test searching");
         solo.clickOnView(solo.getView(R.id.experimentItemCard));
@@ -68,7 +68,7 @@ public class ExploreTest {
         assertTrue(solo.waitForText("Test searching Experiment", 1, 2000));
 
         //Searches for the experiment based on its description
-        solo.clickOnMenuItem("Explore");
+        solo.clickOnView(solo.getView(R.id.navigation_explore));
         assertTrue(solo.waitForText("Search", 1, 2000));
         solo.enterText((EditText) solo.getView(R.id.explore_search_bar),
                 "this is a test experiment created for testing the search function using intent testing");
@@ -77,7 +77,7 @@ public class ExploreTest {
         assertTrue(solo.waitForText("Test searching Experiment", 1, 2000));
 
         //Searches for the experiment based on a portion of its description
-        solo.clickOnMenuItem("Explore");
+        solo.clickOnView(solo.getView(R.id.navigation_explore));
         assertTrue(solo.waitForText("Search", 1, 2000));
         solo.enterText((EditText) solo.getView(R.id.explore_search_bar),
                 "search function using intent testing");
