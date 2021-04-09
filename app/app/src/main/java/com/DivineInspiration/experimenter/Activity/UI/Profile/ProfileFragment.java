@@ -72,8 +72,8 @@ public class ProfileFragment extends Fragment {
 
     /**
      * Runs when the view is fully created
-     * @param savedInstanceState
-     * bundle
+     * @param view :View
+     * @param savedInstanceState :Bundle
      */
     @SuppressLint("MissingPermission")
     @Override
@@ -218,7 +218,7 @@ public class ProfileFragment extends Fragment {
 
     /**
      * Displaying the user info on the screen
-     * @param: user:User
+     * @param user:User
      */
     private void displayUserToolbar(User user) {
         if (user == null) {  // Safety check
@@ -270,8 +270,7 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Constructor
-         * @param frag
-         * home fragment
+         * @param frag home fragment
          */
         public HomeFragmentAdapter(Fragment frag) {
             super(frag);
@@ -279,10 +278,8 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Constructor
-         * @param frag
-         * fragment
-         * @param userID
-         * ID of user
+         * @param frag fragment
+         * @param userID ID of user
          */
         public HomeFragmentAdapter(Fragment frag, String userID) {
             super(frag);
@@ -291,10 +288,8 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Create the appropriate fragment depending on the position of the tab
-         * @param position
-         * position in adapter
-         * @return
-         * fragment
+         * @param position position in adapter
+         * @return fragment
          */
         @NonNull
         @Override
@@ -325,8 +320,7 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Get item count
-         * @return
-         * number of items in list
+         * @return :int number of items in list
          */
         @Override
         public int getItemCount() {
@@ -346,9 +340,8 @@ public class ProfileFragment extends Fragment {
 
         /**
          * When view is created
-         * @param view
-         * view
-         * @param savedInstanceState
+         * @param view : View
+         * @param savedInstanceState :Bundle
          */
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
