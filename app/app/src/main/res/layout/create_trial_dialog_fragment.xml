@@ -199,4 +199,18 @@
         app:layout_constraintStart_toEndOf="@+id/qr_code_generator"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
+    <TextView
+        android:id="@+id/locationWarning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black2"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:text="Warning"
+        android:textColor="@color/red1"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qr_code_generator" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

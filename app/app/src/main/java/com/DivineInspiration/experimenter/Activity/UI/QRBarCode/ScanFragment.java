@@ -1,7 +1,10 @@
 package com.DivineInspiration.experimenter.Activity.UI.QRBarCode;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -20,21 +23,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.DivineInspiration.experimenter.Controller.TrialManager;
+import com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment;
+import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
-import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
-import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
-import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
-import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.zxing.Result;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.util.Map;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -47,12 +49,12 @@ public class ScanFragment extends Fragment {
     String[] scanned;
     double myLat = 0;
     double myLong = 0;
-
-    private CodeScanner mCodeScanner;
     CodeScannerView scannerView;
+    private CodeScanner mCodeScanner;
 
     /**
      * When creating view
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -78,6 +80,7 @@ public class ScanFragment extends Fragment {
 
     /**
      * When the view is created
+     *
      * @param view
      * @param savedInstanceState
      */
@@ -96,7 +99,7 @@ public class ScanFragment extends Fragment {
             public void onClick(View v) {
                 // if camera is open
                 if (allowCamera) {
-                     mCodeScanner.startPreview();
+                    mCodeScanner.startPreview();
                 } else {
                     Toast.makeText(getActivity(), "A code cannot be scanned if the camera is off", Toast.LENGTH_SHORT).show();
                 }
@@ -108,6 +111,7 @@ public class ScanFragment extends Fragment {
 
     /**
      * Result of the code scanned
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -148,83 +152,78 @@ public class ScanFragment extends Fragment {
                         // do something after scanning
 
 
+                        //id, type, params
                         scanned = result.getText().split("-");
 
-                        try {
-                            // format: experimentID-trialType-result
-
-                            // TODO Check for subscripton
-
-                            String experimentID = scanned[0];
-                            String trialType = scanned[1];
-                            String needLocation = scanned[2];
-                            LatLng location = null;
-
-                            if (Boolean.parseBoolean(needLocation)) location = new LatLng(myLat, myLong);
-                            Trial scannedTrial = null;
-
-                            switch (trialType) {
-                                case Trial.BINOMIAL:
-
-                                    int successes = Integer.parseInt(scanned[3]);
-                                    int failures = Integer.parseInt(scanned[4]);
-                                    for (int i = 0; i < successes; i++) {
-                                        scannedTrial = new BinomialTrial(
-                                                UserManager.getInstance().getLocalUser().getUserId(),
-                                                UserManager.getInstance().getLocalUser().getUserName(),
-                                                experimentID,
-                                                true,
-                                                location
-                                        );
-                                    }
-                                    for (int i = 0; i < failures; i++) {
-                                        scannedTrial = new BinomialTrial(
-                                                UserManager.getInstance().getLocalUser().getUserId(),
-                                                UserManager.getInstance().getLocalUser().getUserName(),
-                                                experimentID,
-                                                false,
-                                                location
-                                        );
-                                    }
-
+                        if (scanned.length == 1) {
+                            //must've scanned a bar code
+                            SharedPreferences pref = getContext().getSharedPreferences("Barcode", Context.MODE_PRIVATE);
+                            Map<String, ?> map = pref.getAll();
+                            for (String key : map.keySet()) {
+                                if (key.equals(scanned[0])) {
+                                    //found a match barcode
+                                    scanned = ((String) map.get(key)).split("-");
+                                    Toast.makeText(getContext(), "Found matching barcode", Toast.LENGTH_SHORT).show();
                                     break;
-                                case Trial.COUNT:
-                                    scannedTrial = new CountTrial(
-                                            UserManager.getInstance().getLocalUser().getUserId(),
-                                            UserManager.getInstance().getLocalUser().getUserName(),
-                                            experimentID,
-                                            Integer.parseInt(scanned[3]),
-                                            location
-                                    );
-                                    break;
-                                case Trial.MEASURE:
-                                    scannedTrial = new MeasurementTrial(
-                                            UserManager.getInstance().getLocalUser().getUserId(),
-                                            UserManager.getInstance().getLocalUser().getUserName(),
-                                            experimentID,
-                                            Double.parseDouble(scanned[3]),
-                                            location
-                                    );
-                                    break;
-                                case Trial.NONNEGATIVE:
-                                    scannedTrial = new NonNegativeTrial(
-                                            UserManager.getInstance().getLocalUser().getUserId(),
-                                            UserManager.getInstance().getLocalUser().getUserName(),
-                                            experimentID,
-                                            Integer.parseInt(scanned[3]),
-                                            location
-                                    );
-                                    break;
-                                default:
-                                    throw new ClassNotFoundException();
+                                }
                             }
-
-                            TrialManager.getInstance().addTrial(scannedTrial, trials -> {Log.d("Scan Fragment", "Trial added");});
-
-                        } catch (Exception e) {
-                            Toast.makeText(getActivity(), "Code scanned is not valid", Toast.LENGTH_SHORT).show();
+                            if (scanned.length == 1) {
+                                Toast.makeText(getContext(), "No matching barcode found", Toast.LENGTH_LONG).show();
+                                return;
+                            }
                         }
 
+                        String userId = UserManager.getInstance().getLocalUser().getUserId();
+                        String userName = UserManager.getInstance().getLocalUser().getUserName();
+
+                        ExperimentManager manager = ExperimentManager.getInstance();
+                        manager.queryUserSubs(userId, experiments -> {
+                            boolean subbed = false;
+
+                            for (Experiment exp : experiments) {
+                                if (exp.getOwnerID().equals(userId)) {
+                                    subbed = true;
+                                    break;
+                                }
+
+                            }
+                            if (subbed) {
+                                Bundle args = new Bundle();
+                                //expId, type, arg1, arg2
+                                Log.d("Woah barcode", scanned[0]);
+                                manager.queryExperimentFromId(scanned[0], experiment -> {
+
+                                    args.putSerializable("experiment", experiment);
+                                    args.putString("experimenterID", userId);
+                                    args.putString("experimenterName", userName);
+                                    args.putBoolean("isScan", true);
+                                    if (scanned[1].equals(Trial.BINOMIAL)) {
+                                        args.putInt("Pass", Integer.parseInt(scanned[2]));
+                                        args.putInt("Fail", Integer.parseInt(scanned[3]));
+                                    } else if (scanned[1].equals(Trial.MEASURE)) {
+                                        args.putString("Value", scanned[2]);
+                                    } else {
+                                        args.putInt("Count", Integer.parseInt(scanned[2]));
+                                    }
+                                    CreateTrialDialogFragment dialogFragment = new CreateTrialDialogFragment(trial -> {
+                                        Toast.makeText(getContext(), "Trial has been added", Toast.LENGTH_LONG).show();
+                                    });
+                                    dialogFragment.setArguments(args);
+                                    dialogFragment.show(getChildFragmentManager(), "Add trial from scan");
+
+                                });
+                            } else {
+                                manager.queryExperimentFromId(scanned[0], experiment -> {
+                                    AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
+                                            .setTitle("Sub to :" + experiment.getExperimentName() + "?")
+                                            .setPositiveButton("Subscribe", ((dialog1, which) -> {
+                                                dialog1.dismiss();
+                                                manager.subToExperiment(userId, experiment.getExperimentID(), null);
+                                                Toast.makeText(getContext(), "You are now subsribed to: " + experiment.getExperimentName(), Toast.LENGTH_LONG).show();
+                                            })).setNegativeButton("Cancel", null).create();
+                                });
+                            }
+                        });
                     }
                 });
             }
@@ -247,7 +246,7 @@ public class ScanFragment extends Fragment {
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.ACCESS_COARSE_LOCATION
-            },301);
+            }, 301);
             return;
         }
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {

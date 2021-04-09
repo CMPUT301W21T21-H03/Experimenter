@@ -1,6 +1,5 @@
 package com.DivineInspiration.experimenter.Activity.UI.TrialsUI;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +27,17 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class    TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.ViewHolder> {
+/**
+ * A custom RecyclerView Adapter class. Displays a list of trials. Used by
+ * {@link com.DivineInspiration.experimenter.Activity.UI.TrialsUI.TrialsTabFragment}
+ * to create display trials.
+ * @see <a href="https://developer.android.com/guide/topics/ui/layout/recyclerview"> https://developer.android.com/guide/topics/ui/layout/recyclerview </a>
+ */
+public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.ViewHolder> {
 
     private List<Trial> trials = new ArrayList<>();
     private TrialManager.OnTrialListReadyListener callback;
     private Experiment experiment;
-
     private User localUser;
 
     // Constructor
@@ -41,9 +45,15 @@ public class    TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.V
         super();
     }
 
+    /**
+     * Constructor
+     * @param trials
+     * @param callback
+     * @param experiment
+     */
     public TrialListAdapter(List<Trial> trials, TrialManager.OnTrialListReadyListener callback, Experiment experiment) {
         super();
-        Log.d("Trial adapter", "" + trials.size());
+
         this.trials = trials;
         this.callback = callback;
         localUser = UserManager.getInstance().getLocalUser();
@@ -53,82 +63,75 @@ public class    TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.V
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // create view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.trial_item, parent, false);
         return new TrialListAdapter.ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         Trial myTrial = trials.get(position);
-        String ans = "";
+        String value = null;
         String type = myTrial.getTrialType();
+
         switch (type) {
-            case "Binomial trial":
+            case Trial.BINOMIAL:
                 if (((BinomialTrial) myTrial).getPass()) {
-                    ans = "Pass";
+                    value = "Success";
                 } else {
-                    ans = "False";
+                    value = "Fail";
                 }
                 break;
-            case "Count trial":
-                ans = String.valueOf(((CountTrial) myTrial).getCount());
+
+            case Trial.COUNT:
+                value = String.valueOf(((CountTrial) myTrial).getCount());
                 break;
-            case "Non-Negative trial":
-                ans = String.valueOf(((NonNegativeTrial) myTrial).getCount());
+
+            case Trial.NONNEGATIVE:
+                value = String.valueOf(((NonNegativeTrial) myTrial).getCount());
                 break;
-            case "Measurement trial":
-                ans = String.valueOf(((MeasurementTrial) myTrial).getValue());
+
+            case Trial.MEASURE:
+                value = String.valueOf(((MeasurementTrial) myTrial).getValue());
                 break;
+
             default:
                 break;
         }
 
-
-        holder.getTrialResult().setText("Result: " + ans + (myTrial.isIgnored() ? " - Ignored" : ""));
+        holder.getTrialResult().setText("Result: " + value + (myTrial.isIgnored() ? " - Ignored" : ""));
         holder.getExperimenterName().setText("Experimenter: " + myTrial.getTrialOwnerName());
         holder.getTrialDate().setText(myTrial.getTrialDate().toString());
+
         holder.getTrialCard().setOnClickListener(v -> {
+
             Button banButton = holder.getBanButton();
             if (banButton.getVisibility() == View.GONE && localUser.getUserId().equals(experiment.getOwnerID())) {
                 banButton.setVisibility(View.VISIBLE);
             } else if (banButton.getVisibility() == View.VISIBLE) {
                 banButton.setVisibility(View.GONE);
             }
+
             banButton.setOnClickListener(v1 -> {
-
-
                 ExperimentManager.getInstance().banUserFromExperiment(myTrial.getTrialUserID(), myTrial.getTrialExperimentID(), done -> instantBanUpdate(myTrial.getTrialUserID()));
-
-
             });
         });
 
-        if(myTrial.getLocation()!=null){
+        if (myTrial.getLocation() != null) {
+
             GeoPoint geoPoint = TrialManager.getInstance().latLngToGeoPoint(myTrial.getLocation());
             DecimalFormat decimalFormat = new DecimalFormat("0.##");
             String LAT = decimalFormat.format(geoPoint.getLatitude());
             String LONG = decimalFormat.format(geoPoint.getLongitude());
             holder.getTrialLocation().setText("Location: " + LAT + " , " + LONG);
         }
-        else{
+        else {
             holder.getTrialLocation().setText("");
         }
-//        for(Trial t : trials){
-//            Log.d("woah trial List:", t.getLocation() == null?"null":t.getLocation().toString());
-//        }
-        Log.d("woah trial in function:", myTrial.getLocation()== null?"null":myTrial.getLocation().toString() );
-
-        if(position == getItemCount() - 1){
-            Log.d("woah trial in function:", "=======================" );
-        }
-
-
-
     }
 
     private void instantBanUpdate(String bannedId) {
-        Log.d("woah", "instant updating");
+
         List<Trial> updatedTrials = new ArrayList<>();
         for (Trial t : trials) {
             if (t.getTrialUserID().equals(bannedId)) {
@@ -136,16 +139,20 @@ public class    TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.V
             }
             updatedTrials.add(t);
         }
-        Log.d("woah instantUpdate", "" + trials.size());
+
         callback.onTrialsReady(updatedTrials);
     }
-
 
     @Override
     public int getItemCount() {
         return trials.size();
     }
 
+    /**
+     * Resets the adapter with a new list
+     * @param trials
+     * Trials to update list with
+     */
     public void setTrials(List<Trial> trials) {
         this.trials.clear();
         this.trials.addAll(trials);
@@ -159,8 +166,6 @@ public class    TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.V
         private final TextView trialDate;
         private final TextView trialLocation;
         private final TextView trialResult;
-
-
         private final Button banButton;
 
         public ViewHolder(View v) {
@@ -172,7 +177,6 @@ public class    TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.V
             trialLocation = v.findViewById(R.id.trialCity);
             trialResult = v.findViewById(R.id.trialResult);
             banButton = v.findViewById(R.id.trialBan);
-
         }
 
         public CardView getTrialCard() {

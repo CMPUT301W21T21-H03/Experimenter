@@ -18,11 +18,14 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A custom RecyclerView Adapter class. Displays a list of experiment. Used by
+ * {@link com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentListTabFragment}
+ * to create display experiments
+ * @see <a href="https://developer.android.com/guide/topics/ui/layout/recyclerview"> https://developer.android.com/guide/topics/ui/layout/recyclerview </a>
+ */
 public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.ViewHolder> {
-    // https://developer.android.com/guide/topics/ui/layout/recyclerview
 
-    // experiment list
     private List<Experiment> experiments = new ArrayList<>();
 
     /**
@@ -102,7 +105,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
     }
 
     /**
-     * Recycler for experiments
+     * A custom {@link RecyclerView.ViewHolder} class. Displays experiment information in a card
      */
     public static class ViewHolder extends RecyclerView.ViewHolder{
         // card and text

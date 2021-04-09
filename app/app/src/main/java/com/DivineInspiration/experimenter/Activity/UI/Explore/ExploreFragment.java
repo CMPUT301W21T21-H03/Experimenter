@@ -1,4 +1,4 @@
-    package com.DivineInspiration.experimenter.Activity.UI.Explore;
+package com.DivineInspiration.experimenter.Activity.UI.Explore;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,20 +23,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-* This class deals with the UI for the explore page and is launched when Explore button in bottom nav is clicked.
-*/
+ * This class deals with the UI for finding publiclly available experiments
+ * @see R.layout#fragment_explore
+ */
 public class ExploreFragment extends Fragment implements ExperimentManager.OnExperimentListReadyListener {
+
+    // TODO?: if there is time and for more efficiency, shownList could be an int list that only contain indexes of the datalist (probably not)
 
     private ExploreListAdapter exploreListAdapter;          // Adapter list of the experiments in the explore tab
     private List<Experiment> dataList = new ArrayList<>();  // Data list contains all the experiments in the database
-
     private List<Experiment> shownList = new ArrayList<>(); // Shown list only contains of experiments shown on screen
 
     private CharSequence searchText;                        // Search text entered by the user
 
     /**
      * Fragment initializer, similar to activity's onCreate
-     * @param savedInstanceState 
+     * @param savedInstanceState
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,13 +52,14 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
 
     /**
      * When view is created
-     * @param inflater :LayoutInflater
-     * @param container Group
+     * @param inflater
+     * @param container
      * @param savedInstanceState
-     * @return the created view
+     * @return view that was created
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Query the experiments from database, the Experiments will be returned via a callback to onExperimentsReady
         ExperimentManager.getInstance().queryAll(this);
 
@@ -67,28 +70,33 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
         experimentListView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         experimentListView.setAdapter(exploreListAdapter);
         experimentListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+
         EditText search = root.findViewById(R.id.explore_search_bar);
 
         // Search -> filter results
         search.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void afterTextChanged(Editable editable) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 searchText = charSequence;
                 filter();
             }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
         });
+
         return root;
     }
 
     /**
-     * This method filters the experiments so as to display only the experiments that meet search criteria
+     * Filters the experiments so as to display only the experiments that related to the search text
      */
-    public void filter() {
+    private void filter() {
+
         // if string is empty, re-initialize with all data (i.e., all the experiments)
         if (searchText.length() == 0) {
             exploreListAdapter.setData(dataList);

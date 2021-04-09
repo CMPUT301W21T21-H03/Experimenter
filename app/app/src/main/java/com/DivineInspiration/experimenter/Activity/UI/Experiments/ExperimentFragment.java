@@ -10,13 +10,10 @@ import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.DivineInspiration.experimenter.Activity.Observer;
@@ -24,7 +21,7 @@ import com.DivineInspiration.experimenter.Activity.Subject;
 
 import com.DivineInspiration.experimenter.Activity.UI.Comments.CreateCommentDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Comments.DiscussionForumFragment;
-import com.DivineInspiration.experimenter.Activity.UI.MapUi.TrialMapTabFramgent;
+import com.DivineInspiration.experimenter.Activity.UI.Map.TrialMapTabFramgent;
 import com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.TrialsUI.TrialsTabFragment;
 
@@ -36,6 +33,7 @@ import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -47,7 +45,7 @@ import java.util.List;
 
 /**
  * This class deals with the UI for displaying the experiment details. (It also contains 4 tabs: Trials, Comments, Stats, Data)
- * @see: experiment_fragment (Contains 4 tabs: Trials, Comments, Stats, Map)
+ * @see R.layout#experiment_fragment
  */
 public class ExperimentFragment extends Fragment implements Subject, TrialManager.OnTrialListReadyListener{
     List<Trial> currentTrials = new ArrayList<>();            // The trials performed for the experiment
@@ -64,23 +62,20 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     private TextView status;
     private FloatingActionButton addButton;
 
-    Experiment currentExperiment;           // The current experiment we are displaying the info for
+    ViewPager2 pager;
+    ExperimentTabsAdapter adapter;
+    TabLayout tabLayout;
+    CollapsingToolbarLayout toolbar;
+    AppBarLayout appBar;
 
-    // Manager classes (The controllers that act as an interface between 'Model' and 'View')
     ExperimentManager experimentManager = ExperimentManager.getInstance();
     UserManager userManager = UserManager.getInstance();
 
-    boolean currentUserSubbed = false;      // Is the local user of the device subscribed to the experiment
+    boolean currentUserSubbed = false;
 
-    // Navigation
-    ViewPager2 pager;                       // Enables swiping between tabs
-    ExperimentTabsAdapter adapter;
-    TabLayout tabLayout;
-
-    // The different tabs that will be displayed
     String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
+    Experiment currentExperiment;
 
-    CollapsingToolbarLayout toolbar;
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate
@@ -104,7 +99,22 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        init(view);         // Initialize the views
+        // Get the text views
+        experimentName = view.findViewById(R.id.experimentName_expFrag);
+        ownerName = view.findViewById(R.id.ownerName_expFrag);
+        subNumber = view.findViewById(R.id.expFragSubCount);
+        trialNumber = view.findViewById(R.id.trialNumber_expFrag);
+        trialType = view.findViewById(R.id.trialType_expFrag);
+        expAbout = view.findViewById(R.id.experimentDescription_expFrag);
+        expCity = view.findViewById(R.id.experimentRegion_expFrag);
+        subSwitch = view.findViewById(R.id.subscribeSwitch);
+        status = view.findViewById(R.id.status_exp);
+        addButton = view.findViewById(R.id.experiment_fragment_add_button);
+
+        // Title is transparent when expanded
+        toolbar = view.findViewById(R.id.expCollapsingToolbar);
+        toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
+        toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
 
         // Get experiment and set details to be displayed
         currentExperiment = (Experiment) getArguments().getSerializable("experiment");
@@ -115,6 +125,8 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         adapter = new ExperimentTabsAdapter(this);
         pager.setAdapter(adapter);
         tabLayout = view.findViewById(R.id.Tablayout);
+        appBar = view.findViewById(R.id.expAppbar);
+
         // Set tab names
         new TabLayoutMediator(tabLayout, pager, true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
@@ -127,19 +139,23 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
                 int position = tab.getPosition();
-                if((position == 0 || position == 1) && currentUserSubbed && !currentExperiment.getStatus().equals(Experiment.ENDED) ){
+                if ((position == 0 || position == 1) && currentUserSubbed && !currentExperiment.getStatus().equals(Experiment.ENDED) ){
                     addButton.show();
                 } else {
                     addButton.hide();
                 }
-                if(position == 3){
+
+                if (position == 3){
                     pager.setUserInputEnabled(false);
+                    appBar.setExpanded(false, true);
                 }
                 else{
                     pager.setUserInputEnabled(true);
                 }
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) { }
 
@@ -156,16 +172,18 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                     @Override
                     public void onUserListReady(ArrayList<User> users) {
                         for (int i = 0; i < users.size(); i++) {
-                            // We now go through all the subscribers and check if current local user is one of them
-                            if (UserManager.getInstance().getLocalUser().getUserId()
-                                    .equals(users.get(i).getUserId()) && !currentExperiment.getStatus().equals(Experiment.ENDED)) {
+
+                            // Go through all the subscribers and check if current local user is one of them
+                            if (UserManager.getInstance().getLocalUser().getUserId().equals(users.get(i).getUserId())
+                                    && !currentExperiment.getStatus().equals(Experiment.ENDED)) {
+
                                 subSwitch.setChecked(true);
                                 addButton.show();
                                 currentUserSubbed = true;
                             }
                         }
                         ((TextView) getView().findViewById(R.id.expFragSubCount))
-                                .setText(users.size() + " subscribers");    // Display the no. of subscribers in the info part
+                                .setText(users.size() + " subscribers");    // Display the no. of subscribers in the info
                     }
                 });
 
@@ -174,18 +192,20 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+
                     experimentManager.subToExperiment(userManager.getLocalUser().getUserId(),
                             currentExperiment.getExperimentID(), null);
-                    // On check, it should be set visible again (as the user can add trials and comments if he/she is subscribed)
 
                     if(!currentExperiment.getStatus().equals(Experiment.ENDED)) {
                         currentUserSubbed = true;
                         addButton.show();
                     }
+
                 } else {
+
                     experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(),
                             currentExperiment.getExperimentID(), null);
-                    // if changed to unsubscribed, addButton should be set invisible again
+
                     addButton.hide();
                     currentUserSubbed = false;
                 }
@@ -196,13 +216,17 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
-                    case 0:                 // If add button is clicked on Trials tab, the user wants to add a trial.
+
+                    case 0:                 // On Trials tab
                         TrialDialogSelect();
                         break;
-                    case 1:                 // If add button is clicked on Trials tab, the user wants to add a comment.
-                        // Make a bundle of the info we want to pass
+
+                    case 1:                 // On Comments tab
+
+                        // Bundle comment relevant information
                         Bundle bundle = new Bundle();
                         bundle.putString("commenterID", userManager.getLocalUser().getUserId());
                         bundle.putString("commenterName", userManager.getLocalUser().getUserName());
@@ -210,10 +234,10 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
                         CreateCommentDialogFragment dialog = new CreateCommentDialogFragment((CreateCommentDialogFragment.OnCommentCreatedListener) getChildFragmentManager().findFragmentByTag("f1"));
                         dialog.setArguments(bundle);
-                        dialog.show(getChildFragmentManager(), "create comment frag");
+                        dialog.show(getChildFragmentManager(), "ExperimentFragment");
                         break;
+
                     default:
-                        // Do nothing
                 }
             }
         });
@@ -225,18 +249,23 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         // When local user is owner himself, we don't display the profile icon
         // but, when the local user is owner, we display the settings button so he can edit experiment details.
         if (userManager.getLocalUser().getUserId().equals(currentExperiment.getOwnerID())) {    // Local user is the owner of the experiment
+
             profile.setVisibility(View.GONE);
             setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                         Bundle args = new Bundle();
                         args.putSerializable("exp", currentExperiment);
+
                         // User(i.e, owner wants to edit the experiment)
                         ExperimentDialogFragment frag = new ExperimentDialogFragment(
                                 experiment -> {
                                     if (experiment != null) {
+
                                         updateText(experiment);
                                         currentExperiment = experiment;
+
                                         if(currentExperiment.getStatus().equals(Experiment.ENDED)){
                                             addButton.hide();
                                         }
@@ -249,8 +278,10 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                         frag.show(getChildFragmentManager(), "edit experiment frag");
                 }
             });
-        } else {                                                                            // Local user is not the owner of the experiment
+        } else {   // If Local user is not the owner of the experiment
+
             setting.setVisibility(View.GONE);
+
             // When the profile icon is clicked. User wants to view the profile of the owner
             profile.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -302,6 +333,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
      * @param exp the experiment to display the information for
      */
     private void updateText(Experiment exp) {
+
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
         expCity.setText("Region: " + exp.getRegion());
@@ -314,20 +346,23 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method is called when the add button is selected when the current tab is Trial
+     * Creates and displays a CreateTrialDialogFragment to create a new trial
      */
     public void TrialDialogSelect() {
+
         // Prepare a bundle with the relevant information
         Bundle trialBundle = new Bundle();
         trialBundle.putString("experimenterID", userManager.getLocalUser().getUserId());
         trialBundle.putString("experimenterName", userManager.getLocalUser().getUserName());
+        trialBundle.putBoolean("isScan", false);
         trialBundle.putSerializable("experiment", currentExperiment);
-        // Go and display the UI to create a new trial
+
+        // Create a trial creation dialog fragment
         CreateTrialDialogFragment dialogTrial = new CreateTrialDialogFragment(trial -> {
-//            ( (CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f0")).onTrialAdded(trial);
-//            ( (CreateTrialDialogFragment.OnTrialCreatedListener) getChildFragmentManager().findFragmentByTag("f2")).onTrialAdded(trial);
             currentTrials.add(0, trial);
             updateAll();
         });
+
         dialogTrial.setArguments(trialBundle);
         dialogTrial.show(getChildFragmentManager(), "create trial frag");
     }
@@ -337,9 +372,8 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
      */
     @Override
     public void updateAll() {
-        Log.d("woah exp frag", ""+System.identityHashCode(currentTrials));
+
         for(Observer observer : observers){
-            Log.d("woah exp callback", ""+currentTrials.size());
             observer.update(currentTrials);
         }
     }
@@ -347,41 +381,50 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     @Override
     public void onTrialsReady(List<Trial> trials) {
         currentTrials = trials;
-        Log.d("woah exp callback", ""+currentTrials.size());
         updateAll();
     }
 
     /**
-     * Home fragment
+     * A customised {@link FragmentStateAdapter}
      */
     public class ExperimentTabsAdapter extends FragmentStateAdapter {
+
         public ExperimentTabsAdapter(Fragment frag) {
             super(frag);
         }
+
+        /**
+         * Creates a new fragment. Fragment type depends on the position of the tab
+         * @param position
+         * Position of the fragment in the adapter
+         * @return A new Fragment instance.
+         * If position == 0: A TrialTabFragment.
+         * If position == 1: A DiscussionForumFragment
+         * If position == 2: A StatsTabFragment
+         * If position == 3: A TrialMapTabFragment
+         */
         @NonNull
         @Override
-        /**
-         * Create the appropriate fragment depending on the position of the tab
-         * @param position position in adapter
-         * @return fragment created
-         */
         public Fragment createFragment(int position) {
+
             Bundle bundle = new Bundle();
             bundle.putString("experimentID", currentExperiment.getExperimentID());
             bundle.putSerializable("experiment", currentExperiment);
             Fragment tabFragment;
+
             switch (position) {
                 case 0:
                     tabFragment = new TrialsTabFragment(ExperimentFragment.this);
                     tabFragment.setArguments(bundle);
                     addObserver((TrialsTabFragment)tabFragment);
-
                     updateAll();
                     return tabFragment;
+
                 case 1:
                     tabFragment = new DiscussionForumFragment();
                     tabFragment.setArguments(bundle);
                     return tabFragment;
+
                 case 2:
                     tabFragment = new StatsTabFragment();
                     tabFragment.setArguments(bundle);
@@ -395,47 +438,19 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                     addObserver((TrialMapTabFramgent)tabFragment);
                     updateAll();
                     return tabFragment;
+
                 default:
-                    return new PlaceHolderFragment();
+                    return null;
             }
         }
 
         /**
          * Get item count
-         * @return number of items in list
+         * @return int - Number of items in list
          */
         @Override
         public int getItemCount() {
-            return currentExperiment.isRequireGeo()?4:3;
-        }
-    }
-
-
-    /**
-     * Placeholder fragment
-     */
-    public static class PlaceHolderFragment extends Fragment {
-        @Nullable
-        @Override
-        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                                 @Nullable Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.test, container, false);
-        }
-
-        @Override
-        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
-            ListView list = view.findViewById(R.id.placeHolderList);
-
-            String[] items = {"Russell’s", "Paradox", "tells", "us", "that", "Humans", "are", "bad", "at", "math.",
-                    "Our", "intuitions", "lead", "us", "astray.", "Things", "that", "look", "reasonable,", "can", "be",
-                    "completely", "wrong.", "So", "we", "have", "to", "be", "very", "very", "careful,", "very", "very",
-                    "precise,", "very", "very", "logical.", "We", "don’t", "want", "to", "be,", "but", "we", "have",
-                    "to", "be.", "Or", "we’ll", "get", "into", "all", "kinds", "of", "trouble.", "So", "let’s",
-                    "describe", "the", "grammar", "of", "math,", "which", "is", "logic!"};
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
-
-            list.setAdapter(adapter);
+            return 4;
         }
     }
 }

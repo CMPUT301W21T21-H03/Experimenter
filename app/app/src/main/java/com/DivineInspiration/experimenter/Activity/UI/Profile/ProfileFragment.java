@@ -21,6 +21,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentListTabFragment;
+import com.DivineInspiration.experimenter.Activity.UI.QRBarCode.BarCodeListFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
@@ -60,7 +61,7 @@ public class ProfileFragment extends Fragment {
     View dividerLineAbout_home;
 
     // The different tabs that will be displayed
-    private final String[] tabNames = {"Experiments", "Subscriptions", "Trials"};
+    private final String[] tabNames = {"Experiments", "Subscriptions", "Barcodes"};
     CollapsingToolbarLayout toolbar;        // Toolbar 'disappears' as you scroll down.
 
     /**
@@ -312,7 +313,7 @@ public class ProfileFragment extends Fragment {
                     experimentListTabFragment.setArguments(bundle);
                     return experimentListTabFragment;
                 case 2:
-                    return new TestFrag();
+                    return new BarCodeListFragment();
                 default:
                     return new TestFrag();
             }
