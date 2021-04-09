@@ -84,10 +84,10 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate
-     * @param inflater :LayoutInflater
-     * @param container :ViewGroup
-     * @param  savedInstanceState :Bundle
-     * @return: :View
+     * @param inflater
+     * @param container
+     * @param  savedInstanceState
+     * @return: view created
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,8 +97,8 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is fully created.
-     * @param view :View
-     * @param savedInstanceState :Bundle
+     * @param view
+     * @param savedInstanceState
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -276,8 +276,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method initializes the views (instance variables)
-     * @param view :View (The view from onCreateView)
-     * @return void
+     * @param view the view from onCreateView
      */
     private void init(View view) {
         // Get the text views
@@ -300,8 +299,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method updates the experiment information that is displayed
-     * @param exp :Experiment (The experiment to display the information for)
-     * @return void
+     * @param exp the experiment to display the information for
      */
     private void updateText(Experiment exp) {
         experimentName.setText(exp.getExperimentName());
@@ -364,8 +362,8 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         @Override
         /**
          * Create the appropriate fragment depending on the position of the tab
-         * @param: position:int (position in adapter)
-         * @return: :Fragment
+         * @param position position in adapter
+         * @return fragment created
          */
         public Fragment createFragment(int position) {
             Bundle bundle = new Bundle();
@@ -404,7 +402,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
         /**
          * Get item count
-         * @return :int (number of items in list)
+         * @return number of items in list
          */
         @Override
         public int getItemCount() {

@@ -72,8 +72,8 @@ public class ProfileFragment extends Fragment {
 
     /**
      * Runs when the view is fully created
-     * @param view :View
-     * @param savedInstanceState :Bundle
+     * @param view 
+     * @param savedInstanceState 
      */
     @SuppressLint("MissingPermission")
     @Override
@@ -218,7 +218,7 @@ public class ProfileFragment extends Fragment {
 
     /**
      * Displaying the user info on the screen
-     * @param user:User
+     * @param user the user to display the toolbar for
      */
     private void displayUserToolbar(User user) {
         if (user == null) {  // Safety check
@@ -340,8 +340,8 @@ public class ProfileFragment extends Fragment {
 
         /**
          * When view is created
-         * @param view : View
-         * @param savedInstanceState :Bundle
+         * @param view
+         * @param savedInstanceState 
          */
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

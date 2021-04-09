@@ -22,19 +22,21 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+* This class deals with the UI for the explore page and is launched when Explore button in bottom nav is clicked.
+*/
 public class ExploreFragment extends Fragment implements ExperimentManager.OnExperimentListReadyListener {
 
     private ExploreListAdapter exploreListAdapter;          // Adapter list of the experiments in the explore tab
     private List<Experiment> dataList = new ArrayList<>();  // Data list contains all the experiments in the database
 
-    // TODO?: if there is time and for more efficiency, this could be an int list that only contain indexes of the datalist (probably not)
     private List<Experiment> shownList = new ArrayList<>(); // Shown list only contains of experiments shown on screen
 
     private CharSequence searchText;                        // Search text entered by the user
 
     /**
      * Fragment initializer, similar to activity's onCreate
-     * @param savedInstanceState :Bundle
+     * @param savedInstanceState 
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,9 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
     /**
      * When view is created
      * @param inflater :LayoutInflater
-     * @param container :ViewGroup
-     * @param savedInstanceState :Bundle
-     * @return :View
+     * @param container Group
+     * @param savedInstanceState
+     * @return the created view
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,18 +67,6 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
         experimentListView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         experimentListView.setAdapter(exploreListAdapter);
         experimentListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-
-        // Create the listener
-//        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
-//            public void onItemClick(AdapterView<?> listDrinks, View itemView, int position, long id) {
-//                // TODO: What happens when we click?
-//            }
-//        };
-
-
-        // Assign the listener to the recycler view
-        // experimentList.setOnItemClickListener(itemClickListener);
-
         EditText search = root.findViewById(R.id.explore_search_bar);
 
         // Search -> filter results
@@ -124,7 +114,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
      * This as a interface implementation method; when the experiment data requested is ready,
      * ExperimentManager calls this method and passes the data as a parameter.
      * The method then updates the list of experiments that are being shown
-     * @param queryList :List<Experiment> (list of experiment)
+     * @param queryList list of experiment
      */
     @Override
     public void onExperimentsReady(List<Experiment> queryList) {

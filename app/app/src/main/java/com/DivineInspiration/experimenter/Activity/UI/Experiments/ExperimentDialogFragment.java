@@ -73,7 +73,7 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Fragment Constructor
-     * @param callback :OnExperimentOperationDoneListener (callback function)
+     * @param callback callback function
      */
     public ExperimentDialogFragment(OnExperimentOperationDoneListener callback) {
         super();
@@ -82,8 +82,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Shows alert message on the bottom of the parent fragment page
-     * @param error :boolean (is the alert an error).
-     * @param message :String (message to display).
+     * @param erroris the alert an error
+     * @param message alert message to display
      */
     private void showAlert(boolean error, String message) {
         Snackbar snackbar = Snackbar.make(parentFrag.getView(), message, Snackbar.LENGTH_LONG);
@@ -93,8 +93,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Runs when the dialog is created.
-     * @param savedInstanceState :Bundle
-     * @return dialog :Dialog
+     * @param savedInstanceState
+     * @return dialog
      */
     @NonNull
     @Override
@@ -180,8 +180,7 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * This method initializes the views (instance variables)
-     * @param view :View (The dialog view)
-     * @return void
+     * @param view the dialog view
      */
     private void init(View view) {
         // Dialog for creating a new experiment

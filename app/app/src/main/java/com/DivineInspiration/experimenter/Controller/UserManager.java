@@ -73,7 +73,7 @@ public class UserManager {
 
     /**
      * Gets the current local user of the device.
-     * @return :User (the current user).
+     * @return the current user
      * @Warning getLocalUser might return null if used during init
      */
     public User getLocalUser(){
@@ -90,7 +90,7 @@ public class UserManager {
 
     /**
      * Get singleton instance of the class
-     * @return singleton :UserManager
+     * @return singleton instance
      */
     public static UserManager getInstance(){
         if (singleton == null){
@@ -101,7 +101,7 @@ public class UserManager {
 
     /**
      * Initializes the local user of the device
-     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @param callback the user data is passed as a parameter of the method in the callback
      */
     public void initializeLocalUser(OnUserReadyListener callback)  {
         if (pref == null) {
@@ -127,9 +127,9 @@ public class UserManager {
     }
 
     /**
-     * Queries the user from Firestore database given the user's id.
-     * @param userId :String (ID of the user)
-     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * Queries the user from Firestore database given the user's id
+     * @param userId ID of the user
+     * @param callback the user data is passed as a parameter of the method in the callback
      */
     @SuppressWarnings("unchecked")
     public void queryUserById(String userId, OnUserReadyListener callback){
@@ -153,9 +153,9 @@ public class UserManager {
     }
 
     /**
-     * Queries the user from Firestore database given the user's name.
-     * @param name :String (ID of the user)
-     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * Queries the user from Firestore database given the user's name
+     * @param name ID of the user
+     * @param callback the user data is passed as a parameter of the method in the callback
      */
     public void queryUserByName(String name, OnUserReadyListener callback){
 
@@ -177,9 +177,8 @@ public class UserManager {
 
     /**
      * Queries the subscribers of the given experiment.
-     * @param expId :String (The user to query experiments for).
-     * @param callback :OnUserListReadyListener (The user data is passed as a parameter of the method in the callback).
-     * @return void
+     * @param expId the user to query experiments for
+     * @param callback the user data is passed as a parameter of the method in the callback
      */
     @SuppressWarnings("unchecked")
     public void queryExperimentSubs(String expId, OnUserListReadyListener callback){
@@ -221,9 +220,8 @@ public class UserManager {
      * <b>Note:</b> Changing user id or creating new users requires UserReadyCalled to be registered to LocalUserManager
      * <b>Note2:</b> Upon changing user id, user should be given the option to permanently delete the old profile. Then be switched to the new profile
      * @throws ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
-     * @param newUser :User (user to be made or updated)
-     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
-     * @return void
+     * @param newUser user to be made or updated
+     * @param callback the user data is passed as a parameter of the method in the callback
      */
     public void updateUser(User newUser, OnUserReadyListener callback){
         if (pref == null){
@@ -258,8 +256,8 @@ public class UserManager {
 
     /**
      * This method returns a User object by constructing it using the data from the document snapshot.
-     * @param document :DocumentSnapshot (The Firestore document to retrieve the user details from).
-     * @return :User (Constructed using info from document).
+     * @param document the Firestore document to retrieve the user details from
+     * @return constructed using info from document
      */
     private User userFromSnapshot(DocumentSnapshot document){
         Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
