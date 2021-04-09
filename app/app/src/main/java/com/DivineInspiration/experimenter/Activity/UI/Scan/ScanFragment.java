@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRCodeDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRFactory;
 import com.DivineInspiration.experimenter.R;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -25,6 +26,10 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.io.IOException;
+
+import androidmads.library.qrgenearator.QRGEncoder;
 
 public class ScanFragment extends Fragment {
 //    private static final int MY_CAMERA_REQUEST_CODE = 100;
@@ -42,18 +47,16 @@ public class ScanFragment extends Fragment {
         // from https://www.youtube.com/watch?v=drH63NpSWyk & https://github.com/yuriy-budiyev/code-scanner
         View root = inflater.inflate(R.layout.fragment_scan, container, false);
         scannerView = root.findViewById(R.id.scanner);
+
+
+
         // check camera permissions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                openCamera();
-                mCodeScanner.startPreview();
-            } else {
-                // request camera permissions
-                ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.CAMERA}, 401);
-            }
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            openCamera();
+            mCodeScanner.startPreview();
         } else {
-            // if version is below m then write code here,
-            Toast.makeText(this.getContext(), "Please update the minimum SDK version", Toast.LENGTH_SHORT).show();
+            // request camera permissions
+            ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.CAMERA}, 401);
         }
 
         return root;
@@ -63,6 +66,7 @@ public class ScanFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        scannerView = view.findViewById(R.id.scannerView);
+
         scan = view.findViewById(R.id.scanButton);
         debug = view.findViewById(R.id.debug_btn);
 //        new IntentIntegrator(this.getActivity()).initiateScan(); // `this` is the current Activity
