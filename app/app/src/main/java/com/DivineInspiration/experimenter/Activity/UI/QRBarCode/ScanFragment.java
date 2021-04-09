@@ -189,7 +189,10 @@ public class ScanFragment extends Fragment {
                             }
                             if (subbed) {
                                 Bundle args = new Bundle();
+                                //expId, type, arg1, arg2
+                                Log.d("Woah barcode", scanned[0]);
                                 manager.queryExperimentFromId(scanned[0], experiment -> {
+
                                     args.putSerializable("experiment", experiment);
                                     args.putString("experimenterID", userId);
                                     args.putString("experimenterName", userName);
