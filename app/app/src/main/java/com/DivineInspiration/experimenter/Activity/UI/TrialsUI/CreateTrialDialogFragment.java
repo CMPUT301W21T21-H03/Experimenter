@@ -32,6 +32,7 @@ import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
     Button positiveCountNNButton;       // View for the non-negative trial
     TextView failNumTrial;              // View for the binomial trial
     TextView trueNumTrial;              // View for the binomial trial
+    TextView locationWarning;           // TextView to show the Location warning while adding Trial
     Button passButton;                  // View for the binomial trial
     Button failButton;                  // View for the binomial trial
     Button decrementFailNumButton;      // View for the binomial trial
@@ -136,24 +138,30 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
             @Override
             public void onClick(View v) {
                 // Call the appropriate method (when "OK" button of dialog is clicked) depending on type of the trial
-                switch (trialTypeCheck) {
-                    case Trial.BINOMIAL:
-                        binomialTrialDialog(args, exp);
-                        break;
-                    case Trial.COUNT:
-                        countTrialDialog(args, exp);
-                        message = String.valueOf(count);
-                        break;
-                    case Trial.NONNEGATIVE:
-                        nonNegativeTrialDialog(args, exp);
-                        message = String.valueOf(count);
-                        break;
-                    case Trial.MEASURE:
-                        measure = measurementTextBox.getText().toString();
-                        measurementTrialDialog(args, exp, measure);
-                        break;
-                    default:
-                        break;
+                if(needLocation == true && geoTrialCheckBox.isChecked() == false){
+                    Snackbar snackbar = Snackbar.make(getParentFragment().getView(),"GeoLocation is required to make a Trial",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    getDialog().dismiss();
+                }else {
+                    switch (trialTypeCheck) {
+                        case Trial.BINOMIAL:
+                            binomialTrialDialog(args, exp);
+                            break;
+                        case Trial.COUNT:
+                            countTrialDialog(args, exp);
+                            message = String.valueOf(count);
+                            break;
+                        case Trial.NONNEGATIVE:
+                            nonNegativeTrialDialog(args, exp);
+                            message = String.valueOf(count);
+                            break;
+                        case Trial.MEASURE:
+                            measure = measurementTextBox.getText().toString();
+                            measurementTrialDialog(args, exp, measure);
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 dialog.dismiss();
             }
@@ -355,6 +363,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         generateBar = view.findViewById(R.id.barCodeButton);
         geoTrialCheckBox = view.findViewById(R.id.checkBoxTrial);
         valueHolder = view.findViewById(R.id.valueHolder);
+        locationWarning = view.findViewById(R.id.locationWarning);
     }
 
 
@@ -376,10 +385,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         trueNumTrial.setVisibility(View.GONE);
         decrementFailNumButton.setVisibility(View.GONE);
         decrementPassNumButton.setVisibility(View.GONE);
-
-        if(needLocation){
-            geoTrialCheckBox.setVisibility(View.GONE);
-        }
+        locationWarning.setVisibility(View.GONE);
 
         switch (trialType){
             case "Binomial trial":
@@ -423,9 +429,20 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         geoTrialCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                needLocation = true;
-                checkLocationPermission();
+                if(isChecked){
+                    needLocation = true;
+                    geoTrialCheckBox.setError("");
+                    locationWarning.setText("Warning: Addition of trial will share your location!");
+                    locationWarning.setVisibility(View.VISIBLE);
+                    checkLocationPermission();
+                }else{
+                    locationWarning.setVisibility(View.GONE);
+
+                }
+
+
             }
+
         });
 
         if(needLocation){
