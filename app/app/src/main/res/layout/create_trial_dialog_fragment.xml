@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,18 +10,20 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <CheckBox
             android:id="@+id/checkBoxTrial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GeoLocation"
+            android:layout_marginStart="18dp"
+            android:text="Submit Geo-Location"
             android:textColor="@color/beige1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,47 +71,43 @@
 
         <Button
             android:id="@+id/binomial_pass_decrement"
-            android:layout_width="53dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/black2"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             android:text="-"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/binomial_pass_textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/binomial_pass_button" />
 
         <Button
             android:id="@+id/binomial_fail_decrement"
-            android:layout_width="53dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/black2"
-            android:text="-"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/binomial_fail_button" />
-
-        <Button
-            android:id="@+id/decrease_trial_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
             android:layout_marginStart="8dp"
             android:backgroundTint="@color/black2"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             android:text="-"
-            android:textSize="30dp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/binomial_fail_textView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qr_code_generator" />
+            app:layout_constraintTop_toBottomOf="@+id/binomial_fail_button" />
 
         <TextView
             android:id="@+id/value_trial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
             android:text="0"
             android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="@+id/decrease_trial_value"
             app:layout_constraintEnd_toStartOf="@+id/increase_trial_value"
             app:layout_constraintStart_toEndOf="@+id/decrease_trial_value"
-            app:layout_constraintTop_toBottomOf="@+id/editMeasurementValue" />
+            app:layout_constraintTop_toBottomOf="@+id/valueHolder" />
 
         <Button
             android:id="@+id/increase_trial_value"
@@ -121,38 +119,84 @@
             android:text="+"
             android:textSize="30dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qr_code_generator" />
-
-        <EditText
-            android:id="@+id/editMeasurementValue"
-            android:layout_width="214dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="right"
-            android:background="@color/black2"
-            android:ems="10"
-            android:hint="Value"
-            android:inputType="numberDecimal|numberSigned"
-            android:textAlignment="center"
-            android:textColor="@color/beige1"
-            android:textColorHint="@color/beige1"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qr_code_generator" />
+            app:layout_constraintTop_toBottomOf="@+id/valueHolder" />
 
         <Button
-            android:id="@+id/qr_code_generator"
+            android:id="@+id/decrease_trial_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
+            android:layout_gravity="center|left"
+            android:layout_marginStart="8dp"
             android:backgroundTint="@color/black2"
-            android:text="Generate QR"
-            android:textSize="20dp"
+            android:text="-"
+            android:textSize="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/valueHolder" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/valueHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/gray"
+            app:boxStrokeColor="@color/beige1"
+            app:counterOverflowTextAppearance="@color/red1"
+            app:counterTextColor="@color/beige1"
+            app:errorEnabled="true"
+            app:hintTextColor="@color/beige1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxTrial" />
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxTrial">
+
+
+            <EditText
+                android:id="@+id/editMeasurementValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@color/black2"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="Value"
+                android:inputType="numberDecimal|numberSigned"
+                android:textAlignment="gravity"
+                android:textColor="@color/beige1"
+                android:textColorHint="@color/beige1"
+                android:textSize="20dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/qr_code_generator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:backgroundTint="@color/black2"
+        android:capitalize="words"
+        android:text="Make QR"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toStartOf="@+id/barCodeButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <Button
+        android:id="@+id/barCodeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:backgroundTint="@color/black2"
+        android:capitalize="words"
+        android:text="Make Barcode"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/qr_code_generator"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

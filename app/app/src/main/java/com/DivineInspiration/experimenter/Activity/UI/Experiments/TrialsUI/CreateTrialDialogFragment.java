@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
+import com.DivineInspiration.experimenter.Activity.UI.Experiments.BarCodeDialogFramgent;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRCodeDialogFragment;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
@@ -45,6 +46,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
     private final OnTrialCreatedListener callback;
     String trialTypeCheck;              // The type of the trial we are dealing with
     CheckBox geoTrialCheckBox;
+    View valueHolder;
     EditText measurementTextBox;        // View for the measurement trial
     TextView countNNTrial;              // View for the non-negative trial
     Button negativeCountNNButton;       // View for the non-negative trial
@@ -55,7 +57,8 @@ public class CreateTrialDialogFragment extends DialogFragment {
     Button failButton;                  // View for the binomial trial
     Button decrementFailNumButton;      // View for the binomial trial
     Button decrementPassNumButton;      // View for the binomial trial
-    Button generateQR;                  // View all trials
+    Button generateQR;                  // Button to show QR dialog
+    Button generateBar;                 // Button to show barcode dialog
     int failNum = 0;                    // Count no. of fails for the binomial trial
     int passNum = 0;                    // Count no. of fails for the binomial trial
     int count = 0;                      // Count for both non-negative and count trials
@@ -65,6 +68,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
     boolean needLocation = false;
     String message;
     String measure;
+
     /**
      * When trial data is retrieved, it is passed along as a parameter by the interface method.
      */
@@ -161,6 +165,36 @@ public class CreateTrialDialogFragment extends DialogFragment {
             }
         });
 
+
+        generateBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BarCodeDialogFramgent frag = new BarCodeDialogFramgent();
+                Bundle dialogArgs = new Bundle();
+
+                // most are in the format of experimentID-count except binomial which is pass-fail
+                switch (trialTypeCheck) {
+                    case Trial.BINOMIAL:
+                        message = String.valueOf(passNum) + "-" + String.valueOf(failNum);
+                        break;
+                    case Trial.COUNT:
+                        message = String.valueOf(count);
+                    case Trial.NONNEGATIVE:
+                        message = String.valueOf(count);
+                        break;
+                    case Trial.MEASURE:
+                        message = measurementTextBox.getText().toString();
+                        break;
+                    default:
+                        message = "null";
+                        break;
+                }
+                dialogArgs.putString("message", args.getString("experimenterID") + "-" + trialTypeCheck + "-" + needLocation + "-" + message);
+                frag.setArguments(dialogArgs);
+                frag.show(getParentFragmentManager(), "Bar code fragment");
+            }
+        });
+
         return dialog;
     }
 
@@ -176,7 +210,6 @@ public class CreateTrialDialogFragment extends DialogFragment {
         }else{
 
         }
-
 
         // We create a separate Trial object for each 'Pass'
         for (int i = 0; i < passNum; i++) {
@@ -292,7 +325,9 @@ public class CreateTrialDialogFragment extends DialogFragment {
         decrementFailNumButton = view.findViewById(R.id.binomial_fail_decrement);
         decrementPassNumButton = view.findViewById(R.id.binomial_pass_decrement);
         generateQR = view.findViewById(R.id.qr_code_generator);
+        generateBar = view.findViewById(R.id.barCodeButton);
         geoTrialCheckBox = view.findViewById(R.id.checkBoxTrial);
+        valueHolder = view.findViewById(R.id.valueHolder);
     }
 
     public void gettingLocation() {
@@ -312,11 +347,9 @@ public class CreateTrialDialogFragment extends DialogFragment {
             public void onLocationChanged(@NonNull Location location) {
                 myLong = location.getLongitude();
                 myLat = location.getLatitude();
-                Log.d("woah", "updating!");
                 mLocationManager.removeUpdates(this);
             }
         });
-
     }
 
     /**
@@ -325,6 +358,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
      */
     public void visibility(String trialTypeCheck){
         measurementTextBox.setVisibility(View.GONE);
+        valueHolder.setVisibility(View.GONE);
         countNNTrial.setVisibility(View.GONE);
         failButton.setVisibility(View.GONE);
         passButton.setVisibility(View.GONE);
@@ -362,6 +396,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 break;
             case "Measurement trial":
                 measurementTextBox.setVisibility(View.VISIBLE);
+                valueHolder.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;
