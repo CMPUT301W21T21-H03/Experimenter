@@ -408,7 +408,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
          */
         @Override
         public int getItemCount() {
-            return 4;
+            return currentExperiment.isRequireGeo()?4:3;
         }
     }
 
