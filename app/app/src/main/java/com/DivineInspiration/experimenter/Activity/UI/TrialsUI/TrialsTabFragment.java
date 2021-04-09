@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * An Activity Fragment that displays an experiments trials. A tab in the Experiment fragment labelled "Trials."
- * Associated xml file - {@see trial_list}
+ * @see com.DivineInspiration.experimenter.R.layout#trial_list - Associated xml file
  */
 public class TrialsTabFragment extends Fragment implements Observer {
 
@@ -75,7 +75,7 @@ public class TrialsTabFragment extends Fragment implements Observer {
      * Implementation of the observer interface. This method updates its data
      * when update method is called from ExperimentFragment (which is the observable).
      * @param data
-     * A {@see java.util.List} of trials to replace the old trialList
+     * A {@link java.util.List} of trials to replace the old trialList
      */
     @Override
     public void update(Object data) {

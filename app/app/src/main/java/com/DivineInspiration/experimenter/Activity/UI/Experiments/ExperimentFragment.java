@@ -45,7 +45,7 @@ import java.util.List;
 
 /**
  * This class deals with the UI for displaying the experiment details. (It also contains 4 tabs: Trials, Comments, Stats, Data)
- * @see R.layout#experiment_fragment
+ * @see com.DivineInspiration.experimenter.R.layout#experiment_fragment
  */
 public class ExperimentFragment extends Fragment implements Subject, TrialManager.OnTrialListReadyListener{
     List<Trial> currentTrials = new ArrayList<>();            // The trials performed for the experiment
@@ -82,7 +82,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
      * @param inflater
      * @param container
      * @param  savedInstanceState
-     * @return: view created
+     * @return view created
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

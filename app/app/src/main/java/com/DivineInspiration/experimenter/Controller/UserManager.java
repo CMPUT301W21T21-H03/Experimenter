@@ -87,7 +87,7 @@ public class UserManager {
     /**
      * Gets the current local user of the device.
      * @return the current user
-     * @Warning getLocalUser might return null if used during init
+     * @warning getLocalUser might return null if used during init
      */
     public User getLocalUser(){
         return user;

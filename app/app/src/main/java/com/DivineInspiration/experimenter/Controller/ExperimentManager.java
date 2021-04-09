@@ -274,7 +274,6 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * Adds a new experiment to database.
      * @param experiment experiment we want to add
      * @param callback the class to call after the operation is done
-     * @return void
      */
     public void addExperiment(Experiment experiment, OnOperationDone callback) {
         initLocalUserId();
