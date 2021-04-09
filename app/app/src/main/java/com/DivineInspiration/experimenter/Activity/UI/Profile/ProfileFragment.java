@@ -34,7 +34,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * This class deals with the UI for displaying the experiment details. (It also contains 4 tabs: Trials, Comments, Stats, Data)
- * @see: profile_fragment (Contains 3 tabs: Experiments, Subscriptions, Trials)
+ * @see com.DivineInspiration.experimenter.R.layout#profile_fragment (Contains 3 tabs: Experiments, Subscriptions, Trials)
  */
 public class ProfileFragment extends Fragment {
 

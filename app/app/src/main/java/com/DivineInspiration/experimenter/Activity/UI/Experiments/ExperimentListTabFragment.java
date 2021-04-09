@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * This class deals with the UI for displaying the experiments lists of experiments.
  * Used in the Experiments and Subscriptions tabs of Profile fragment.
- * @see R.layout#experiment_list - XML layout file for this fragment
+ * @see com.DivineInspiration.experimenter.R.layout#experiment_list - XML layout file for this fragment
  */
 public class ExperimentListTabFragment extends Fragment implements ExperimentDialogFragment.OnExperimentOperationDoneListener, Refreshable {
 
