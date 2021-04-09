@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class TestInstallation {
 
-    @Test
+    //TODO WHAT IS THIS???
     public static long testInstallation(){
         final AtomicLong output = new AtomicLong(0);
         final AtomicBoolean done = new AtomicBoolean(false);

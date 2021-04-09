@@ -4,6 +4,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.time.LocalDate;
 
+/**
+ * A class representing an experiment trial completed by a user. Holds an integer value.
+ */
 public class CountTrial extends Trial {
     private int count;
 
