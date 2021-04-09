@@ -58,10 +58,16 @@ public class CommentManager {
      */
     public static CommentManager getInstance() {
         if (singleton == null) {
+
             singleton = new CommentManager();
         }
         return singleton;
     }
+
+    private CommentManager(){
+        db = FirebaseFirestore.getInstance();
+    }
+
 
     /**
      * Delete all comments of a given experiment from the database

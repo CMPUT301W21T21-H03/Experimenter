@@ -431,7 +431,7 @@ public class StatisticsTest {
         solo.clickOnMenuItem("Stats");
 
         while (solo.waitForText("Line graph", 1, 1000) == false) {
-            solo.drag(200, 200, 300, 100, 10);
+            solo.drag(200, 200, 300 , 100, 10);
         }
         solo.clickOnMenuItem("Line graph");
         solo.drag(200, 200, 300, 100, 10);

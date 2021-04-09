@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 // TODO: Add tests for replies
 
 public class TestCommentManager implements CommentManager.OnCommentsReadyListener {
-    CommentManager comm_mgr = CommentManager.getInstance();
+    CommentManager comm_mgr;
     List<Comment> comments;
 
     public void onCommentsReady(List<Comment> comments) {
