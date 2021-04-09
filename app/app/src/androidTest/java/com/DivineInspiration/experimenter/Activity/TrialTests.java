@@ -247,6 +247,7 @@ public class TrialTests {
         solo.clickOnMenuItem("Ok");
         assertTrue(solo.waitForText("Result: -5.0E7", 1, 2000));
 
+        //checks adding non geo
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "3");
         solo.clickOnMenuItem("Ok");
