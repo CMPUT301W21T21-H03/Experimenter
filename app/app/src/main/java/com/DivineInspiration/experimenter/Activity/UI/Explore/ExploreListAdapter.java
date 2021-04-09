@@ -46,8 +46,8 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.experiment_item, parent, false);
+
         return new ViewHolder(v);
     }
 
@@ -60,7 +60,6 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.getExpNameTextView().setText(experiments.get(position).getExperimentName());
         holder.getExpOwnerNameTextView().setText(experiments.get(position).getOwnerName());
         holder.getExpTrialTypeText().setText(experiments.get(position).getTrialType());

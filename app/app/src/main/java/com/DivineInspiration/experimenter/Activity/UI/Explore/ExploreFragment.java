@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class deals with the UI for finding publiclly available experiments
+ * This class deals with the UI for finding publicly available experiments
  * @see R.layout#fragment_explore
  */
 public class ExploreFragment extends Fragment implements ExperimentManager.OnExperimentListReadyListener {
@@ -59,7 +59,6 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         // Query the experiments from database, the Experiments will be returned via a callback to onExperimentsReady
         ExperimentManager.getInstance().queryAll(this);
 
@@ -75,16 +74,13 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
 
         // Search -> filter results
         search.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 searchText = charSequence;
                 filter();
             }
-
             @Override
             public void afterTextChanged(Editable editable) {}
         });
