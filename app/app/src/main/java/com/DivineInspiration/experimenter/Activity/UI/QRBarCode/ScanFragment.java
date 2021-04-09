@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Scan;
+package com.DivineInspiration.experimenter.Activity.UI.QRBarCode;
 
 import android.Manifest;
 import android.content.Intent;

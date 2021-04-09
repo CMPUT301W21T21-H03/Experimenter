@@ -21,8 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.DivineInspiration.experimenter.Activity.UI.Scan.BarCodeDialogFramgent;
-import com.DivineInspiration.experimenter.Activity.UI.Scan.QRCodeDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.QRBarCode.BarCodeDialogFramgent;
+import com.DivineInspiration.experimenter.Activity.UI.QRBarCode.QRCodeDialogFragment;
 import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;

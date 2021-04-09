@@ -27,11 +27,17 @@
             android:orientation="vertical"
             android:layout_margin="8dp">
             <TextView
+                android:id="@+id/barCodeNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="">
+                android:text="Code: 23213123123"/>
+            <TextView
+                android:id="@+id/barCodeCommand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Command: 23213123123"/>
 
-            </TextView>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

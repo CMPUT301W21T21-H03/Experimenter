@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_scan"
-        android:name="com.DivineInspiration.experimenter.Activity.UI.Scan.ScanFragment"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.QRBarCode.ScanFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/scan_fragment" />
 
