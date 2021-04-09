@@ -43,7 +43,6 @@ public class DiscussionForumFragment extends Fragment implements CommentManager.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.comments_tab_fragment, container, false);
-
         CommentManager.getInstance().getExperimentComments(experiment, this);
 
         // Initialize list
