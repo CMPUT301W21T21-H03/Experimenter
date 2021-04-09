@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUi;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUI;
 
 import android.annotation.SuppressLint;
 
