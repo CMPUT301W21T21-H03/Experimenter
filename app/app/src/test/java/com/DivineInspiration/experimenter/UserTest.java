@@ -78,7 +78,4 @@ public class UserTest {
         user.setDescription(newDescription);
         assertEquals(newDescription, user.getDescription());
     }
-
-
-
 }

@@ -5,6 +5,7 @@ import com.DivineInspiration.experimenter.Model.IdGen;
 import org.junit.Test;
 import static org.junit.Assert.*;
 public class TestIdGen {
+
     @Test
     public void baseConversionTest(){
         long l = 1679616L;
@@ -26,6 +27,7 @@ public class TestIdGen {
 //        assertEquals(-152, IdGen.base36To10("-48"));
 
     }
+
     @Test
     public void testId(){
         //TODO not sure how to test this.

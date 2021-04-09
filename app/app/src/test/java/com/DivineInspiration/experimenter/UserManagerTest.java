@@ -21,14 +21,17 @@ public class UserManagerTest implements UserManager.OnUserReadyListener, UserMan
     User user;
     ArrayList<User> users;
 
+    @Test
     public void onUserReady(User user) {
         this.user = user;
     }
 
+    @Test
     public void onUserListReady(ArrayList<User> users) {
         this.users = users;
     }
 
+    @Test
     public void testUpdateUser() {
         // Test updating the user
         User mockUser = new User("Adit Test", "XDC2CNZT5G", new UserContactInfo("Ed", "email"), "No des");

@@ -33,6 +33,7 @@ public class ExperimentManagerTest implements UserManager.OnUserReadyListener, E
         this.experiments = experiments;
     }
 
+    @Test
     public void testUpdateOwnerName() {
         FirebaseFirestore mockFirestore = Mockito.mock(FirebaseFirestore.class);
 
@@ -43,6 +44,7 @@ public class ExperimentManagerTest implements UserManager.OnUserReadyListener, E
         exp_mgr.updateOwnerName("XDC2BNUY5G", "Adit", this);
     }
 
+    @Test
     public void testSubscriptions() {
         // Test subscribing to experiments
         exp_mgr.subToExperiment("XDC2BNUY5G", "EXPQR32M6L0BHLTB", this);
@@ -63,6 +65,8 @@ public class ExperimentManagerTest implements UserManager.OnUserReadyListener, E
         }
         assertFalse(user_ids.contains("XDC2BNUY5G"));
     }
+
+    @Test
     public void testAddExperiment() {
         // Test adding an experiment
         Experiment mockExp = new Experiment("EXPQR32ERT0BHLTB", "Test Exp", "XDC2BNUY5G", "No des", "Binomial", "Edmonton", 5, false, "On going");

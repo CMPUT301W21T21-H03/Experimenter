@@ -24,6 +24,7 @@ public class TestCommentManager implements CommentManager.OnCommentsReadyListene
         this.comments = comments;
     }
 
+    @Test
     public void testAddComment() {
         // Testing addComment & getExperimentComments
         Comment mockComment = new Comment("COMQR44SHQR12M6L0BHLTB", "XDC2BNUY5G", "Adit", new Date(), "No comment test"
