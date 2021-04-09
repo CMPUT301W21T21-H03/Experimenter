@@ -313,7 +313,7 @@ public class CommentManager {
             }
         });
     }
-    
+
     /**
      * Returns comment object by constructing it using the data from the document snapshot
      * @param snapshot
