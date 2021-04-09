@@ -522,7 +522,7 @@ public class GraphMaker {
      * Helper function to find the max value in a list of measurement trials
      * @param trials
      * list of trials
-     * @return
+     * @return The greatest measurement in the listed trials
      */
     public static double findMaxMeasurement(List<Trial> trials) {
         return ((MeasurementTrial) Collections.max(trials, (t1, t2) -> Double.compare(((MeasurementTrial) t1).getValue(), ((MeasurementTrial) t2).getValue()))).getValue();

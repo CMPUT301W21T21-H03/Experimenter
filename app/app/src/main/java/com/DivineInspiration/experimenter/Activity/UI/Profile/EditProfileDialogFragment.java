@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 /**
  * This class provides the UI for a user to create or edit his/her own profile
- * @see: edit_profile_dialog_fragment
+ * @see edit_profile_dialog_fragment
  * Runs when: 'EDIT' button is clicked on the home page
  */
 public class EditProfileDialogFragment extends DialogFragment {

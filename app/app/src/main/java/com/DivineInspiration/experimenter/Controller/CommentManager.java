@@ -66,7 +66,6 @@ public class CommentManager {
     /**
      * Delete all comments of a given experiment from the database
      * @param experimentId the experiment the comments belongs to
-     * @return: void
      */
     public void deleteAllCommentOfExperiment(String experimentId){
         db.collection("Comments").document(experimentId).collection("Comments").get().addOnCompleteListener(task -> {
@@ -90,7 +89,6 @@ public class CommentManager {
      * Adds a new comment to the database
      * @param comment comment we want to add
      * @param experimentID the experiment the comment belongs to
-     * @return void
      */
     public void addComment(Comment comment, String experimentID) {
         // Construct the Map object
@@ -127,7 +125,6 @@ public class CommentManager {
      * @param reply comment we want to add
      * @param commentID the comment the reply belongs to
      * @param experimentID the experiment the comment belongs to
-     * @return void
      */
     public void addReply (Comment reply, String commentID, String experimentID) {
         // Construct the Map object
@@ -183,7 +180,6 @@ public class CommentManager {
      * Deletes an existing comment from the database.
      * @param commentID comment we want to delete
      * @param experimentID the experiment the comment belongs to
-     * @return void
      */
     public void removeComment (String commentID, String experimentID) {
         // TODO: Recursive delete
@@ -211,7 +207,6 @@ public class CommentManager {
      * @param replyID reply we want to delete
      * @param commentID comment we want to add
      * @param experimentID The experiment the comment belongs to
-     * @return void
      */
     public void removeReply (String replyID, String commentID, String experimentID) {
         // TODO check is last reply removed
@@ -222,7 +217,6 @@ public class CommentManager {
      * @param experimentID The experiment the comment belongs to
      * @param callback the class to call after the operation is done.
      *         The data is passed as a parameter of this method.
-     * @return void
      */
     public void getExperimentComments (String experimentID, OnCommentsReadyListener callback) {
 
@@ -255,7 +249,6 @@ public class CommentManager {
      * @param experimentID  the experiment the comment belongs to
      * @param callback The class to call after the operation is done.
      *         The data is passed as a parameter of this method.
-     * @return void
      */
     public void getCommentReplies (String commentID, String experimentID, OnRepliesReadyListener callback) {
 

@@ -22,7 +22,7 @@ public class BarCodeListFragment extends Fragment {
      * @param inflater
      * @param container
      * @param savedInstanceState
-     * @return
+     * @return view
      */
     @Nullable
     @Override

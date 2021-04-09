@@ -108,7 +108,7 @@ public class Comment {
 
     /**
      * State of whether this is a reply of a comment
-     * @return
+     * @return true if the comment is a reply. false otherwise
      */
     public boolean isReply() {
         return isReply;
