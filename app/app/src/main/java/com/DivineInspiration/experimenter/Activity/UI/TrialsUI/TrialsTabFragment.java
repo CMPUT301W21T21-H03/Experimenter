@@ -46,16 +46,11 @@ public class TrialsTabFragment extends Fragment implements Observer {
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate.
-     * @param inflater
-     * @param container
-     * @param container
-     * @param savedInstanceState
      * @return A view created by inflating container with inflater
      */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.trial_list, container, false);
 
         adapter = new TrialListAdapter(trialList, callback, (Experiment) getArguments().getSerializable("experiment"));
@@ -75,13 +70,13 @@ public class TrialsTabFragment extends Fragment implements Observer {
      */
     @Override
     public void update(Object data) {
+      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
+      trialArrayList.clear();
+      trialArrayList.addAll((List<Trial>) data);
+      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
 
-        trialList.clear();
-        trialList.addAll((List<Trial>) data);
-
-        if (adapter != null){
-            adapter.notifyDataSetChanged();
-        }
-
+      if (adapter != null) {
+          adapter.notifyDataSetChanged();
+      }
     }
 }

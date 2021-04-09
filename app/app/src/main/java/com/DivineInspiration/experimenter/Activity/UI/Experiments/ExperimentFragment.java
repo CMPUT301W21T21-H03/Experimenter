@@ -48,6 +48,7 @@ import java.util.List;
  * @see R.layout#experiment_fragment
  */
 public class ExperimentFragment extends Fragment implements Subject, TrialManager.OnTrialListReadyListener{
+    List<Trial> currentTrials = new ArrayList<>();            // The trials performed for the experiment
 
     // Text views to display experiment information
     private TextView experimentName;
@@ -79,7 +80,9 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate
-     * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
+     * @param inflater :LayoutInflater
+     * @param container :ViewGroup
+     * @param  savedInstanceState :Bundle
      * @return: :View
      */
     @Override
@@ -90,7 +93,8 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is fully created.
-     * @param: savedInstanceState:Bundle
+     * @param view :View
+     * @param savedInstanceState :Bundle
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -303,9 +307,32 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     }
 
     /**
-     * This method updates experiment information display
-     * @param exp
-     * The experiment whose information is being displayed
+     * This method initializes the views (instance variables)
+     * @param view :View (The view from onCreateView)
+     * @return void
+     */
+    private void init(View view) {
+        // Get the text views
+        experimentName = view.findViewById(R.id.experimentName_expFrag);
+        ownerName = view.findViewById(R.id.ownerName_expFrag);
+        subNumber = view.findViewById(R.id.expFragSubCount);
+        trialNumber = view.findViewById(R.id.trialNumber_expFrag);
+        trialType = view.findViewById(R.id.trialType_expFrag);
+        expAbout = view.findViewById(R.id.experimentDescription_expFrag);
+        expCity = view.findViewById(R.id.experimentRegion_expFrag);
+        subSwitch = view.findViewById(R.id.subscribeSwitch);
+        status = view.findViewById(R.id.status_exp);
+        addButton = view.findViewById(R.id.experiment_fragment_add_button);
+
+        // Title is transparent when expanded
+        toolbar = view.findViewById(R.id.expCollapsingToolbar);
+        toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
+        toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
+    }
+
+    /**
+     * This method updates the experiment information that is displayed
+     * @param exp :Experiment (The experiment to display the information for)
      */
     private void updateText(Experiment exp) {
 
@@ -320,6 +347,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     }
 
     /**
+     * This method is called when the add button is selected when the current tab is Trial
      * Creates and displays a CreateTrialDialogFragment to create a new trial
      */
     public void TrialDialogSelect() {

@@ -34,10 +34,9 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate.
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return View -
+     * @param inflater :LayoutInflater
+     * @param container :ViewGroup
+     * @param savedInstanceState :Bundle
      * view created by inflating container with inflater
      */
     @Nullable
@@ -48,7 +47,8 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
 
     /**
      * Runs when the view is fully created
-     * @param savedInstanceState
+     * @param view :View
+     * @param savedInstanceState :Bundle
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -66,10 +66,10 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
     }
 
     /**
+
      * Method implementation of ExperimentDialogFragment.OnExperimentOperationDoneListener
      * When an experiment has been added to firebase, add it to the list
-     * @param experiment
-     * experiment to be added
+     * @param experiment :Experiment experiment to be added
      */
     @Override
     public void onOperationDone(Experiment experiment) {
@@ -106,8 +106,8 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
 
     /**
      * This method is run to update the experiments with ones given by the parameter.
-     * @param experiments
-     * list of all the experiment
+     * @param  experiments :List<Experiment>
+     * @return void
      */
     private void loadList(List<Experiment> experiments){
         // Update experiment list

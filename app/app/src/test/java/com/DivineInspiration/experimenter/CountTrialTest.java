@@ -15,7 +15,7 @@ public class CountTrialTest {
     private CountTrial mockCountTrial() {
         User user = mockTrialOwner();
         Experiment experiment = mockExperiment();
-        return new CountTrial(user.getUserId(), experiment.getExperimentID());
+        return new CountTrial();
 
     }
 

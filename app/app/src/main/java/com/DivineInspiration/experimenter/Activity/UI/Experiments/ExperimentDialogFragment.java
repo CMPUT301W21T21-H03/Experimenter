@@ -31,8 +31,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * This class provides the UI for an owner to creating or edit an experiment.
- * Runs when addButton is clicked while in Experiments tab of home page (creates new experiment)
- * or when the settings button is clicked in an ExperimentFragment (edits the experiment)
+ * Runs either when: addButton is clicked while on Experiments tab of home page (creates new experiment)
+ *                   settings button is clicked in the ExperimentFragment
  * @see com.DivineInspiration.experimenter.R.layout#experiment_dialog_fragment - XML layout file for this fragment
  */
 public class ExperimentDialogFragment extends DialogFragment {
@@ -82,8 +82,7 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Fragment Constructor
-     * @param callback
-     * callback for when the operation is done
+     * @param callback :OnExperimentOperationDoneListener (callback function)
      */
     public ExperimentDialogFragment(OnExperimentOperationDoneListener callback) {
         super();
@@ -92,10 +91,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Shows alert message on the bottom of the parent fragment page
-     * @param error
-     * if the alert an error
-     * @param message
-     * message to display
+     * @param error :boolean (is the alert an error).
+     * @param message :String (message to display).
      */
     private void showAlert(boolean error, String message) {
         Snackbar snackbar = Snackbar.make(parentFrag.getView(), message, Snackbar.LENGTH_LONG);
@@ -105,10 +102,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Runs when the dialog is created.
-     * @param savedInstanceState
-     * bundle
-     * @return
-     * the dialog to display
+     * @param savedInstanceState :Bundle
+     * @return dialog :Dialog
      */
     @NonNull
     @Override
@@ -193,8 +188,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * This method initializes the views (instance variables)
-     * @param view
-     * dialog view
+     * @param view :View (The dialog view)
+     * @return void
      */
     private void init(View view) {
         // Dialog for creating a new experiment

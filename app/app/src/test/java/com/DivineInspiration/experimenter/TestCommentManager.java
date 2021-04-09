@@ -1,7 +1,7 @@
 package com.DivineInspiration.experimenter;
 
 import com.DivineInspiration.experimenter.Controller.CommentManager;
-import com.DivineInspiration.experimenter.Model.Comment;
+import com.DivineInspiration.experimenter.Model.Comment.Comment;
 import com.DivineInspiration.experimenter.Model.Experiment;
 
 import org.junit.Before;
@@ -26,7 +26,8 @@ public class TestCommentManager implements CommentManager.OnCommentsReadyListene
 
     public void testAddComment() {
         // Testing addComment & getExperimentComments
-        Comment mockComment = new Comment("COMQR44SHQR12M6L0BHLTB", "XDC2BNUY5G", "Adit", new Date(), "No comment test");
+        Comment mockComment = new Comment("COMQR44SHQR12M6L0BHLTB", "XDC2BNUY5G", "Adit", new Date(), "No comment test"
+        , false, false);
         comm_mgr.addComment(mockComment, "EXPQQRF7SBMYXGOK");
         comm_mgr.getExperimentComments("EXPQQRF7SBMYXGOK", this);
         ArrayList<String> comment_content = new ArrayList<>();
@@ -36,7 +37,7 @@ public class TestCommentManager implements CommentManager.OnCommentsReadyListene
         assertTrue(comment_content.contains("COMQR44SHQR12M6L0BHLTB"));
 
         // Test removeComment
-        comm_mgr.removeComment("COMQR44SHQR12M6L0BHLTB", "EXPQQRF7SBMYXGOK", null);
+        comm_mgr.removeComment("COMQR44SHQR12M6L0BHLTB", "EXPQQRF7SBMYXGOK");
         comm_mgr.getExperimentComments("EXPQQRF7SBMYXGOK", this);
         comment_content = new ArrayList<>();
         for (Comment comment : comments) {

@@ -18,7 +18,7 @@ public class MeasurementTrialTest {
     private MeasurementTrial mockMeasurementTrial() {
         User user = mockTrialOwner();
         Experiment experiment = mockExperiment();
-        return new MeasurementTrial(user.getUserId(), experiment.getExperimentID());
+        return new MeasurementTrial();
     }
 
 
