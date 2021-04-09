@@ -18,6 +18,8 @@ Use the [wiki](https://github.com/CMPUT301W21T21-H03/DivineInspiration/wiki) to 
 
 [**Figma**](https://www.figma.com/file/fUZiC95RLebioQZ5b6f66J/301-Project?node-id=112%3A2)
 
+Mock ups: [figma.com/proto/fUZiC95RLebioQZ5b6f66J/301-Project?node-id=140%3A603&scaling=min-zoom&page-id=140%3A3](https://www.figma.com/proto/fUZiC95RLebioQZ5b6f66J/301-Project?node-id=140%3A603&scaling=min-zoom&page-id=140%3A3)
+
 ### List of Issues
 
 A list of issues [here](https://github.com/CMPUT301W21T21-H03/DivineInspiration/issues ) 
