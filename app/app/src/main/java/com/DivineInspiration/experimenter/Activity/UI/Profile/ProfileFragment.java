@@ -73,7 +73,8 @@ public class ProfileFragment extends Fragment {
 
     /**
      * Runs when the view is fully created
-     * @param view 
+     * @param view
+     * the view itself
      * @param savedInstanceState 
      */
     @SuppressLint("MissingPermission")
@@ -261,7 +262,6 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
     /**
      * Subclass
      * Home fragment
@@ -321,7 +321,7 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Get item count
-         * @return :int number of items in list
+         * @return number of items in list
          */
         @Override
         public int getItemCount() {
@@ -330,7 +330,7 @@ public class ProfileFragment extends Fragment {
     }
 
     /**
-     * Test frag
+     * Test fragment
      */
     public static class TestFrag extends Fragment {
         @Nullable
@@ -342,6 +342,7 @@ public class ProfileFragment extends Fragment {
         /**
          * When view is created
          * @param view
+         * the view itself
          * @param savedInstanceState 
          */
         @Override
@@ -354,7 +355,6 @@ public class ProfileFragment extends Fragment {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
 
             list.setAdapter(adapter);
-
         }
     }
 }
