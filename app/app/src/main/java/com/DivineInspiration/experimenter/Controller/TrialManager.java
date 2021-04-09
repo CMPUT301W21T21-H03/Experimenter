@@ -45,7 +45,7 @@ public class TrialManager extends ArrayList<Trial> {
     /**
      * When trial data is retrieved from database is ready,
      * it is passed along as a parameter by the interface method.
-     * Utilized for: getUserTrials, queryExperimentTrials
+     * Utilized for: getUserTrials, queryExperimentTrials.
      */
     public interface OnTrialListReadyListener {
         void onTrialsReady(List<Trial> trials);

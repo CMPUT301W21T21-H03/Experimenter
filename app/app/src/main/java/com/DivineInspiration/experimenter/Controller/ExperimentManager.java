@@ -47,7 +47,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * When operation on database is done, the parameter indicates
-     * success or failure talking to the database
+     * success or failure talking to the database.
      * Utilized for: updateOwnerName, unSubFromExperiment. subFromExperiment, deleteExperiment
      *              addExperiment, updateExperiment
      */

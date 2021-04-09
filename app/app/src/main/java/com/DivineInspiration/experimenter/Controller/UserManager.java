@@ -92,9 +92,8 @@ public class UserManager {
     }
 
     /**
-     * Get singleton instance of the class
-     * @return
-     * singleton instance
+     * Get singleton instance of the class.
+     * @return: singleton:UserManager
      */
     public static UserManager getInstance(){
         if (singleton == null){

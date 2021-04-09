@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class provides the UI for an owner to creating or edit an experiment
+ * This class provides the UI for an owner to creating or edit an experiment.
  * @see: experiment_dialog_fragment
  * Runs either when: addButton is clicked while on Experiments tab of home page (creates new experiment)
  *                   settings button is clicked in the ExperimentFragment

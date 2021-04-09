@@ -61,9 +61,10 @@ public class CommentManager {
     }
 
     /**
-     * Delete all the comments of an experiment
-     * @param experimentId
-     * ID of experiment where the comments will all be deleted
+     * Adds a new comment to the database
+     * @param: comment:Comment (comment we want to add).
+     * @param: experimentID:String (The experiment the comment belongs to).
+     * @return: void
      */
     public void deleteAllCommentOfExperiment(String experimentId){
         db.collection("Comments").document(experimentId).collection("Comments").get().addOnCompleteListener(task -> {

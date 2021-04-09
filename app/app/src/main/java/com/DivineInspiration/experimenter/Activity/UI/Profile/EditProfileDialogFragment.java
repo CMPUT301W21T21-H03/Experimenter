@@ -46,9 +46,8 @@ public class EditProfileDialogFragment extends DialogFragment {
     public static String TAG = "Edit Profile";
 
     /**
-     * Constructor
-     * @param callback
-     * callback for when the operation is done
+     * Constructor.
+     * @param: callback:UserManager.OnUserReadyListener
      */
     public EditProfileDialogFragment(UserManager.OnUserReadyListener callback){
         super();

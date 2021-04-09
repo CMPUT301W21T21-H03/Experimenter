@@ -48,7 +48,7 @@ public class TrialsTabFragment extends Fragment implements Observer {
     }
 
     /**
-     * Runs when the view is created. Similar to the activity's onCreate
+     * Runs when the view is created. Similar to the activity's onCreate.
      * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
      * @return: :View
      */
