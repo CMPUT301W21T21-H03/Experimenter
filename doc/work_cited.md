@@ -35,3 +35,19 @@ missing constructors: https://stackoverflow.com/questions/9054894/custom-surface
 ```
     // from https://www.youtube.com/watch?v=drH63NpSWyk & https://github.com/yuriy-budiyev/code-scanner
 ```
+
+```
+    // from https://stackoverflow.com/questions/8204680/java-regex-email second answer
+    // by Jason Buberel: https://stackoverflow.com/users/202275/jason-buberel
+    // on stackoverflow.com
+```
+
+```
+    // from https://stackoverflow.com/questions/8204680/java-regex-email second answer
+    // by Jason Buberel: https://stackoverflow.com/users/202275/jason-buberel
+```
+
+    /*
+    https://developer.android.com/guide/topics/ui/layout/recyclerview
+     */
+// smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
