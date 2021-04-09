@@ -33,4 +33,4 @@
 * [easypermissions](https://github.com/googlesamples/easypermissions) by [googlesamples](https://github.com/googlesamples) under [Apache-2.0 License](https://github.com/googlesamples/easypermissions/blob/master/LICENSE)
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [PhilJay](https://github.com/PhilJay) under[Apache-2.0 License](https://github.com/googlesamples/easypermissions/blob/master/LICENSE)
 * [QRGenerator](https://github.com/androidmads/QRGenerator) by [androidmads](https://github.com/androidmads) under MIT
-
+* [Google Maps](https://cloud.google.com/maps-platform), under these [conditions](https://cloud.google.com/maps-platform/terms)

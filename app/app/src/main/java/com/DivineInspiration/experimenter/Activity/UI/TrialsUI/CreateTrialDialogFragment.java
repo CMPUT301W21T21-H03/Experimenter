@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -150,10 +151,12 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
             @Override
             public void onClick(View v) {
                 // Call the appropriate method (when "OK" button of dialog is clicked) depending on type of the trial
-                if(needLocation == true && geoTrialCheckBox.isChecked() == false){
-                    Snackbar snackbar = Snackbar.make(getParentFragment().getView(),"GeoLocation is required to make a Trial",Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    getDialog().dismiss();
+                if(needLocation && !geoTrialCheckBox.isChecked()){
+//                    Snackbar snackbar = Snackbar.make(getView(),"GeoLocation is required to make a Trial",Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+                    Toast.makeText(getContext(), "GeoLocation is required for this experiment", Toast.LENGTH_LONG).show();
+                    return;
+
                 }else {
                     switch (trialTypeCheck) {
                         case Trial.BINOMIAL:
@@ -408,13 +411,11 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         if(args.getBoolean("isScan")){
             generateQR.setVisibility(View.GONE);
             generateBar.setVisibility(View.GONE);
-        } else{
-
         }
 
         switch (trialType){
             case Trial.BINOMIAL:
-                if (args.getBoolean("isScan") == false) {
+                if (!args.getBoolean("isScan")) {
                     passButton.setVisibility(View.VISIBLE);
                     failButton.setVisibility(View.VISIBLE);
                     failNumTrial.setVisibility(View.VISIBLE);
@@ -425,8 +426,8 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 } else {
                     passNum = args.getInt("Pass");
                     failNum = args.getInt("Fail");
-                    trueNumTrial.setText(String.valueOf(passNum));
-                    failNumTrial.setText(String.valueOf(failNum));
+                    trueNumTrial.setText(passNum + " Passes");
+                    failNumTrial.setText(failNum + " Fails");
                     failNumTrial.setVisibility(View.VISIBLE);
                     trueNumTrial.setVisibility(View.VISIBLE);
                 }

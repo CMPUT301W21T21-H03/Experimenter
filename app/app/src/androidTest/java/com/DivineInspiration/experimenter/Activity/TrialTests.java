@@ -57,16 +57,18 @@ public class TrialTests {
 
         //create trial on experiment
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        solo.clickOnText("+");
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
-        assertTrue(solo.waitForText("Result: 1", 1, 2000));
+        assertTrue(solo.waitForText("Result: 2", 1, 2000));
 
         //Checks to make sure we cant put a negative count trial in
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        solo.clickOnButton("-");
-        solo.clickOnButton("-");
-        solo.clickOnButton("-");
+        solo.clickOnView(solo.getView(R.id.decrease_trial_value));
+        solo.clickOnView(solo.getView(R.id.decrease_trial_value));
+        solo.clickOnView(solo.getView(R.id.decrease_trial_value));
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         assertFalse(solo.waitForText("Result: -3", 1, 2000));
@@ -76,7 +78,7 @@ public class TrialTests {
         solo.clickOnText("+");
         solo.clickOnMenuItem("Ok");
 
-        assertFalse(solo.waitForText("Result: 1", 2, 2000));
+        assertFalse(solo.waitForText("Result: 2", 2, 2000));
 
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
@@ -106,6 +108,7 @@ public class TrialTests {
 
         //Checks to make sure we cant have a negative amount of false trial
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnCheckBox(0);
         solo.clickOnView(solo.getView(R.id.binomial_fail_decrement));
         solo.clickOnView(solo.getView(R.id.binomial_fail_decrement));
         solo.clickOnMenuItem("Ok");
@@ -113,6 +116,7 @@ public class TrialTests {
 
         //Checks to make sure we cant have a negative amount of pass trials
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnCheckBox(0);
         solo.clickOnView(solo.getView(R.id.binomial_pass_decrement));
         solo.clickOnView(solo.getView(R.id.binomial_pass_decrement));
         solo.clickOnMenuItem("Ok");
@@ -120,17 +124,24 @@ public class TrialTests {
 
         //adding pass trials
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnCheckBox(0);
         solo.clickOnView(solo.getView(R.id.binomial_pass_button));
         solo.clickOnView(solo.getView(R.id.binomial_pass_button));
         solo.clickOnMenuItem("Ok");
-        assertTrue(solo.waitForText("Result: Pass", 2, 2000));
+        assertTrue(solo.waitForText("Result: Success", 2, 2000));
 
         //adding fail trials
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnCheckBox(0);
         solo.clickOnView(solo.getView(R.id.binomial_fail_button));
         solo.clickOnView(solo.getView(R.id.binomial_fail_button));
         solo.clickOnMenuItem("Ok");
-        assertTrue(solo.waitForText("Result: False", 2, 2000));
+        assertTrue(solo.waitForText("Result: Fail", 2, 2000));
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnView(solo.getView(R.id.binomial_fail_button));
+        solo.clickOnMenuItem("Ok");
+        assertTrue(solo.waitForText("Result: Fail", 2, 2000));
 
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
@@ -161,7 +172,7 @@ public class TrialTests {
         //checks adding trial
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnView(solo.getView(R.id.increase_trial_value));
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         assertTrue(solo.waitForText("Result: 2", 1, 2000));
@@ -170,9 +181,16 @@ public class TrialTests {
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.decrease_trial_value));
         solo.clickOnView(solo.getView(R.id.decrease_trial_value));
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
-        assertFalse(solo.waitForText("Result: -2", 1, 2000));
+        assertFalse(solo.waitForText("Result: -1", 1, 2000));
         assertTrue(solo.waitForText("Result: 0", 1, 2000));
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
+        solo.clickOnView(solo.getView(R.id.increase_trial_value));
+        solo.clickOnMenuItem("Ok");
+        assertTrue(solo.waitForText("Result: 2", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
@@ -203,6 +221,7 @@ public class TrialTests {
         //create positive measurement trial
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "12.3");
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         assertTrue(solo.waitForText("Result: 12.3", 1, 2000));
@@ -210,6 +229,7 @@ public class TrialTests {
         //creates large positive measurement trial
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "10000000");
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         assertTrue(solo.waitForText("Result: 1.0E7", 1, 2000));
@@ -217,13 +237,21 @@ public class TrialTests {
         //creates negative measurement trial
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "-72.3");
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         //creates large negative measurement trial
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "-50000000");
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
         assertTrue(solo.waitForText("Result: -5.0E7", 1, 2000));
+
+        //checks adding non geo
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "3");
+        solo.clickOnMenuItem("Ok");
+        assertFalse(solo.waitForText("Result: 3", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
@@ -253,13 +281,13 @@ public class TrialTests {
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
         solo.clickOnMenuItem("Ok");
-        assertFalse(solo.waitForText("Location:", 1, 2000));
+        assertFalse(solo.waitForText("Location:", 2, 2000));
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
         solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
-        assertTrue(solo.waitForText("Location:", 1, 2000));
+        assertTrue(solo.waitForText("Location:", 2, 2000));
 
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
@@ -296,6 +324,7 @@ public class TrialTests {
 
         solo.clickOnMenuItem("Save");
         solo.waitForText("Ok");
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         assertTrue(solo.waitForText("Status:", 1, 2000));
