@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ public class QRCodeDialogFragment extends DialogFragment {
     ImageView qrImage;
     String message;
     Bitmap bitmap;
+    TextView fileName;
 
     @NonNull
     @Override
@@ -66,26 +68,19 @@ public class QRCodeDialogFragment extends DialogFragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        QRGSaver qrgSaver = new QRGSaver();
+
                         Log.e("QR",  "Saved message - " + message);
 
-                        boolean fileSaved = qrgSaver.save(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/QRCodes", message, bitmap, QRGContents.ImageType.IMAGE_JPEG);
+                        try {
+                            qrFactory.saveImage(getContext(), qrgEncoder.getBitmap(), fileName.getText().toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 })
-                .setNegativeButton("Ok", null)
+                .setNegativeButton("Cancel", null)
                 .create();
 
-        // on save click, save QR code
-//        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // saves qr image
-//                MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "QR-code" , String.format("QR code for %s", message));
-////                QRGSaver qrgSaver = new QRGSaver();
-////                qrgSaver.save("", message, qrgEncoder.getBitmap(), QRGContents.ImageType.IMAGE_JPEG);
-//                dialog.dismiss();
-//            }
-//        });
 
         dialog.show();
 

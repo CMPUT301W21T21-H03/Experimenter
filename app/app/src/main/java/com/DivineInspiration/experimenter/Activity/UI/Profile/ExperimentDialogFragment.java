@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.DivineInspiration.experimenter.Controller.CommentManager;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
@@ -29,9 +27,6 @@ import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This class provides the UI for an owner to creating or edit an experiment
@@ -212,7 +207,7 @@ public class ExperimentDialogFragment extends DialogFragment {
         minTrial = view.findViewById(R.id.editExperimentMin);
         requireGeo = view.findViewById(R.id.editExperimentGeo);
         // errors
-        nameInput = view.findViewById(R.id.expNameInput);
+        nameInput = view.findViewById(R.id.qrNameInput);
         countInput = view.findViewById(R.id.expCountInput);
 
         // Trial spinner (dropdown to choose the type of the trial the experiment needs)

@@ -6,24 +6,48 @@
     android:layout_height="match_parent"
     android:background="@color/black2">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/qrNameInput"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="QR Code"
-        android:textSize="30sp"
+        android:layout_marginTop="40dp"
+        android:textColorHint="@color/gray"
+        app:boxStrokeColor="@color/beige1"
+        app:counterEnabled="true"
+        app:counterMaxLength="100"
+        app:counterOverflowTextAppearance="@color/red1"
+        app:counterOverflowTextColor="@color/red1"
+        app:counterTextColor="@color/beige1"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/red1"
+        app:hintTextColor="@color/beige1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/qrFileName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/black1"
+            android:hint="File Name"
+            android:inputType="textPersonName"
+            android:maxLength="100"
+            android:textColor="@color/beige1"
+            android:textSize="18dp"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/qrImage"
-        android:layout_width="408dp"
-        android:layout_height="296dp"
-        android:layout_marginTop="89dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintStart_toStartOf="@+id/qrNameInput"
+        app:layout_constraintTop_toBottomOf="@+id/qrNameInput"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_height="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
