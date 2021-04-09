@@ -101,18 +101,14 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
          */
         void onTrialAdded(Trial trial);
     }
-
-
-
-
     /**
      * Constructor.
      */
     public CreateTrialDialogFragment(OnTrialCreatedListener callback) {
         super();
         this.callback = callback;
-
     }
+
 
     /**
      * Runs when the dialog is first created.
@@ -127,7 +123,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         needLocation = exp.isRequireGeo();
         init(view);
         trialTypeCheck = exp.getTrialType();        // Get the trial type
-        visibility(trialTypeCheck);
+        visibility(trialTypeCheck, args);
         geoCheckBox();
 
         AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
@@ -160,7 +156,11 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                             message = String.valueOf(count);
                             break;
                         case Trial.MEASURE:
-                            measure = measurementTextBox.getText().toString();
+                            if(args.getBoolean("isScan") == false){
+                                measure = measurementTextBox.getText().toString();
+                            }else{
+                                measure = args.getString("Value");
+                            }
                             measurementTrialDialog(args, exp, measure);
                             break;
                         default:
@@ -376,7 +376,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
      * @param: trialType
      * The type of trial being created
      */
-    public void visibility(String trialType){
+    public void visibility(String trialType, Bundle args){
 
         measurementTextBox.setVisibility(View.GONE);
         valueHolder.setVisibility(View.GONE);
@@ -393,32 +393,64 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
         switch (trialType){
             case "Binomial trial":
-                passButton.setVisibility(View.VISIBLE);
-                failButton.setVisibility(View.VISIBLE);
-                failNumTrial.setVisibility(View.VISIBLE);
-                trueNumTrial.setVisibility(View.VISIBLE);
-                decrementFailNumButton.setVisibility(View.VISIBLE);
-                decrementPassNumButton.setVisibility(View.VISIBLE);
-                BinomialTrialButtonController();
+
+                if(args.getBoolean("isScan") == false){
+                    passButton.setVisibility(View.VISIBLE);
+                    failButton.setVisibility(View.VISIBLE);
+                    failNumTrial.setVisibility(View.VISIBLE);
+                    trueNumTrial.setVisibility(View.VISIBLE);
+                    decrementFailNumButton.setVisibility(View.VISIBLE);
+                    decrementPassNumButton.setVisibility(View.VISIBLE);
+                    BinomialTrialButtonController();
+                }else{
+                    passNum = args.getInt("Pass");
+                    failNum = args.getInt("Fail");
+                    trueNumTrial.setText(String.valueOf(passNum));
+                    failNumTrial.setText( String.valueOf(failNum));
+                    failNumTrial.setVisibility(View.VISIBLE);
+                    trueNumTrial.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case "Count trial":
-                negativeCountNNButton.setVisibility(View.VISIBLE);
-                positiveCountNNButton.setVisibility(View.VISIBLE);
-                countNNTrial.setVisibility(View.VISIBLE);
-                CountTrialButtonController();
+                if(args.getBoolean("isScan") == false){
+                    negativeCountNNButton.setVisibility(View.VISIBLE);
+                    positiveCountNNButton.setVisibility(View.VISIBLE);
+                    countNNTrial.setVisibility(View.VISIBLE);
+                    CountTrialButtonController();
+                }else{
+                    count = args.getInt("Count");
+                    countNNTrial.setText(String.valueOf(count));
+                    countNNTrial.setVisibility(View.VISIBLE);
+                }
+
                 break;
 
             case "Non-Negative trial":
-                negativeCountNNButton.setVisibility(View.VISIBLE);
-                positiveCountNNButton.setVisibility(View.VISIBLE);
-                countNNTrial.setVisibility(View.VISIBLE);
-                NNTrialButtonController();
+
+                if(args.getBoolean("isScan") == false){
+                    negativeCountNNButton.setVisibility(View.VISIBLE);
+                    positiveCountNNButton.setVisibility(View.VISIBLE);
+                    countNNTrial.setVisibility(View.VISIBLE);
+                    NNTrialButtonController();
+                }else{
+                    count = args.getInt("Count");
+                    countNNTrial.setText(String.valueOf(count));
+                    countNNTrial.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case "Measurement trial":
                 measurementTextBox.setVisibility(View.VISIBLE);
                 valueHolder.setVisibility(View.VISIBLE);
+                if(args.getBoolean("isScan") == false){
+
+                }else{
+                    measurementTextBox.setEnabled(false);
+                    valueHolder.setEnabled(false);
+                }
+
+
                 break;
 
             default:
