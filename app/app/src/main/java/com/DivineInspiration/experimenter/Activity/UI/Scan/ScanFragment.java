@@ -3,8 +3,12 @@ package com.DivineInspiration.experimenter.Activity.UI.Scan;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +23,19 @@ import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRCodeDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Experiments.QRFactory;
+import com.DivineInspiration.experimenter.Controller.TrialManager;
+import com.DivineInspiration.experimenter.Controller.UserManager;
+import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
+import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
+import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
+import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
+import com.DivineInspiration.experimenter.Model.Trial.Trial;
+import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.zxing.Result;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -30,6 +43,8 @@ import com.google.zxing.integration.android.IntentResult;
 import java.io.IOException;
 
 import androidmads.library.qrgenearator.QRGEncoder;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 public class ScanFragment extends Fragment {
 //    private static final int MY_CAMERA_REQUEST_CODE = 100;
@@ -40,15 +55,15 @@ public class ScanFragment extends Fragment {
     Button scan;
     Button debug;
     // scanned code
-    String scanned;
+    String[] scanned;
+    double myLat = 0;
+    double myLong = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // from https://www.youtube.com/watch?v=drH63NpSWyk & https://github.com/yuriy-budiyev/code-scanner
         View root = inflater.inflate(R.layout.fragment_scan, container, false);
         scannerView = root.findViewById(R.id.scanner);
-
-
 
         // check camera permissions
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -129,19 +144,67 @@ public class ScanFragment extends Fragment {
                     @Override
                     public void run() {
                         // do something after scanning
-                        scanned = result.getText();
 
-                        // TODO: here
+
+                        scanned = result.getText().split("-");
+
                         try {
-                            // format: experimentID-result
-                            // add result to manager if the form above
+                            // format: experimentID-trialType-result
 
-                            // otherwise, goto arbitrary bar code database and fetch the result
-                            // if not found, throw error or something such that the Toast can be shown
+                            // TODO Check for subscripton
 
-                            // otherwise fetch the action of arbitrary bar code and do it
+                            String experimentID = scanned[0];
+                            String trialType = scanned[1];
+                            String result = scanned[2];
+                            String needLocation = "false";
+                            LatLng location = null;
 
-                            ;
+                            if (Boolean.parseBoolean(needLocation)) location = new LatLng(myLat, myLong);
+                            Trial scannedTrial = null;
+
+                            switch (scanned[1]) {
+                                case Trial.BINOMIAL:
+                                    scannedTrial = new BinomialTrial(
+                                            UserManager.getInstance().getLocalUser().getUserId(),
+                                            UserManager.getInstance().getLocalUser().getUserName(),
+                                            experimentID,
+                                            Boolean.parseBoolean(result),
+                                            location
+                                    );
+                                    break;
+                                case Trial.COUNT:
+                                    scannedTrial = new CountTrial(
+                                            UserManager.getInstance().getLocalUser().getUserId(),
+                                            UserManager.getInstance().getLocalUser().getUserName(),
+                                            experimentID,
+                                            Integer.parseInt(result),
+                                            location
+                                    );
+                                    break;
+                                case Trial.MEASURE:
+                                    scannedTrial = new MeasurementTrial(
+                                            UserManager.getInstance().getLocalUser().getUserId(),
+                                            UserManager.getInstance().getLocalUser().getUserName(),
+                                            experimentID,
+                                            Double.parseDouble(result),
+                                            location
+                                    );
+                                    break;
+                                case Trial.NONNEGATIVE:
+                                    scannedTrial = new NonNegativeTrial(
+                                            UserManager.getInstance().getLocalUser().getUserId(),
+                                            UserManager.getInstance().getLocalUser().getUserName(),
+                                            experimentID,
+                                            Integer.parseInt(result),
+                                            location
+                                    );
+                                    break;
+                                default:
+                                    throw new ClassNotFoundException();
+                            }
+
+                            TrialManager.getInstance().addTrial(scannedTrial, trials -> {Log.d("Scan Fragment", "Trial added");});
+
                         } catch (Exception e) {
                             Toast.makeText(getActivity(), "Code scanned is not valid", Toast.LENGTH_SHORT).show();
                         }
@@ -158,6 +221,27 @@ public class ScanFragment extends Fragment {
         });
     }
 
+    public void getLocation() {
+
+        LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            },301);
+            return;
+        }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                myLong = location.getLongitude();
+                myLat = location.getLatitude();
+                Log.d("woah", "updating!");
+                mLocationManager.removeUpdates(this);
+            }
+        });
+    }
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
