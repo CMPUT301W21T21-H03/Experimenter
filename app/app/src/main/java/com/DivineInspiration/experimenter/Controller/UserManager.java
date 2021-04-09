@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.IdGen;
 import com.DivineInspiration.experimenter.Model.User;
 
@@ -54,21 +55,33 @@ public class UserManager {
     public class ContextNotSetException extends RuntimeException {}
 
     /**
-     * When user data is retrieved from database is ready,
-     * it is passed along as a parameter by the interface method.
-     * Utilized for:
+     * Interface definition for a callback to be invoked when {@link UserManager} successfully
+     * queries a list of {@link User} from Firestore
      */
-    public interface OnUserReadyListener {
-        void onUserReady(User user);
+    public interface OnUserListReadyListener {
+
+        /**
+         * Called when {@link UserManager} successfully queries a list of {@link User}
+         * from Firestore
+         * @param users
+         * The queried users
+         */
+        void onUserListReady(ArrayList<User> users);
     }
 
     /**
-     * When user datum is retrieved from database is ready,
-     * it is passed along as a parameter by the interface method.
-     * Utilized for:
+     * Interface definition for a callback to be invoked when {@link UserManager} successfully
+     * queries an {@link User} from Firestore
      */
-    public interface OnUserListReadyListener {
-        void onUserListReady(ArrayList<User> users);
+    public interface OnUserReadyListener {
+
+        /**
+         * Called when {@link UserManager} successfully queries an {@link User}
+         * from Firestore
+         * @param user
+         * The queried user
+         */
+        void onUserReady(User user);
     }
 
     /**
@@ -140,17 +153,17 @@ public class UserManager {
     @SuppressWarnings("unchecked")
     public void queryUserById(String userId, OnUserReadyListener callback){
 
-        DocumentReference doc = db.collection("Users").document(userId);
-        doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("Users")
+                .document(userId)
+                .get(Source.DEFAULT)
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
-                    if(document!=null &&document.exists() && document.get("Contacts") instanceof Map){
-
+                    if(document != null && document.exists() && document.get("Contacts") instanceof Map){
                         callback.onUserReady(userFromSnapshot(document));
                     }
-
                 } else{
                     callback.onUserReady(null);
                 }
@@ -167,20 +180,27 @@ public class UserManager {
      */
     public void queryUserByName(String name, OnUserReadyListener callback){
 
-        db.collection("Users").whereEqualTo("UserName", name).limit(1).get().addOnCompleteListener(task -> {
+        db.collection("Users")
+                .whereEqualTo("UserName", name)
+                .limit(1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-           if(task.isSuccessful() && callback!= null){
-               if (task.getResult().size() == 0){
-                   callback.onUserReady(null);
-               } else{
-                   for(QueryDocumentSnapshot doc: task.getResult()){
-                       callback.onUserReady(userFromSnapshot(doc));
-                   }
-               }
-           } else{
-               callback.onUserReady(null);
-           }
-        });
+                        if (task.isSuccessful() && callback != null) {
+                            if (task.getResult().size() == 0) {
+                                callback.onUserReady(null);
+                            } else {
+                                for (QueryDocumentSnapshot doc : task.getResult()) {
+                                    callback.onUserReady(userFromSnapshot(doc));
+                                }
+                            }
+                        } else {
+                            callback.onUserReady(null);
+                        }
+                    }
+                });
     }
 
     /**
@@ -191,17 +211,19 @@ public class UserManager {
      * the user constructed using info from document
      */
     private User userFromSnapshot(DocumentSnapshot document){
-        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
+        Map<String, Object> contact = (Map<String, Object>) document.get("Contacts");
+
         // update firebase and other stuff
         String description = document.getString("UserDescription");
         String name = document.getString("UserName");
 
         // if no contacts assert error
         assert contact != null;
-        User temp = new User(name, document.getId(),
-                    new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
-                ), description);
-        return temp;
+        return new User(
+                name,
+                document.getId(),
+                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()),
+                description);
     }
 
     /**
@@ -213,17 +235,23 @@ public class UserManager {
      */
     @SuppressWarnings("unchecked")
     public void queryExperimentSubs(String expId, OnUserListReadyListener callback){
-        db.collection("Experiments").document(expId).get().addOnCompleteListener(
+        db.collection("Experiments")
+                .document(expId)
+                .get()
+                .addOnCompleteListener(
                 new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                              ArrayList<String> userIds = (ArrayList<String>) task.getResult().get("SubscriberIDs");
 
-                             if (userIds == null || userIds.size() == 0){
+                             if (userIds == null || userIds.size() == 0) {
                                  callback.onUserListReady(new ArrayList<User>());
-                             } else{
-                                 db.collection("Users").whereIn("__name__", userIds).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                             } else {
+                                 db.collection("Users")
+                                         .whereIn("__name__", userIds)
+                                         .get()
+                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                      @Override
                                      public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                          ArrayList<User> output = new ArrayList<>();
@@ -237,7 +265,6 @@ public class UserManager {
                                  });
                              }
                         } else {
-                            // TODO: error
                             Log.d(TAG, "oh no! WTF");
                         }
                     }
@@ -277,11 +304,14 @@ public class UserManager {
                         contact.put("Email", user.getContactInfo().getEmail());
 
         doc.put("Contacts", contact);
-        db.collection("Users").document(user.getUserId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Users")
+                .document(user.getUserId())
+                .set(doc)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    if(callback != null){
+                if(task.isSuccessful()) {
+                    if(callback != null) {
                         callback.onUserReady(user);
                     }
                 }

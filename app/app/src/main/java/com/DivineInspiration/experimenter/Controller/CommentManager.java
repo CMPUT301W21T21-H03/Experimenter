@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.DivineInspiration.experimenter.Model.Comment.Comment;
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,11 +33,17 @@ public class CommentManager {
     private static final String TAG = "CommentManager";
 
     /**
-     * When comment data is retrieved from database is ready,
-     * it is passed along as a parameter by the interface method.
-     * Utilized for:
+     * Interface definition for a callback to be invoked when {@link CommentManager} successfully
+     * queries a list of {@link Comment} from Firestore
      */
     public interface OnCommentsReadyListener {
+
+        /**
+         * Called when {@link CommentManager} successfully queries a list of {@link Comment}
+         * from Firestore
+         * @param comments
+         * The queried experiments
+         */
         void onCommentsReady(List<Comment> comments);
     }
 
