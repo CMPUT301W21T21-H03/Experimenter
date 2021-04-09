@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Comments.TrialsUI;
+package com.DivineInspiration.experimenter.Activity.UI.TrialsUI;
 
 import android.os.Bundle;
 import android.util.Log;

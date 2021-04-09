@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Comments.TrialsUI;
+package com.DivineInspiration.experimenter.Activity.UI.TrialsUI;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +28,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.ViewHolder> {
+public class    TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.ViewHolder> {
 
     private List<Trial> trials = new ArrayList<>();
     private TrialManager.OnTrialListReadyListener callback;
@@ -110,9 +110,19 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
             String LAT = decimalFormat.format(geoPoint.getLatitude());
             String LONG = decimalFormat.format(geoPoint.getLongitude());
             holder.getTrialLocation().setText("Location: " + LAT + " , " + LONG);
-        }else{
-
         }
+        else{
+            holder.getTrialLocation().setText("");
+        }
+//        for(Trial t : trials){
+//            Log.d("woah trial List:", t.getLocation() == null?"null":t.getLocation().toString());
+//        }
+        Log.d("woah trial in function:", myTrial.getLocation()== null?"null":myTrial.getLocation().toString() );
+
+        if(position == getItemCount() - 1){
+            Log.d("woah trial in function:", "=======================" );
+        }
+
 
 
     }
