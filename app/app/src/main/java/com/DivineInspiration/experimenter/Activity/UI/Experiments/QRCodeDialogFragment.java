@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -76,7 +77,10 @@ public class QRCodeDialogFragment extends DialogFragment {
 
                         try {
                             String name = fileName.getText().toString();
-                            qrFactory.saveImage(getContext(), qrgEncoder.getBitmap(), name.equals("")? LocalDateTime.now().toString():name);
+                            name =  name.equals("")? LocalDateTime.now().toString():name;
+                            if(qrFactory.saveImage(getContext(), qrgEncoder.getBitmap(),name)){
+                                Toast.makeText(getContext(), "QR code saved as " + name + ".png", Toast.LENGTH_LONG).show();
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
