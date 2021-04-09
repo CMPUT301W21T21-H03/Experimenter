@@ -1,7 +1,9 @@
 package com.DivineInspiration.experimenter.Activity.UI.Experiments;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Environment;
 import android.util.Log;
 
 import com.google.zxing.WriterException;
@@ -12,8 +14,6 @@ import androidmads.library.qrgenearator.QRGSaver;
 
 public class QRFactory {
     // message is the QR's string representation
-    private String message;
-    private Bitmap bitmap;
 
     /**
      * Generates the QR code from a string and returns a QR encoder object from
@@ -32,12 +32,13 @@ public class QRFactory {
         return qrgEncoder;
     }
 
-    /**
-     * Saves QR code into storage
-     */
-    public void saveImage() {
-        // Save with location, value, bitmap returned and type of Image(JPG/PNG).
-        QRGSaver qrgSaver = new QRGSaver();
-        qrgSaver.save("/", message, bitmap, QRGContents.ImageType.IMAGE_JPEG);
-    }
+//    /**
+//     * Saves QR code into storage
+//     */
+//    public void saveImage(Context context, Bitmap bitmap) {
+//        // Save with location, value, bitmap returned and type of Image(JPG/PNG).
+//        QRGSaver qrgSaver = new QRGSaver();
+//
+////        Log.d("QR CODE", Boolean.toString(fileSaved));
+//    }
 }

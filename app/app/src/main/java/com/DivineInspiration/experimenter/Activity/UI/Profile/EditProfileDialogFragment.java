@@ -171,7 +171,10 @@ public class EditProfileDialogFragment extends DialogFragment {
                             if(user1 != null){
                                 showAlert(false, "Profile changed successfully");
                                 // show success
-                                if(!user1.getUserName().equals(currentName)){ // update owner name of all experiments only if the user name changed
+                                Log.d("woah name from database: " ,user1.getUserName());
+                                Log.d("woah currentname: " ,currentName);
+
+                                if(!user1.getUserName().equals(currentName) ||newUser.getUserName().equals("Anonymous")){ // update owner name of all experiments only if the user name changed
                                     ExperimentManager.getInstance().updateOwnerName(user1.getUserId(), user1.getUserName(), bool ->{
                                         callback.onUserReady(user1);
                                     });

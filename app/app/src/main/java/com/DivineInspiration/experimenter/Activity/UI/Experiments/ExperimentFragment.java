@@ -153,7 +153,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                         for (int i = 0; i < users.size(); i++) {
                             // We now go through all the subscribers and check if current local user is one of them
                             if (UserManager.getInstance().getLocalUser().getUserId()
-                                    .equals(users.get(i).getUserId())) {
+                                    .equals(users.get(i).getUserId()) && !currentExperiment.getStatus().equals(Experiment.ENDED)) {
                                 subSwitch.setChecked(true);
                                 addButton.show();
                                 currentUserSubbed = true;
@@ -172,8 +172,11 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                     experimentManager.subToExperiment(userManager.getLocalUser().getUserId(),
                             currentExperiment.getExperimentID(), null);
                     // On check, it should be set visible again (as the user can add trials and comments if he/she is subscribed)
-                    addButton.show();
-                    currentUserSubbed = true;
+
+                    if(!currentExperiment.getStatus().equals(Experiment.ENDED)) {
+                        currentUserSubbed = true;
+                        addButton.show();
+                    }
                 } else {
                     experimentManager.unSubFromExperiment(userManager.getLocalUser().getUserId(),
                             currentExperiment.getExperimentID(), null);
@@ -229,6 +232,9 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                                     if (experiment != null) {
                                         updateText(experiment);
                                         currentExperiment = experiment;
+                                        if(currentExperiment.getStatus().equals(Experiment.ENDED)){
+                                            addButton.hide();
+                                        }
                                     } else {
                                         /* https://stackoverflow.com/a/57013964/12471420 */
                                         Navigation.findNavController(view).popBackStack();

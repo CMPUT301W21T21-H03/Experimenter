@@ -91,6 +91,22 @@ public class TrialManager extends ArrayList<Trial> {
         return listToFilter.stream().filter(trial -> !trial.isIgnored()).collect(Collectors.toList());
     }
 
+
+    public void deleteTrial(String trialId){
+        db.collection("Trials").document(trialId).delete();
+    }
+
+    public void deleteAllTrialOfExperiment(String experimentId){
+        db.collection("Trials").whereEqualTo("ExperimentID", experimentId).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                for(QueryDocumentSnapshot snap: task.getResult()){
+                    snap.getReference().delete();
+                }
+            }
+        });
+    }
+
+
     /**
      * Adds a new trial to database
      * @param: trial:Trial (trial we want to add).
