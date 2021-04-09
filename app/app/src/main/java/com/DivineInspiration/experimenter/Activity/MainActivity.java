@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity  {
     /**
      * On create
      * @param savedInstanceState
+     * the bundle
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,9 @@ public class MainActivity extends AppCompatActivity  {
 
         // Log.d("ALERT", "Main created!");
 
-        // Create QR code directory
+        // Create directory for QR code images
         File dir = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "/QRCodes");
         if (!dir.exists()) {
-
             if (dir.mkdir()) {
                 Log.d("Files QR", dir.getAbsolutePath() + " created");
             }
