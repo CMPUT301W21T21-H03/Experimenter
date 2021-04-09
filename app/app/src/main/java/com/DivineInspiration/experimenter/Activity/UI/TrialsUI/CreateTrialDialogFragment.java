@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Comments.TrialsUI;
+package com.DivineInspiration.experimenter.Activity.UI.TrialsUI;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

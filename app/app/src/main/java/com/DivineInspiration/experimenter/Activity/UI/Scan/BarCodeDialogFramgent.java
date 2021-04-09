@@ -43,6 +43,7 @@ public class BarCodeDialogFramgent extends DialogFragment {
     Button scan;
     private CodeScanner mCodeScanner;
 
+    Dialog dialog;
 
     @NonNull
     @Override
@@ -83,7 +84,7 @@ public class BarCodeDialogFramgent extends DialogFragment {
             ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.CAMERA}, 401);
         }
 
-        AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor).setTitle("Scan a bar code").setView(view).create();
+         dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor).setTitle("Scan a bar code").setView(view).create();
         dialog.show();
         return dialog;
 
@@ -140,9 +141,15 @@ public class BarCodeDialogFramgent extends DialogFragment {
                         ){
                             SharedPreferences pref = getContext().getSharedPreferences("Barcode", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = pref.edit();
-                            editor.putString(result.getText(), params);
-                            editor.apply();
-                            Toast.makeText(getContext(), "barcode instance saved\n" + result.getText(), Toast.LENGTH_LONG).show();
+                            if(pref.contains(result.getText())){
+                                Toast.makeText(getContext(), "This barcode has already been registered" + result.getText(), Toast.LENGTH_LONG).show();
+                            }else{
+                                editor.putString(result.getText(), params);
+                                editor.apply();
+                                Toast.makeText(getContext(), "barcode instance saved\n" + result.getText(), Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+                            }
+
                         }
                         else{
                             Toast.makeText(getContext(), "Invalid bar code!", Toast.LENGTH_LONG).show();

@@ -25,8 +25,8 @@ import com.DivineInspiration.experimenter.Activity.Subject;
 import com.DivineInspiration.experimenter.Activity.UI.Comments.CreateCommentDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Comments.DiscussionForumFragment;
 import com.DivineInspiration.experimenter.Activity.UI.MapUi.TrialMapTabFramgent;
-import com.DivineInspiration.experimenter.Activity.UI.Comments.TrialsUI.CreateTrialDialogFragment;
-import com.DivineInspiration.experimenter.Activity.UI.Comments.TrialsUI.TrialsTabFragment;
+import com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment;
+import com.DivineInspiration.experimenter.Activity.UI.TrialsUI.TrialsTabFragment;
 
 import com.DivineInspiration.experimenter.Activity.UI.Stats.StatsTabFragment;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
