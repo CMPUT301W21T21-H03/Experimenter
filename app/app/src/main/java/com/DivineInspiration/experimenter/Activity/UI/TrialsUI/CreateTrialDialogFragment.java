@@ -542,7 +542,10 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         negativeCountNNButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count = count - 1;
+                if(count>1){
+                    count = count - 1;
+                }
+
                 countNNTrial.setText(String.valueOf(count));
             }
         });
