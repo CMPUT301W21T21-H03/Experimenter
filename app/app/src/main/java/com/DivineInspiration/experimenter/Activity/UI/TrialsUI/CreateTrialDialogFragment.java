@@ -73,7 +73,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
     String message;
     String measure;
-    CommandFromString.QRTrialCommand command;
+
 
 
     @Override
@@ -108,10 +108,10 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
     /**
      * Constructor.
      */
-    public CreateTrialDialogFragment(OnTrialCreatedListener callback, CommandFromString.QRTrialCommand command) {
+    public CreateTrialDialogFragment(OnTrialCreatedListener callback) {
         super();
         this.callback = callback;
-        this.command = command;
+
     }
 
     /**
