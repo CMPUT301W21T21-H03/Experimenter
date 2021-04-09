@@ -197,7 +197,8 @@ public class CommentManager {
         // TODO: Recursive delete
 
         db.collection("Comments")
-                .document(experimentID).collection("Comments")
+                .document(experimentID)
+                .collection("Comments")
                 .document(commentID)
                 .delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
