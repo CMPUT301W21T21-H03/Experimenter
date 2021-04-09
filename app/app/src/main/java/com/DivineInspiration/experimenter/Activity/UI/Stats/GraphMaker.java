@@ -102,7 +102,6 @@ public class GraphMaker {
     /**
      * <b>Note: </b> This function assumes all given trials are of the same type as the first element.
      * Makes a Line graph like chart, depending on the types of trial given
-     *
      * @param trials  a list of trial to be used.
      * @param context a context to inflate view from
      * @return an appropriate chart for the given trial type
@@ -135,14 +134,15 @@ public class GraphMaker {
         }
     }
 
-
     /**
      * Makes a candle stick graph + line graph for Non-negative and measurement trials.
      * The candle sticks represents the current Q1, median and Q3, while the line graph represents the current mean.
-     *
      * @param trialsBucket
+     * trial matrix
      * @param context
+     * current context
      * @return
+     * chart
      */
     private static Chart<?> makeCandlestick(List<List<Trial>> trialsBucket, Context context) {
         /*
@@ -150,20 +150,13 @@ public class GraphMaker {
         how make candle stick chart with MPandroid
          */
 
-
-
-
         LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();
         LocalDate lastDate = trialsBucket.get(trialsBucket.size() - 1).get(0).getTrialDate();
-
 
         List<Entry> lineEntry = new ArrayList<>();
         List<CandleEntry> candleEntries = new ArrayList<>();
         List<String> dates = new ArrayList<>();
         List<Trial> currentTrials = new ArrayList<>();
-
-
-
 
         int dateIndex = 0;
         int entryIndex = 0;
@@ -182,13 +175,11 @@ public class GraphMaker {
             currentDate = currentDate.plusDays(1);
         }
 
-
         return makeCombinedChart(context, lineEntry, candleEntries, dates);
     }
 
     /**
      * Using relevant data to make a combined chart that includes candle sticks and line graph
-     *
      * @param context
      * @param lineEntries
      * @param candleEntries
@@ -233,10 +224,11 @@ public class GraphMaker {
 
     /**
      * Makes a histogram for measurement trial. This method will by default divide given data into 10 buckets, or the number of trials if there are too few trials.
-     *
      * @param trials
+     * list of trials
      * @param context
      * @return
+     * chart
      */
     private static Chart<?> makeMeasurementHistogram(List<Trial> trials, Context context) {
         List<List<Trial>> trialBuckets = groupTrialByRange(trials, Math.min(10, trials.size()));
@@ -305,8 +297,6 @@ public class GraphMaker {
 
         styleLineBarChart(context, chart, formatter);
         return chart;
-
-
     }
 
     /**
@@ -314,6 +304,7 @@ public class GraphMaker {
      * @param trialsBucket
      * @param context
      * @return
+     * chart
      */
     private static Chart<?> makeBinomialLineGraph(List<List<Trial>> trialsBucket, Context context) {
         double success = 0;
@@ -356,8 +347,10 @@ public class GraphMaker {
     /**
      * Makes a bar graph consisting of 2 bars. Indicating number of successes and fails.
      * @param trials
+     * list of trials
      * @param context
      * @return
+     * chart
      */
     private static Chart<?> makeBinomialBarGraph(List<Trial> trials, Context context) {
         double[] stats = StatsMaker.calcBinomialStats(trials);
@@ -392,8 +385,10 @@ public class GraphMaker {
     /**
      * Makes a single, mostly meaning bar to represent the total count of the Count trials submitted so far.
      * @param trials
+     * list of trials
      * @param context
      * @return
+     * chart
      */
     private static Chart<?> makeCountBarGraph(List<Trial> trials, Context context) {
         double sum = StatsMaker.calcSum(trials);
@@ -427,6 +422,7 @@ public class GraphMaker {
      * @param trialsBucket
      * @param context
      * @return
+     * chart
      */
     private static Chart<?> makeCountLineGraph(List<List<Trial>> trialsBucket, Context context) {
         /*https://stackoverflow.com/a/29812532/12471420*/
@@ -468,7 +464,9 @@ public class GraphMaker {
     /**
      * Common chart styling settings for other chart making functions.
      * @param context
+     * current context
      * @param chart
+     * chart
      * @param formatter
      */
     private static void styleLineBarChart(Context context, BarLineChartBase chart, ValueFormatter formatter) {
@@ -498,13 +496,12 @@ public class GraphMaker {
         chart.setDescription(null);
         chart.setNoDataText("No data available yet!");
         chart.setNoDataTextColor(ContextCompat.getColor(context, R.color.beige1));
-
-
     }
 
     /**
      * Groups a list of trial into ranges, given the number of desired ranges.
      * @param trials
+     * list of trials
      * @param numberOfBuckets
      * @return a List of List of trials, where each inner list has trials belonging in a common range.
      */
@@ -522,8 +519,9 @@ public class GraphMaker {
     }
 
     /**
-     * Heler function to find the max value in a list of measurement trials
+     * Helper function to find the max value in a list of measurement trials
      * @param trials
+     * list of trials
      * @return
      */
     public static double findMaxMeasurement(List<Trial> trials) {
@@ -533,7 +531,9 @@ public class GraphMaker {
     /**
      * Heler function to find the min value in a list of measurement trials
      * @param trials
+     * list of trials
      * @return
+     * minimum measurement
      */
     public static double findMinMeasurement(List<Trial> trials) {
         return ((MeasurementTrial) Collections.min(trials, (t1, t2) -> Double.compare(((MeasurementTrial) t1).getValue(), ((MeasurementTrial) t2).getValue()))).getValue();
@@ -543,6 +543,7 @@ public class GraphMaker {
     /**
      * Groups a list of trial into buckets by their creation date
      * @param trials
+     * list of trials
      * @return a List of List of trials, where each inner list has trials has date in common
      */
     public static List<List<Trial>> groupTrialByDate(List<Trial> trials) {
@@ -558,6 +559,7 @@ public class GraphMaker {
     /**
      * Groups a list of non negative trials into buckets by their value
      * @param trials
+     * list of trials
      * @return a List of List of trials, where each inner list has trials belonging in a common count.
      */
     public static List<List<Trial>> groupTrialsByValue(List<Trial> trials) {
@@ -585,14 +587,27 @@ public class GraphMaker {
 
         List<String> labels;
 
+        /**
+         * Constructor
+         * @param labels
+         * all the labels
+         */
         XAxisLabelFormatter(List<String> labels) {
             this.labels = labels;
         }
 
+        /**
+         * Gets the axis label
+         * @param value
+         * value
+         * @param axis
+         * axis
+         * @return
+         * string of the axis label
+         */
         @Override
         public String getAxisLabel(float value, AxisBase axis) {
-            Log.d("woah formatter", "Size" + labels.size()+ "Value:" + value);
-
+            Log.d("Graph formatter", "Size" + labels.size()+ "Value:" + value);
             return (Math.abs(value - (int) value) < 0.01f) && (value < labels.size()) && (value >= 0) ? labels.get((int) value) : "";
         }
     }
@@ -612,6 +627,13 @@ class ClickMarker extends MarkerView {
     private final ValueFormatter valFormatter;
     private MPPointF mOffset;
 
+    /**
+     * Constructor
+     * @param context
+     * current context
+     * @param formatter
+     * @param layoutResource
+     */
     public ClickMarker(Context context, ValueFormatter formatter, int layoutResource) {
         super(context, layoutResource);
         fmt = new DecimalFormat("0.##");
@@ -620,21 +642,26 @@ class ClickMarker extends MarkerView {
         valFormatter = formatter;
     }
 
-    // callbacks everytime the MarkerView is redrawn, can be used to update the
-    // content (user-interface)
+    /**
+     * callbacks every time the MarkerView is redrawn, can be used to update the content (user-interface)
+     * @param e
+     * @param highlight
+     */
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-
         content.setText(String.format("%s, %s", valFormatter.getAxisLabel(e.getX(), null), fmt.format(e.getY())));
-
 
         // this will perform necessary layouting
         super.refreshContent(e, highlight);
     }
 
+    /**
+     * Gets the offset
+     * @return
+     * point f
+     */
     @Override
     public MPPointF getOffset() {
-
         if (mOffset == null) {
             // center the marker horizontally and vertically
             mOffset = new MPPointF(-(getWidth() / 2), -getHeight() * 1.35f);

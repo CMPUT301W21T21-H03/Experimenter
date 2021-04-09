@@ -48,6 +48,7 @@ import java.util.List;
  * @see R.layout#experiment_fragment
  */
 public class ExperimentFragment extends Fragment implements Subject, TrialManager.OnTrialListReadyListener{
+    List<Trial> currentTrials = new ArrayList<>();            // The trials performed for the experiment
 
     // Text views to display experiment information
     private TextView experimentName;
@@ -70,7 +71,6 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     ExperimentManager experimentManager = ExperimentManager.getInstance();
     UserManager userManager = UserManager.getInstance();
 
-    List<Trial> currentTrials = new ArrayList<>();
     boolean currentUserSubbed = false;
 
     String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
@@ -79,8 +79,10 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate
-     * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
-     * @return: :View
+     * @param inflater
+     * @param container
+     * @param  savedInstanceState
+     * @return: view created
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,7 +92,9 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is fully created.
-     * @param: savedInstanceState:Bundle
+     * @param view
+     * view itself
+     * @param savedInstanceState
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -213,7 +217,6 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // Button action changes depending on the current tab
                 switch (tabLayout.getSelectedTabPosition()) {
 
@@ -291,6 +294,9 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         }
     }
 
+    /**
+     * When the fragment is resumed
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -303,15 +309,37 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     }
 
     /**
-     * This method updates experiment information display
-     * @param exp
-     * The experiment whose information is being displayed
+     * This method initializes the views (instance variables)
+     * @param view the view from onCreateView
+     */
+    private void init(View view) {
+        // Get the text views
+        experimentName = view.findViewById(R.id.experimentName_expFrag);
+        ownerName = view.findViewById(R.id.ownerName_expFrag);
+        subNumber = view.findViewById(R.id.expFragSubCount);
+        trialNumber = view.findViewById(R.id.trialNumber_expFrag);
+        trialType = view.findViewById(R.id.trialType_expFrag);
+        expAbout = view.findViewById(R.id.experimentDescription_expFrag);
+        expCity = view.findViewById(R.id.experimentRegion_expFrag);
+        subSwitch = view.findViewById(R.id.subscribeSwitch);
+        status = view.findViewById(R.id.status_exp);
+        addButton = view.findViewById(R.id.experiment_fragment_add_button);
+
+        // Title is transparent when expanded
+        toolbar = view.findViewById(R.id.expCollapsingToolbar);
+        toolbar.setCollapsedTitleTextAppearance(R.style.toolBarCollapsed);
+        toolbar.setExpandedTitleTextAppearance(R.style.toolBarExpanded);
+    }
+
+    /**
+     * This method updates the experiment information that is displayed
+     * @param exp the experiment to display the information for
      */
     private void updateText(Experiment exp) {
 
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
-        expCity.setText("Region: " + exp.getRegion());
+        expCity.setText("Region: " + exp.getRegion() + (exp.isRequireGeo()?" - GeoLocation: On":" - GeoLocation: Off"));
         trialNumber.setText(exp.getMinimumTrials() + " trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
@@ -320,6 +348,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     }
 
     /**
+     * This method is called when the add button is selected when the current tab is Trial
      * Creates and displays a CreateTrialDialogFragment to create a new trial
      */
     public void TrialDialogSelect() {
@@ -352,6 +381,11 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         }
     }
 
+    /**
+     * When the trials are ready from FireStore, updated list
+     * @param trials
+     * list of trials
+     */
     @Override
     public void onTrialsReady(List<Trial> trials) {
         currentTrials = trials;
@@ -363,6 +397,11 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
      */
     public class ExperimentTabsAdapter extends FragmentStateAdapter {
 
+        /**
+         * Experiment adapter
+         * @param frag
+         * fragment
+         */
         public ExperimentTabsAdapter(Fragment frag) {
             super(frag);
         }

@@ -28,6 +28,7 @@ public class StatsMaker {
      * @throws IllegalArgumentException if the list of trials given is empty or null
      * @param context
      * @param trials
+     * list of trials
      * @return a view containing statics appropriate to the trials given.
      */
     @SuppressLint("DefaultLocale")
@@ -90,8 +91,9 @@ public class StatsMaker {
     }
 
     /**
-     *
+     * Does all the calculations fro teh binomial stats
      * @param trials
+     * list of trials
      * @return double[3], # of success, # of fails, success/total. In order.
      */
     public static double[] calcBinomialStats(List<Trial> trials) {
@@ -108,8 +110,9 @@ public class StatsMaker {
 
 
     /**
-     *
+     * Calculates the standard deviation of all the trials
      * @param trials
+     * list of trials
      * @return standard deviation of the value in the ist of trials given.
      */
     public static double calcStd(List<Trial> trials) {
@@ -124,8 +127,9 @@ public class StatsMaker {
     }
 
     /**
-     *
+     * Calculates the quartiles info on the list of trials
      * @param trials
+     * list of trials
      * @return A double[4], which is Q1, Q3, Min, Max of values in the list of trials, in order.
      */
     public static double[] calcQuartiles(List<Trial> trials) {
@@ -134,23 +138,15 @@ public class StatsMaker {
         List<Double> upper = values.subList((size / 2) + (size % 2 == 1? 1:0), size);
         List<Double> lower = values.subList(0, size/2);
 
-//        for(Double d: values){
-//            Log.d("woah values", d + "");
-//        }
-//        for(Double d: upper){
-//            Log.d("woah upper", d + "");
-//        }
-//        for(Double d: lower){
-//            Log.d("woah lower", d + "");
-//        }
         //Q1, Q3, min, max
         return new double[]{calcMedianSortedDouble(lower), calcMedianSortedDouble(upper), values.get(0), values.get(size - 1)};
     }
 
 
     /**
-     *
+     * Calculates the median of the trials
      * @param trials
+     * list of trials
      * @return median of the values of the list of trials given.
      */
     public static double calcMedian(List<Trial> trials) {
@@ -183,7 +179,7 @@ public class StatsMaker {
     }
 
     /**
-     *
+     * Sorting the doubles of the trials
      * @param doubles
      * @return Sorted list of doubles.
      */
@@ -193,8 +189,9 @@ public class StatsMaker {
     }
 
     /**
-     *
+     * Gets the double of all the trials
      * @param trials
+     * list of trials
      * @return A list of doubles extract from the list of trials given, to be used by other functions.
      */
     public static List<Double> getDoubles(List<Trial> trials) {
@@ -223,8 +220,9 @@ public class StatsMaker {
 
 
     /**
-     *
+     * Calculates the mean of the trials
      * @param trials
+     * list of trials
      * @return The mean of all values in the list of trials given.
      */
     public static double calcMean(List<Trial> trials) {
@@ -233,8 +231,9 @@ public class StatsMaker {
 
 
     /**
-     *
+     * Calculates the sum of all the values
      * @param trials
+     * list of trials
      * @return The sum of all values in the list of trials given, type checking built in.
      */
     public static double calcSum(List<Trial> trials) {

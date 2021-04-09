@@ -22,15 +22,30 @@ public class CreateReplyDialogFragment extends DialogFragment {
 
     private OnReplyCreatedListener callback;
 
+    /**
+     * Reply is created listener
+     */
     public interface OnReplyCreatedListener {
         void onReplyAdded(Comment reply, String commentID);
     }
 
+    /**
+     * Constructor for when the reply dialog is created
+     * @param callback
+     * callback for when the reply is done created
+     */
     public CreateReplyDialogFragment(OnReplyCreatedListener callback) {
         super();
         this.callback = callback;
     }
 
+    /**
+     * When the dialog is being created
+     * @param savedInstanceState
+     * bundle
+     * @return
+     * dialog itself
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -45,6 +60,7 @@ public class CreateReplyDialogFragment extends DialogFragment {
         EditText commentEditText = view.findViewById(R.id.create_comment_edit_text);
 
         dialog.show();
+        // create reply
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

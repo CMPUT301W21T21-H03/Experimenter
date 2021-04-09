@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class deals with the UI for finding publiclly available experiments
+ * This class deals with the UI for finding publicly available experiments
  * @see R.layout#fragment_explore
  */
 public class ExploreFragment extends Fragment implements ExperimentManager.OnExperimentListReadyListener {
@@ -39,7 +39,6 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
     /**
      * Fragment initializer, similar to activity's onCreate
      * @param savedInstanceState
-     * bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,13 +52,13 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
 
     /**
      * When view is created
-     * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
-     * @return
-     * view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view that was created
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         // Query the experiments from database, the Experiments will be returned via a callback to onExperimentsReady
         ExperimentManager.getInstance().queryAll(this);
 
@@ -75,16 +74,13 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
 
         // Search -> filter results
         search.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 searchText = charSequence;
                 filter();
             }
-
             @Override
             public void afterTextChanged(Editable editable) {}
         });
@@ -122,8 +118,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
      * This as a interface implementation method; when the experiment data requested is ready,
      * ExperimentManager calls this method and passes the data as a parameter.
      * The method then updates the list of experiments that are being shown
-     * @param queryList
-     * list of experiments
+     * @param queryList list of experiment
      */
     @Override
     public void onExperimentsReady(List<Experiment> queryList) {

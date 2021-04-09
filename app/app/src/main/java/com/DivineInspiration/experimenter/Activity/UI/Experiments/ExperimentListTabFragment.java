@@ -37,8 +37,8 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
      * @param inflater
      * @param container
      * @param savedInstanceState
-     * @return View -
-     * view created by inflating container with inflater
+     * @return
+     * view
      */
     @Nullable
     @Override
@@ -48,6 +48,8 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
 
     /**
      * Runs when the view is fully created
+     * @param view
+     * the view itself
      * @param savedInstanceState
      */
     @Override
@@ -66,10 +68,9 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
     }
 
     /**
-     * Method implementation of ExperimentDialogFragment.OnExperimentOperationDoneListener
-     * When an experiment has been added to firebase, add it to the list
-     * @param experiment
-     * experiment to be added
+     * This is the method that must be implemented due to interface inheritance of ExperimentDialogFragment.OnExperimentOperationDoneListener
+     * When experiment is added, update list
+     * @param experiment that is passed by the experiment manager class
      */
     @Override
     public void onOperationDone(Experiment experiment) {
@@ -106,8 +107,7 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
 
     /**
      * This method is run to update the experiments with ones given by the parameter.
-     * @param experiments
-     * list of all the experiment
+     * @param  experiments list of all experiments
      */
     private void loadList(List<Experiment> experiments){
         // Update experiment list

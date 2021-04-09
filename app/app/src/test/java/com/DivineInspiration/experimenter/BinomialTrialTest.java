@@ -2,11 +2,16 @@ package com.DivineInspiration.experimenter;
 
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
+import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.Model.UserContactInfo;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.junit.Test;
+
+import java.time.LocalDate;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,8 +20,15 @@ public class BinomialTrialTest {
     private BinomialTrial mockBinomialTrial() {
         User user = mockTrialOwner();
         Experiment experiment = mockExperiment();
-        return new BinomialTrial(user.getUserId(), experiment.getExperimentID());
-
+        return new BinomialTrial(
+                "test",
+                user.getUserId(),
+                user.getUserName(),
+                experiment.getExperimentID(),
+                LocalDate.now().plusDays(new Random().nextInt(40) - 20),
+                (new Random()).nextBoolean(),
+                new LatLng(0, 0)
+        );
     }
 
     private Experiment mockExperiment() {

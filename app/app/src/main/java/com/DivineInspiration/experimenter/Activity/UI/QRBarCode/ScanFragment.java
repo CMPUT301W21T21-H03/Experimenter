@@ -54,11 +54,11 @@ public class ScanFragment extends Fragment {
 
     /**
      * When creating view
-     *
      * @param inflater
      * @param container
      * @param savedInstanceState
      * @return
+     * view itself
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,7 +80,6 @@ public class ScanFragment extends Fragment {
 
     /**
      * When the view is created
-     *
      * @param view
      * @param savedInstanceState
      */
@@ -111,10 +110,12 @@ public class ScanFragment extends Fragment {
 
     /**
      * Result of the code scanned
-     *
      * @param requestCode
+     * code request
      * @param resultCode
+     * result of request
      * @param data
+     * data
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

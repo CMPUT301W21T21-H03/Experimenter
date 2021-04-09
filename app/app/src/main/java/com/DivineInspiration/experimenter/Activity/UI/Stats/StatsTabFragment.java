@@ -24,21 +24,32 @@ import java.util.List;
  */
 public class StatsTabFragment extends Fragment implements Observer {
 
-
     View buttonGroup;
     AppCompatImageButton backButton;
     ViewGroup graphHolder;
     ViewGroup statHolder;
     List<Trial> trialList = new ArrayList<>();
 
-
-
+    /**
+     * When creating view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     * view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.experiment_statistics, container, false);
     }
 
+    /**
+     * When view is created
+     * @param view
+     * view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -46,6 +57,11 @@ public class StatsTabFragment extends Fragment implements Observer {
         init(getView());
     }
 
+    /**
+     * Initializing the fragment
+     * @param view
+     * view itself
+     */
     private void init(View view) {
 
         buttonGroup = view.findViewById(R.id.statButtonGroup);
@@ -63,14 +79,13 @@ public class StatsTabFragment extends Fragment implements Observer {
 
         ((ViewGroup) view.findViewById(R.id.statFrame)).setLayoutTransition(layoutTransition);
 
+        // shows the various features
         view.findViewById(R.id.histogramButton).setOnClickListener(v -> {
             showHistogram();
         });
-
         view.findViewById(R.id.lineGraphButton).setOnClickListener(v -> {
             showLineGraph();
         });
-
         view.findViewById(R.id.statBackButton).setOnClickListener(v -> {
             showStats();
         });
@@ -78,7 +93,9 @@ public class StatsTabFragment extends Fragment implements Observer {
       showStats();
     }
 
-
+    /**
+     * When resuming the fragment
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -86,37 +103,39 @@ public class StatsTabFragment extends Fragment implements Observer {
 //            Log.d("woah", "Loc B");
 //            showWarning();
 //        }
-
     }
 
+    /**
+     * Displaying the histogram
+     */
     private void showHistogram() {
-
         backButton.setVisibility(View.VISIBLE);
         buttonGroup.setVisibility(View.GONE);
         graphHolder.removeAllViews();
         graphHolder.addView(GraphMaker.makeHistogram(trialList, getContext()));
         statHolder.removeAllViews();
-
     }
 
+    /**
+     * Displaying the stats
+     */
     private void showStats() {
-
         backButton.setVisibility(View.GONE);
         buttonGroup.setVisibility(View.VISIBLE);
         graphHolder.removeAllViews();
         statHolder.removeAllViews();
         statHolder.addView(StatsMaker.makeStatsView(getContext(), trialList));
-
     }
 
+    /**
+     * Displaying the line graph
+     */
     private void showLineGraph() {
-
         backButton.setVisibility(View.VISIBLE);
         buttonGroup.setVisibility(View.GONE);
         graphHolder.removeAllViews();
         graphHolder.addView(GraphMaker.makeLineChart(trialList, getContext()));
         statHolder.removeAllViews();
-
     }
 
     /**
@@ -134,10 +153,7 @@ public class StatsTabFragment extends Fragment implements Observer {
 //        Log.d("woah","outside list hash"+ System.identityHashCode(trialList));
 //        Log.d("woah","outside object hash"+ System.identityHashCode(data));
         if (getView() != null) {
-//            Log.d("woah","inside "+ trialList.size());
-
                 showStats();
-
         }
     }
 }

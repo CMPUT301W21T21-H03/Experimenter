@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUI;
+package com.DivineInspiration.experimenter.Activity.UI.Map;
 
 import android.annotation.SuppressLint;
 
@@ -16,6 +16,13 @@ public class MapHelper {
     static DecimalFormat decimalFormat = new DecimalFormat("0.##");
     static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
+    /**
+     * Gets the short trial description
+     * @param trial
+     * trial to get description
+     * @return
+     * short description
+     */
     @SuppressLint("DefaultLocale")
     public static String getShortTrialDescription(Trial trial) {
 
@@ -59,6 +66,5 @@ public class MapHelper {
             default:
                 return "";
         }
-
     }
 }

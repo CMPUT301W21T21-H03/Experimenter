@@ -73,8 +73,9 @@ public class ProfileFragment extends Fragment {
 
     /**
      * Runs when the view is fully created
-     * @param savedInstanceState
-     * bundle
+     * @param view
+     * the view itself
+     * @param savedInstanceState 
      */
     @SuppressLint("MissingPermission")
     @Override
@@ -107,7 +108,7 @@ public class ProfileFragment extends Fragment {
             otherUserId = null;
         }
 
-//        // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
+        // smooth! https://proandroiddev.com/the-little-secret-of-android-animatelayoutchanges-e4caab2fddec
 //        ((ViewGroup) view.findViewById(R.id.coordinatorRoot)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
         // Viewpager (to enable swiping between the tabs)
@@ -177,7 +178,7 @@ public class ProfileFragment extends Fragment {
         floating_addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*https://stackoverflow.com/a/61178226/12471420*/
+                // https://stackoverflow.com/a/61178226/12471420
                 new ExperimentDialogFragment((ExperimentDialogFragment.OnExperimentOperationDoneListener) getChildFragmentManager().findFragmentByTag("f0")).show(getChildFragmentManager(), "create experiment");
             }
         });
@@ -219,7 +220,7 @@ public class ProfileFragment extends Fragment {
 
     /**
      * Displaying the user info on the screen
-     * @param: user:User
+     * @param user the user to display the toolbar for
      */
     private void displayUserToolbar(User user) {
         if (user == null) {  // Safety check
@@ -261,7 +262,6 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
     /**
      * Subclass
      * Home fragment
@@ -271,8 +271,7 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Constructor
-         * @param frag
-         * home fragment
+         * @param frag home fragment
          */
         public HomeFragmentAdapter(Fragment frag) {
             super(frag);
@@ -280,10 +279,8 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Constructor
-         * @param frag
-         * fragment
-         * @param userID
-         * ID of user
+         * @param frag fragment
+         * @param userID ID of user
          */
         public HomeFragmentAdapter(Fragment frag, String userID) {
             super(frag);
@@ -292,10 +289,8 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Create the appropriate fragment depending on the position of the tab
-         * @param position
-         * position in adapter
-         * @return
-         * fragment
+         * @param position position in adapter
+         * @return fragment
          */
         @NonNull
         @Override
@@ -326,8 +321,7 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Get item count
-         * @return
-         * number of items in list
+         * @return number of items in list
          */
         @Override
         public int getItemCount() {
@@ -336,7 +330,7 @@ public class ProfileFragment extends Fragment {
     }
 
     /**
-     * Test frag
+     * Test fragment
      */
     public static class TestFrag extends Fragment {
         @Nullable
@@ -348,8 +342,8 @@ public class ProfileFragment extends Fragment {
         /**
          * When view is created
          * @param view
-         * view
-         * @param savedInstanceState
+         * the view itself
+         * @param savedInstanceState 
          */
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -361,7 +355,6 @@ public class ProfileFragment extends Fragment {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.test_item, items);
 
             list.setAdapter(adapter);
-
         }
     }
 }

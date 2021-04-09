@@ -50,30 +50,42 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
     Experiment currentExperiment;
     Gson gson = new Gson();
 
+    /**
+     * When creating the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     * the view itself
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.trial_map, container, false);
     }
 
+    /**
+     * When the view is created
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        /*
-        https://developers.google.com/maps/documentation/android-sdk/start
-         */
-
+        // https://developers.google.com/maps/documentation/android-sdk/start
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         assert getArguments() != null;
         currentExperiment = (Experiment)getArguments().getSerializable("experiment");
-
     }
 
-
+    /**
+     * When the trial map updated
+     * @param data
+     * updated data
+     */
     @Override
     public void update(Object data) {
         trials.clear();
@@ -81,17 +93,24 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         makeMarkers();
     }
 
+    /**
+     * Makes map markers
+     */
     private void makeMarkers() {
         if (map != null) {
             for (Trial trial : trials) {
-
                 if(!trial.isIgnored() && trial.getLocation() != null){
-                    map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUI.MapHelper.getShortTrialDescription(trial)));
+                    map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(com.DivineInspiration.experimenter.Activity.UI.Map.MapHelper.getShortTrialDescription(trial)));
                 }
             }
         }
     }
 
+    /**
+     * When the google map is ready
+     * @param googleMap
+     * the google map instance
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
@@ -100,6 +119,14 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         makeMarkers();
     }
 
+    /**
+     * Bitmap from vector
+     * @param context
+     * where it's located
+     * @param vectorResId
+     * @return
+     * bitmap descriptor
+     */
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
         /*
         https://stackoverflow.com/a/45564994/12471420
@@ -122,6 +149,15 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         }
     }
 
+    /**
+     * After permissions request
+     * @param requestCode
+     * code of request
+     * @param permissions
+     * permissions requested
+     * @param grantResults
+     * result of request
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -130,16 +166,31 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
+    /**
+     * If permission is granted
+     * @param requestCode
+     * code of request
+     * @param perms
+     */
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
       myLocation();
     }
 
+    /**
+     * If permission is denied
+     * @param requestCode
+     * request code
+     * @param perms
+     */
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-
+        // TODO: toast?
     }
 
+    /**
+     * The current location
+     */
     @SuppressLint("MissingPermission")
     public void myLocation(){
         LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
@@ -150,25 +201,27 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
                 // mapController.setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
                 map.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).snippet("Current Location").icon(bitmapDescriptorFromVector(getContext(), R.drawable.current_location_icon)));
                 map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
-                //    map.moveCamera(CameraUpdateFactory.zoomTo(9));
+//                map.moveCamera(CameraUpdateFactory.zoomTo(9));
                 mLocationManager.removeUpdates(this);
             }
         });
     }
 
-
+    /**
+     * Trial info adapter
+     */
     class TrialInfoAdapter implements GoogleMap.InfoWindowAdapter {
-/*
-https://stackoverflow.com/a/13904784/12471420
-custom info
- */
+        // custom info: https://stackoverflow.com/a/13904784/12471420
 
+        /**
+         * Getting the info in the window
+         * @param marker
+         * @return
+         * view
+         */
         @Override
         public View getInfoWindow(Marker marker) {
-
             View v = LayoutInflater.from(getContext()).inflate(R.layout.marker_content, null);
-
-
 
             ((TextView) v.findViewById(R.id.markerContent)).setText(marker.getSnippet());
 
@@ -179,6 +232,12 @@ custom info
             return v;
         }
 
+        /**
+         * Gets the content of the info
+         * @param marker
+         * @return
+         * view
+         */
         @Override
         public View getInfoContents(Marker marker) {
             return  null;

@@ -149,7 +149,7 @@ public class DiscussionForumTest {
         solo.clickOnView(solo.getView(R.id.add_reply_button));
         solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test reply");
         solo.clickOnMenuItem("Ok");
-
+        solo.waitForView(R.id.view_replies_button, 1, 2000);
         solo.clickOnView(solo.getView(R.id.view_replies_button));
         assertTrue(solo.waitForText("this is a test reply", 1, 2000));
 
@@ -157,31 +157,9 @@ public class DiscussionForumTest {
         solo.clickOnView(solo.getView(R.id.add_reply_button));
         solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test reply2");
         solo.clickOnMenuItem("Ok");
-
+        solo.waitForView(R.id.view_replies_button, 1, 2000);
         solo.clickOnView(solo.getView(R.id.view_replies_button));
         assertTrue(solo.waitForText("this is a test reply2", 1, 2000));
-
-        //creates a second comment
-        solo.clickOnMenuItem("Comments");
-        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test comment");
-        solo.clickOnMenuItem("Ok");
-
-        //reply 3
-        solo.clickOnView(solo.getView(R.id.add_reply_button));
-        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test reply3");
-        solo.clickOnMenuItem("Ok");
-
-        solo.clickOnView(solo.getView(R.id.view_replies_button));
-        assertTrue(solo.waitForText("this is a test reply3", 1, 2000));
-
-        //reply 4
-        solo.clickOnView(solo.getView(R.id.add_reply_button));
-        solo.enterText((EditText) solo.getView(R.id.create_comment_edit_text), "this is a test reply4");
-        solo.clickOnMenuItem("Ok");
-
-        solo.clickOnView(solo.getView(R.id.view_replies_button));
-        assertTrue(solo.waitForText("this is a test reply4", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");

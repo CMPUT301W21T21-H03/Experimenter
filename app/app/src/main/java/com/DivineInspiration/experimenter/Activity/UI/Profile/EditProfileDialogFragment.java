@@ -46,8 +46,8 @@ public class EditProfileDialogFragment extends DialogFragment {
     public static String TAG = "Edit Profile";
 
     /**
-     * Constructor.
-     * @param: callback:UserManager.OnUserReadyListener
+     * Constructor
+     * @param callback when the edit is done
      */
     public EditProfileDialogFragment(UserManager.OnUserReadyListener callback){
         super();
@@ -57,9 +57,9 @@ public class EditProfileDialogFragment extends DialogFragment {
     /**
      * Checks if email entered by the user is valid
      * @param email
-     * email to be checked
+     * email string
      * @return
-     * if the email is valid
+     * if it is valid email or not
      */
     private boolean checkEmailValid(String email) {
         // from https://stackoverflow.com/questions/8204680/java-regex-email second answer
@@ -72,10 +72,8 @@ public class EditProfileDialogFragment extends DialogFragment {
 
     /**
      * Shows alert message on the bottom of the parent fragment page is info was successfully edited
-     * @param error
-     * true is the alert is due to an error, else false
-     * @param message
-     * message to display
+     * @param error true is the alert is due to an error, else false
+     * @param message message to display
      */
     private void showAlert(boolean error, String message) {
         Snackbar snackbar = Snackbar.make(getParentFragment().getView(), message, Snackbar.LENGTH_LONG);
@@ -86,9 +84,9 @@ public class EditProfileDialogFragment extends DialogFragment {
     /**
      * Runs when the dialog is created.
      * @param savedInstanceState
-     * bundle
+     * the bundle
      * @return
-     * dialog to create
+     * the dialog to be created
      */
     @NonNull
     @Override

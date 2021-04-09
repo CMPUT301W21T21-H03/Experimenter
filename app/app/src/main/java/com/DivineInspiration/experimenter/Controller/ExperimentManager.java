@@ -38,34 +38,54 @@ public class ExperimentManager extends ArrayList<Experiment> {
     private String TAG = "DATABASE";
 
     /**
-     * When experiment data is retrieved from database is ready,
-     * it is passed along as a parameter by the interface method.
-     * Utilized for: queryAll, queryUserExperiment, queryUserSubs
+     * Interface definition for a callback to be invoked when {@link ExperimentManager} successfully
+     * queries a list of {@link Experiment} from Firestore
      */
     public interface OnExperimentListReadyListener {
+
+        /**
+         * Called when {@link ExperimentManager} successfully queries a list of {@link Experiment}
+         * from Firestore
+         * @param experiments
+         * The queried experiments
+         */
         void onExperimentsReady(List<Experiment> experiments);
     }
 
     /**
-     * When operation on database is done, the parameter indicates
-     * success or failure talking to the database.
-     * Utilized for: updateOwnerName, unSubFromExperiment. subFromExperiment, deleteExperiment
-     *              addExperiment, updateExperiment
+     * Interface definition for a callback to be invoked when {@link ExperimentManager} performs an
+     * operation on the Firestore database. Operations include adding and deleting experiments,
+     * subscribing and unsubscribing to experiments, banning users from an experiment, and updating
+     * experiment values.
      */
     public interface OnOperationDone {
+
+        /**
+         * Called when {@link ExperimentManager} performs an operation on the Firestore database
+         * @param successful
+         * Success of the operation
+         */
         void done(boolean successful);
     }
 
-
-
+    /**
+     * Interface definition for a callback to be invoked when {@link ExperimentManager} successfully
+     * queries an {@link Experiment} from Firestore
+     */
     public interface OnExperimentReadyListener {
+
+        /**
+         * Called when {@link ExperimentManager} successfully queries an {@link Experiment}
+         * from Firestore
+         * @param experiment
+         * The queried experiment
+         */
         void onExperimentReady(Experiment experiment);
     }
 
     /**
      * Get singleton instance of the class
-     * @return
-     * singleton instance
+     * @return singletonManager
      */
     public static ExperimentManager getInstance() {
         if (singleton == null) {
@@ -90,9 +110,11 @@ public class ExperimentManager extends ArrayList<Experiment> {
      * @param callback
      * callback to return to on complete
      */
-    public void queryExperimentFromId(String experimentId, OnExperimentReadyListener callback)
-    {
-        db.collection("Experiments").document(experimentId).get().addOnCompleteListener(task -> {
+    public void queryExperimentFromId(String experimentId, OnExperimentReadyListener callback) {
+        db.collection("Experiments")
+                .document(experimentId)
+                .get()
+                .addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 callback.onExperimentReady(expFromSnapshot(task.getResult()));
             }
@@ -105,50 +127,57 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * Banning the user from the experiment (ie masking the results)
-     * @param userId
-     * ID of user
-     * @param experimentId
-     * ID of experiment
-     * @param callback
-     * callback for when the operation is done
+     * @param userId ID of user
+     * @param experimentId ID of experiment
+     * @param callback callback for when the operation is done
      */
-    public void banUserFromExperiment(String userId, String experimentId, OnOperationDone callback){
+    public void banUserFromExperiment(String userId, String experimentId, OnOperationDone callback) {
         initLocalUserId();
 
         Map<String, Object> update = new HashMap<>();
         List<String> ids = new ArrayList<>();
         ids.add(userId);
         update.put("BannedIds", ids);
-       db.collection("BlackList").document(experimentId).get().addOnCompleteListener(task -> {
-           if(task.isSuccessful()){
-               if(task.getResult().exists()){
+        db.collection("BlackList")
+                .document(experimentId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                   db.collection("BlackList").document(experimentId).update("BannedIds", FieldValue.arrayUnion(userId)).addOnCompleteListener( task1 -> {
-                       callback.done(task1.isSuccessful());
-                   });
-               }
-               else{
-                   db.collection("BlackList").document(experimentId).set(update, SetOptions.merge()).addOnCompleteListener( task1 -> {
-                       callback.done(task1.isSuccessful());
-                   });
-               }
-           }
-       });
+                        if(task.isSuccessful()) {
+                            if (task.getResult().exists()) {
+
+                                db.collection("BlackList").document(experimentId).update("BannedIds", FieldValue.arrayUnion(userId)).addOnCompleteListener(task1 -> {
+                                    callback.done(task1.isSuccessful());
+                                });
+                            } else {
+                                db.collection("BlackList")
+                                        .document(experimentId)
+                                        .set(update, SetOptions.merge())
+                                        .addOnCompleteListener(task1 -> {
+                                            callback.done(task1.isSuccessful());
+                                        });
+                            }
+                        }
+                    }
+                });
     }
 
     /**
-     * Updates owner name in the FireStore database
+     * Updates owner name in the Firestore database
      * @param ownerId
-     * ID of the experiment owner
      * @param newName
-     * new name of the owner
      * @param callback
-     * callback for when the operation is done
+     * @return void
      */
     public void updateOwnerName(String ownerId, String newName, OnOperationDone callback) {
         initLocalUserId();
         // https://stackoverflow.com/a/53379134/12471420
-        db.collection("Experiments").whereEqualTo("OwnerID", ownerId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Experiments")
+                .whereEqualTo("OwnerID", ownerId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
@@ -168,22 +197,21 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Unsubscribe the given user from the given experiment
-     * @param userId
-     * ID of user that wants to unsubscribe
-     * @param experimentId
-     * the experiment the user wants to unsubscribe from
-     * @param callback
-     * callback for when the operation is done
+     * Unsubscribe the given user from the given experiment.
+     * @param userId the user that wants to unsubscribe
+     * @param experimentId the experiment the user wants to unsubscribe from
+     * @param callback the class to call after the operation is done
      */
     public void unSubFromExperiment(String userId, String experimentId, OnOperationDone callback) {
         initLocalUserId();
-        db.collection("Experiments").document(experimentId).update("SubscriberIDs", FieldValue.arrayRemove(userId)).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments")
+                .document(experimentId)
+                .update("SubscriberIDs", FieldValue.arrayRemove(userId))
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
                     Log.d(TAG, "subbing to experiment failed!(most likely no such experiment exsit)");
-
                 }
                 if (callback != null) {
                     callback.done(task.isSuccessful());
@@ -193,18 +221,18 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Subscribe the given user from the given experiment
-     * @param userId
-     * the ID of the user that wants to unsub
-     * @param experimentId
-     * the experiment the user wants to subscribe to
-     * @param callback
-     * callback for when the operation is done
+     * Subscribe the given user from the given experiment.
+     * @param userId the user that wants to unsubscribe
+     * @param experimentId the experiment the user wants to subscribe to
+     * @param callback the class to call after the operation is done
      */
     public void subToExperiment(String userId, String experimentId, OnOperationDone callback) {
         initLocalUserId();
         // TODO  handle on sub failed?
-        db.collection("Experiments").document(experimentId).update("SubscriberIDs", FieldValue.arrayUnion(userId)).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments")
+                .document(experimentId)
+                .update("SubscriberIDs", FieldValue.arrayUnion(userId))
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
@@ -219,16 +247,16 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Delete the given experiment from database
-     * @param experimentId
-     * experiment we want to delete
-     * @param callback
-     * the class to call after the operation is done
+     * Delete the given experiment from database.
+     * @param experimentId experiment we want to delete
+     * @param callback the class to call after the operation is done
      */
     public void deleteExperiment(String experimentId, OnOperationDone callback) {
         initLocalUserId();
         // TODO handle on delete failed?
-        db.collection("Experiments").document(experimentId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments")
+                .document(experimentId).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
@@ -243,11 +271,10 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Adds a new experiment to database
-     * @param experiment
-     * experiment we want to add
-     * @param callback
-     * the class to call after the operation is done
+     * Adds a new experiment to database.
+     * @param experiment experiment we want to add
+     * @param callback the class to call after the operation is done
+     * @return void
      */
     public void addExperiment(Experiment experiment, OnOperationDone callback) {
         initLocalUserId();
@@ -267,7 +294,10 @@ public class ExperimentManager extends ArrayList<Experiment> {
         doc.put("SubscriberIDs", new ArrayList<>());
 
         // Get document and add to database
-        db.collection("Experiments").document(experiment.getExperimentID()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments")
+                .document(experiment.getExperimentID())
+                .set(doc)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
@@ -281,11 +311,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Updates an existing experiment to database
-     * @param experiment
-     * experiment to be added
-     * @param callback
-     * the class to call after the operation is done
+     * Updates an existing experiment to database given the experiment.
+     * @param experiment experiment we want to add
+     * @param callback rhe class to call after the operation is done
      */
     public void updateExperiment(Experiment experiment, OnOperationDone callback) {
         initLocalUserId();
@@ -303,7 +331,10 @@ public class ExperimentManager extends ArrayList<Experiment> {
         doc.put("Status", experiment.getStatus());
 
         // Get document and add to database
-        db.collection("Experiments").document(experiment.getExperimentID()).set(doc, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments")
+                .document(experiment.getExperimentID())
+                .set(doc, SetOptions.merge())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
@@ -317,18 +348,17 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Updates an existing experiment to database (overload)
-     * @param experiment
-     * experiment to be added
-     * @param fieldsToUpdate
-     * all the fields that need to be updated
-     * @param callback
-     * the class to call after the operation is done
+     * Updates an existing experiment to database. This is an overloaded method.
+     * @param experiment experiment we want to add
+     * @param callback the class to call after the operation is done
      */
     public void updateExperiment(Experiment experiment, Map<String, Object> fieldsToUpdate, OnOperationDone callback) {
         initLocalUserId();
         //how to rename functions 101
-        db.collection("Experiments").document(experiment.getExperimentID()).set(fieldsToUpdate, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Experiments")
+                .document(experiment.getExperimentID())
+                .set(fieldsToUpdate, SetOptions.merge())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
@@ -342,15 +372,15 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Queries the experiments that the given user is subscribed to
-     * @param userId
-     * ID of user to query experiments for
-     * @param callback
-     * the class to call after the operation is done (arrayList of experiments)
+     * Queries the experiments that the given given user is subscribed to.
+     * @param userId the user to query experiments for
+     * @param callback we return an ArrayList of Experiment by passing it as parameter of the callback method
      */
     public void queryUserSubs(String userId, OnExperimentListReadyListener callback) {
         initLocalUserId();
-        db.collection("Experiments").whereArrayContains("SubscriberIDs", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Experiments")
+                .whereArrayContains("SubscriberIDs", userId).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -370,15 +400,16 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Queries the database for all the experiments that belong to the owner
-     * @param userId
-     * ID of user to query experiments for
-     * @param callback
-     * the class to call after the operation is done
+     * Queries the database for all the experiments that belong to the given owner.
+     * @param userId  (The user to query experiments for).
+     * @param callback  (We return an ArrayList of Experiment by passing it as parameter of the callback method)
      */
     public void queryUserExperiment(String userId, OnExperimentListReadyListener callback) {
         initLocalUserId();
-        db.collection("Experiments").whereEqualTo("OwnerID", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Experiments")
+                .whereEqualTo("OwnerID", userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -401,13 +432,14 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Queries all the experiments that are currently in the database
-     * @param callback
-     * the class to call after the operation is done
+     * Queries all the experiments that are currently in the database.
+     * @param callback ee return an ArrayList of Experiment by passing it as parameter of the callback method
      */
     public void queryAll(OnExperimentListReadyListener callback) {
         initLocalUserId();
-        db.collection("Experiments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Experiments")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -430,11 +462,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Returns an experiment object by constructing it using the data from the document snapshot
-     * @param snapshot
-     * FireStore document to retrieve the experiment details from
-     * @return
-     * experiment constructed from the database
+     * This method returns a Experiment object by constructing it using the data from the document snapshot.
+     * @param snapshot the Firestore document to retrieve the experiment details from
+     * @return Experiment object constructed using info from document
      */
     private Experiment expFromSnapshot(DocumentSnapshot snapshot) {
         return new Experiment(
