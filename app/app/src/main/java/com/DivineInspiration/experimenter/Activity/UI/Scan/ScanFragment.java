@@ -177,7 +177,6 @@ public class ScanFragment extends Fragment {
         super.onResume();
         if (!openCamera && ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             openCamera();
-//            Log.v("Run", "1");
             mCodeScanner.startPreview();
         }
     }
@@ -187,7 +186,7 @@ public class ScanFragment extends Fragment {
      */
     @Override
     public void onPause() {
-        // remove QR scanner resources (I think it close the camera?)
+        // remove QR scanner resources (I think it closes the camera?)
         if (openCamera) mCodeScanner.releaseResources();
         super.onPause();
     }

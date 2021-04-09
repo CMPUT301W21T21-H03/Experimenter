@@ -63,6 +63,8 @@ public class CreateTrialDialogFragment extends DialogFragment {
     double myLong = 0;
     LatLng trialLocation = null;
     boolean needLocation = false;
+    String message;
+    String measure;
     /**
      * When trial data is retrieved, it is passed along as a parameter by the interface method.
      */
@@ -101,42 +103,59 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 .setNegativeButton("Cancel", null)
                 .create();
 
-        // opens QR fragment
-        generateQR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                QRCodeDialogFragment frag = new QRCodeDialogFragment();
-                Bundle dialogArgs = new Bundle();
-                dialogArgs.putString("message", args.getString("experimenterID") + "-" + count);
-                frag.setArguments(dialogArgs);
-                frag.show(getParentFragmentManager(), "QR code fragment");
-            }
-        });
-
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Call the appropriate method (when "OK" button of dialog is clicked) depending on type of the trial
-
                 switch (trialTypeCheck) {
                     case "Binomial trial":
                         binomialTrialDialog(args, exp);
                         break;
                     case "Count trial":
                         countTrialDialog(args, exp);
+                        message = String.valueOf(count);
                         break;
                     case "Non-Negative trial":
                         nonNegativeTrialDialog(args, exp);
+                        message = String.valueOf(count);
                         break;
                     case "Measurement trial":
-                        String measure = measurementTextBox.getText().toString();
+                        measure = measurementTextBox.getText().toString();
                         measurementTrialDialog(args, exp, measure);
                         break;
                     default:
                         break;
                 }
                 dialog.dismiss();
+            }
+        });
+
+        // opens QR fragment
+        generateQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QRCodeDialogFragment frag = new QRCodeDialogFragment();
+                Bundle dialogArgs = new Bundle();
+
+                switch (trialTypeCheck) {
+                    case "Binomial trial":
+                        message = String.valueOf(passNum) + String.valueOf(failNum);
+                        break;
+                    case "Count trial":
+                    case "Non-Negative trial":
+                        message = String.valueOf(count);
+                        break;
+                    case "Measurement trial":
+                        message = measurementTextBox.getText().toString();
+                        break;
+                    default:
+                        message = "null";
+                        break;
+                }
+                dialogArgs.putString("message", args.getString("experimenterID") + "-" + message);
+                frag.setArguments(dialogArgs);
+                frag.show(getParentFragmentManager(), "QR code fragment");
             }
         });
 
@@ -191,9 +210,9 @@ public class CreateTrialDialogFragment extends DialogFragment {
      * @param: exp:Experiment (the experiment this trial is being performed for).
      */
     public void countTrialDialog(Bundle args, Experiment exp) {
-        if(needLocation){
+        if (needLocation) {
             trialLocation = new LatLng(myLat,myLong);
-        }else{
+        } else {
 
         }
         CountTrial countTrial = new CountTrial(
@@ -439,11 +458,9 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 if(count > 0){
                     count = count - 1;
                     countNNTrial.setText(String.valueOf(count));
-                }else{
+                } else {
 
                 }
-
-
             }
         });
     }
