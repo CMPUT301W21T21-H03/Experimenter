@@ -71,7 +71,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     ExperimentManager experimentManager = ExperimentManager.getInstance();
     UserManager userManager = UserManager.getInstance();
 
-    List<Trial> currentTrials = new ArrayList<>();
+
     boolean currentUserSubbed = false;
 
     String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
@@ -338,7 +338,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
         experimentName.setText(exp.getExperimentName());
         ownerName.setText("Created by " + exp.getOwnerName());
-        expCity.setText("Region: " + exp.getRegion());
+        expCity.setText("Region: " + exp.getRegion() + (exp.isRequireGeo()?" - GeoLocation: On":" - GeoLocation: Off"));
         trialNumber.setText(exp.getMinimumTrials() + " trials needed");
         trialType.setText(exp.getTrialType());
         expAbout.setText(exp.getExperimentDescription());
