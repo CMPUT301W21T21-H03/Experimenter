@@ -44,20 +44,15 @@ public class StatsTabFragment extends Fragment implements Observer {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         init(getView());
-
     }
 
     private void init(View view) {
-
 
         buttonGroup = view.findViewById(R.id.statButtonGroup);
         backButton = view.findViewById(R.id.statBackButton);
         graphHolder = view.findViewById(R.id.graphHolder);
         statHolder = view.findViewById(R.id.statHolder);
-
-
 
         // Testing data
 //        for (int i = 0; i < 5; i++) {
@@ -81,9 +76,7 @@ public class StatsTabFragment extends Fragment implements Observer {
             showStats();
         });
 
-
       showStats();
-
     }
 
 
@@ -127,21 +120,14 @@ public class StatsTabFragment extends Fragment implements Observer {
 
     }
 
-
-
-
-
     /**
      * To be called when the content trialList should be updated
      */
-
-
     @Override
     public void update(Object data) {
 
         trialList.clear();
         trialList.addAll((List<Trial>) data);
-
 
 //        for(Trial i : trialList){
 ////            Log.d("woah stats", i.toString());
@@ -153,8 +139,6 @@ public class StatsTabFragment extends Fragment implements Observer {
 
                 showStats();
 
-
         }
-
     }
 }

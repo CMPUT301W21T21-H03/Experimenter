@@ -18,6 +18,7 @@ public class NonClickableToolbar extends Toolbar {
     /**
      * Constructor
      * @param context
+     * context of toolbar
      * @param attrs
      * @param defStyleAttr
      */
@@ -45,7 +46,9 @@ public class NonClickableToolbar extends Toolbar {
     /**
      * When toolbar is touched
      * @param ev
+     * motion event
      * @return
+     * if it has been touched
      */
     @Override
     public boolean onTouchEvent(MotionEvent ev) {

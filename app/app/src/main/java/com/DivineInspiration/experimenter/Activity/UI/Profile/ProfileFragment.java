@@ -63,7 +63,6 @@ public class ProfileFragment extends Fragment {
 
     /**
      * Constructor
-     * @param: void
      */
     public ProfileFragment() {
         super(R.layout.profile_fragment);
@@ -71,7 +70,8 @@ public class ProfileFragment extends Fragment {
 
     /**
      * Runs when the view is fully created
-     * @param: savedInstanceState:Bundle
+     * @param savedInstanceState
+     * bundle
      */
     @SuppressLint("MissingPermission")
     @Override
@@ -266,12 +266,20 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Constructor
-         * @param: frag:Fragment
+         * @param frag
+         * home fragment
          */
         public HomeFragmentAdapter(Fragment frag) {
             super(frag);
         }
 
+        /**
+         * Constructor
+         * @param frag
+         * fragment
+         * @param userID
+         * ID of user
+         */
         public HomeFragmentAdapter(Fragment frag, String userID) {
             super(frag);
             changeUserID = userID;
@@ -279,8 +287,10 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Create the appropriate fragment depending on the position of the tab
-         * @param: position:int (position in adapter)
-         * @return: :Fragment
+         * @param position
+         * position in adapter
+         * @return
+         * fragment
          */
         @NonNull
         @Override
@@ -311,7 +321,8 @@ public class ProfileFragment extends Fragment {
 
         /**
          * Get item count
-         * @return: :int (number of items in list)
+         * @return
+         * number of items in list
          */
         @Override
         public int getItemCount() {
@@ -331,8 +342,8 @@ public class ProfileFragment extends Fragment {
 
         /**
          * When view is created
-         *
          * @param view
+         * view
          * @param savedInstanceState
          */
         @Override
