@@ -24,7 +24,7 @@ import com.DivineInspiration.experimenter.Activity.Subject;
 
 import com.DivineInspiration.experimenter.Activity.UI.Comments.CreateCommentDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Comments.DiscussionForumFragment;
-import com.DivineInspiration.experimenter.Activity.UI.MapUi.TrialMapTabFramgent;
+import com.DivineInspiration.experimenter.Activity.UI.Map.TrialMapTabFramgent;
 import com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.TrialsUI.TrialsTabFragment;
 
@@ -36,6 +36,7 @@ import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.Model.User;
 import com.DivineInspiration.experimenter.R;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -83,6 +84,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     CollapsingToolbarLayout toolbar;
 
+    AppBarLayout appBar;
     /**
      * Runs when the view is created. Similar to the activity's onCreate
      * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
@@ -113,6 +115,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         adapter = new ExperimentTabsAdapter(this);
         pager.setAdapter(adapter);
         tabLayout = view.findViewById(R.id.Tablayout);
+        appBar = view.findViewById(R.id.expAppbar);
         // Set tab names
         new TabLayoutMediator(tabLayout, pager, true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
@@ -133,6 +136,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
                 }
                 if(position == 3){
                     pager.setUserInputEnabled(false);
+                    appBar.setExpanded(false, true);
                 }
                 else{
                     pager.setUserInputEnabled(true);
@@ -408,7 +412,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
          */
         @Override
         public int getItemCount() {
-            return currentExperiment.isRequireGeo()?4:3;
+            return 4;
         }
     }
 

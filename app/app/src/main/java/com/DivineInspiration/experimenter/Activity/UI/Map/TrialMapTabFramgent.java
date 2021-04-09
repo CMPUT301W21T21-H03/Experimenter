@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.MapUi;
+package com.DivineInspiration.experimenter.Activity.UI.Map;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -85,7 +85,7 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         if (map != null) {
             for (Trial trial : trials) {
 
-                if(!trial.isIgnored()){
+                if(!trial.isIgnored() && trial.getLocation() != null){
                     map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUI.MapHelper.getShortTrialDescription(trial)));
                 }
             }
