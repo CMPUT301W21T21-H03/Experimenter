@@ -161,6 +161,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                             }else{
                                 measure = args.getString("Value");
                                 measurementTextBox.setText(measure);
+                                
                             }
                             measurementTrialDialog(args, exp, measure);
                             break;
@@ -450,13 +451,6 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
             case "Measurement trial":
                 measurementTextBox.setVisibility(View.VISIBLE);
                 valueHolder.setVisibility(View.VISIBLE);
-                if(args.getBoolean("isScan") == false){
-
-                }else{
-                    measurementTextBox.setEnabled(false);
-                    valueHolder.setEnabled(false);
-                }
-
 
                 break;
 
