@@ -138,9 +138,10 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 QRCodeDialogFragment frag = new QRCodeDialogFragment();
                 Bundle dialogArgs = new Bundle();
 
+                // most are in the format of experimentID-count except binomial which is pass-fail
                 switch (trialTypeCheck) {
                     case "Binomial trial":
-                        message = String.valueOf(passNum) + String.valueOf(failNum);
+                        message = String.valueOf(passNum) + "-" + String.valueOf(failNum);
                         break;
                     case "Count trial":
                     case "Non-Negative trial":
