@@ -23,9 +23,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
+import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -150,6 +152,7 @@ public class ScanFragment extends Fragment {
                         // do something after scanning
 
 
+                        //id, type, params
                         scanned = result.getText().split("-");
 
                         if (scanned.length == 1) {
@@ -159,18 +162,20 @@ public class ScanFragment extends Fragment {
                             for (String key : map.keySet()) {
                                 if (key.equals(scanned[0])) {
                                     //found a match barcode
-                                    scanned = ((String)map.get(key)).split("-");
+                                    scanned = ((String) map.get(key)).split("-");
                                     Toast.makeText(getContext(), "Found matching barcode", Toast.LENGTH_SHORT).show();
                                     break;
                                 }
                             }
-                            if(scanned.length == 1){
+                            if (scanned.length == 1) {
                                 Toast.makeText(getContext(), "No matching barcode found", Toast.LENGTH_LONG).show();
                                 return;
                             }
                         }
 
                         String userId = UserManager.getInstance().getLocalUser().getUserId();
+                        String userName = UserManager.getInstance().getLocalUser().getUserName();
+
                         ExperimentManager manager = ExperimentManager.getInstance();
                         manager.queryUserSubs(userId, experiments -> {
                             boolean subbed = false;
@@ -182,9 +187,28 @@ public class ScanFragment extends Fragment {
                                 }
 
                             }
-
                             if (subbed) {
-                                //show trial dialog TODO
+                                Bundle args = new Bundle();
+                                manager.queryExperimentFromId(scanned[0], experiment -> {
+                                    args.putSerializable("experiment", experiment);
+                                    args.putString("experimenterID", userId);
+                                    args.putString("experimenterName", userName);
+                                    args.putBoolean("isScan", true);
+                                    if (scanned[1].equals(Trial.BINOMIAL)) {
+                                        args.putInt("Pass", Integer.parseInt(scanned[2]));
+                                        args.putInt("Fail", Integer.parseInt(scanned[3]));
+                                    } else if (scanned[1].equals(Trial.MEASURE)) {
+                                        args.putString("Value", scanned[2]);
+                                    } else {
+                                        args.putInt("Count", Integer.parseInt(scanned[2]));
+                                    }
+                                    CreateTrialDialogFragment dialogFragment = new CreateTrialDialogFragment(trial -> {
+                                        Toast.makeText(getContext(), "Trial has been added", Toast.LENGTH_LONG).show();
+                                    });
+                                    dialogFragment.setArguments(args);
+                                    dialogFragment.show(getChildFragmentManager(), "Add trial from scan");
+
+                                });
                             } else {
                                 manager.queryExperimentFromId(scanned[0], experiment -> {
                                     AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
@@ -197,8 +221,6 @@ public class ScanFragment extends Fragment {
                                 });
                             }
                         });
-
-
                     }
                 });
             }
