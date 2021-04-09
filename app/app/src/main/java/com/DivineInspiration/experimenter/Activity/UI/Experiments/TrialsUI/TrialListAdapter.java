@@ -104,12 +104,16 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
             });
         });
 
-        GeoPoint geoPoint = TrialManager.getInstance().latLngToGeoPoint(myTrial.getLocation());
-        DecimalFormat decimalFormat = new DecimalFormat("0.##");
+        if(myTrial.getLocation()!=null){
+            GeoPoint geoPoint = TrialManager.getInstance().latLngToGeoPoint(myTrial.getLocation());
+            DecimalFormat decimalFormat = new DecimalFormat("0.##");
+            String LAT = decimalFormat.format(geoPoint.getLatitude());
+            String LONG = decimalFormat.format(geoPoint.getLongitude());
+            holder.getTrialLocation().setText("Location: " + LAT + " , " + LONG);
+        }else{
 
-        String LAT = decimalFormat.format(geoPoint.getLatitude());
-        String LONG = decimalFormat.format(geoPoint.getLongitude());
-        holder.getTrialLocation().setText("Location: " + LAT + " , " + LONG);
+        }
+
 
     }
 
