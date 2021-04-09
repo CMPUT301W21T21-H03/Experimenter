@@ -187,8 +187,6 @@ public class ScanFragment extends Fragment {
                                 }
 
                             }
-
-
                             if (subbed) {
                                 Bundle args = new Bundle();
                                 manager.queryExperimentFromId(scanned[0], experiment -> {
@@ -200,9 +198,9 @@ public class ScanFragment extends Fragment {
                                         args.putInt("Pass", Integer.parseInt(scanned[2]));
                                         args.putInt("Fail", Integer.parseInt(scanned[3]));
                                     } else if (scanned[1].equals(Trial.MEASURE)) {
-                                        args.putDouble("Value", Double.parseDouble(scanned[2]));
+                                        args.putString("Value", scanned[2]);
                                     } else {
-                                        args.putDouble("Count", Integer.parseInt(scanned[2]));
+                                        args.putInt("Count", Integer.parseInt(scanned[2]));
                                     }
                                     CreateTrialDialogFragment dialogFragment = new CreateTrialDialogFragment(trial -> {
                                         Toast.makeText(getContext(), "Trial has been added", Toast.LENGTH_LONG).show();
@@ -223,8 +221,6 @@ public class ScanFragment extends Fragment {
                                 });
                             }
                         });
-
-
                     }
                 });
             }
