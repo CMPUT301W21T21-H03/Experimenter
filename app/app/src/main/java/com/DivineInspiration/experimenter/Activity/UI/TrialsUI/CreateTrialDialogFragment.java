@@ -397,15 +397,16 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         decrementFailNumButton.setVisibility(View.GONE);
         decrementPassNumButton.setVisibility(View.GONE);
         locationWarning.setVisibility(View.GONE);
+
         if(args.getBoolean("isScan")){
             generateQR.setVisibility(View.GONE);
             generateBar.setVisibility(View.GONE);
-        }else{
+        } else{
 
         }
 
         switch (trialType){
-            case "Binomial trial":
+            case Trial.BINOMIAL:
                 if (args.getBoolean("isScan") == false) {
                     passButton.setVisibility(View.VISIBLE);
                     failButton.setVisibility(View.VISIBLE);
@@ -424,7 +425,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 }
                 break;
 
-            case "Count trial":
+            case Trial.COUNT:
                 if (args.getBoolean("isScan") == false) {
                     negativeCountNNButton.setVisibility(View.VISIBLE);
                     positiveCountNNButton.setVisibility(View.VISIBLE);
@@ -435,10 +436,9 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                     countNNTrial.setText(String.valueOf(count));
                     countNNTrial.setVisibility(View.VISIBLE);
                 }
-
                 break;
 
-            case "Non-Negative trial":
+            case Trial.NONNEGATIVE:
                 if (args.getBoolean("isScan") == false) {
                     negativeCountNNButton.setVisibility(View.VISIBLE);
                     positiveCountNNButton.setVisibility(View.VISIBLE);
@@ -451,7 +451,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 }
                 break;
 
-            case "Measurement trial":
+            case Trial.MEASURE:
                 measurementTextBox.setVisibility(View.VISIBLE);
                 valueHolder.setVisibility(View.VISIBLE);
                 break;
