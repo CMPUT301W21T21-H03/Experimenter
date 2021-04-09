@@ -404,8 +404,8 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 }else{
                     passNum = args.getInt("Pass");
                     failNum = args.getInt("Fail");
-                    trueNumTrial.setText("Pass: " + String.valueOf(passNum));
-                    failNumTrial.setText( "Fail: "+ String.valueOf(failNum));
+                    trueNumTrial.setText(String.valueOf(passNum));
+                    failNumTrial.setText(String.valueOf(failNum));
                     failNumTrial.setVisibility(View.VISIBLE);
                     trueNumTrial.setVisibility(View.VISIBLE);
                 }
