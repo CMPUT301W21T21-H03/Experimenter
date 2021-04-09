@@ -465,7 +465,9 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         // Forward results to EasyPermissions
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
-
+    /*
+     * https://codinginflow.com/tutorials/android/easypermissions
+     */
     @AfterPermissionGranted(123)
     private void checkLocationPermission() {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -478,6 +480,9 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
     }
     @SuppressLint("MissingPermission")
     public void getTrialLocation(){
+        /*
+         *https://howtodoandroid.medium.com/how-to-get-current-latitude-and-longitude-in-android-example-35437a51052a
+         */
         LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
             @Override
