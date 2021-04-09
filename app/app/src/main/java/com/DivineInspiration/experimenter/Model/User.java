@@ -9,8 +9,15 @@ public class User {
     private UserContactInfo contactInfo;
 
     /**
-     * User constructor
-     * @param: username:String, contactUserInfo:UserContactInfo
+     * Constructor for the user
+     * @param username
+     * username of user
+     * @param userId
+     * unique user ID of user
+     * @param contactUserInfo
+     * contact info of user
+     * @param description
+     * user description
      */
     public User(String username, String userId, UserContactInfo contactUserInfo, String description) {
         this.userId = userId;
@@ -21,7 +28,8 @@ public class User {
 
     /**
      * Default constructor when initializing the user
-     * @param: userId:String
+     * @param userId
+     * ID of user
      */
     public User(String userId) {
         this.userId = userId;
@@ -32,7 +40,6 @@ public class User {
 
     /**
      * Mock object constructor for testing purposes
-     * @param: void
      */
     public User() {
         userId = "defaultId";
@@ -43,7 +50,8 @@ public class User {
 
     /**
      * Gets contact info of user
-     * @return: contactInfo:UserContactInfo (Contact person class of user)
+     * @return
+     * The contact info of the user
      */
     public UserContactInfo getContactInfo() {
         return contactInfo;
@@ -51,7 +59,8 @@ public class User {
 
     /**
      * Sets new contact info of person
-     * @param: contactInfo:UserContactInfo (new contact info)
+     * @param contactInfo
+     * new contact for person
      */
     public void setContactInfo(UserContactInfo contactInfo) {
         this.contactInfo = contactInfo;
@@ -59,15 +68,17 @@ public class User {
 
     /**
      * Gets name of user
-     * @return: username:String
+     * @return
+     * name of user
      */
     public String getUserName() {
         return userName;
     }
 
     /**
-     * Sets username
-     * @param: userName:String
+     * Sets the name of the user
+     * @param userName
+     * new name of user
      */
     public void setUserName(String userName) {
         this.userName = userName;
@@ -75,7 +86,8 @@ public class User {
 
     /**
      * Gets ID of user
-     * @return: userID:String
+     * @return
+     * unique ID of user
      */
     public String getUserId() {
         return userId;
@@ -84,7 +96,7 @@ public class User {
     /**
      * Returns a formatted user string
      * @return
-     * formatted string
+     * pretty formatted string
      */
     @NotNull
     @Override
@@ -93,8 +105,9 @@ public class User {
     }
 
     /**
-     * Gets the User description
-     * @return: description:String (the user description)
+     * Gets the description/about of user
+     * @return
+     * the user about
      */
     public String getDescription() {
         return description;

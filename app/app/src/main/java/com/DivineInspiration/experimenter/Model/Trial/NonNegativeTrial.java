@@ -14,8 +14,21 @@ public class NonNegativeTrial extends Trial {
     private int count;
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int, location:GeoPoint
+     * The constructor
+     * @param trialID
+     * ID of trial
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param trialDate
+     * date of when the trial occurred
+     * @param count
+     * number of count
+     * @param location
+     * location of where the trial occurred
      */
     public NonNegativeTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count, LatLng location){
         super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate,location);
@@ -24,8 +37,13 @@ public class NonNegativeTrial extends Trial {
     }
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate
+     * The constructor
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
      */
     public NonNegativeTrial(String trialUserID, String trialOwnerName, String trialExperimentID) {
         super(trialUserID, trialOwnerName,trialExperimentID);
@@ -33,9 +51,19 @@ public class NonNegativeTrial extends Trial {
         this.count = 0;
     }
 
+
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int, location:GeoPoint
+     * The constructor
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param count
+     * number of count
+     * @param location
+     * location of where the trial occurred
      */
     public NonNegativeTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count, LatLng location) {
         super(trialUserID, trialOwnerName,trialExperimentID);
@@ -44,9 +72,21 @@ public class NonNegativeTrial extends Trial {
         this.location = location;
     }
 
+
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int
+     * The constructor
+     * @param trialID
+     * ID of trial
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param trialDate
+     * date of when the trial occurred
+     * @param count
+     * number of count
      */
     public NonNegativeTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count) {
         super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate);
@@ -56,9 +96,8 @@ public class NonNegativeTrial extends Trial {
 
     /**
      * Mock object constructor for testing purposes
-     * @param: void
      */
-    public NonNegativeTrial(){
+    public NonNegativeTrial() {
         super("test", "test", "test","test", LocalDate.now().plusDays(new Random().nextInt(40) - 20));
         this.trialType = Trial.NONNEGATIVE;
         Random rng = new Random();
@@ -73,8 +112,9 @@ public class NonNegativeTrial extends Trial {
     }
 
     /**
-     * Sets count
-     * @param: count:int (new count)
+     * Set count
+     * @param count
+     * new count
      */
     public void setCount(int count) {
         this.count = count;
@@ -82,7 +122,8 @@ public class NonNegativeTrial extends Trial {
 
     /**
      * Gets current count
-     * @return: count:int
+     * @return
+     * number of count
      */
     public int getCount() {
         return count;
