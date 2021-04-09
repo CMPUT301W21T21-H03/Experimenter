@@ -273,10 +273,10 @@ public class ExperimentTests {
         solo.clickOnView(solo.getView(R.id.setting));
 
         while (solo.waitForText("Delete", 1, 1000) == false) {
-            solo.drag(200, 200, 300, 100, 10);
+            solo.drag(600, 600, 900, 600, 10);
         }
-        solo.drag(200, 200, 300, 100, 10);
-        solo.drag(200, 200, 300, 100, 10);
+        solo.drag(600, 600, 900, 600, 10);
+        solo.drag(600, 600, 800, 600, 10);
         assertTrue(solo.waitForText("Delete", 1, 2000));
         solo.clickOnMenuItem("Delete");
     }
@@ -316,7 +316,8 @@ public class ExperimentTests {
         assertTrue(solo.waitForText("Status: Ended", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.setting));
-        assertTrue(solo.waitForText("This experiment has ended!", 1, 2000));
+        assertTrue(solo.waitForText("Delete", 1, 2000));
+        solo.clickOnMenuItem("Delete");
     }
     @Test
     public void checkEditExperiment() {
@@ -356,7 +357,7 @@ public class ExperimentTests {
 
         solo.clickOnMenuItem("Ok");
 
-        solo.clickOnMenuItem("Home");
+        solo.clickOnView(solo.getView(R.id.navigation_home));
 
         while (solo.waitForText("Testing edit", 1, 1000) == false) {
             solo.drag(600, 600, 1000, 1500, 10);
@@ -370,8 +371,10 @@ public class ExperimentTests {
         solo.clickOnView(solo.getView(R.id.setting));
 
         while (solo.waitForText("Delete", 1, 1000) == false) {
-            solo.drag(200, 200, 300, 100, 10);
+            solo.drag(600, 600, 900, 600, 10);
         }
+        solo.drag(600, 600, 900, 600, 10);
+
         solo.clickOnMenuItem("Delete");
 
 
@@ -396,15 +399,14 @@ public class ExperimentTests {
         solo.clickOnView(solo.getView(R.id.experimentItemCard));
         assertTrue(solo.waitForText("Status:", 1, 2000));
         solo.clickOnView(solo.getView(R.id.subscribeSwitch));
-        solo.clickOnMenuItem("Home");
+        solo.clickOnView(solo.getView(R.id.navigation_home));
 
         solo.clickOnMenuItem("Subscriptions");
         assertTrue(solo.waitForText("Testing subscribe", 1, 2000));
         assertTrue(solo.waitForText("Test region", 1, 2000));
         assertTrue(solo.waitForText("this is a test experiment to subscribe to for intent testing", 1, 2000));
 
-        solo.clickOnMenuItem("Home");
-        solo.sleep(5000);
+        solo.clickOnView(solo.getView(R.id.navigation_home));
 
         while (solo.waitForText("Testing subscribe", 1, 1000) == false) {
             solo.drag(600, 600, 1000, 1500, 10);
