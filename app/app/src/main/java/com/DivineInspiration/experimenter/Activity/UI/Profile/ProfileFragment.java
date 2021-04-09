@@ -321,7 +321,7 @@ public class ProfileFragment extends Fragment {
          */
         @Override
         public int getItemCount() {
-            return 3;
+            return otherUser?2:3;
         }
     }
 

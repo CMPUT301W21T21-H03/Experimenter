@@ -54,8 +54,8 @@ public class BarcodeListAdapter extends RecyclerView.Adapter<BarcodeListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.getCode().setText(pairs.get(position).a);
-        holder.getCommand().setText(pairs.get(position).b);
+        holder.getCode().setText("Barcode: "+ pairs.get(position).a);
+        holder.getCommand().setText("Command: "+ pairs.get(position).b);
     }
 
     /**
