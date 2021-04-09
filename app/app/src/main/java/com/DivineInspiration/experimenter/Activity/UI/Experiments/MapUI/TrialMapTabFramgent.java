@@ -1,4 +1,4 @@
-package com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUI;
+package com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUi;
 
 import android.Manifest;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,7 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
             for (Trial trial : trials) {
 
                 if(!trial.isIgnored()){
-                    map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(MapHelper.getShortTrialDescription(trial)));
+                    map.addMarker(new MarkerOptions().position(trial.getLocation()).snippet(com.DivineInspiration.experimenter.Activity.UI.Experiments.MapUI.MapHelper.getShortTrialDescription(trial)));
                 }
             }
         }
@@ -109,8 +110,9 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
                 // mapController.setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
                 map.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).snippet("Current Location").icon(bitmapDescriptorFromVector(getContext(), R.drawable.current_location_icon)));
                 map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+                Log.d("woah location", location.toString());
                 //    map.moveCamera(CameraUpdateFactory.zoomTo(9));
-                mLocationManager.removeUpdates(this);
+               // mLocationManager.removeUpdates(this);
             }
         });
 
@@ -141,13 +143,13 @@ custom info
 
             View v = LayoutInflater.from(getContext()).inflate(R.layout.marker_content, null);
 
-            if(marker.getSnippet().equals("Current Location")){
-                return  null;
-            }
+
 
             ((TextView) v.findViewById(R.id.markerContent)).setText(marker.getSnippet());
 
-
+            if(marker.getSnippet().equals("Current Location")){
+                ((TextView) v.findViewById(R.id.markerContent)).setText("Current Location");
+            }
             v.setClickable(false);
             return v;
         }
