@@ -28,7 +28,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class    TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.ViewHolder> {
+public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.ViewHolder> {
 
     private List<Trial> trials = new ArrayList<>();
     private TrialManager.OnTrialListReadyListener callback;
