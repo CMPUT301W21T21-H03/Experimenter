@@ -32,10 +32,19 @@ public class TrialsTabFragment extends Fragment implements Observer {
     private List<Trial> trialList = new ArrayList<>();
     private TrialManager.OnTrialListReadyListener callback;
 
+    /**
+     * Constructor
+     * @param callback
+     * callback function for when it is done
+     */
     public TrialsTabFragment(TrialManager.OnTrialListReadyListener callback){
         this.callback = callback;
     }
 
+    /**
+     * when the fragment is created
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +79,10 @@ public class TrialsTabFragment extends Fragment implements Observer {
      */
     @Override
     public void update(Object data) {
-        Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
-        trialList.clear();
-        trialList.addAll((List<Trial>) data);
-        Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
+      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
+      trialList.clear();
+      trialList.addAll((List<Trial>) data);
+      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
 
         if (adapter != null) {
             adapter.notifyDataSetChanged();

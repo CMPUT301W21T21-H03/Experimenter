@@ -6,8 +6,8 @@ public class UserContactInfo {
 
     /**
      * Contact person info constructor
-     * @param cityName city of person
-     * @param email email of person
+     * @param cityName city of user
+     * @param email email of user
      */
     public UserContactInfo(String cityName, String email) {
         this.cityName = cityName;

@@ -48,8 +48,11 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
     /**
      * Constructor
      * @param trials
+     * list of trials
      * @param callback
+     * callback function for when it is done
      * @param experiment
+     * the experiment it belongs to
      */
     public TrialListAdapter(List<Trial> trials, TrialManager.OnTrialListReadyListener callback, Experiment experiment) {
         super();
@@ -60,6 +63,15 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         this.experiment = experiment;
     }
 
+    /**
+     * When view is created
+     * @param parent
+     * parent if adapter
+     * @param viewType
+     * type of view
+     * @return
+     * view holder
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,9 +79,13 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         return new TrialListAdapter.ViewHolder(v);
     }
 
+    /**
+     * on view bind holder
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         Trial myTrial = trials.get(position);
         String value = null;
         String type = myTrial.getTrialType();
@@ -130,8 +146,12 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         }
     }
 
+    /**
+     * Bans the user of ID
+     * @param bannedId
+     * user to ban
+     */
     private void instantBanUpdate(String bannedId) {
-
         List<Trial> updatedTrials = new ArrayList<>();
         for (Trial t : trials) {
             if (t.getTrialUserID().equals(bannedId)) {
@@ -143,6 +163,11 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         callback.onTrialsReady(updatedTrials);
     }
 
+    /**
+     * Get number of items
+     * @return
+     * number of items
+     */
     @Override
     public int getItemCount() {
         return trials.size();
@@ -159,6 +184,9 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         notifyDataSetChanged();
     }
 
+    /**
+     * Each card
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // card and text
         private final CardView trialCard;
@@ -168,6 +196,11 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         private final TextView trialResult;
         private final Button banButton;
 
+        /**
+         * View holder
+         * @param v
+         * view
+         */
         public ViewHolder(View v) {
             super(v);
 
@@ -179,26 +212,56 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
             banButton = v.findViewById(R.id.trialBan);
         }
 
+        /**
+         * Get the card
+         * @return
+         * card
+         */
         public CardView getTrialCard() {
             return trialCard;
         }
 
+        /**
+         * Get the experiment name
+         * @return
+         * name of experiment
+         */
         public TextView getExperimenterName() {
             return experimenterName;
         }
 
+        /**
+         * Get the trial date
+         * @return
+         * date of trial as text view
+         */
         public TextView getTrialDate() {
             return trialDate;
         }
 
+        /**
+         * Gets lcoation of trial
+         * @return
+         * location
+         */
         public TextView getTrialLocation() {
             return trialLocation;
         }
 
+        /**
+         * Gets the results of the trial
+         * @return
+         * result text view
+         */
         public TextView getTrialResult() {
             return trialResult;
         }
 
+        /**
+         * Gets the ban button
+         * @return
+         * button that bans
+         */
         public Button getBanButton() {
             return banButton;
         }
