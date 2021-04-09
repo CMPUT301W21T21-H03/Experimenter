@@ -328,6 +328,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
         Bundle trialBundle = new Bundle();
         trialBundle.putString("experimenterID", userManager.getLocalUser().getUserId());
         trialBundle.putString("experimenterName", userManager.getLocalUser().getUserName());
+        trialBundle.putBoolean("isScan", false);
         trialBundle.putSerializable("experiment", currentExperiment);
 
         // Create a trial creation dialog fragment
