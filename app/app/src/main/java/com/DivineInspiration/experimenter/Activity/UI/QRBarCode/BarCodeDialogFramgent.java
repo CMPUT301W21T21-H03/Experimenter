@@ -32,16 +32,22 @@ import com.google.zxing.integration.android.IntentResult;
 
 public class BarCodeDialogFramgent extends DialogFragment {
 
-
     String params;
     boolean allowCamera = false;
     boolean openCamera = false;
-    CodeScannerView scannerView;
-    Button scan;
-    private CodeScanner mCodeScanner;
 
+    private CodeScanner mCodeScanner;
+    CodeScannerView scannerView;
+
+    Button scan;
     Dialog dialog;
 
+    /**
+     * When dialog is created
+     * @param savedInstanceState
+     * @return
+     * dialog itself
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -57,12 +63,10 @@ public class BarCodeDialogFramgent extends DialogFragment {
             public void onClick(View v) {
                 // if camera is open
                 if (allowCamera) {
-                    try
-                    {
+                    try {
+                        // ???
                         Thread.sleep(20);
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     mCodeScanner.startPreview();
@@ -81,16 +85,19 @@ public class BarCodeDialogFramgent extends DialogFragment {
             ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.CAMERA}, 401);
         }
 
-         dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor).setTitle("Scan a bar code").setView(view).create();
+        dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor).setTitle("Scan a bar code").setView(view).create();
         dialog.show();
         return dialog;
-
-
-
     }
 
-
-
+    /**
+     * Result of requesting the permissions
+     * @param requestCode
+     * request code
+     * @param resultCode
+     * result of the request
+     * @param data data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -105,7 +112,9 @@ public class BarCodeDialogFramgent extends DialogFragment {
         }
     }
 
-
+    /**
+     * Opening the camera
+     */
     private void openCamera() {
         // from https://www.youtube.com/watch?v=drH63NpSWyk by Code Palace
         // (https://www.youtube.com/channel/UCuudpdbKmQWq2PPzYgVCWlA)
@@ -189,12 +198,18 @@ public class BarCodeDialogFramgent extends DialogFragment {
         super.onPause();
     }
 
+    /**
+     * When the dialog is destroyed
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (openCamera) mCodeScanner.releaseResources();
     }
 
+    /**
+     * When the dialog is dismissed
+     */
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);

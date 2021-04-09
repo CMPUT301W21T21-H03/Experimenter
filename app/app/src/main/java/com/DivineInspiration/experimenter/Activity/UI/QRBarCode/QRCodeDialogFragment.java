@@ -30,6 +30,12 @@ public class QRCodeDialogFragment extends DialogFragment {
     Bitmap bitmap;
     TextView fileName;
 
+    /**
+     * When creating the QR dialog fragment
+     * @param savedInstanceState
+     * @return
+     * dialog itself
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

@@ -15,29 +15,38 @@ import com.DivineInspiration.experimenter.R;
 
 public class BarCodeListFragment extends Fragment {
 
-RecyclerView recyclerView;
+    RecyclerView recyclerView;
 
+    /**
+     * When creating view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return  inflater.inflate(R.layout.barcode_list, container, false);
     }
 
-
+    /**
+     * When view is created
+     * @param view
+     * view itself
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.barCodeList);
-
-
-
-recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
-
-
-
+        recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
     }
 
+    /**
+     * When the dialog fragment is paused
+     */
     @Override
         public void onResume() {
             super.onResume();

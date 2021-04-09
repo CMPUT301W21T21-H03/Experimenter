@@ -55,10 +55,10 @@ public class QRFactory {
         outputStream = resolver.openOutputStream(uri);
 
         boolean success = false;
-       success =  bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        success =  bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         outputStream.flush();
         outputStream.close();
-return  success;
 
+        return  success;
     }
 }
