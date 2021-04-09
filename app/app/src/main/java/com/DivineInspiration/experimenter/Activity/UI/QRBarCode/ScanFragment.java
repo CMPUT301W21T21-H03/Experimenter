@@ -214,7 +214,7 @@ public class ScanFragment extends Fragment {
                             } else {
                                 manager.queryExperimentFromId(scanned[0], experiment -> {
                                     AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
-                                            .setTitle("Sub to :" + experiment.getExperimentName() + "?")
+                                            .setTitle("Sub to: " + experiment.getExperimentName() + "?")
                                             .setPositiveButton("Subscribe", ((dialog1, which) -> {
                                                 dialog1.dismiss();
                                                 manager.subToExperiment(userId, experiment.getExperimentID(), null);
