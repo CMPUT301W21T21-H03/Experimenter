@@ -20,17 +20,19 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * A custom RecyclerView Adapter class. Displays a list of experiment. Used by
+ * {@link com.DivineInspiration.experimenter.Activity.UI.Explore.ExploreFragment}
+ * to create display experiments
+ * @see <a href="https://developer.android.com/guide/topics/ui/layout/recyclerview"> https://developer.android.com/guide/topics/ui/layout/recyclerview </a>
+ */
 public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.ViewHolder> {
-    // https://developer.android.com/guide/topics/ui/layout/recyclerview
 
     // experiment list
     private List<Experiment> experiments = new ArrayList<>();
 
-    // constructors
+    // constructor
     public ExploreListAdapter() {}
-    public ExploreListAdapter(List<Experiment> exp){
-        this.experiments = exp;
-    }
 
     /**
      * On create
@@ -44,9 +46,8 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // create the each experiment list item
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.experiment_item, parent, false);
 
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.experiment_item, parent, false);
         return new ViewHolder(v);
     }
 
@@ -64,15 +65,17 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
         holder.getExpOwnerNameTextView().setText(experiments.get(position).getOwnerName());
         holder.getExpTrialTypeText().setText(experiments.get(position).getTrialType());
         holder.getExpDescriptionText().setText(experiments.get(position).getExperimentDescription());
-        if(experiments.get(position).isRequireGeo()){
+
+        if (experiments.get(position).isRequireGeo()) {
             holder.getExpLocationText().setText(experiments.get(position).getRegion() + " - Geolocation: On");
-        }else {
+        } else {
             holder.getExpLocationText().setText(experiments.get(position).getRegion() + " - Geolocation: Off ");
         }
+
         holder.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Explore is kinda SUS <= what does that mean?
+
                 Bundle args = new Bundle();
                 args.putSerializable("experiment", experiments.get(position));
                 Navigation.findNavController(v).navigate(R.id.exploreToEx, args);
@@ -96,15 +99,15 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
      * the experiment list
      */
     public void setData(List<Experiment> experimentData) {
-        // clears and adds the data back
+
         experiments.clear();
         experiments.addAll(experimentData);
-        // update visual
         notifyDataSetChanged();
-
-//        Log.d("ExperimentAdapter", "New Data -> " + experiments.toString());
     }
 
+    /**
+     * A custom {@link RecyclerView.ViewHolder} class. Displays experiment information in a card
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // the card and text of the item
         private final TextView expNameText;
@@ -132,7 +135,6 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
          * @return
          * text
          */
-
         public TextView getExpNameTextView() {
             return expNameText;
         }
@@ -142,7 +144,6 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
          * @return
          * text
          */
-
         public TextView getExpOwnerNameTextView(){
             return expOwnerNameText;
         }
@@ -152,7 +153,6 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
          * @return
          * text
          */
-
         public TextView getExpTrialTypeText() {
             return expTrialTypeText;
         }
@@ -162,7 +162,6 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
          * @return
          * text
          */
-
         public TextView getExpLocationText() {
             return expLocationText;
         }
@@ -172,7 +171,6 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
          * @return
          * text
          */
-
         public TextView getExpDescriptionText() {
             return expDescriptionText;
         }
@@ -185,4 +183,5 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
         public CardView getCardView() {
             return card;
         }
-}}
+    }
+}

@@ -1,4 +1,4 @@
-    package com.DivineInspiration.experimenter.Activity.UI.Explore;
+package com.DivineInspiration.experimenter.Activity.UI.Explore;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,12 +22,16 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class deals with the UI for finding publiclly available experiments
+ * @see R.layout#fragment_explore
+ */
 public class ExploreFragment extends Fragment implements ExperimentManager.OnExperimentListReadyListener {
+
+    // TODO?: if there is time and for more efficiency, shownList could be an int list that only contain indexes of the datalist (probably not)
 
     private ExploreListAdapter exploreListAdapter;          // Adapter list of the experiments in the explore tab
     private List<Experiment> dataList = new ArrayList<>();  // Data list contains all the experiments in the database
-
-    // TODO?: if there is time and for more efficiency, this could be an int list that only contain indexes of the datalist (probably not)
     private List<Experiment> shownList = new ArrayList<>(); // Shown list only contains of experiments shown on screen
 
     private CharSequence searchText;                        // Search text entered by the user
@@ -55,6 +59,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Query the experiments from database, the Experiments will be returned via a callback to onExperimentsReady
         ExperimentManager.getInstance().queryAll(this);
 
@@ -66,39 +71,32 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
         experimentListView.setAdapter(exploreListAdapter);
         experimentListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-        // Create the listener
-//        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
-//            public void onItemClick(AdapterView<?> listDrinks, View itemView, int position, long id) {
-//                // TODO: What happens when we click?
-//            }
-//        };
-
-
-        // Assign the listener to the recycler view
-        // experimentList.setOnItemClickListener(itemClickListener);
-
         EditText search = root.findViewById(R.id.explore_search_bar);
 
         // Search -> filter results
         search.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void afterTextChanged(Editable editable) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 searchText = charSequence;
                 filter();
             }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
         });
+
         return root;
     }
 
     /**
-     * This method filters the experiments so as to display only the experiments that meet search criteria
+     * Filters the experiments so as to display only the experiments that related to the search text
      */
-    public void filter() {
+    private void filter() {
+
         // if string is empty, re-initialize with all data (i.e., all the experiments)
         if (searchText.length() == 0) {
             exploreListAdapter.setData(dataList);
