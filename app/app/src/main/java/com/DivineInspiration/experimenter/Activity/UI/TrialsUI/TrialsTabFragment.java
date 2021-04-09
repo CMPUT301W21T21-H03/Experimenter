@@ -23,17 +23,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class deals with the UI for displaying the trials for a given experiment. (One of the tab (Trials tab) of Experiment fragment)
- * It is one of the tabs of Experiment fragment.
- * @see: trial_list
+ * An Activity Fragment that displays an experiments trials. A tab in the Experiment fragment labelled "Trials."
+ * Associated xml file - {@see trial_list}
  */
 public class TrialsTabFragment extends Fragment implements Observer {
 
     private TrialListAdapter adapter;
-    private List<Trial> trialArrayList = new ArrayList<>();
-
+    private List<Trial> trialList = new ArrayList<>();
     private TrialManager.OnTrialListReadyListener callback;
-    public  TrialsTabFragment(TrialManager.OnTrialListReadyListener callback){
+
+    public TrialsTabFragment(TrialManager.OnTrialListReadyListener callback){
         this.callback = callback;
     }
 
@@ -41,24 +40,25 @@ public class TrialsTabFragment extends Fragment implements Observer {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.trialArrayList = new ArrayList<>();
+        this.trialList = new ArrayList<>();
         this.adapter = new TrialListAdapter();
-
     }
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate.
-     * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
-     * @return: :View
+     * @param inflater
+     * @param container
+     * @param container
+     * @param savedInstanceState
+     * @return A view created by inflating container with inflater
      */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.trial_list, container, false);
 
-
-        adapter = new TrialListAdapter(trialArrayList, callback, (Experiment) getArguments().getSerializable("experiment"));
-//        CommentManager.getInstance().getExperimentComments(experiment, this);
+        adapter = new TrialListAdapter(trialList, callback, (Experiment) getArguments().getSerializable("experiment"));
 
         RecyclerView recycler = view.findViewById(R.id.trialList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -69,14 +69,15 @@ public class TrialsTabFragment extends Fragment implements Observer {
 
     /**
      * Implementation of the observer interface. This method updates its data
-     * when update method is called form ExperimentFragment (which is the observable).
+     * when update method is called from ExperimentFragment (which is the observable).
+     * @param data
+     * A {@see java.util.List} of trials to replace the old trialList
      */
     @Override
     public void update(Object data) {
-      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());
-            trialArrayList.clear();
-            trialArrayList.addAll((List<Trial>) data);
-        Log.d("woah trial tab", "" +   ((List<Trial>) data).size());
+
+        trialList.clear();
+        trialList.addAll((List<Trial>) data);
 
         if (adapter != null){
             adapter.notifyDataSetChanged();

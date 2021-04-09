@@ -33,7 +33,6 @@ import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.google.android.gms.maps.model.LatLng;
 
-
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -42,7 +41,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import static android.content.Context.LOCATION_SERVICE;
 
 /**
- * This class deals with the UI of the trial data being recorded
+ * A dialog fragment to create experiment trials
  */
 public class CreateTrialDialogFragment extends DialogFragment implements EasyPermissions.PermissionCallbacks {
 
@@ -86,8 +85,18 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
     /**
      * When trial data is retrieved, it is passed along as a parameter by the interface method.
+     * Interface definition for a callback to be invoked when
+     * {@see com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment}
+     * creates a trial
      */
     public interface OnTrialCreatedListener {
+
+        /**
+         * Called when {@see com.DivineInspiration.experimenter.Activity.UI.TrialsUI.CreateTrialDialogFragment}
+         * creates a new trial
+         * @param trial
+         * The trial that was created
+         */
         void onTrialAdded(Trial trial);
     }
 
@@ -214,19 +223,19 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
     }
 
     /**
-     * This method deals with the information retrieval and Trial object creation for when the type of the trial is binomial.
-     * @param: args:Bundle
-     * @param: exp:Experiment (the experiment this trial is being performed for).
+     * Information retrieval and object creation for binomial trials
+     * @param args
+     * A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
+     * @param exp
+     * The experiment this trial is being performed for.
      */
     public void binomialTrialDialog(Bundle args, Experiment exp) {
 
         if(needLocation){
             trialLocation = new LatLng(myLat,myLong);
-        } else {
-
         }
 
-        // We create a separate Trial object for each 'Pass'
+        // We create a separate Trial for each 'Pass'
         for (int i = 0; i < passNum; i++) {
             BinomialTrial binomialTrial = new BinomialTrial(
                     args.getString("experimenterID"),
@@ -235,11 +244,11 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                     true,
                     trialLocation
             );
-            TrialManager.getInstance().addTrial(binomialTrial, trials -> {
-            });
+            TrialManager.getInstance().addTrial(binomialTrial, trials -> {});
             callback.onTrialAdded(binomialTrial);
         }
-        // We create a separate Trial object for each 'Fail'
+
+        // Create a new Trial for each 'Fail'
         for (int i = 0; i < failNum; i++) {
             BinomialTrial binomialTrial = new BinomialTrial(
                     args.getString("experimenterID"),
@@ -248,23 +257,23 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                     false,
                     trialLocation
             );
-            TrialManager.getInstance().addTrial(binomialTrial, trials -> {
-            });
+            TrialManager.getInstance().addTrial(binomialTrial, trials -> {});
             callback.onTrialAdded(binomialTrial);
         }
     }
 
     /**
-     * This method deals with the information retrieval and Trial object creation for when the type of the trial is count.
-     * @param: args:Bundle
-     * @param: exp:Experiment (the experiment this trial is being performed for).
+     * Information retrieval and object creation for count trials
+     * @param args
+     * A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
+     * @param exp
+     * The experiment this trial is being performed for.
      */
     public void countTrialDialog(Bundle args, Experiment exp) {
         if (needLocation) {
             trialLocation = new LatLng(myLat,myLong);
-        } else {
-
         }
+
         CountTrial countTrial = new CountTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
@@ -273,22 +282,23 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 trialLocation
         );
 
-        TrialManager.getInstance().addTrial(countTrial, trials -> {
-        });
+        TrialManager.getInstance().addTrial(countTrial, trials -> {});
         callback.onTrialAdded(countTrial);
     }
 
     /**
-     * This method deals with the information retrieval and Trial object creation for when the type of the trial is non-negative.
-     * @param: args:Bundle
-     * @param: exp:Experiment (the experiment this trial is being performed for).
+     * Information retrieval and object creation for non-negative trials
+     * @param args
+     * A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
+     * @param exp
+     * The experiment this trial is being performed for.
      */
     public void nonNegativeTrialDialog(Bundle args, Experiment exp) {
+
         if(needLocation){
             trialLocation = new LatLng(myLat,myLong);
-        }else{
-
         }
+
         NonNegativeTrial nonNegativeTrial = new NonNegativeTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
@@ -296,21 +306,22 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 count,
                 trialLocation
         );
-        TrialManager.getInstance().addTrial(nonNegativeTrial, trials -> {
-        });
+
+        TrialManager.getInstance().addTrial(nonNegativeTrial, trials -> {});
         callback.onTrialAdded(nonNegativeTrial);
     }
 
     /**
-     * This method deals with the information retrieval and Trial object creation for when the type of the trial is measurement.
-     * @param: args:Bundle
-     * @param: exp:Experiment (the experiment this trial is being performed for).
+     * Information retrieval and object creation for measurement trials
+     * @param args
+     * A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
+     * @param exp
+     * The experiment this trial is being performed for.
      */
     public void measurementTrialDialog(Bundle args, Experiment exp, String measure) {
+
         if(needLocation){
             trialLocation = new LatLng(myLat,myLong);
-        }else{
-
         }
         double measureValue = Double.valueOf(measure);
         MeasurementTrial measurementTrial = new MeasurementTrial(
@@ -320,13 +331,14 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 measureValue,
                 trialLocation
         );
-        TrialManager.getInstance().addTrial(measurementTrial, trials -> {
-        });
+        TrialManager.getInstance().addTrial(measurementTrial, trials -> { });
         callback.onTrialAdded(measurementTrial);
     }
 
     /**
-     * Initialize the View instance variables.
+     * Initialize View instance variables.
+     * @param view
+     * The main dialog view
      */
     public void init(View view) {
         measurementTextBox = view.findViewById(R.id.editMeasurementValue);
@@ -347,10 +359,12 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
 
     /**
-     *  This method deals with giving visibility to a certain Views depending on the trial.
-     * @param: trialTypeCheck:String
+     * Sets View visibility depending on the trial type
+     * @param: trialType
+     * The type of trial being created
      */
-    public void visibility(String trialTypeCheck){
+    public void visibility(String trialType){
+
         measurementTextBox.setVisibility(View.GONE);
         valueHolder.setVisibility(View.GONE);
         countNNTrial.setVisibility(View.GONE);
@@ -362,10 +376,12 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         trueNumTrial.setVisibility(View.GONE);
         decrementFailNumButton.setVisibility(View.GONE);
         decrementPassNumButton.setVisibility(View.GONE);
+
         if(needLocation){
             geoTrialCheckBox.setVisibility(View.GONE);
         }
-        switch (trialTypeCheck){
+
+        switch (trialType){
             case "Binomial trial":
                 passButton.setVisibility(View.VISIBLE);
                 failButton.setVisibility(View.VISIBLE);
@@ -374,31 +390,34 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 decrementFailNumButton.setVisibility(View.VISIBLE);
                 decrementPassNumButton.setVisibility(View.VISIBLE);
                 BinomialTrialButtonController();
-
                 break;
+
             case "Count trial":
                 negativeCountNNButton.setVisibility(View.VISIBLE);
                 positiveCountNNButton.setVisibility(View.VISIBLE);
                 countNNTrial.setVisibility(View.VISIBLE);
                 CountTrialButtonController();
                 break;
+
             case "Non-Negative trial":
                 negativeCountNNButton.setVisibility(View.VISIBLE);
                 positiveCountNNButton.setVisibility(View.VISIBLE);
                 countNNTrial.setVisibility(View.VISIBLE);
                 NNTrialButtonController();
                 break;
+
             case "Measurement trial":
                 measurementTextBox.setVisibility(View.VISIBLE);
                 valueHolder.setVisibility(View.VISIBLE);
                 break;
+
             default:
                 break;
         }
     }
 
     /**
-     *  This method deals with the checkBox
+     *  Sets geolocation checkbox listener
      */
     public void geoCheckBox(){
         geoTrialCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -408,10 +427,9 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 checkLocationPermission();
             }
         });
+
         if(needLocation){
             checkLocationPermission();
-        }else{
-
         }
     }
 
@@ -435,6 +453,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 failNumTrial.setText( String.valueOf(failNum));
             }
         });
+
         decrementFailNumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -489,12 +508,11 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 if(count > 0){
                     count = count - 1;
                     countNNTrial.setText(String.valueOf(count));
-                } else {
-
                 }
             }
         });
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -502,11 +520,13 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         // Forward results to EasyPermissions
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
+
     /*
      * https://codinginflow.com/tutorials/android/easypermissions
      */
     @AfterPermissionGranted(123)
     private void checkLocationPermission() {
+
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
         if (EasyPermissions.hasPermissions(this.getContext(), perms)) {
             getTrialLocation();
@@ -515,11 +535,13 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                     123, perms);
         }
     }
+
+    /*
+     *https://howtodoandroid.medium.com/how-to-get-current-latitude-and-longitude-in-android-example-35437a51052a
+     */
     @SuppressLint("MissingPermission")
     public void getTrialLocation(){
-        /*
-         *https://howtodoandroid.medium.com/how-to-get-current-latitude-and-longitude-in-android-example-35437a51052a
-         */
+
         LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
             @Override
