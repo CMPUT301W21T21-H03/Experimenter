@@ -45,7 +45,7 @@ import java.util.List;
 
 /**
  * This class deals with the UI for displaying the experiment details. (It also contains 4 tabs: Trials, Comments, Stats, Data)
- * @see: experiment_fragment (Contains 4 tabs: Trials, Comments, Stats, Map)
+ * @see R.layout#experiment_fragment
  */
 public class ExperimentFragment extends Fragment implements Subject, TrialManager.OnTrialListReadyListener{
 

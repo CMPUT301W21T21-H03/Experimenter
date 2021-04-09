@@ -105,7 +105,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
     }
 
     /**
-     * Recycler for experiments
+     * A custom {@link RecyclerView.ViewHolder} class. Displays experiment information in a card
      */
     public static class ViewHolder extends RecyclerView.ViewHolder{
         // card and text
