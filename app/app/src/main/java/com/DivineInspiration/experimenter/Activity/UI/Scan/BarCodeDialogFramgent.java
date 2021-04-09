@@ -2,7 +2,10 @@ package com.DivineInspiration.experimenter.Activity.UI.Scan;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -41,13 +44,11 @@ public class BarCodeDialogFramgent extends DialogFragment {
     private CodeScanner mCodeScanner;
 
 
-
-    @Nullable
+    @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.scan_fragment, container);
-
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.scan_fragment,null);
         params = getArguments().getString("message");
 
         scannerView = view.findViewById(R.id.scanner);
@@ -82,9 +83,15 @@ public class BarCodeDialogFramgent extends DialogFragment {
             ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.CAMERA}, 401);
         }
 
-        return view;
+        AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor).setTitle("Scan a bar code").setView(view).create();
+        dialog.show();
+        return dialog;
+
+
 
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -181,6 +188,12 @@ public class BarCodeDialogFramgent extends DialogFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (openCamera) mCodeScanner.releaseResources();
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
         if (openCamera) mCodeScanner.releaseResources();
     }
 }

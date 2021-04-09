@@ -488,8 +488,7 @@ public class ExperimentTests {
         }
         solo.clickOnMenuItem("Ok");
 
-        solo.clickOnMenuItem("Map");
-
+        assertFalse(solo.waitForText("Map", 1, 2000));
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
 
