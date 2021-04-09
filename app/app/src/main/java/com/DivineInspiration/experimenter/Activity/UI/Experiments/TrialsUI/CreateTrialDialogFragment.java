@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -42,7 +43,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
 
     private final OnTrialCreatedListener callback;
     String trialTypeCheck;              // The type of the trial we are dealing with
-    CheckBox geoTrial;
+    CheckBox geoTrialCheckBox;
     EditText measurementTextBox;        // View for the measurement trial
     TextView countNNTrial;              // View for the non-negative trial
     Button negativeCountNNButton;       // View for the non-negative trial
@@ -59,7 +60,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
     double myLat = 0;
     double myLong = 0;
     LatLng trialLocation = null;
-
+    boolean needLocation = false;
     /**
      * When trial data is retrieved, it is passed along as a parameter by the interface method.
      */
@@ -85,10 +86,11 @@ public class CreateTrialDialogFragment extends DialogFragment {
 
         Bundle args = getArguments();
         Experiment exp = (Experiment) args.getSerializable("experiment");       // Get the experiment the trial is for
+        needLocation = exp.isRequireGeo();
         init(view);
         trialTypeCheck = exp.getTrialType();        // Get the trial type
         visibility(trialTypeCheck);
-        gettingLocation();
+        geoCheckBox();
 
         AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
                 .setView(view)
@@ -102,6 +104,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 // Call the appropriate method (when "OK" button of dialog is clicked) depending on type of the trial
+
                 switch (trialTypeCheck) {
                     case "Binomial trial":
                         binomialTrialDialog(args, exp);
@@ -133,7 +136,12 @@ public class CreateTrialDialogFragment extends DialogFragment {
      */
     public void binomialTrialDialog(Bundle args, Experiment exp) {
 
-        trialLocation = new LatLng(myLat,myLong);
+        if(needLocation){
+            trialLocation = new LatLng(myLat,myLong);
+        }else{
+
+        }
+
 
         // We create a separate Trial object for each 'Pass'
         for (int i = 0; i < passNum; i++) {
@@ -169,7 +177,11 @@ public class CreateTrialDialogFragment extends DialogFragment {
      * @param: exp:Experiment (the experiment this trial is being performed for).
      */
     public void countTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new LatLng(myLat, myLong);
+        if(needLocation){
+            trialLocation = new LatLng(myLat,myLong);
+        }else{
+
+        }
         CountTrial countTrial = new CountTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
@@ -189,7 +201,11 @@ public class CreateTrialDialogFragment extends DialogFragment {
      * @param: exp:Experiment (the experiment this trial is being performed for).
      */
     public void nonNegativeTrialDialog(Bundle args, Experiment exp) {
-        trialLocation = new LatLng(myLat, myLong);
+        if(needLocation){
+            trialLocation = new LatLng(myLat,myLong);
+        }else{
+
+        }
         NonNegativeTrial nonNegativeTrial = new NonNegativeTrial(
                 args.getString("experimenterID"),
                 args.getString("experimenterName"),
@@ -208,7 +224,11 @@ public class CreateTrialDialogFragment extends DialogFragment {
      * @param: exp:Experiment (the experiment this trial is being performed for).
      */
     public void measurementTrialDialog(Bundle args, Experiment exp, String measure) {
-        trialLocation = new LatLng(myLat, myLong);
+        if(needLocation){
+            trialLocation = new LatLng(myLat,myLong);
+        }else{
+
+        }
         double measureValue = Double.valueOf(measure);
         MeasurementTrial measurementTrial = new MeasurementTrial(
                 args.getString("experimenterID"),
@@ -236,6 +256,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
         trueNumTrial = view.findViewById(R.id.binomial_pass_textView);
         decrementFailNumButton = view.findViewById(R.id.binomial_fail_decrement);
         decrementPassNumButton = view.findViewById(R.id.binomial_pass_decrement);
+        geoTrialCheckBox = view.findViewById(R.id.checkBoxTrial);
     }
 
     public void gettingLocation() {
@@ -277,6 +298,9 @@ public class CreateTrialDialogFragment extends DialogFragment {
         trueNumTrial.setVisibility(View.GONE);
         decrementFailNumButton.setVisibility(View.GONE);
         decrementPassNumButton.setVisibility(View.GONE);
+        if(needLocation){
+            geoTrialCheckBox.setVisibility(View.GONE);
+        }
         switch (trialTypeCheck){
             case "Binomial trial":
                 passButton.setVisibility(View.VISIBLE);
@@ -305,6 +329,24 @@ public class CreateTrialDialogFragment extends DialogFragment {
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     *  This method deals with the checkBox
+     */
+    public void geoCheckBox(){
+        geoTrialCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                needLocation = true;
+                gettingLocation();
+            }
+        });
+        if(needLocation){
+            gettingLocation();
+        }else{
+
         }
     }
 
