@@ -196,7 +196,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                         message = "null";
                         break;
                 }
-                dialogArgs.putString("message", args.getString("experimenterID") + "-" + trialTypeCheck + "-" + needLocation + "-" + message+ "-");
+                dialogArgs.putString("message", exp .getExperimentID()+ "-" + trialTypeCheck + "-" + message+ "-");
                 frag.setArguments(dialogArgs);
                 frag.show(getParentFragmentManager(), "QR code fragment");
             }
