@@ -20,18 +20,10 @@ import java.util.List;
 
 
 public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.ViewHolder> {
-
-    /*
-    https://developer.android.com/guide/topics/ui/layout/recyclerview
-     */
+    // https://developer.android.com/guide/topics/ui/layout/recyclerview
 
     // experiment list
     private List<Experiment> experiments = new ArrayList<>();
-
-    /**
-     * Constructor
-     */
-    public ExperimentAdapter() {}
 
     /**
      * Constructor
@@ -61,6 +53,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
      * On bind view
      * @param holder
      * @param position
+     * position in adapter
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -88,6 +81,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
     /**
      * Gets the number of items
      * @return
+     * the number of items
      */
     @Override
     public int getItemCount() {
@@ -97,6 +91,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
     /**
      * Sets data
      * @param experimentData
+     * list of experiment to set
      */
     public void setData(List<Experiment> experimentData) {
         // clear and add all data to adapter
@@ -135,7 +130,6 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
          * @return
          * text
          */
-
         public TextView getExpNameTextView() {
             return expNameText;
         }
@@ -145,7 +139,6 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
          * @return
          * text
          */
-
         public TextView getExpOwnerNameTextView(){
             return expOwnerNameText;
         }
@@ -155,7 +148,6 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
          * @return
          * text
          */
-
         public TextView getExpTrialTypeText() {
             return expTrialTypeText;
         }
@@ -165,7 +157,6 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
          * @return
          * text
          */
-
         public TextView getExpLocationText() {
             return expLocationText;
         }
@@ -175,7 +166,6 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.Vi
          * @return
          * text
          */
-
         public TextView getExpDescriptionText() {
             return expDescriptionText;
         }

@@ -248,12 +248,9 @@ public class StatsMaker {
                     break;
                 case Trial.NONNEGATIVE:
                     sum += ((NonNegativeTrial) t).getCount();
-
                     break;
                 case Trial.BINOMIAL:
-
                     sum += ((BinomialTrial) t).getPass() ? 1 : 0;
-
                     break;
                 case Trial.MEASURE:
                     sum += ((MeasurementTrial) t).getValue();
@@ -262,7 +259,4 @@ public class StatsMaker {
         }
         return sum;
     }
-
-
-
 }

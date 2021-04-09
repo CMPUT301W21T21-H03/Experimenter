@@ -43,7 +43,7 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
 
     public TrialListAdapter(List<Trial> trials, TrialManager.OnTrialListReadyListener callback, Experiment experiment) {
         super();
-        Log.d("woah trial adapter", "" + trials.size());
+        Log.d("Trial adapter", "" + trials.size());
         this.trials = trials;
         this.callback = callback;
         localUser = UserManager.getInstance().getLocalUser();

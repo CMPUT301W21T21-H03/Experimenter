@@ -173,7 +173,7 @@ public class CreateTrialDialogFragment extends DialogFragment {
 
         if(needLocation){
             trialLocation = new LatLng(myLat,myLong);
-        }else{
+        } else {
 
         }
 

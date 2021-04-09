@@ -78,7 +78,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Fragment Constructor
-     * @param: callback:OnExperimentOperationDoneListener (callback function)
+     * @param callback
+     * callback for when the operation is done
      */
     public ExperimentDialogFragment(OnExperimentOperationDoneListener callback) {
         super();
@@ -87,8 +88,10 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Shows alert message on the bottom of the parent fragment page
-     * @param: error:boolean (is the alert an error).
-     * @param: message:String (message to display).
+     * @param error
+     * if the alert an error
+     * @param message
+     * message to display
      */
     private void showAlert(boolean error, String message) {
         Snackbar snackbar = Snackbar.make(parentFrag.getView(), message, Snackbar.LENGTH_LONG);
@@ -98,8 +101,10 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Runs when the dialog is created.
-     * @param: savedInstanceState:Bundle
-     * @return: dialog:Dialog
+     * @param savedInstanceState
+     * bundle
+     * @return
+     * the dialog to display
      */
     @NonNull
     @Override
@@ -108,7 +113,6 @@ public class ExperimentDialogFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.experiment_dialog_fragment, null);
         // Get current local user of the device
         User localUser = UserManager.getInstance().getLocalUser();
-
 
         init(view);     // Initialize the View's in the dialog UI
         // Shows the dialog (must be called at start)
@@ -142,7 +146,6 @@ public class ExperimentDialogFragment extends DialogFragment {
                 if (!validFlag) {
                     return;
                 }
-
 
                 if (exp == null) {  // Here, we create a new experiment using info entered in the dialog
                     // Construct a new Experiment object and add it using experiment manager
@@ -178,7 +181,6 @@ public class ExperimentDialogFragment extends DialogFragment {
                         }
                     });
                 }
-
                 dialog.dismiss();       // Close dialog
             }
         });
@@ -186,12 +188,10 @@ public class ExperimentDialogFragment extends DialogFragment {
         return dialog;
     }
 
-
-
     /**
      * This method initializes the views (instance variables)
-     * @param: view:View (The dialog view)
-     * @return: void
+     * @param view
+     * dialog view
      */
     private void init(View view) {
         // Dialog for creating a new experiment
@@ -295,8 +295,9 @@ public class ExperimentDialogFragment extends DialogFragment {
                 });
             }
 
-            view.findViewById(R.id.deleteExp).setOnClickListener(v -> {     // If the owner chooses to delete the experiment
-                //TODO add a warning dialog!!
+            view.findViewById(R.id.deleteExp).setOnClickListener(v -> {
+                // If the owner chooses to delete the experiment
+                // TODO: add a warning dialog!!
 
                 TrialManager.getInstance().deleteAllTrialOfExperiment(exp.getExperimentID());
                 CommentManager.getInstance().deleteAllCommentOfExperiment(exp.getExperimentID());
@@ -304,16 +305,25 @@ public class ExperimentDialogFragment extends DialogFragment {
                     dismiss();
                     callback.onOperationDone(null);
                 });
-                //TODO display a success message
+                // TODO: display a success message
             });
         }
     }
 
-
+    /**
+     * Index at a particular value
+     * @param arr
+     * array to find value
+     * @param val
+     * value to find
+     * @return
+     * index of the value
+     */
     private int indexOf(String[] arr, String val) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i].equals(val)) return i;
         }
+        // NOTE: 0???
         return 0;
     }
 }

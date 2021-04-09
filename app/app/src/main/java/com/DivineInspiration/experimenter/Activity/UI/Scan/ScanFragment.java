@@ -47,18 +47,26 @@ import androidmads.library.qrgenearator.QRGEncoder;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class ScanFragment extends Fragment {
-//    private static final int MY_CAMERA_REQUEST_CODE = 100;
-    private CodeScanner mCodeScanner;
     boolean allowCamera = false;
     boolean openCamera = false;
-    CodeScannerView scannerView;
     Button scan;
     Button debug;
+
     // scanned code
     String[] scanned;
     double myLat = 0;
     double myLong = 0;
 
+    private CodeScanner mCodeScanner;
+    CodeScannerView scannerView;
+
+    /**
+     * When creating view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // from https://www.youtube.com/watch?v=drH63NpSWyk & https://github.com/yuriy-budiyev/code-scanner
@@ -77,6 +85,11 @@ public class ScanFragment extends Fragment {
         return root;
     }
 
+    /**
+     * When the view is created
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -110,6 +123,12 @@ public class ScanFragment extends Fragment {
         });
     }
 
+    /**
+     * Result of the code scanned
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -235,8 +254,10 @@ public class ScanFragment extends Fragment {
         });
     }
 
+    /**
+     * Gets current location
+     */
     public void getLocation() {
-
         LocationManager mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{
@@ -251,25 +272,11 @@ public class ScanFragment extends Fragment {
             public void onLocationChanged(@NonNull Location location) {
                 myLong = location.getLongitude();
                 myLat = location.getLatitude();
-                Log.d("woah", "updating!");
+                Log.d("Scan:", "updating!");
                 mLocationManager.removeUpdates(this);
             }
         });
     }
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        // request code
-//        Log.e("Permissions code:", String.valueOf(requestCode));
-//        if (requestCode == 401) {
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                openCamera();
-//                allowCamera = true;
-//            } else {
-//                Toast.makeText(this.getContext(), "Please accept camera permissions, otherwise, the scan will not work", Toast.LENGTH_LONG).show();
-//            }
-//        }
-//    }
 
     /**
      * When the fragment is back
