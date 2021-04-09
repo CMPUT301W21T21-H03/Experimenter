@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
 import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
 import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
@@ -43,20 +44,31 @@ public class TrialManager extends ArrayList<Trial> {
     DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
-     * When trial data is retrieved from database is ready,
-     * it is passed along as a parameter by the interface method.
-     * Utilized for: getUserTrials, queryExperimentTrials.
+     * Interface definition for a callback to be invoked when {@link TrialManager} successfully
+     * queries a list of {@link Trial} from Firestore
      */
     public interface OnTrialListReadyListener {
+
+        /**
+         * Called when {@link TrialManager} successfully queries a list of {@link Trial}
+         * from Firestore
+         * @param trials
+         * The queried trials
+         */
         void onTrialsReady(List<Trial> trials);
     }
 
     /**
-     * When trial datum is retrieved from database is ready,
-     * it is passed along as a parameter by the interface method.
-     * Utilized for: addTrial
+     * Interface definition for a callback to be invoked when {@link TrialManager} successfully
+     * queries an {@link Trial} from Firestore
      */
     public interface OnTrialReadyListener {
+        /**
+         * Called when {@link TrialManager} successfully queries an {@link Trial}
+         * from Firestore
+         * @param trials
+         * The queried experiment
+         */
         void onTrialReady(Trial trials);
     }
 
@@ -124,13 +136,20 @@ public class TrialManager extends ArrayList<Trial> {
      * @param experimentId :String the trial ID to be deleted
      */
     public void deleteAllTrialOfExperiment(String experimentId){
-        db.collection("Trials").whereEqualTo("ExperimentID", experimentId).get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                for(QueryDocumentSnapshot snap: task.getResult()){
-                    snap.getReference().delete();
-                }
-            }
-        });
+        db.collection("Trials")
+                .whereEqualTo("ExperimentID", experimentId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot snap : task.getResult()) {
+                                snap.getReference().delete();
+                            }
+                        }
+                    }
+                });
     }
 
     /**
@@ -168,7 +187,9 @@ public class TrialManager extends ArrayList<Trial> {
                 doc.put("Count", ((NonNegativeTrial) trial).getCount());
         }
 
-        db.collection("Trials").document(trial.getTrialID()).set(doc)
+        db.collection("Trials")
+                .document(trial.getTrialID())
+                .set(doc)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -189,7 +210,9 @@ public class TrialManager extends ArrayList<Trial> {
      */
     public void getUserTrials(String userId, OnTrialListReadyListener callback) {
 
-        db.collection("Trials").whereEqualTo("OwnerID", userId).get()
+        db.collection("Trials")
+                .whereEqualTo("OwnerID", userId)
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -218,7 +241,10 @@ public class TrialManager extends ArrayList<Trial> {
      * @return void
      */
     public void queryExperimentTrials(String experimentId, OnTrialListReadyListener callback) {
-        db.collection("BlackList").document(experimentId).get().addOnCompleteListener(task -> {
+        db.collection("BlackList")
+                .document(experimentId)
+                .get()
+                .addOnCompleteListener(task -> {
             if(task.isSuccessful()){
              List<String> bannedIds = (List<String>) task.getResult().get("BannedIds");
 

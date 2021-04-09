@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.IdGen;
 import com.DivineInspiration.experimenter.Model.User;
 
@@ -54,27 +55,41 @@ public class UserManager {
     public class ContextNotSetException extends RuntimeException {}
 
     /**
-     * When user data is retrieved from database is ready,
-     * it is passed along as a parameter by the interface method.
-     * Utilized for: queryUserById, initializeLocalUser, queryUserByName, updateUser
-     */
-    public interface OnUserReadyListener {
-        void onUserReady(User user);
-    }
-
-    /**
-     * When user datum is retrieved from database is ready,
-     * it is passed along as a parameter by the interface method.
-     * Utilized for: queryExperimentSubs
+     * Interface definition for a callback to be invoked when {@link UserManager} successfully
+     * queries a list of {@link User} from Firestore
      */
     public interface OnUserListReadyListener {
+
+        /**
+         * Called when {@link UserManager} successfully queries a list of {@link User}
+         * from Firestore
+         * @param users
+         * The queried users
+         */
         void onUserListReady(ArrayList<User> users);
     }
 
     /**
-     * Gets the current local user of the device.
-     * @return :User (the current user).
-     * @Warning getLocalUser might return null if used during init
+     * Interface definition for a callback to be invoked when {@link UserManager} successfully
+     * queries an {@link User} from Firestore
+     */
+    public interface OnUserReadyListener {
+
+        /**
+         * Called when {@link UserManager} successfully queries an {@link User}
+         * from Firestore
+         * @param user
+         * The queried user
+         */
+        void onUserReady(User user);
+    }
+
+    /**
+     * Gets the current local user
+     * @return
+     * current user
+     * @Warning
+     * getLocalUser might return null if used during init
      */
     public User getLocalUser(){
         return user;
@@ -101,7 +116,8 @@ public class UserManager {
 
     /**
      * Initializes the local user of the device
-     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @param callback
+     * callback to when the user is ready - the user data is passed as a parameter of the method in the callback
      */
     public void initializeLocalUser(OnUserReadyListener callback)  {
         if (pref == null) {
@@ -127,24 +143,26 @@ public class UserManager {
     }
 
     /**
-     * Queries the user from Firestore database given the user's id.
-     * @param userId :String (ID of the user)
-     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * Queries the user from FireStore database given the user's id.
+     * @param userId
+     * ID of user
+     * @param callback
+     * callback to when the user is ready - the user data is passed as a parameter of the method in the callback
      */
     @SuppressWarnings("unchecked")
     public void queryUserById(String userId, OnUserReadyListener callback){
 
-        DocumentReference doc = db.collection("Users").document(userId);
-        doc.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("Users")
+                .document(userId)
+                .get(Source.DEFAULT)
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
-                    if(document!=null &&document.exists() && document.get("Contacts") instanceof Map){
-
+                    if(document != null && document.exists() && document.get("Contacts") instanceof Map){
                         callback.onUserReady(userFromSnapshot(document));
                     }
-
                 } else{
                     callback.onUserReady(null);
                 }
@@ -153,47 +171,86 @@ public class UserManager {
     }
 
     /**
-     * Queries the user from Firestore database given the user's name.
-     * @param name :String (ID of the user)
-     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * Queries the user from FireStore database given the user's name
+     * @param name
+     * name of user
+     * @param callback
+     * callback to when the user is ready - the user data is passed as a parameter of the method in the callback
      */
     public void queryUserByName(String name, OnUserReadyListener callback){
 
-        db.collection("Users").whereEqualTo("UserName", name).limit(1).get().addOnCompleteListener(task -> {
+        db.collection("Users")
+                .whereEqualTo("UserName", name)
+                .limit(1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-           if(task.isSuccessful() && callback!= null){
-               if (task.getResult().size() == 0){
-                   callback.onUserReady(null);
-               } else{
-                   for(QueryDocumentSnapshot doc: task.getResult()){
-                       callback.onUserReady(userFromSnapshot(doc));
-                   }
-               }
-           } else{
-               callback.onUserReady(null);
-           }
-        });
+                        if (task.isSuccessful() && callback != null) {
+                            if (task.getResult().size() == 0) {
+                                callback.onUserReady(null);
+                            } else {
+                                for (QueryDocumentSnapshot doc : task.getResult()) {
+                                    callback.onUserReady(userFromSnapshot(doc));
+                                }
+                            }
+                        } else {
+                            callback.onUserReady(null);
+                        }
+                    }
+                });
     }
 
     /**
-     * Queries the subscribers of the given experiment.
-     * @param expId :String (The user to query experiments for).
-     * @param callback :OnUserListReadyListener (The user data is passed as a parameter of the method in the callback).
-     * @return void
+     * This method returns a User object by constructing it using the data from the document snapshot
+     * @param document
+     * the FireStore document to retrieve the user details from
+     * @return
+     * the user constructed using info from document
+     */
+    private User userFromSnapshot(DocumentSnapshot document){
+        Map<String, Object> contact = (Map<String, Object>) document.get("Contacts");
+
+        // update firebase and other stuff
+        String description = document.getString("UserDescription");
+        String name = document.getString("UserName");
+
+        // if no contacts assert error
+        assert contact != null;
+        return new User(
+                name,
+                document.getId(),
+                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()),
+                description);
+    }
+
+    /**
+     * Queries the subscribers of the given experiment
+     * @param expId
+     * ID of experiment
+     * @param callback
+     * the user data is passed as a parameter of the method in the callback
      */
     @SuppressWarnings("unchecked")
     public void queryExperimentSubs(String expId, OnUserListReadyListener callback){
-        db.collection("Experiments").document(expId).get().addOnCompleteListener(
+        db.collection("Experiments")
+                .document(expId)
+                .get()
+                .addOnCompleteListener(
                 new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                              ArrayList<String> userIds = (ArrayList<String>) task.getResult().get("SubscriberIDs");
 
-                             if (userIds == null || userIds.size() == 0){
+                             if (userIds == null || userIds.size() == 0) {
                                  callback.onUserListReady(new ArrayList<User>());
-                             } else{
-                                 db.collection("Users").whereIn("__name__", userIds).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                             } else {
+                                 db.collection("Users")
+                                         .whereIn("__name__", userIds)
+                                         .get()
+                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                      @Override
                                      public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                          ArrayList<User> output = new ArrayList<>();
@@ -207,7 +264,6 @@ public class UserManager {
                                  });
                              }
                         } else {
-                            // TODO: error
                             Log.d(TAG, "oh no! WTF");
                         }
                     }
@@ -216,14 +272,17 @@ public class UserManager {
     }
 
     /**
-     * Updates (or creates if not existing) the local user. This method will update the user stored in memory, locally, and in Firestore.
+     * Updates (or creates if not existing) the local user. This method will update the user stored in memory, locally, and in FireStore.
      * If the user's Id already exist, then the exist user document will be updated(replaced).
-     * <b>Note:</b> Changing user id or creating new users requires UserReadyCalled to be registered to LocalUserManager
-     * <b>Note2:</b> Upon changing user id, user should be given the option to permanently delete the old profile. Then be switched to the new profile
-     * @throws ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
-     * @param newUser :User (user to be made or updated)
-     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
-     * @return void
+     * <b>Notes:</b>
+     * 1. Changing user id or creating new users requires UserReadyCalled to be registered to LocalUserManager
+     * 2. Upon changing user id, user should be given the option to permanently delete the old profile. Then be switched to the new profile
+     * @throws ContextNotSetException
+     * throws exception if no context has ever been set for this LocalUserManager
+     * @param newUser
+     * user to be made or updated
+     * @param callback
+     * The user data is passed as a parameter of the method in the callback
      */
     public void updateUser(User newUser, OnUserReadyListener callback){
         if (pref == null){
@@ -244,34 +303,18 @@ public class UserManager {
                         contact.put("Email", user.getContactInfo().getEmail());
 
         doc.put("Contacts", contact);
-        db.collection("Users").document(user.getUserId()).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Users")
+                .document(user.getUserId())
+                .set(doc)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    if(callback != null){
+                if(task.isSuccessful()) {
+                    if(callback != null) {
                         callback.onUserReady(user);
                     }
                 }
             }
         });
-    }
-
-    /**
-     * This method returns a User object by constructing it using the data from the document snapshot.
-     * @param document :DocumentSnapshot (The Firestore document to retrieve the user details from).
-     * @return :User (Constructed using info from document).
-     */
-    private User userFromSnapshot(DocumentSnapshot document){
-        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
-        // update firebase and other stuff
-        String description = document.getString("UserDescription");
-        String name = document.getString("UserName");
-
-        // if no contacts assert error
-        assert contact != null;
-        User temp = new User(name, document.getId(),
-                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
-                ), description);
-        return temp;
     }
 }
