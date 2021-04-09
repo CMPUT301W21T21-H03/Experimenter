@@ -112,7 +112,7 @@ public class MeasurementTrial extends Trial {
 
     /**
      * Gets current value of the measurement
-     * @return value:int
+     * @return value :int
      */
     public double getValue() {
         return value;
@@ -120,7 +120,7 @@ public class MeasurementTrial extends Trial {
 
     /**
      * Sets value of the measurement
-     * @param newValue:double (new measurement)
+     * @param newValue :double (new measurement)
      */
     public void setValue(double newValue) {
         value = newValue;
@@ -128,8 +128,7 @@ public class MeasurementTrial extends Trial {
 
     /**
      * String representation of trial
-     * @return
-     * pretty print of trial
+     * @return pretty print of trial
      */
     @SuppressLint("DefaultLocale")
     @NotNull

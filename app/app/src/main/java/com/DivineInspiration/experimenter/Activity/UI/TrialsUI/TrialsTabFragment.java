@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * This class deals with the UI for displaying the trials for a given experiment. (One of the tab (Trials tab) of Experiment fragment)
- * It is one of the tabs of Experiment fragment.
+ * It is one of the tabs (the Trials tab) of Experiment fragment.
  * @see: trial_list
  */
 public class TrialsTabFragment extends Fragment implements Observer {
@@ -48,7 +48,9 @@ public class TrialsTabFragment extends Fragment implements Observer {
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate.
-     * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
+     * @param inflater :LayoutInflater
+     * @param container :ViewGroup
+     * @param savedInstanceState :Bundle
      * @return: :View
      */
     @Nullable
@@ -56,9 +58,7 @@ public class TrialsTabFragment extends Fragment implements Observer {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trial_list, container, false);
 
-
         adapter = new TrialListAdapter(trialArrayList, callback, (Experiment) getArguments().getSerializable("experiment"));
-//        CommentManager.getInstance().getExperimentComments(experiment, this);
 
         RecyclerView recycler = view.findViewById(R.id.trialList);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -73,14 +73,13 @@ public class TrialsTabFragment extends Fragment implements Observer {
      */
     @Override
     public void update(Object data) {
-      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());
-            trialArrayList.clear();
-            trialArrayList.addAll((List<Trial>) data);
-        Log.d("woah trial tab", "" +   ((List<Trial>) data).size());
+      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
+      trialArrayList.clear();
+      trialArrayList.addAll((List<Trial>) data);
+      Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
 
-        if (adapter != null){
-            adapter.notifyDataSetChanged();
-        }
-
+      if (adapter != null) {
+          adapter.notifyDataSetChanged();
+      }
     }
 }

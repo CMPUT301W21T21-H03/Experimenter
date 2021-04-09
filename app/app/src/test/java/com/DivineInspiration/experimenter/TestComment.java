@@ -13,11 +13,8 @@ import static org.junit.Assert.*;
 
 public class TestComment {
     private Comment getMockComment() {
-        return new Comment("COM1234567",
-                "USR123456",
-                "Bob Tester",
-                new Date(),
-                "Testivus");
+        return new Comment("COMQR44SHQR12M6L0BHLTB", "XDC2BNUY5G", "Adit", new Date(), "No comment test"
+                , false, false);
     }
 
     @Test

@@ -22,11 +22,7 @@ import java.util.Map;
  * The class uses singleton pattern.
  */
 public class CommentManager {
-
-    // TODO What happens when a query tries to access a callback that no longer exists? We should probably handle this error.
-
-    // Singleton object
-    public static CommentManager singleton;
+    public static CommentManager singleton;         // Singleton object
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private static final String TAG = "CommentManager";
@@ -50,7 +46,7 @@ public class CommentManager {
 
     /**
      * Get singleton instance of the class
-     * @return: singleton:CommentManager
+     * @return singleton :CommentManager
      */
     public static CommentManager getInstance() {
         if (singleton == null) {
@@ -60,38 +56,33 @@ public class CommentManager {
     }
 
     /**
-     * Adds a new comment to the database
-     * @param: comment:Comment (comment we want to add).
-     * @param: experimentID:String (The experiment the comment belongs to).
+     * Delete all comments of a given experiment from the database
+     * @param experimentId :String (The experiment the comments belongs to).
      * @return: void
      */
     public void deleteAllCommentOfExperiment(String experimentId){
         db.collection("Comments").document(experimentId).collection("Comments").get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-
+            if(task.isSuccessful()) {
                 int i = 0;
                 int size = task.getResult().size();
                 for(QueryDocumentSnapshot snapshot: task.getResult()){
-
                     Task<Void> del = snapshot.getReference().delete();
                     i++;
-                    if(i == size){
+                    if (i == size) {
                         del.addOnCompleteListener(delTask->{
                             db.collection("Comments").document(experimentId).delete();
                         });
                     }
-
                 }
-
             }
         });
     }
 
     /**
      * Adds a new comment to the database.
-     * @param: comment:Comment (comment we want to add).
-     * @param: experimentID:String (The experiment the comment belongs to).
-     * @return: void
+     * @param comment :Comment (comment we want to add).
+     * @param experimentID :String (The experiment the comment belongs to).
+     * @return void
      */
     public void addComment(Comment comment, String experimentID) {
         // Construct the Map object
@@ -125,9 +116,9 @@ public class CommentManager {
 
     /**
      * Adds a new reply to the database.
-     * @param reply:Comment (comment we want to add).
-     * @param commentID:Comment (the comment the reply belongs to).
-     * @param experimentID:String (The experiment the comment belongs to).
+     * @param reply :Comment (comment we want to add).
+     * @param commentID :Comment (the comment the reply belongs to).
+     * @param experimentID :String (The experiment the comment belongs to).
      * @return void
      */
     public void addReply (Comment reply, String commentID, String experimentID) {
@@ -182,8 +173,8 @@ public class CommentManager {
 
     /**
      * Deletes an existing comment from the database.
-     * @param commentID:String (comment we want to delete).
-     * @param experimentID:String (The experiment the comment belongs to).
+     * @param commentID :String (comment we want to delete).
+     * @param experimentID :String (The experiment the comment belongs to).
      * @return void
      */
     public void removeComment (String commentID, String experimentID) {
@@ -208,40 +199,20 @@ public class CommentManager {
     }
 
     /**
-     * Deletes an existing reply from the database.
-     * @param replyID:String (reply we want to delete).
-     * @param commentID:String (comment we want to add).
-     * @param experimentID:String (The experiment the comment belongs to).
+     * Deletes an existing reply from the database. (TO BE IMPLEMENTED for a future version)
+     * @param replyID :String (reply we want to delete).
+     * @param commentID :String (comment we want to add).
+     * @param experimentID :String (The experiment the comment belongs to).
      * @return void
      */
     public void removeReply (String replyID, String commentID, String experimentID) {
-
         // TODO check is last reply removed
-        throw new UnsupportedOperationException();
-        //db.collection("Comments")
-        //        .document(experimentID)
-        //        .collection("Comments")
-        //        .document(commentID)
-        //        .collection("Replies")
-        //        .document(replyID)
-        //        .delete()
-        //        .addOnCompleteListener(new OnCompleteListener<Void>() {
-        //    @Override
-        //    public void onComplete(@NonNull Task<Void> task) {
-        //        if (task.isSuccessful()) {
-        //            Log.d(TAG, "delete reply succeeded");
-        //        }
-        //        else {
-        //            Log.d(TAG, "delete reply failed");
-        //        }
-        //    }
-        //});
     }
 
     /**
      * Queries all the comments for a given experiment.
-     * @param experimentID:String (The experiment the comment belongs to).
-     * @param callback:OnCommentsReadyListener (The class to call after the operation is done).
+     * @param experimentID :String (The experiment the comment belongs to).
+     * @param callback :OnCommentsReadyListener (The class to call after the operation is done).
      *         The data is passed as a parameter of this method.
      * @return void
      */
@@ -272,9 +243,9 @@ public class CommentManager {
 
     /**
      * Queries all the comments for a given experiment.
-     * @param commentID:String (comment we want to get replies for).
-     * @param experimentID:String (The experiment the comment belongs to).
-     * @param callback:OnCommentsReadyListener (The class to call after the operation is done).
+     * @param commentID :String (comment we want to get replies for).
+     * @param experimentID :String (The experiment the comment belongs to).
+     * @param callback :OnCommentsReadyListener (The class to call after the operation is done).
      *         The data is passed as a parameter of this method.
      * @return void
      */
@@ -308,7 +279,7 @@ public class CommentManager {
 
     /**
      * This method returns a Comment object by constructing it using the data from the document snapshot.
-     * @param snapshot:QueryDocumentSnapshot (The Firestore document to retrieve the comment details from).
+     * @param snapshot :QueryDocumentSnapshot (The Firestore document to retrieve the comment details from).
      * @return :Comment (Constructed using info from document).
      */
     private Comment commentFromSnapshot(QueryDocumentSnapshot snapshot) {

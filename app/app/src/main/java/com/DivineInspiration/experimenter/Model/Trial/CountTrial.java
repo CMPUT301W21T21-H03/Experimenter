@@ -112,7 +112,7 @@ public class CountTrial extends Trial {
 
     /**
      * Sets count
-     * @param count:int (new count)
+     * @param count :int (new count)
      */
     public void setCount(int count) {
         this.count = count;
@@ -127,7 +127,7 @@ public class CountTrial extends Trial {
 
     /**
      * Gets current count
-     * @return count:int
+     * @return count :int
      */
     public int getCount() {
         return count;

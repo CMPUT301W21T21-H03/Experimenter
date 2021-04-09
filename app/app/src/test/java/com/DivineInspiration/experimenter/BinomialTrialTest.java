@@ -15,7 +15,7 @@ public class BinomialTrialTest {
     private BinomialTrial mockBinomialTrial() {
         User user = mockTrialOwner();
         Experiment experiment = mockExperiment();
-        return new BinomialTrial(user.getUserId(), experiment.getExperimentID());
+        return new BinomialTrial();
 
     }
 

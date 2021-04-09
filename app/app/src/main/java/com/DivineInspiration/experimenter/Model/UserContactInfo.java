@@ -6,7 +6,8 @@ public class UserContactInfo {
 
     /**
      * Contact person info constructor
-     * @param cityName:String (city of person), email:String (email of person)
+     * @param cityName :String (city of person)
+     * @param email :String (email of person)
      */
     public UserContactInfo(String cityName, String email) {
         this.cityName = cityName;
@@ -31,23 +32,23 @@ public class UserContactInfo {
 
     /**
      * Set the user email
-     * @param email:String
+     * @param email :String
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * Gets city name
-     * @return cityName:String
+     * Gets city name of the user
+     * @return cityName :String
      */
     public String getCityName() {
         return cityName;
     }
 
     /**
-     * Sets city name
-     * @param cityName:String
+     * Sets a new city name for the user
+     * @param cityName :String
      */
     public void setCityName(String cityName) {
         this.cityName = cityName;

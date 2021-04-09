@@ -56,7 +56,7 @@ public class UserManager {
     /**
      * When user data is retrieved from database is ready,
      * it is passed along as a parameter by the interface method.
-     * Utilized for:
+     * Utilized for: queryUserById, initializeLocalUser, queryUserByName, updateUser
      */
     public interface OnUserReadyListener {
         void onUserReady(User user);
@@ -65,7 +65,7 @@ public class UserManager {
     /**
      * When user datum is retrieved from database is ready,
      * it is passed along as a parameter by the interface method.
-     * Utilized for:
+     * Utilized for: queryExperimentSubs
      */
     public interface OnUserListReadyListener {
         void onUserListReady(ArrayList<User> users);
@@ -90,7 +90,7 @@ public class UserManager {
 
     /**
      * Get singleton instance of the class
-     * @return singleton:UserManager
+     * @return singleton :UserManager
      */
     public static UserManager getInstance(){
         if (singleton == null){
@@ -101,7 +101,7 @@ public class UserManager {
 
     /**
      * Initializes the local user of the device
-     * @param callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
      */
     public void initializeLocalUser(OnUserReadyListener callback)  {
         if (pref == null) {
@@ -128,8 +128,8 @@ public class UserManager {
 
     /**
      * Queries the user from Firestore database given the user's id.
-     * @param userId:String (ID of the user)
-     * @param callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @param userId :String (ID of the user)
+     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
      */
     @SuppressWarnings("unchecked")
     public void queryUserById(String userId, OnUserReadyListener callback){
@@ -154,8 +154,8 @@ public class UserManager {
 
     /**
      * Queries the user from Firestore database given the user's name.
-     * @param name:String (ID of the user)
-     * @param callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @param name :String (ID of the user)
+     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
      */
     public void queryUserByName(String name, OnUserReadyListener callback){
 
@@ -176,28 +176,9 @@ public class UserManager {
     }
 
     /**
-     * This method returns a User object by constructing it using the data from the document snapshot.
-     * @param document:DocumentSnapshot (The Firestore document to retrieve the user details from).
-     * @return :User (Constructed using info from document).
-     */
-    private User userFromSnapshot(DocumentSnapshot document){
-        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
-        // update firebase and other stuff
-        String description = document.getString("UserDescription");
-        String name = document.getString("UserName");
-
-        // if no contacts assert error
-        assert contact != null;
-        User temp = new User(name, document.getId(),
-                    new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
-                ), description);
-        return temp;
-    }
-
-    /**
      * Queries the subscribers of the given experiment.
-     * @param expId:String (The user to query experiments for).
-     * @param callback:OnUserListReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @param expId :String (The user to query experiments for).
+     * @param callback :OnUserListReadyListener (The user data is passed as a parameter of the method in the callback).
      * @return void
      */
     @SuppressWarnings("unchecked")
@@ -240,8 +221,8 @@ public class UserManager {
      * <b>Note:</b> Changing user id or creating new users requires UserReadyCalled to be registered to LocalUserManager
      * <b>Note2:</b> Upon changing user id, user should be given the option to permanently delete the old profile. Then be switched to the new profile
      * @throws ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
-     * @param newUser:User (user to be made or updated)
-     * @param callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @param newUser :User (user to be made or updated)
+     * @param callback :OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
      * @return void
      */
     public void updateUser(User newUser, OnUserReadyListener callback){
@@ -273,5 +254,24 @@ public class UserManager {
                 }
             }
         });
+    }
+
+    /**
+     * This method returns a User object by constructing it using the data from the document snapshot.
+     * @param document :DocumentSnapshot (The Firestore document to retrieve the user details from).
+     * @return :User (Constructed using info from document).
+     */
+    private User userFromSnapshot(DocumentSnapshot document){
+        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
+        // update firebase and other stuff
+        String description = document.getString("UserDescription");
+        String name = document.getString("UserName");
+
+        // if no contacts assert error
+        assert contact != null;
+        User temp = new User(name, document.getId(),
+                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
+                ), description);
+        return temp;
     }
 }

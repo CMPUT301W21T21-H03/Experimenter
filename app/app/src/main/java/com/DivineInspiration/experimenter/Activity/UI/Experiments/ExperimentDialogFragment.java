@@ -30,9 +30,9 @@ import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * This class provides the UI for an owner to creating or edit an experiment.
- * @see: experiment_dialog_fragment
  * Runs either when: addButton is clicked while on Experiments tab of home page (creates new experiment)
  *                   settings button is clicked in the ExperimentFragment
+ * @see: experiment_dialog_fragment
  */
 public class ExperimentDialogFragment extends DialogFragment {
     // Instance variables
@@ -73,7 +73,7 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Fragment Constructor
-     * @param callback:OnExperimentOperationDoneListener (callback function)
+     * @param callback :OnExperimentOperationDoneListener (callback function)
      */
     public ExperimentDialogFragment(OnExperimentOperationDoneListener callback) {
         super();
@@ -82,8 +82,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Shows alert message on the bottom of the parent fragment page
-     * @param error:boolean (is the alert an error).
-     * @param message:String (message to display).
+     * @param error :boolean (is the alert an error).
+     * @param message :String (message to display).
      */
     private void showAlert(boolean error, String message) {
         Snackbar snackbar = Snackbar.make(parentFrag.getView(), message, Snackbar.LENGTH_LONG);
@@ -93,8 +93,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * Runs when the dialog is created.
-     * @param savedInstanceState:Bundle
-     * @return dialog:Dialog
+     * @param savedInstanceState :Bundle
+     * @return dialog :Dialog
      */
     @NonNull
     @Override
@@ -180,7 +180,7 @@ public class ExperimentDialogFragment extends DialogFragment {
 
     /**
      * This method initializes the views (instance variables)
-     * @param view:View (The dialog view)
+     * @param view :View (The dialog view)
      * @return void
      */
     private void init(View view) {

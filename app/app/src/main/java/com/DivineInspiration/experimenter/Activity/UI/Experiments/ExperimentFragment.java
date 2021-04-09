@@ -52,7 +52,6 @@ import java.util.List;
 public class ExperimentFragment extends Fragment implements Subject, TrialManager.OnTrialListReadyListener{
     List<Trial> currentTrials = new ArrayList<>();            // The trials performed for the experiment
 
-
     // Text views to display experiment information
     private TextView experimentName;
     private TextView ownerName;
@@ -85,7 +84,9 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate
-     * @param inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
+     * @param inflater :LayoutInflater
+     * @param container :ViewGroup
+     * @param  savedInstanceState :Bundle
      * @return: :View
      */
     @Override
@@ -96,7 +97,8 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is fully created.
-     * @param savedInstanceState:Bundle
+     * @param view :View
+     * @param savedInstanceState :Bundle
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -274,7 +276,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method initializes the views (instance variables)
-     * @param view:View (The view from onCreateView)
+     * @param view :View (The view from onCreateView)
      * @return void
      */
     private void init(View view) {
@@ -298,7 +300,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method updates the experiment information that is displayed
-     * @param exp:Experiment (The experiment to display the information for)
+     * @param exp :Experiment (The experiment to display the information for)
      * @return void
      */
     private void updateText(Experiment exp) {
@@ -314,8 +316,6 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method is called when the add button is selected when the current tab is Trial
-     * @param void
-     * @return void
      */
     public void TrialDialogSelect() {
         // Prepare a bundle with the relevant information

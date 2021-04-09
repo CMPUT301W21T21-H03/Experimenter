@@ -76,9 +76,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * Banning the user from the experiment (ie masking the results)
-     * @param userId:String (ID of user)
-     * @param experimentId:String (ID of experiment)
-     * @param callback:OnOperationDone (callback for when the operation is done)
+     * @param userId :String (ID of user)
+     * @param experimentId :String (ID of experiment)
+     * @param callback :OnOperationDone (callback for when the operation is done)
      */
     public void banUserFromExperiment(String userId, String experimentId, OnOperationDone callback){
         initLocalUserId();
@@ -106,7 +106,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * Updates owner name in the Firestore database
-     * @param ownerId:String, newName:String, callback:OnOperationDone
+     * @param ownerId :String, newName:String, callback:OnOperationDone
      * @return void
      */
     public void updateOwnerName(String ownerId, String newName, OnOperationDone callback) {
@@ -133,9 +133,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * Unsubscribe the given user from the given experiment.
-     * @param userId:String (The user that wants to unsubscribe)
-     * @param experimentId:String (The experiment the user wants to unsubscribe from)
-     * @param callback:OnOperationDone (The class to call after the operation is done).
+     * @param userId :String (The user that wants to unsubscribe)
+     * @param experimentId :String (The experiment the user wants to unsubscribe from)
+     * @param callback :OnOperationDone (The class to call after the operation is done).
      * @return void
      */
     public void unSubFromExperiment(String userId, String experimentId, OnOperationDone callback) {
@@ -156,9 +156,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * Subscribe the given user from the given experiment.
-     * @param userId:String (The user that wants to unsubscribe).
-     * @param experimentId:String (The experiment the user wants to subscribe to).
-     * @param callback:OnOperationDone (The class to call after the operation is done.
+     * @param userId :String (The user that wants to unsubscribe).
+     * @param experimentId :String (The experiment the user wants to subscribe to).
+     * @param callback :OnOperationDone (The class to call after the operation is done.
      * @return void
      */
     public void subToExperiment(String userId, String experimentId, OnOperationDone callback) {
@@ -180,8 +180,8 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * Delete the given experiment from database.
-     * @param experimentId:String (experiment we want to delete).
-     * @param callback:OnOperationDone (The class to call after the operation is done).
+     * @param experimentId :String (experiment we want to delete).
+     * @param callback :OnOperationDone (The class to call after the operation is done).
      * @return void
      */
     public void deleteExperiment(String experimentId, OnOperationDone callback) {
@@ -203,8 +203,8 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * Adds a new experiment to database.
-     * @param experiment:Experiment (experiment we want to add).
-     * @param callback:OnOperationDone (The class to call after the operation is done).
+     * @param experiment :Experiment (experiment we want to add).
+     * @param callback :OnOperationDone (The class to call after the operation is done).
      * @return void
      */
     public void addExperiment(Experiment experiment, OnOperationDone callback) {
@@ -239,9 +239,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Updates an existing experiment to database.
-     * @param experiment:Experiment (experiment we want to add).
-     * @param callback:OnOperationDone (The class to call after the operation is done).
+     * Updates an existing experiment to database given the experiment.
+     * @param experiment :Experiment (experiment we want to add).
+     * @param callback :OnOperationDone (The class to call after the operation is done).
      * @return void
      */
     public void updateExperiment(Experiment experiment, OnOperationDone callback) {
@@ -275,8 +275,8 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * Updates an existing experiment to database. This is an overloaded method.
-     * @param experiment:Experiment (experiment we want to add).
-     * @param callback:OnOperationDone (The class to call after the operation is done).
+     * @param experiment :Experiment (experiment we want to add).
+     * @param callback :OnOperationDone (The class to call after the operation is done).
      * @return void
      */
     public void updateExperiment(Experiment experiment, Map<String, Object> fieldsToUpdate, OnOperationDone callback) {
@@ -296,9 +296,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Queries the experiments that the given user is subscribed to.
-     * @param userId:String (The user to query experiments for).
-     * @param callback:OnExperimentListReadyListener (We return an ArrayList of Experiment by passing it as parameter of the callback method)
+     * Queries the experiments that the given given user is subscribed to.
+     * @param userId :String (The user to query experiments for).
+     * @param callback :OnExperimentListReadyListener (We return an ArrayList of Experiment by passing it as parameter of the callback method)
      * @return void
      */
     public void queryUserSubs(String userId, OnExperimentListReadyListener callback) {
@@ -323,9 +323,9 @@ public class ExperimentManager extends ArrayList<Experiment> {
     }
 
     /**
-     * Queries the database for all the experiments that belong to the owner.
-     * @param userId:String (The user to query experiments for).
-     * @param callback:OnExperimentListReadyListener (We return an ArrayList of Experiment by passing it as parameter of the callback method)
+     * Queries the database for all the experiments that belong to the given owner.
+     * @param userId :String (The user to query experiments for).
+     * @param callback :OnExperimentListReadyListener (We return an ArrayList of Experiment by passing it as parameter of the callback method)
      * @return void
      */
     public void queryUserExperiment(String userId, OnExperimentListReadyListener callback) {
@@ -354,7 +354,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * Queries all the experiments that are currently in the database.
-     * @param callback:OnExperimentListReadyListener (We return an ArrayList of Experiment by passing it as parameter of the callback method)
+     * @param callback :OnExperimentListReadyListener (We return an ArrayList of Experiment by passing it as parameter of the callback method)
      * @return void
      */
     public void queryAll(OnExperimentListReadyListener callback) {
@@ -383,7 +383,7 @@ public class ExperimentManager extends ArrayList<Experiment> {
 
     /**
      * This method returns a Experiment object by constructing it using the data from the document snapshot.
-     * @param snapshot:QueryDocumentSnapshot (The Firestore document to retrieve the experiment details from).
+     * @param snapshot :QueryDocumentSnapshot (The Firestore document to retrieve the experiment details from).
      * @return Experiment (Constructed using info from document).
      */
     private Experiment expFromSnapshot(QueryDocumentSnapshot snapshot) {

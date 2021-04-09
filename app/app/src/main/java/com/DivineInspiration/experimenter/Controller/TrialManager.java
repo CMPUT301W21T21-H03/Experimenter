@@ -69,7 +69,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Get singleton instance of the class
-     * @return singleton:TrialManager
+     * @return singleton :TrialManager
      */
     public static TrialManager getInstance() {
         if (singleton == null) {
@@ -113,13 +113,16 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Deleting a trial
-     * @param trialId
-     * the trial ID to be deleted
+     * @param trialId :String the trial ID to be deleted
      */
     public void deleteTrial(String trialId){
         db.collection("Trials").document(trialId).delete();
     }
 
+    /**
+     * Deletes all trials for the given experiment
+     * @param experimentId :String the trial ID to be deleted
+     */
     public void deleteAllTrialOfExperiment(String experimentId){
         db.collection("Trials").whereEqualTo("ExperimentID", experimentId).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
@@ -133,7 +136,7 @@ public class TrialManager extends ArrayList<Trial> {
     /**
      * Adds a new trial to database
      * @param trial:Trial (trial we want to add).
-     * @param callback:OnTrialReadyListener (The class to call after the operation is done).
+     * @param callback :OnTrialReadyListener (The class to call after the operation is done).
      * @return void
      */
     public void addTrial(Trial trial, OnTrialReadyListener callback) {
@@ -179,9 +182,9 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * Queries the trials that the given user is performed.
-     * @param userId:String (The user to query trials for).
-     * @param callback:OnTrialReadyListener (The class to call after the operation is done).
+     * Queries all the trials that the given user has performed.
+     * @param userId :String (The user to query trials for).
+     * @param callback :OnTrialReadyListener (The class to call after the operation is done).
      * @return void
      */
     public void getUserTrials(String userId, OnTrialListReadyListener callback) {
@@ -209,8 +212,8 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Queries the trials that performed for a given experiment.
-     * @param experimentId:String (The user to query trials for).
-     * @param callback:OnTrialReadyListener (The class to call after the operation is done).
+     * @param experimentId :String (The user to query trials for).
+     * @param callback :OnTrialReadyListener (The class to call after the operation is done).
      *         The data is passed as a parameter of this method.
      * @return void
      */
@@ -253,7 +256,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * This method returns a Trial object by constructing it using the data from the document snapshot.
-     * @param snapshot:QueryDocumentSnapshot (The Firestore document to retrieve the trial details from).
+     * @param snapshot :QueryDocumentSnapshot (The Firestore document to retrieve the trial details from).
      * @return :Trial (Constructed using info from document).
      */
     private Trial trialFromSnapshot(QueryDocumentSnapshot snapshot) {
@@ -284,7 +287,6 @@ public class TrialManager extends ArrayList<Trial> {
             default:
                 throw new IllegalArgumentException();
         }
-
         return trial;
     }
 }

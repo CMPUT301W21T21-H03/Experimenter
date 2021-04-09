@@ -113,7 +113,7 @@ public class NonNegativeTrial extends Trial {
 
     /**
      * Sets count
-     * @param count:int (new count)
+     * @param count :int (new count)
      */
     public void setCount(int count) {
         this.count = count;
@@ -121,7 +121,7 @@ public class NonNegativeTrial extends Trial {
 
     /**
      * Gets current count
-     * @return count:int
+     * @return count :int
      */
     public int getCount() {
         return count;
