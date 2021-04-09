@@ -404,8 +404,8 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 }else{
                     passNum = args.getInt("Pass");
                     failNum = args.getInt("Fail");
-                    trueNumTrial.setText(String.valueOf(passNum));
-                    failNumTrial.setText( String.valueOf(failNum));
+                    trueNumTrial.setText("Pass: " + String.valueOf(passNum));
+                    failNumTrial.setText( "Fail: "+ String.valueOf(failNum));
                     failNumTrial.setVisibility(View.VISIBLE);
                     trueNumTrial.setVisibility(View.VISIBLE);
                 }
@@ -502,7 +502,10 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         decrementFailNumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                failNum = failNum - 1;
+                if(failNum > 0){
+                    failNum = failNum - 1;
+                }
+
                 failNumTrial.setText( String.valueOf(failNum));
             }
         });
@@ -510,7 +513,10 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         decrementPassNumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                passNum = passNum - 1;
+                if(passNum > 0){
+                    passNum = passNum - 1;
+                }
+
                 trueNumTrial.setText(String.valueOf(passNum));
             }
         });
