@@ -17,8 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import com.DivineInspiration.experimenter.Controller.CommentManager;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
+import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
 import com.DivineInspiration.experimenter.Model.Trial.Trial;
@@ -106,10 +109,15 @@ public class ExperimentDialogFragment extends DialogFragment {
         // Get current local user of the device
         User localUser = UserManager.getInstance().getLocalUser();
 
-        init(view);     // Initialize the View's in the dialog UI
 
+        init(view);     // Initialize the View's in the dialog UI
         // Shows the dialog (must be called at start)
         dialog.show();
+
+        if(exp!= null && exp.getStatus().equals(Experiment.ENDED)){
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setVisibility(View.GONE);
+        }
+
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,6 +185,8 @@ public class ExperimentDialogFragment extends DialogFragment {
 
         return dialog;
     }
+
+
 
     /**
      * This method initializes the views (instance variables)
@@ -259,7 +269,7 @@ public class ExperimentDialogFragment extends DialogFragment {
                 view.findViewById(R.id.editAboutInput).setVisibility(View.GONE);
                 view.findViewById(R.id.editRegionInput).setVisibility(View.GONE);
                 view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
-                dialog.getButton(Dialog.BUTTON_POSITIVE).setVisibility(View.GONE);
+
                 dialog.setTitle("This experiment has ended. Delete?");
             }
             else {                                          // If the experiment is still ongoing
@@ -287,6 +297,9 @@ public class ExperimentDialogFragment extends DialogFragment {
 
             view.findViewById(R.id.deleteExp).setOnClickListener(v -> {     // If the owner chooses to delete the experiment
                 //TODO add a warning dialog!!
+
+                TrialManager.getInstance().deleteAllTrialOfExperiment(exp.getExperimentID());
+                CommentManager.getInstance().deleteAllCommentOfExperiment(exp.getExperimentID());
                 expManager.deleteExperiment(exp.getExperimentID(), successful -> {
                     dismiss();
                     callback.onOperationDone(null);

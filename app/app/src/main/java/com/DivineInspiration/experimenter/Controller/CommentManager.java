@@ -58,6 +58,29 @@ public class CommentManager {
         return singleton;
     }
 
+    public void deleteAllCommentOfExperiment(String experimentId){
+        db.collection("Comments").document(experimentId).collection("Comments").get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+
+                int i = 0;
+                int size = task.getResult().size();
+                for(QueryDocumentSnapshot snapshot: task.getResult()){
+
+                    Task<Void> del = snapshot.getReference().delete();
+                    i++;
+                    if(i == size){
+                        del.addOnCompleteListener(delTask->{
+                            db.collection("Comments").document(experimentId).delete();
+                        });
+                    }
+
+                }
+
+            }
+        });
+    }
+
+
     /**
      * Adds a new comment to the database.
      * @param: comment:Comment (comment we want to add).

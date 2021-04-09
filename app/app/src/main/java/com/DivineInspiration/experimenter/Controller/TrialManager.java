@@ -96,6 +96,16 @@ public class TrialManager extends ArrayList<Trial> {
         db.collection("Trials").document(trialId).delete();
     }
 
+    public void deleteAllTrialOfExperiment(String experimentId){
+        db.collection("Trials").whereEqualTo("ExperimentID", experimentId).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                for(QueryDocumentSnapshot snap: task.getResult()){
+                    snap.getReference().delete();
+                }
+            }
+        });
+    }
+
 
     /**
      * Adds a new trial to database
