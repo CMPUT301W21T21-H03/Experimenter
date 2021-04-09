@@ -53,7 +53,7 @@ public class CommentManager {
 
     /**
      * Get singleton instance of the class
-     * @return singleton :CommentManager
+     * @return singleton Manager
      */
     public static CommentManager getInstance() {
         if (singleton == null) {
@@ -64,7 +64,7 @@ public class CommentManager {
 
     /**
      * Delete all comments of a given experiment from the database
-     * @param experimentId :String (The experiment the comments belongs to).
+     * @param experimentId the experiment the comments belongs to
      * @return: void
      */
     public void deleteAllCommentOfExperiment(String experimentId){
@@ -86,9 +86,9 @@ public class CommentManager {
     }
 
     /**
-     * Adds a new comment to the database.
-     * @param comment :Comment (comment we want to add).
-     * @param experimentID :String (The experiment the comment belongs to).
+     * Adds a new comment to the database
+     * @param comment comment we want to add
+     * @param experimentID the experiment the comment belongs to
      * @return void
      */
     public void addComment(Comment comment, String experimentID) {
@@ -123,9 +123,9 @@ public class CommentManager {
 
     /**
      * Adds a new reply to the database.
-     * @param reply :Comment (comment we want to add).
-     * @param commentID :Comment (the comment the reply belongs to).
-     * @param experimentID :String (The experiment the comment belongs to).
+     * @param reply comment we want to add
+     * @param commentID the comment the reply belongs to
+     * @param experimentID the experiment the comment belongs to
      * @return void
      */
     public void addReply (Comment reply, String commentID, String experimentID) {
@@ -180,8 +180,8 @@ public class CommentManager {
 
     /**
      * Deletes an existing comment from the database.
-     * @param commentID :String (comment we want to delete).
-     * @param experimentID :String (The experiment the comment belongs to).
+     * @param commentID comment we want to delete
+     * @param experimentID the experiment the comment belongs to
      * @return void
      */
     public void removeComment (String commentID, String experimentID) {
@@ -207,9 +207,9 @@ public class CommentManager {
 
     /**
      * Deletes an existing reply from the database. (TO BE IMPLEMENTED for a future version)
-     * @param replyID :String (reply we want to delete).
-     * @param commentID :String (comment we want to add).
-     * @param experimentID :String (The experiment the comment belongs to).
+     * @param replyID reply we want to delete
+     * @param commentID comment we want to add
+     * @param experimentID The experiment the comment belongs to
      * @return void
      */
     public void removeReply (String replyID, String commentID, String experimentID) {
@@ -218,8 +218,8 @@ public class CommentManager {
 
     /**
      * Queries all the comments for a given experiment.
-     * @param experimentID :String (The experiment the comment belongs to).
-     * @param callback :OnCommentsReadyListener (The class to call after the operation is done).
+     * @param experimentID The experiment the comment belongs to
+     * @param callback the class to call after the operation is done.
      *         The data is passed as a parameter of this method.
      * @return void
      */
@@ -250,9 +250,9 @@ public class CommentManager {
 
     /**
      * Queries all the comments for a given experiment.
-     * @param commentID :String (comment we want to get replies for).
-     * @param experimentID :String (The experiment the comment belongs to).
-     * @param callback :OnCommentsReadyListener (The class to call after the operation is done).
+     * @param commentID comment we want to get replies for
+     * @param experimentID  the experiment the comment belongs to
+     * @param callback The class to call after the operation is done.
      *         The data is passed as a parameter of this method.
      * @return void
      */
@@ -285,9 +285,9 @@ public class CommentManager {
     }
 
     /**
-     * This method returns a Comment object by constructing it using the data from the document snapshot.
-     * @param snapshot :QueryDocumentSnapshot (The Firestore document to retrieve the comment details from).
-     * @return :Comment (Constructed using info from document).
+     * This method returns a Comment object by constructing it using the data from the document snapshot
+     * @param snapshot The Firestore document to retrieve the comment details from
+     * @return Constructed using info from document
      */
     private Comment commentFromSnapshot(QueryDocumentSnapshot snapshot) {
         return new Comment (

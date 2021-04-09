@@ -38,7 +38,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
 
     /**
      * Fragment initializer, similar to activity's onCreate
-     * @param savedInstanceState :Bundle
+     * @param savedInstanceState
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,10 +52,10 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
 
     /**
      * When view is created
-     * @param inflater :LayoutInflater
-     * @param container :ViewGroup
-     * @param savedInstanceState :Bundle
-     * @return :View
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view that was created
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -122,7 +122,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
      * This as a interface implementation method; when the experiment data requested is ready,
      * ExperimentManager calls this method and passes the data as a parameter.
      * The method then updates the list of experiments that are being shown
-     * @param queryList :List<Experiment> (list of experiment)
+     * @param queryList list of experiment
      */
     @Override
     public void onExperimentsReady(List<Experiment> queryList) {
