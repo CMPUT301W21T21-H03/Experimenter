@@ -1,7 +1,10 @@
 package com.DivineInspiration.experimenter.Activity.UI.QRBarCode;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,22 +24,17 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
-import com.DivineInspiration.experimenter.Controller.TrialManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
 import com.DivineInspiration.experimenter.Model.Experiment;
-import com.DivineInspiration.experimenter.Model.Trial.BinomialTrial;
-import com.DivineInspiration.experimenter.Model.Trial.CountTrial;
-import com.DivineInspiration.experimenter.Model.Trial.MeasurementTrial;
-import com.DivineInspiration.experimenter.Model.Trial.NonNegativeTrial;
-import com.DivineInspiration.experimenter.Model.Trial.Trial;
 import com.DivineInspiration.experimenter.R;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.zxing.Result;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.util.Map;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -49,12 +47,12 @@ public class ScanFragment extends Fragment {
     String[] scanned;
     double myLat = 0;
     double myLong = 0;
-
-    private CodeScanner mCodeScanner;
     CodeScannerView scannerView;
+    private CodeScanner mCodeScanner;
 
     /**
      * When creating view
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -80,6 +78,7 @@ public class ScanFragment extends Fragment {
 
     /**
      * When the view is created
+     *
      * @param view
      * @param savedInstanceState
      */
@@ -98,7 +97,7 @@ public class ScanFragment extends Fragment {
             public void onClick(View v) {
                 // if camera is open
                 if (allowCamera) {
-                     mCodeScanner.startPreview();
+                    mCodeScanner.startPreview();
                 } else {
                     Toast.makeText(getActivity(), "A code cannot be scanned if the camera is off", Toast.LENGTH_SHORT).show();
                 }
@@ -110,6 +109,7 @@ public class ScanFragment extends Fragment {
 
     /**
      * Result of the code scanned
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -151,14 +151,53 @@ public class ScanFragment extends Fragment {
 
 
                         scanned = result.getText().split("-");
+
+                        if (scanned.length == 1) {
+                            //must've scanned a bar code
+                            SharedPreferences pref = getContext().getSharedPreferences("Barcode", Context.MODE_PRIVATE);
+                            Map<String, ?> map = pref.getAll();
+                            for (String key : map.keySet()) {
+                                if (key.equals(scanned[0])) {
+                                    //found a match barcode
+                                    scanned = ((String)map.get(key)).split("-");
+                                    Toast.makeText(getContext(), "Found matching barcode", Toast.LENGTH_SHORT).show();
+                                    break;
+                                }
+                            }
+                            if(scanned.length == 1){
+                                Toast.makeText(getContext(), "No matching barcode found", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        }
+
                         String userId = UserManager.getInstance().getLocalUser().getUserId();
-                        ExperimentManager.getInstance().queryUserSubs(userId, experiments -> {
+                        ExperimentManager manager = ExperimentManager.getInstance();
+                        manager.queryUserSubs(userId, experiments -> {
                             boolean subbed = false;
 
-                            for(Experiment exp : experiments){
+                            for (Experiment exp : experiments) {
+                                if (exp.getOwnerID().equals(userId)) {
+                                    subbed = true;
+                                    break;
+                                }
 
                             }
+
+                            if (subbed) {
+                                //show trial dialog TODO
+                            } else {
+                                manager.queryExperimentFromId(scanned[0], experiment -> {
+                                    AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.dialogColor)
+                                            .setTitle("Sub to :" + experiment.getExperimentName() + "?")
+                                            .setPositiveButton("Subscribe", ((dialog1, which) -> {
+                                                dialog1.dismiss();
+                                                manager.subToExperiment(userId, experiment.getExperimentID(), null);
+                                                Toast.makeText(getContext(), "You are now subsribed to: " + experiment.getExperimentName(), Toast.LENGTH_LONG).show();
+                                            })).setNegativeButton("Cancel", null).create();
+                                });
+                            }
                         });
+
 
                     }
                 });
@@ -182,7 +221,7 @@ public class ScanFragment extends Fragment {
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.ACCESS_COARSE_LOCATION
-            },301);
+            }, 301);
             return;
         }
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {

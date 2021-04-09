@@ -46,6 +46,7 @@ public class CommandFromString {
         private double value = 0;
         private String expId = "";
         private String type = "";
+        private boolean needLocation = false;
 
         public String getExpId() {
             return expId;
@@ -59,7 +60,7 @@ public class CommandFromString {
             return needLocation;
         }
 
-        private  boolean needLocation = false;
+
 
         private QRTrialCommand() {
 
