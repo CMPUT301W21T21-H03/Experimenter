@@ -96,12 +96,17 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         if (comment.getHasReplies()) {
 
             commentManager.getCommentReplies(comment.getCommentId(), experimentID, this);
-
+            holder.getReplyList().setVisibility(View.VISIBLE);
             holder.getReplyList().setLayoutManager(new LinearLayoutManager(context));
             holder.getReplyList().setAdapter(adapter);
             holder.getReplyList().addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
             holder.getViewRepliesButton().setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.getReplyList().setVisibility(View.GONE);
+            holder.getViewRepliesButton().setVisibility(View.GONE);
         }
 
         holder.getAddReplyButton().setOnClickListener(new View.OnClickListener() {
