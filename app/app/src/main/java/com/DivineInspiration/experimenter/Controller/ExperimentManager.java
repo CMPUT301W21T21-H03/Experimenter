@@ -32,8 +32,8 @@ public class ExperimentManager extends ArrayList<Experiment> {
     // Singleton object
     private static ExperimentManager singleton;
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String localUserId;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String localUserId;
 
     private String TAG = "DATABASE";
 

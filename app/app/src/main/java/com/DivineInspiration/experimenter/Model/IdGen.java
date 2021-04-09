@@ -13,7 +13,7 @@ import kotlin.NotImplementedError;
  */
 public class IdGen {
 
-    static int counter = (int) (System.currentTimeMillis() % 1296);
+    private static int counter = (int) (System.currentTimeMillis() % 1296);
 
     /**
      * Event listener

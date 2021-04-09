@@ -32,15 +32,15 @@ import com.google.zxing.integration.android.IntentResult;
 
 public class BarCodeDialogFramgent extends DialogFragment {
 
-    String params;
-    boolean allowCamera = false;
-    boolean openCamera = false;
+    private String params;
+    private boolean allowCamera = false;
+    private boolean openCamera = false;
 
     private CodeScanner mCodeScanner;
-    CodeScannerView scannerView;
+    private CodeScannerView scannerView;
 
-    Button scan;
-    Dialog dialog;
+    private Button scan;
+    private Dialog dialog;
 
     /**
      * When dialog is created

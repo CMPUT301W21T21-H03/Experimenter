@@ -28,8 +28,6 @@ import java.util.List;
  */
 public class ExploreFragment extends Fragment implements ExperimentManager.OnExperimentListReadyListener {
 
-    // TODO?: if there is time and for more efficiency, shownList could be an int list that only contain indexes of the datalist (probably not)
-
     private ExploreListAdapter exploreListAdapter;          // Adapter list of the experiments in the explore tab
     private List<Experiment> dataList = new ArrayList<>();  // Data list contains all the experiments in the database
     private List<Experiment> shownList = new ArrayList<>(); // Shown list only contains of experiments shown on screen

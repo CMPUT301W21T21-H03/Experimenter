@@ -45,7 +45,7 @@ public class UserManager {
     private static UserManager singleton = null;    // Singleton object
 
     private User user;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private final String TAG = "USER";
 
