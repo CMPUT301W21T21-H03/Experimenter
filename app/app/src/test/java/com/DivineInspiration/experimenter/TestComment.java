@@ -4,7 +4,6 @@ import com.DivineInspiration.experimenter.Model.Comment.Comment;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -13,21 +12,28 @@ import static org.junit.Assert.*;
 
 public class TestComment {
     private Comment getMockComment() {
-        return new Comment("COMQR44SHQR12M6L0BHLTB", "XDC2BNUY5G", "Adit", new Date(), "No comment test"
-                , false, false);
+        return new Comment("COMQR44SHQR12M6L0BHLTB",
+                "XDC2BNUY5G",
+                "Bob Tester",
+                new Date(),
+                "No comment test",
+                false,
+                false);
     }
 
     @Test
     /* Here, we test the getters and setter of the Comment class */
     public void testCommentGetters() {
         Comment mockComment = getMockComment();
-        assertEquals("COM1234567", mockComment.getCommentId());
-        assertEquals("USR123456", mockComment.getCommenterId());
+        assertEquals("COMQR44SHQR12M6L0BHLTB", mockComment.getCommentId());
+        assertEquals("XDC2BNUY5G", mockComment.getCommenterId());
         assertEquals("Bob Tester", mockComment.getCommenterName());
-        assertEquals("Testivus", mockComment.getComment());
+        assertEquals("No comment test", mockComment.getComment());
+        assertFalse(mockComment.isReply());
+        assertFalse(mockComment.getHasReplies());
 
-        mockComment.setComment("Testivus has changed");
-        assertEquals("Testivus has changed", mockComment.getComment());
+        mockComment.setComment("Test has changed");
+        assertEquals("Test has changed", mockComment.getComment());
     }
 
 //    @Test
