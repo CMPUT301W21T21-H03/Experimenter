@@ -420,7 +420,78 @@ public class ExperimentTests {
         }
         solo.clickOnMenuItem("Delete");
     }
+    @Test
+    public void checkMap() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0,1);
+        solo.clickOnCheckBox(0);
+        solo.clickOnMenuItem("Ok");
 
+        while (solo.waitForText("Testing Binomial trial stats", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
 
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
 
+        //adding pass trials
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        for (int i = 0; i < 3; i++) {
+            solo.clickOnView(solo.getView(R.id.binomial_pass_button));
+        }
+        for (int i = 0; i < 2; i++) {
+            solo.clickOnView(solo.getView(R.id.binomial_fail_button));
+        }
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnMenuItem("Map");
+
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
+
+    }
+
+    @Test
+    public void checkMapWithNoGeoTrials() {
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForView(solo.getView(R.id.fab), 1, 2000);
+        solo.clickOnView(solo.getView(R.id.fab));
+        solo.enterText((EditText) solo.getView(R.id.editExperimentName), "Testing Binomial trial stats");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentCity), "Test region");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
+        solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
+        solo.pressSpinnerItem(0,1);
+        solo.clickOnMenuItem("Ok");
+
+        while (solo.waitForText("Testing Binomial trial stats", 1, 1000) == false) {
+            solo.drag(600, 600, 1000, 1500, 10);
+        }
+
+        solo.clickOnView(solo.getView(R.id.experimentItemCard));
+        assertTrue(solo.waitForText("Status:", 1, 2000));
+        solo.clickOnView(solo.getView(R.id.subscribeSwitch));
+
+        //adding pass trials
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        for (int i = 0; i < 3; i++) {
+            solo.clickOnView(solo.getView(R.id.binomial_pass_button));
+        }
+        for (int i = 0; i < 2; i++) {
+            solo.clickOnView(solo.getView(R.id.binomial_fail_button));
+        }
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnMenuItem("Map");
+
+        solo.clickOnView(solo.getView(R.id.setting));
+        solo.clickOnMenuItem("Delete");
+
+    }
 }
