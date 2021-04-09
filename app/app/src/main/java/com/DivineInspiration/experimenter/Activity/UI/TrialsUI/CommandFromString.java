@@ -7,11 +7,8 @@ import com.DivineInspiration.experimenter.Model.Trial.Trial;
 public class CommandFromString {
 
 
-    interface CommandCallback{
-        void onCommandMade(QRTrialCommand command);
-    }
 
-    public static QRTrialCommand make(String input, CommandCallback callback) {
+    public static QRTrialCommand make(String input) {
 
 
 
