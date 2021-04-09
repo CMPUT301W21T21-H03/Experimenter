@@ -391,6 +391,12 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
         decrementFailNumButton.setVisibility(View.GONE);
         decrementPassNumButton.setVisibility(View.GONE);
         locationWarning.setVisibility(View.GONE);
+        if(args.getBoolean("isScan")){
+            generateQR.setVisibility(View.GONE);
+            generateBar.setVisibility(View.GONE);
+        }else{
+
+        }
 
         switch (trialType){
             case "Binomial trial":
