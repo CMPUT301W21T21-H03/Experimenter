@@ -122,6 +122,13 @@ public class TrialMapTabFramgent extends Fragment implements Observer, OnMapRead
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
