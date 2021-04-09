@@ -57,33 +57,28 @@ public class StatisticsTest {
         //create trial on experiment
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         for (int i = 0; i < 10; i++) {
             solo.clickOnText("+");
         }
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         for (int i = 0; i < 15; i++) {
             solo.clickOnText("+");
         }
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         for (int i = 0; i < 5; i++) {
             solo.clickOnText("+");
         }
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -109,7 +104,6 @@ public class StatisticsTest {
         solo.clickOnMenuItem("Trials");
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -158,7 +152,6 @@ public class StatisticsTest {
 
         //adding pass trials
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        solo.clickOnCheckBox(0);
         for (int i = 0; i < 15; i++) {
             solo.clickOnView(solo.getView(R.id.binomial_pass_button));
         }
@@ -186,7 +179,6 @@ public class StatisticsTest {
         for (int i = 0; i < 5; i++) {
             solo.clickOnView(solo.getView(R.id.binomial_pass_button));
         };
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -232,46 +224,39 @@ public class StatisticsTest {
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         for (int i = 0; i < 7; i++) {
             solo.clickOnView(solo.getView(R.id.increase_trial_value));
         }
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         for (int i = 0; i < 3; i++) {
             solo.clickOnView(solo.getView(R.id.increase_trial_value));
         }
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         for (int i = 0; i < 10; i++) {
             solo.clickOnView(solo.getView(R.id.increase_trial_value));
         }
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         for (int i = 0; i < 5; i++) {
             solo.clickOnView(solo.getView(R.id.increase_trial_value));
         }
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -297,7 +282,6 @@ public class StatisticsTest {
         for (int i = 0; i < 5; i++) {
             solo.clickOnView(solo.getView(R.id.increase_trial_value));
         };
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -345,42 +329,34 @@ public class StatisticsTest {
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "12.3");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "-2.3");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "75");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "22");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "4.6");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "1.2");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "22.34");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "72.4");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -404,7 +380,6 @@ public class StatisticsTest {
         solo.clickOnMenuItem("Trials");
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "100");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -453,18 +428,15 @@ public class StatisticsTest {
         //create trial on experiment
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
         solo.clickOnText("+");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -562,17 +534,14 @@ public class StatisticsTest {
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -619,18 +588,15 @@ public class StatisticsTest {
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "12.3");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "1");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "3.9");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -677,18 +643,15 @@ public class StatisticsTest {
         //create trial on experiment
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
         solo.clickOnText("+");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -706,6 +669,7 @@ public class StatisticsTest {
 
         solo.drag(200, 200, 100, 300, 10);
         solo.drag(200, 200, 100, 300, 10);
+
         solo.waitForView(solo.getView(R.id.setting), 1, 2000);
         solo.clickOnView(solo.getView(R.id.setting));
         solo.clickOnMenuItem("Delete");
@@ -785,17 +749,14 @@ public class StatisticsTest {
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -841,18 +802,15 @@ public class StatisticsTest {
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "12.3");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "1");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.enterText((EditText) solo.getView(R.id.editMeasurementValue), "3.9");
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");

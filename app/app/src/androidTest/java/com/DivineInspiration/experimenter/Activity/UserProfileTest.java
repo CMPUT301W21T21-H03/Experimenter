@@ -84,7 +84,7 @@ public class UserProfileTest {
         solo.clickOnMenuItem("Edit");
 
         solo.clearEditText((EditText) solo.getView(R.id.editProfileName));
-        solo.enterText((EditText) solo.getView(R.id.editProfileName), "UserName");
+        solo.enterText((EditText) solo.getView(R.id.editProfileName), "Test Name");
         solo.clickOnMenuItem("Ok");
 
         assertTrue(solo.waitForText("Name taken", 1, 2000));

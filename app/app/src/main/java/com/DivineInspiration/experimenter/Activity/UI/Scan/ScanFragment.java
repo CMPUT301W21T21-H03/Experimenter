@@ -140,29 +140,43 @@ public class ScanFragment extends Fragment {
 
                             String experimentID = scanned[0];
                             String trialType = scanned[1];
-                            String result = scanned[2];
-                            String needLocation = "false";
+                            String needLocation = scanned[2];
                             LatLng location = null;
 
                             if (Boolean.parseBoolean(needLocation)) location = new LatLng(myLat, myLong);
                             Trial scannedTrial = null;
 
-                            switch (scanned[1]) {
+                            switch (trialType) {
                                 case Trial.BINOMIAL:
-                                    scannedTrial = new BinomialTrial(
-                                            UserManager.getInstance().getLocalUser().getUserId(),
-                                            UserManager.getInstance().getLocalUser().getUserName(),
-                                            experimentID,
-                                            Boolean.parseBoolean(result),
-                                            location
-                                    );
+
+                                    int successes = Integer.parseInt(scanned[3]);
+                                    int failures = Integer.parseInt(scanned[4]);
+                                    for (int i = 0; i < successes; i++) {
+                                        scannedTrial = new BinomialTrial(
+                                                UserManager.getInstance().getLocalUser().getUserId(),
+                                                UserManager.getInstance().getLocalUser().getUserName(),
+                                                experimentID,
+                                                true,
+                                                location
+                                        );
+                                    }
+                                    for (int i = 0; i < failures; i++) {
+                                        scannedTrial = new BinomialTrial(
+                                                UserManager.getInstance().getLocalUser().getUserId(),
+                                                UserManager.getInstance().getLocalUser().getUserName(),
+                                                experimentID,
+                                                false,
+                                                location
+                                        );
+                                    }
+
                                     break;
                                 case Trial.COUNT:
                                     scannedTrial = new CountTrial(
                                             UserManager.getInstance().getLocalUser().getUserId(),
                                             UserManager.getInstance().getLocalUser().getUserName(),
                                             experimentID,
-                                            Integer.parseInt(result),
+                                            Integer.parseInt(scanned[3]),
                                             location
                                     );
                                     break;
@@ -171,7 +185,7 @@ public class ScanFragment extends Fragment {
                                             UserManager.getInstance().getLocalUser().getUserId(),
                                             UserManager.getInstance().getLocalUser().getUserName(),
                                             experimentID,
-                                            Double.parseDouble(result),
+                                            Double.parseDouble(scanned[3]),
                                             location
                                     );
                                     break;
@@ -180,7 +194,7 @@ public class ScanFragment extends Fragment {
                                             UserManager.getInstance().getLocalUser().getUserId(),
                                             UserManager.getInstance().getLocalUser().getUserName(),
                                             experimentID,
-                                            Integer.parseInt(result),
+                                            Integer.parseInt(scanned[3]),
                                             location
                                     );
                                     break;
