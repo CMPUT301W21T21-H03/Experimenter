@@ -43,7 +43,6 @@ public class StatisticsTest {
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
         solo.pressSpinnerItem(0, 0);
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         while (solo.waitForText("Testing count trial statistics", 1, 1000) == false) {
@@ -56,27 +55,25 @@ public class StatisticsTest {
 
         //create trial on experiment
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        solo.clickOnText("+");
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        solo.clickOnText("+");
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             solo.clickOnText("+");
         }
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 14; i++) {
             solo.clickOnText("+");
         }
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             solo.clickOnText("+");
         }
         solo.clickOnMenuItem("Ok");
@@ -103,7 +100,6 @@ public class StatisticsTest {
 
         solo.clickOnMenuItem("Trials");
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        solo.clickOnText("+");
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnMenuItem("Stats");
@@ -139,7 +135,6 @@ public class StatisticsTest {
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
         solo.pressSpinnerItem(0,1);
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         while (solo.waitForText("Testing Binomial trial stats", 1, 1000) == false) {
@@ -209,7 +204,6 @@ public class StatisticsTest {
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
         solo.pressSpinnerItem(0,2);
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         while (solo.waitForText("Testing nonNeg trial stats", 1, 1000) == false) {
@@ -223,12 +217,6 @@ public class StatisticsTest {
         //checks adding trial
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnMenuItem("Ok");
-
-        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        solo.clickOnView(solo.getView(R.id.increase_trial_value));
-        solo.clickOnView(solo.getView(R.id.increase_trial_value));
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
@@ -236,25 +224,28 @@ public class StatisticsTest {
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        for (int i = 0; i < 7; i++) {
+        solo.clickOnMenuItem("Ok");
+
+        solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
+        for (int i = 0; i < 6; i++) {
             solo.clickOnView(solo.getView(R.id.increase_trial_value));
         }
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             solo.clickOnView(solo.getView(R.id.increase_trial_value));
         }
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             solo.clickOnView(solo.getView(R.id.increase_trial_value));
         }
         solo.clickOnMenuItem("Ok");
 
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             solo.clickOnView(solo.getView(R.id.increase_trial_value));
         }
         solo.clickOnMenuItem("Ok");
@@ -279,7 +270,7 @@ public class StatisticsTest {
 
         solo.clickOnMenuItem("Trials");
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             solo.clickOnView(solo.getView(R.id.increase_trial_value));
         };
         solo.clickOnMenuItem("Ok");
@@ -316,7 +307,6 @@ public class StatisticsTest {
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
         solo.pressSpinnerItem(0,3);
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         while (solo.waitForText("Testing measuring trial stats", 1, 1000) == false) {
@@ -371,7 +361,7 @@ public class StatisticsTest {
         assertTrue(solo.waitForText("Q1:", 1, 2000));
         assertTrue(solo.waitForText("2.9", 1, 2000));
         assertTrue(solo.waitForText("Q3:", 1, 2000));
-        //assertTrue(solo.waitForText("47.37", 1, 2000));
+        assertTrue(solo.waitForText("47.37", 1, 2000));
         assertTrue(solo.waitForText("Min:", 1, 2000));
         assertTrue(solo.waitForText("-2.3", 1, 2000));
         assertTrue(solo.waitForText("Max:", 1, 2000));
@@ -414,7 +404,6 @@ public class StatisticsTest {
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
         solo.pressSpinnerItem(0, 0);
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         while (solo.waitForText("Testing count trial line graph", 1, 1000) == false) {
@@ -519,7 +508,6 @@ public class StatisticsTest {
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
         solo.pressSpinnerItem(0,2);
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         while (solo.waitForText("Testing NonNeg trial stats", 1, 1000) == false) {
@@ -575,7 +563,6 @@ public class StatisticsTest {
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
         solo.pressSpinnerItem(0,3);
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         while (solo.waitForText("Testing measuring trial stats", 1, 1000) == false) {
@@ -629,7 +616,6 @@ public class StatisticsTest {
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
         solo.pressSpinnerItem(0, 0);
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         while (solo.waitForText("Testing count trial line graph", 1, 1000) == false) {
@@ -789,7 +775,6 @@ public class StatisticsTest {
         solo.enterText((EditText) solo.getView(R.id.editExperimentAbout), "this is a test experiment to subscribe to for intent testing");
         solo.enterText((EditText) solo.getView(R.id.editExperimentMin), "100");
         solo.pressSpinnerItem(0,3);
-        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         while (solo.waitForText("Testing measuring trial stats", 1, 1000) == false) {
