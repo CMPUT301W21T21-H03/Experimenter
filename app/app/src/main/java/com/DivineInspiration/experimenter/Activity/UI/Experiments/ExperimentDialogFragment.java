@@ -278,6 +278,7 @@ public class ExperimentDialogFragment extends DialogFragment {
                 requireGeo.setChecked(exp.isRequireGeo());
                 statusSpinner.setSelection(indexOf(statusValues, exp.getStatus()));
                 trialSpinner.setVisibility(View.GONE);
+                requireGeo.setVisibility(View.GONE);
 
                 view.findViewById(R.id.ownerButtons).setVisibility(View.VISIBLE);
 
