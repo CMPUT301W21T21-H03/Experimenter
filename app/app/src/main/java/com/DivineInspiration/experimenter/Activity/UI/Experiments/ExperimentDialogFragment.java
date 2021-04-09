@@ -28,26 +28,27 @@ import com.DivineInspiration.experimenter.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
+
 /**
  * This class provides the UI for an owner to creating or edit an experiment.
- * @see: experiment_dialog_fragment
- * Runs either when: addButton is clicked while on Experiments tab of home page (creates new experiment)
- *                   settings button is clicked in the ExperimentFragment
+ * Runs when addButton is clicked while in Experiments tab of home page (creates new experiment)
+ * or when the settings button is clicked in an ExperimentFragment (edits the experiment)
+ * @see com.DivineInspiration.experimenter.R.layout#experiment_dialog_fragment - XML layout file for this fragment
  */
 public class ExperimentDialogFragment extends DialogFragment {
     // Instance variables
-    OnExperimentOperationDoneListener callback;
-    ExperimentManager expManager = ExperimentManager.getInstance();
-    TextView editExperimentName;
-    Spinner trialSpinner;
-    TextView editCity;
-    TextView editExperimentAbout;
-    TextView minTrial;
-    CheckBox requireGeo;
-    Spinner statusSpinner;
+    private OnExperimentOperationDoneListener callback;
+    private ExperimentManager expManager = ExperimentManager.getInstance();
+    private TextView editExperimentName;
+    private Spinner trialSpinner;
+    private TextView editCity;
+    private TextView editExperimentAbout;
+    private TextView minTrial;
+    private CheckBox requireGeo;
+    private Spinner statusSpinner;
 
-    Experiment exp;
-    Fragment parentFrag;
+    private Experiment exp;
+    private Fragment parentFrag;
 
     // Options for the type of experiment (will be displayed in a drop-down fashion).
     private String[] expOptions = {"Counting", "Binomial", "NonNegative", "Measuring"};
@@ -59,15 +60,23 @@ public class ExperimentDialogFragment extends DialogFragment {
     private String[] statusValues = {Experiment.ONGOING, Experiment.HIDDEN};
     private String currentStatusSelection;
 
-    TextInputLayout nameInput;
-    TextInputLayout countInput;
-    AlertDialog dialog;
+    private TextInputLayout nameInput;
+    private TextInputLayout countInput;
+    private AlertDialog dialog;
 
     /**
-     * When experiment is added, notify those who implement this interface. (Cause most probably they are displaying experiments)
-     * Implemented by: ExperimentListTabFragment so refresh of experiments page on home screen can be done
+     * Interface definition for a callback to be invoked when
+     * {@link com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentDialogFragment}
+     * creates a new {@link com.DivineInspiration.experimenter.Model.Experiment}
      */
     public interface OnExperimentOperationDoneListener {
+
+        /**
+         * Called when {@link com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentDialogFragment}
+         * creates a new {@link com.DivineInspiration.experimenter.Model.Experiment}
+         * @param experiment
+         * The experiment that was created
+         */
         void onOperationDone(Experiment experiment);
     }
 
@@ -104,9 +113,8 @@ public class ExperimentDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        // Create view
+
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.experiment_dialog_fragment, null);
-        // Get current local user of the device
         User localUser = UserManager.getInstance().getLocalUser();
 
         init(view);     // Initialize the View's in the dialog UI
