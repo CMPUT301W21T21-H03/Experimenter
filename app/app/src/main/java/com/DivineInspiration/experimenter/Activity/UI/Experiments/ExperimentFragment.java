@@ -71,7 +71,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     ExperimentManager experimentManager = ExperimentManager.getInstance();
     UserManager userManager = UserManager.getInstance();
 
-    List<Trial> currentTrials = new ArrayList<>();
+
     boolean currentUserSubbed = false;
 
     String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
