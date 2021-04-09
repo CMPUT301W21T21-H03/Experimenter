@@ -17,17 +17,30 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A custom RecyclerView Adapter class. Displays a list of replies to a comment, represented
+ * by a Comment object. Used by
+ * {@link com.DivineInspiration.experimenter.Activity.UI.Comments.CommentListAdapter}
+ * to create display replies beneath each comment card.
+ * @see <a href="https://developer.android.com/guide/topics/ui/layout/recyclerview"> https://developer.android.com/guide/topics/ui/layout/recyclerview </a>
+ */
 public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.ViewHolder> {
 
     private List<Comment> replies = new ArrayList<>();
-    private String experimentID;
     private final CommentManager commentManager = CommentManager.getInstance();
 
-    public ReplyListAdapter(String experimentID) {
-        super();
-        this.experimentID = experimentID;
-    }
+    /**
+     * Constructor
+     */
+    public ReplyListAdapter() { super(); }
 
+    /**
+     * On create
+     * @param parent
+     * @param viewType
+     * @return
+     * view
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,6 +48,12 @@ public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.View
         return new ViewHolder(v);
     }
 
+    /**
+     * On bind view
+     * @param holder
+     * @param position
+     * position in adapter
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -46,9 +65,19 @@ public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.View
         holder.getAddReplyButton().setVisibility(View.GONE);
     }
 
+    /**
+     * Gets the number of items
+     * @return
+     * the number of items in comments
+     */
     @Override
     public int getItemCount() { return replies.size(); }
 
+    /**
+     * Sets data in adapter
+     * @param replies
+     * the reply list
+     */
     public void setReplies(List<Comment> replies) {
         this.replies.clear();
         this.replies.addAll(replies);
@@ -56,6 +85,11 @@ public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.View
         notifyDataSetChanged();
     }
 
+    /**
+     * Adds a new reply represented by {@link Comment} to the data list
+     * @param reply
+     * the added reply
+     */
     public void addReply(Comment reply) {
         this.replies.add(reply);
         notifyItemInserted(replies.size() - 1);
@@ -67,7 +101,6 @@ public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.View
         private final TextView commenterName;
         private final TextView commentText;
         private final Button addReplyButton;
-        private final Button viewRepliesButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -76,7 +109,6 @@ public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.View
             commenterName = v.findViewById(R.id.commenter_name_item);
             commentText = v.findViewById(R.id.comment_item_text);
             addReplyButton = v.findViewById(R.id.add_reply_button);
-            viewRepliesButton = v.findViewById(R.id.view_replies_button);
         }
 
         public CardView getCard() { return card; }
@@ -86,7 +118,5 @@ public class ReplyListAdapter extends RecyclerView.Adapter<ReplyListAdapter.View
         public TextView getCommentText() { return commentText; }
 
         public Button getAddReplyButton() { return addReplyButton; }
-
-        public Button getViewRepliesButton() { return viewRepliesButton; }
     }
 }

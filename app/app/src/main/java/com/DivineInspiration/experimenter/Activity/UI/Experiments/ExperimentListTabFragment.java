@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentAdapter;
-import com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentDialogFragment;
 import com.DivineInspiration.experimenter.Activity.UI.Refreshable;
 import com.DivineInspiration.experimenter.Controller.ExperimentManager;
 import com.DivineInspiration.experimenter.Controller.UserManager;
@@ -23,22 +21,23 @@ import com.DivineInspiration.experimenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * This class deals with the UI for displaying the experiments of the owner (in his device). (One of the tab of Experiment fragment)
- * It is on the home page and one of deals with both the Experiments and Subscriptions tabs of Profile fragment.
- * @see: experiment_list
+ * This class deals with the UI for displaying the experiments lists of experiments.
+ * Used in the Experiments and Subscriptions tabs of Profile fragment.
+ * @see R.layout#experiment_list - XML layout file for this fragment
  */
 public class ExperimentListTabFragment extends Fragment implements ExperimentDialogFragment.OnExperimentOperationDoneListener, Refreshable {
+
     private ExperimentAdapter adapter;
-    ArrayList<Experiment> exps = new ArrayList<>();     // All the experiments of the local user (i.e. all that the user has created).
+    private ArrayList<Experiment> exps = new ArrayList<>();     // All the experiments of the local user (i.e. all that the user has created).
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate.
      * @param inflater :LayoutInflater
      * @param container :ViewGroup
      * @param savedInstanceState :Bundle
-     * @return
-     * view
+     * view created by inflating container with inflater
      */
     @Nullable
     @Override
@@ -67,9 +66,10 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
     }
 
     /**
-     * This is the method that must be implemented due to interface inheritance of ExperimentDialogFragment.OnExperimentOperationDoneListener
-     * When experiment is added, update list
-     * @param experiment :Experiment
+
+     * Method implementation of ExperimentDialogFragment.OnExperimentOperationDoneListener
+     * When an experiment has been added to firebase, add it to the list
+     * @param experiment :Experiment experiment to be added
      */
     @Override
     public void onOperationDone(Experiment experiment) {
@@ -78,7 +78,7 @@ public class ExperimentListTabFragment extends Fragment implements ExperimentDia
     }
 
     /**
-     * This method is run to refresh the display of the experiments in case of any changes.
+     * Refreshes the experiment list.
      */
     @Override
     public void refresh() {
