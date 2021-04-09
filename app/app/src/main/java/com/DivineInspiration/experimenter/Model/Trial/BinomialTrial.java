@@ -13,8 +13,21 @@ public class BinomialTrial extends Trial {
     private boolean pass;
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int, location:GeoPoint
+     * The constructor
+     * @param trialID
+     * ID of trial
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param trialDate
+     * date of when the trial occurred
+     * @param pass
+     * if it passed or not
+     * @param location
+     * location of where the trial occurred
      */
     public BinomialTrial(String trialID, String trialUserID, String trialOwnerName, String trialExperimentID, LocalDate trialDate, boolean pass, LatLng location){
         super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate,location);
@@ -23,8 +36,13 @@ public class BinomialTrial extends Trial {
     }
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate
+     * The constructor
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
      */
     public BinomialTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
         super(trialUserID, trialOwnerName, trialExperimentID);
@@ -33,8 +51,17 @@ public class BinomialTrial extends Trial {
     }
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, pass:boolean, location:GeoPoint
+     * The constructor
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param pass
+     * if it passed or not
+     * @param location
+     * location of where the trial occurred
      */
     public BinomialTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, boolean pass, LatLng location) {
         super(trialUserID, trialOwnerName, trialExperimentID);
@@ -44,8 +71,19 @@ public class BinomialTrial extends Trial {
     }
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, pass:boolean
+     * The constructor
+     * @param trialID
+     * ID of trial
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param trialDate
+     * date of when the trial occurred
+     * @param pass
+     * if it passed or not
      */
     public BinomialTrial(String trialID, String trialUserID, String trialOwnerName, String trialExperimentID, LocalDate trialDate, boolean pass) {
         super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate);
@@ -55,7 +93,6 @@ public class BinomialTrial extends Trial {
 
     /**
      * Mock object constructor for testing purposes
-     * @param: void
      */
     public BinomialTrial() {
         super("test", "test", "test","test", LocalDate.now().plusDays(new Random().nextInt(70) ));
@@ -64,16 +101,18 @@ public class BinomialTrial extends Trial {
     }
 
     /**
-     * Gets the pass (i.e. the result of the trial)
-     * @return: pass:boolean
+     * Gets the pass
+     * @return
+     * result of the trial
      */
     public boolean getPass() {
         return pass;
     }
 
     /**
-     * Sets pass
-     * @param: pass:boolean (new pass)
+     * Sets pass state
+     * @param newVal
+     * new state of pass
      */
     public void setPass(boolean newVal) {
         pass = newVal;

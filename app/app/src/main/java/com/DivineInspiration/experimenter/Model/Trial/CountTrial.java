@@ -16,8 +16,21 @@ public class CountTrial extends Trial {
     private int count;
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int, location:GeoPoint
+     * The constructor
+     * @param trialID
+     * ID of trial
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param trialDate
+     * date of when the trial occurred
+     * @param count
+     * number of count
+     * @param location
+     * location of where the trial occurred
      */
     public CountTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count, LatLng location){
         super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate, location);
@@ -26,8 +39,13 @@ public class CountTrial extends Trial {
     }
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate
+     * The constructor
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
      */
     public CountTrial(String trialUserID,String trialOwnerName ,String trialExperimentID) {
         super(trialUserID,trialOwnerName ,trialExperimentID);
@@ -36,8 +54,17 @@ public class CountTrial extends Trial {
     }
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int, location:GeoPoint
+     * The constructor
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param count
+     * number of count
+     * @param location
+     * location of where the trial occurred
      */
     public CountTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, int count, LatLng location) {
         super(trialUserID,trialOwnerName ,trialExperimentID);
@@ -47,8 +74,19 @@ public class CountTrial extends Trial {
     }
 
     /**
-     * Constructor
-     * @param: trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, count:int
+     * The constructor
+     * @param trialID
+     * ID of trial
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param trialDate
+     * date of when the trial occurred
+     * @param count
+     * number of count
      */
     public CountTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, int count) {
         super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate);
@@ -58,7 +96,7 @@ public class CountTrial extends Trial {
 
     /**
      * Mock object constructor for testing purposes
-     * @param: void
+     * @param
      */
     public CountTrial(){
         super("test", "test", "test","test" ,LocalDate.now().plusDays(new Random().nextInt(20)));
@@ -74,14 +112,6 @@ public class CountTrial extends Trial {
     }
 
     /**
-     * Sets count
-     * @param: count:int (new count)
-     */
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    /**
      * Decrements count by one
      */
     public void decrementCount() {
@@ -90,9 +120,19 @@ public class CountTrial extends Trial {
 
     /**
      * Gets current count
-     * @return: count:int
+     * @return
+     * current count
      */
     public int getCount() {
         return count;
+    }
+
+    /**
+     * Set new count
+     * @param count
+     * new count
+     */
+    public void setCount(int count) {
+        this.count = count;
     }
 }
