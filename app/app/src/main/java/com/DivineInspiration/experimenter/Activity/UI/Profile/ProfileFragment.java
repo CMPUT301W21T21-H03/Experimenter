@@ -234,6 +234,8 @@ public class ProfileFragment extends Fragment {
         userName_home.setText(user.getUserName());
 
         // Setting Visibility of text Views
+        // Visibility for UserID
+        userID_home.setVisibility(otherUser ? View.GONE: View.VISIBLE);
         // Visibility for City and Email
         String cityText = user.getContactInfo().getCityName();
         userCity_home.setVisibility(cityText.isEmpty() ? View.GONE : View.VISIBLE);
