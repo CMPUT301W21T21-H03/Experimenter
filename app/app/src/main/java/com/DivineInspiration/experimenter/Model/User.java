@@ -10,7 +10,7 @@ public class User {
 
     /**
      * User constructor
-     * @param username 
+     * @param username name of the user
      * @param contactUserInfo the contact info of the user
      * @param description the user description
      */
@@ -23,7 +23,7 @@ public class User {
 
     /**
      * Default constructor when initializing the user
-     * @param userId 
+     * @param userId ID of user
      */
     public User(String userId) {
         this.userId = userId;
@@ -44,7 +44,7 @@ public class User {
 
     /**
      * Gets contact info of user
-     * @return contactInfo
+     * @return contact info of user
      */
     public UserContactInfo getContactInfo() {
         return contactInfo;
@@ -60,7 +60,7 @@ public class User {
 
     /**
      * Gets name of user
-     * @return username 
+     * @return name of the user
      */
     public String getUserName() {
         return userName;
@@ -68,7 +68,7 @@ public class User {
 
     /**
      * Sets a new username for the user
-     * @param userName the new username
+     * @param userName the new name of the user
      */
     public void setUserName(String userName) {
         this.userName = userName;
@@ -76,7 +76,7 @@ public class User {
 
     /**
      * Gets the ID of user
-     * @return userID 
+     * @return ID of user
      */
     public String getUserId() {
         return userId;

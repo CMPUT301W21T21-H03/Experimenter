@@ -37,7 +37,7 @@ public class Experiment implements Serializable {
     public static final String HIDDEN = "Unpublished";
 
     /**
-     * Constructor (Generates experimentId; mainly used for creating existing experiments after retrieval from Firestore)
+     * Constructor (Generates experimentId; mainly used for creating existing experiments after retrieval from FireStore)
      * @param experimentID the ID of the experiment
      * @param experimentName the name of the experiment
      * @param ownerID the owner id of the experiment owner
@@ -63,7 +63,7 @@ public class Experiment implements Serializable {
     }
 
     /**
-     * Constructor (Generates experimentId; mainly used for creating existing experiments after retrieval from Firestore)
+     * Constructor (Generates experimentId; mainly used for creating existing experiments after retrieval from FireStore)
      * @param experimentName the name of the experiment
      * @param ownerID the owner id of the experiment owner
      * @param ownerName the owner id of the experiment owner
@@ -100,7 +100,7 @@ public class Experiment implements Serializable {
 
     /**
      * Gets current status of the experiment
-     * @return status
+     * @return status of experiment
      */
     public String getStatus(){
         return status;
@@ -108,7 +108,7 @@ public class Experiment implements Serializable {
 
     /**
      * Sets a new status for the experiment
-     * @param newStatus 
+     * @param newStatus the new status of the experiment
      */
     public void setStatus(String newStatus){
         status = newStatus;
@@ -158,7 +158,7 @@ public class Experiment implements Serializable {
 
     /**
      * The type of trials the experiment is for
-     * @return trialType 
+     * @return type of experiment
      */
     public String getTrialType() {
         return trialType;
@@ -166,7 +166,7 @@ public class Experiment implements Serializable {
 
     /**
      * Gets the region of this particular experiment
-     * @return region 
+     * @return region of experiment
      */
     public String getRegion() {
         return region;
@@ -190,7 +190,7 @@ public class Experiment implements Serializable {
 
     /**
      * Sets the minimum number of trials
-     * @param minimumTrials 
+     * @param minimumTrials minimum number of trials for the experiment to be considered complete
      */
     public void setMinimumTrials(int minimumTrials) {
         this.minimumTrials = minimumTrials;
@@ -206,7 +206,7 @@ public class Experiment implements Serializable {
 
     /**
      * Sets a new experiment description
-     * @param experimentDescription 
+     * @param experimentDescription description of the experiment
      */
     public void setExperimentDescription(String experimentDescription) {
         this.experimentDescription = experimentDescription;
