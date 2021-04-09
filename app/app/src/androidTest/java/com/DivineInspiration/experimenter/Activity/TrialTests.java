@@ -58,6 +58,7 @@ public class TrialTests {
         //create trial on experiment
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         assertTrue(solo.waitForText("Result: 1", 1, 2000));
@@ -67,6 +68,7 @@ public class TrialTests {
         solo.clickOnButton("-");
         solo.clickOnButton("-");
         solo.clickOnButton("-");
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         assertFalse(solo.waitForText("Result: -3", 1, 2000));
@@ -74,6 +76,7 @@ public class TrialTests {
         //Checks if we can put a trial through that doesnt have geolocation on a geolocation required experiment
         solo.clickOnView(solo.getView(R.id.experiment_fragment_add_button));
         solo.clickOnText("+");
+        solo.clickOnCheckBox(0);
         solo.clickOnMenuItem("Ok");
 
         assertFalse(solo.waitForText("Result: 1", 2, 2000));
