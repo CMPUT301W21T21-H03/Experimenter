@@ -152,7 +152,7 @@ public class ScanFragment extends Fragment {
 
 
                         //id, type, params
-                        scanned = result.getText().split("-");
+                        scanned = result.getText().split("_");
 
                         if (scanned.length == 1) {
                             //must've scanned a bar code
@@ -161,7 +161,7 @@ public class ScanFragment extends Fragment {
                             for (String key : map.keySet()) {
                                 if (key.equals(scanned[0])) {
                                     //found a match barcode
-                                    scanned = ((String) map.get(key)).split("-");
+                                    scanned = ((String) map.get(key)).split("_");
                                     Toast.makeText(getContext(), "Found matching barcode", Toast.LENGTH_SHORT).show();
                                     break;
                                 }
@@ -220,6 +220,8 @@ public class ScanFragment extends Fragment {
                                                 manager.subToExperiment(userId, experiment.getExperimentID(), null);
                                                 Toast.makeText(getContext(), "You are now subsribed to: " + experiment.getExperimentName(), Toast.LENGTH_LONG).show();
                                             })).setNegativeButton("Cancel", null).create();
+
+                                        dialog.show();
                                 });
                             }
                         });

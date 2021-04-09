@@ -193,7 +193,7 @@
         android:layout_gravity="center|right"
         android:backgroundTint="@color/black2"
         android:capitalize="words"
-        android:text="Make Barcode"
+        android:text="Register Barcode"
         android:textAllCaps="false"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -196,7 +196,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 // most are in the format of experimentID-count except binomial which is pass-fail
                 switch (trialTypeCheck) {
                     case Trial.BINOMIAL:
-                        message = String.valueOf(passNum) + "-" + String.valueOf(failNum);
+                        message = String.valueOf(passNum) + "_" + String.valueOf(failNum);
                         break;
                     case Trial.COUNT:
                         message = String.valueOf(count);
@@ -210,7 +210,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                         message = "null";
                         break;
                 }
-                dialogArgs.putString("message", exp .getExperimentID()+ "-" + trialTypeCheck + "-" + message+ "-");
+                dialogArgs.putString("message", exp .getExperimentID()+ "_" + trialTypeCheck + "_" + message+ "_");
                 frag.setArguments(dialogArgs);
                 frag.show(getParentFragmentManager(), "QR code fragment");
             }
@@ -226,7 +226,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                 // most are in the format of experimentID-count except binomial which is pass-fail
                 switch (trialTypeCheck) {
                     case Trial.BINOMIAL:
-                        message = String.valueOf(passNum) + "-" + String.valueOf(failNum);
+                        message = String.valueOf(passNum) + "_" + String.valueOf(failNum);
                         break;
                     case Trial.COUNT:
                         message = String.valueOf(count);
@@ -240,7 +240,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
                         message = "null";
                         break;
                 }
-                dialogArgs.putString("message", exp .getExperimentID() + "-" + trialTypeCheck + "-" + message);
+                dialogArgs.putString("message", exp .getExperimentID() + "_" + trialTypeCheck + "_" + message);
                 frag.setArguments(dialogArgs);
                 frag.show(getParentFragmentManager(), "Bar code fragment");
             }
