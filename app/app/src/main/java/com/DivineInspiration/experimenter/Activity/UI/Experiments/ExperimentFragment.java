@@ -82,7 +82,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate
-     * @param: inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
+     * @param inflater:LayoutInflater, container:ViewGroup, savedInstanceState:Bundle
      * @return: :View
      */
     @Override
@@ -93,7 +93,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is fully created.
-     * @param: savedInstanceState:Bundle
+     * @param savedInstanceState:Bundle
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -271,8 +271,8 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method initializes the views (instance variables)
-     * @param: view:View (The view from onCreateView)
-     * @return: void
+     * @param view:View (The view from onCreateView)
+     * @return void
      */
     private void init(View view) {
         // Get the text views
@@ -295,8 +295,8 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method updates the experiment information that is displayed
-     * @param: exp:Experiment (The experiment to display the information for)
-     * @return: void
+     * @param exp:Experiment (The experiment to display the information for)
+     * @return void
      */
     private void updateText(Experiment exp) {
         experimentName.setText(exp.getExperimentName());
@@ -311,8 +311,8 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method is called when the add button is selected when the current tab is Trial
-     * @param: void
-     * @return: void
+     * @param void
+     * @return void
      */
     public void TrialDialogSelect() {
         // Prepare a bundle with the relevant information
@@ -401,7 +401,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
         /**
          * Get item count
-         * @return: :int (number of items in list)
+         * @return :int (number of items in list)
          */
         @Override
         public int getItemCount() {

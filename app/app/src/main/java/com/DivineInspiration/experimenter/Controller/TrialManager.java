@@ -69,8 +69,7 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Get singleton instance of the class
-     * @return
-     * singleton instance
+     * @return singleton:TrialManager
      */
     public static TrialManager getInstance() {
         if (singleton == null) {
@@ -133,10 +132,9 @@ public class TrialManager extends ArrayList<Trial> {
 
     /**
      * Adds a new trial to database
-     * @param trial
-     * trial to be added
-     * @param callback
-     * class call after operation is done
+     * @param trial:Trial (trial we want to add).
+     * @param callback:OnTrialReadyListener (The class to call after the operation is done).
+     * @return void
      */
     public void addTrial(Trial trial, OnTrialReadyListener callback) {
         // Store standard trial data
@@ -181,11 +179,10 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * Queries the trials that the given user is performed
-     * @param userId
-     * ID of user
-     * @param callback
-     * class to call after the operation is done
+     * Queries the trials that the given user is performed.
+     * @param userId:String (The user to query trials for).
+     * @param callback:OnTrialReadyListener (The class to call after the operation is done).
+     * @return void
      */
     public void getUserTrials(String userId, OnTrialListReadyListener callback) {
 
@@ -211,11 +208,11 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * Queries the trials that performed for a given experiment
-     * @param experimentId
-     * ID of experiment
-     * @param callback
-     * class to call after the operation is done
+     * Queries the trials that performed for a given experiment.
+     * @param experimentId:String (The user to query trials for).
+     * @param callback:OnTrialReadyListener (The class to call after the operation is done).
+     *         The data is passed as a parameter of this method.
+     * @return void
      */
     public void queryExperimentTrials(String experimentId, OnTrialListReadyListener callback) {
         db.collection("BlackList").document(experimentId).get().addOnCompleteListener(task -> {
@@ -255,11 +252,9 @@ public class TrialManager extends ArrayList<Trial> {
     }
 
     /**
-     * Returns a trial object by constructing it using the data from the document snapshot
-     * @param snapshot
-     * the FireStore document to retrieve the trial details from
-     * @return
-     * trial from FireStore
+     * This method returns a Trial object by constructing it using the data from the document snapshot.
+     * @param snapshot:QueryDocumentSnapshot (The Firestore document to retrieve the trial details from).
+     * @return :Trial (Constructed using info from document).
      */
     private Trial trialFromSnapshot(QueryDocumentSnapshot snapshot) {
 

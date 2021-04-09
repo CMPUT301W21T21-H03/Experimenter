@@ -72,11 +72,9 @@ public class UserManager {
     }
 
     /**
-     * Gets the current local user
-     * @return
-     * current user
-     * @Warning
-     * getLocalUser might return null if used during init
+     * Gets the current local user of the device.
+     * @return :User (the current user).
+     * @Warning getLocalUser might return null if used during init
      */
     public User getLocalUser(){
         return user;
@@ -84,16 +82,15 @@ public class UserManager {
 
     /**
      * Provide context so that LocalUserManager can fetch the sharedPreference
-     * @param context
-     * context to be used
+     * @param context context to be used.
      */
     public void setContext(Context context) {
         pref = context.getSharedPreferences("USER_CONFIG", Context.MODE_PRIVATE);
     }
 
     /**
-     * Get singleton instance of the class.
-     * @return: singleton:UserManager
+     * Get singleton instance of the class
+     * @return singleton:UserManager
      */
     public static UserManager getInstance(){
         if (singleton == null){
@@ -104,8 +101,7 @@ public class UserManager {
 
     /**
      * Initializes the local user of the device
-     * @param callback
-     * callback to when the user is ready - the user data is passed as a parameter of the method in the callback
+     * @param callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
      */
     public void initializeLocalUser(OnUserReadyListener callback)  {
         if (pref == null) {
@@ -131,11 +127,9 @@ public class UserManager {
     }
 
     /**
-     * Queries the user from FireStore database given the user's id
-     * @param userId
-     * ID of user
-     * @param callback
-     * callback to when the user is ready - the user data is passed as a parameter of the method in the callback
+     * Queries the user from Firestore database given the user's id.
+     * @param userId:String (ID of the user)
+     * @param callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
      */
     @SuppressWarnings("unchecked")
     public void queryUserById(String userId, OnUserReadyListener callback){
@@ -159,11 +153,9 @@ public class UserManager {
     }
 
     /**
-     * Queries the user from FireStore database given the user's name
-     * @param name
-     * name of user
-     * @param callback
-     * callback to when the user is ready - the user data is passed as a parameter of the method in the callback
+     * Queries the user from Firestore database given the user's name.
+     * @param name:String (ID of the user)
+     * @param callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
      */
     public void queryUserByName(String name, OnUserReadyListener callback){
 
@@ -184,11 +176,9 @@ public class UserManager {
     }
 
     /**
-     * This method returns a User object by constructing it using the data from the document snapshot
-     * @param document
-     * the FireStore document to retrieve the user details from
-     * @return
-     * the user constructed using info from document
+     * This method returns a User object by constructing it using the data from the document snapshot.
+     * @param document:DocumentSnapshot (The Firestore document to retrieve the user details from).
+     * @return :User (Constructed using info from document).
      */
     private User userFromSnapshot(DocumentSnapshot document){
         Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
@@ -205,11 +195,10 @@ public class UserManager {
     }
 
     /**
-     * Queries the subscribers of the given experiment
-     * @param expId
-     * ID of experiment
-     * @param callback
-     * the user data is passed as a parameter of the method in the callback
+     * Queries the subscribers of the given experiment.
+     * @param expId:String (The user to query experiments for).
+     * @param callback:OnUserListReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @return void
      */
     @SuppressWarnings("unchecked")
     public void queryExperimentSubs(String expId, OnUserListReadyListener callback){
@@ -246,17 +235,14 @@ public class UserManager {
     }
 
     /**
-     * Updates (or creates if not existing) the local user. This method will update the user stored in memory, locally, and in FireStore.
+     * Updates (or creates if not existing) the local user. This method will update the user stored in memory, locally, and in Firestore.
      * If the user's Id already exist, then the exist user document will be updated(replaced).
-     * Notes:
-     * 1. Changing user id or creating new users requires UserReadyCalled to be registered to LocalUserManager
-     * 2. Upon changing user id, user should be given the option to permanently delete the old profile. Then be switched to the new profile
-     * @throws ContextNotSetException
-     * throws exception if no context has ever been set for this LocalUserManager
-     * @param newUser
-     * user to be made or updated
-     * @param callback
-     * The user data is passed as a parameter of the method in the callback
+     * <b>Note:</b> Changing user id or creating new users requires UserReadyCalled to be registered to LocalUserManager
+     * <b>Note2:</b> Upon changing user id, user should be given the option to permanently delete the old profile. Then be switched to the new profile
+     * @throws ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
+     * @param newUser:User (user to be made or updated)
+     * @param callback:OnUserReadyListener (The user data is passed as a parameter of the method in the callback).
+     * @return void
      */
     public void updateUser(User newUser, OnUserReadyListener callback){
         if (pref == null){
