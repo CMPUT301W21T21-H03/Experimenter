@@ -3,6 +3,7 @@ package com.DivineInspiration.experimenter.Activity.UI.Profile;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +56,8 @@ public class ProfileFragment extends Fragment implements TrialManager.OnTrialLis
     UserManager user_manager = UserManager.getInstance();
     ExperimentManager experimentManager = ExperimentManager.getInstance();
 
-    List<Trial> userTrials;             // The trials performed by this user
+    List<Trial> userTrials = new ArrayList<>();             // The trials performed by this user
+    TrialsTabFragment tabFragment;
 
     // Declaring TextView
     TextView userID_home;
@@ -265,7 +268,9 @@ public class ProfileFragment extends Fragment implements TrialManager.OnTrialLis
     }
 
     public void onTrialsReady(List<Trial> trials) {
+        Log.d("Inside ProfileFragment onTrialsReady 1",  "Size: " + trials.size());
         userTrials = trials;
+        tabFragment.update(userTrials);
     }
 
     /**
@@ -314,9 +319,9 @@ public class ProfileFragment extends Fragment implements TrialManager.OnTrialLis
                     experimentListTabFragment.setArguments(bundle);
                     return experimentListTabFragment;
                 case 2:
-                    TrialsTabFragment tabFragment = new TrialsTabFragment(ProfileFragment.this);
-                    TrialManager.getInstance().getUserTrials(otherUserId, ProfileFragment.this);
-                    tabFragment.update(userTrials);
+                    tabFragment = new TrialsTabFragment(ProfileFragment.this);
+                    TrialManager.getInstance().getUserTrials(UserManager.getInstance().getLocalUser().getUserId(), ProfileFragment.this);
+                    Log.d("Creating tabFragment",  "Size: " + userTrials.size());
                     return tabFragment;
                 default:
                     return new TestFrag();

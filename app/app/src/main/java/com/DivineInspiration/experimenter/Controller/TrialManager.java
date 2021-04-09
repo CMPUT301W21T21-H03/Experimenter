@@ -153,7 +153,7 @@ public class TrialManager extends ArrayList<Trial> {
                                     output.add(trialFromSnapshot(snapshot));
                                 }
                                 callback.onTrialsReady(output);
-                                Log.d(TAG, "getUserTrials successful");
+                                Log.d(TAG, "getUserTrials successful" + output.size());
                             }
                         } else {
                             Log.d(TAG, "getUserTrials failed");
