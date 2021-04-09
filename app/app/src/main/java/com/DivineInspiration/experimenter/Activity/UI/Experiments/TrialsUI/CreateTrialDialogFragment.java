@@ -109,18 +109,18 @@ public class CreateTrialDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 // Call the appropriate method (when "OK" button of dialog is clicked) depending on type of the trial
                 switch (trialTypeCheck) {
-                    case "Binomial trial":
+                    case Trial.BINOMIAL:
                         binomialTrialDialog(args, exp);
                         break;
-                    case "Count trial":
+                    case Trial.COUNT:
                         countTrialDialog(args, exp);
                         message = String.valueOf(count);
                         break;
-                    case "Non-Negative trial":
+                    case Trial.NONNEGATIVE:
                         nonNegativeTrialDialog(args, exp);
                         message = String.valueOf(count);
                         break;
-                    case "Measurement trial":
+                    case Trial.MEASURE:
                         measure = measurementTextBox.getText().toString();
                         measurementTrialDialog(args, exp, measure);
                         break;
@@ -140,21 +140,22 @@ public class CreateTrialDialogFragment extends DialogFragment {
 
                 // most are in the format of experimentID-count except binomial which is pass-fail
                 switch (trialTypeCheck) {
-                    case "Binomial trial":
+                    case Trial.BINOMIAL:
                         message = String.valueOf(passNum) + "-" + String.valueOf(failNum);
                         break;
-                    case "Count trial":
-                    case "Non-Negative trial":
+                    case Trial.COUNT:
+                        message = String.valueOf(count);
+                    case Trial.NONNEGATIVE:
                         message = String.valueOf(count);
                         break;
-                    case "Measurement trial":
+                    case Trial.MEASURE:
                         message = measurementTextBox.getText().toString();
                         break;
                     default:
                         message = "null";
                         break;
                 }
-                dialogArgs.putString("message", args.getString("experimenterID") + "-" + message);
+                dialogArgs.putString("message", args.getString("experimenterID") + "-" + trialTypeCheck + "-" + needLocation + "-" + message);
                 frag.setArguments(dialogArgs);
                 frag.show(getParentFragmentManager(), "QR code fragment");
             }
