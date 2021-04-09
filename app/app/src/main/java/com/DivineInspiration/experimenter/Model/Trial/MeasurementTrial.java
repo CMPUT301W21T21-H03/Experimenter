@@ -112,7 +112,7 @@ public class MeasurementTrial extends Trial {
 
     /**
      * Gets current value of the measurement
-     * @return value :int
+     * @return value 
      */
     public double getValue() {
         return value;

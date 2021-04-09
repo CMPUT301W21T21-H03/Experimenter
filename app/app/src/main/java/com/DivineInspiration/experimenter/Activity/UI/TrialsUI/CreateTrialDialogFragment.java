@@ -238,8 +238,9 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
     /**
      * This method deals with the information retrieval and Trial object creation for when the type of the trial is binomial.
-     * @param args :Bundle A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
-     * @param exp :Experiment (the experiment this trial is being performed for).
+     * @param args A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
+     * @param exp the experiment this trial is being performed for
+
      */
     public void binomialTrialDialog(Bundle args, Experiment exp) {
 
@@ -276,8 +277,8 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
     /**
      * This method deals with the information retrieval and Trial object creation for when the type of the trial is count.
-     * @param args :Bundle A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
-     * @param exp :Experiment (the experiment this trial is being performed for).
+     * @param args A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
+     * @param exp the experiment this trial is being performed for
      */
     public void countTrialDialog(Bundle args, Experiment exp) {
         if (needLocation) {
@@ -298,8 +299,8 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
     /**
      * This method deals with the information retrieval and Trial object creation for when the type of the trial is non-negative.
-     * @param args :Bundle A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
-     * @param exp :Experiment (the experiment this trial is being performed for).
+     * @param args A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
+     * @param exp the experiment this trial is being performed for
      */
     public void nonNegativeTrialDialog(Bundle args, Experiment exp) {
 
@@ -321,8 +322,8 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
     /**
      * This method deals with the information retrieval and Trial object creation for when the type of the trial is measurement.
-     * @param args :Bundle A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
-     * @param exp :Experiment (the experiment this trial is being performed for).
+     * @param args A bundle created by this.getArguments(). Contains values for the fields "experimenterID" and "experimenterName"
+     * @param exp the experiment this trial is being performed for
      */
     public void measurementTrialDialog(Bundle args, Experiment exp, String measure) {
 
@@ -367,7 +368,8 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
     /**
      *  This method deals with giving visibility to a certain Views depending on the trial.
-     * @param: trialTypethe type of trial being created
+     * @param trialType the type of the trial
+     * @param args
      */
     public void visibility(String trialType, Bundle args){
 
@@ -470,7 +472,6 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
 
             }
-
         });
 
         if(needLocation){

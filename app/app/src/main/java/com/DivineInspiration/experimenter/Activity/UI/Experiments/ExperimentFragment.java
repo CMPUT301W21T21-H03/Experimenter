@@ -71,7 +71,6 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
     ExperimentManager experimentManager = ExperimentManager.getInstance();
     UserManager userManager = UserManager.getInstance();
 
-
     boolean currentUserSubbed = false;
 
     String[] tabNames = {"Trials", "Comments", "Stats", "Map"};
@@ -80,10 +79,10 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is created. Similar to the activity's onCreate
-     * @param inflater :LayoutInflater
-     * @param container :ViewGroup
-     * @param  savedInstanceState :Bundle
-     * @return: :View
+     * @param inflater
+     * @param container
+     * @param  savedInstanceState
+     * @return: view created
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,8 +92,8 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * Runs when the view is fully created.
-     * @param view :View
-     * @param savedInstanceState :Bundle
+     * @param view
+     * @param savedInstanceState
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -308,8 +307,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method initializes the views (instance variables)
-     * @param view :View (The view from onCreateView)
-     * @return void
+     * @param view the view from onCreateView
      */
     private void init(View view) {
         // Get the text views
@@ -332,7 +330,7 @@ public class ExperimentFragment extends Fragment implements Subject, TrialManage
 
     /**
      * This method updates the experiment information that is displayed
-     * @param exp :Experiment (The experiment to display the information for)
+     * @param exp the experiment to display the information for
      */
     private void updateText(Experiment exp) {
 

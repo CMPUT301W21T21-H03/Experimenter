@@ -85,11 +85,9 @@ public class UserManager {
     }
 
     /**
-     * Gets the current local user
-     * @return
-     * current user
-     * @Warning
-     * getLocalUser might return null if used during init
+     * Gets the current local user of the device.
+     * @return the current user
+     * @Warning getLocalUser might return null if used during init
      */
     public User getLocalUser(){
         return user;
@@ -105,7 +103,7 @@ public class UserManager {
 
     /**
      * Get singleton instance of the class
-     * @return singleton :UserManager
+     * @return singleton instance
      */
     public static UserManager getInstance(){
         if (singleton == null){
@@ -143,11 +141,9 @@ public class UserManager {
     }
 
     /**
-     * Queries the user from FireStore database given the user's id.
-     * @param userId
-     * ID of user
-     * @param callback
-     * callback to when the user is ready - the user data is passed as a parameter of the method in the callback
+     * Queries the user from Firestore database given the user's id
+     * @param userId ID of the user
+     * @param callback the user data is passed as a parameter of the method in the callback
      */
     @SuppressWarnings("unchecked")
     public void queryUserById(String userId, OnUserReadyListener callback){
@@ -171,11 +167,9 @@ public class UserManager {
     }
 
     /**
-     * Queries the user from FireStore database given the user's name
-     * @param name
-     * name of user
-     * @param callback
-     * callback to when the user is ready - the user data is passed as a parameter of the method in the callback
+     * Queries the user from Firestore database given the user's name
+     * @param name ID of the user
+     * @param callback the user data is passed as a parameter of the method in the callback
      */
     public void queryUserByName(String name, OnUserReadyListener callback){
 
@@ -203,34 +197,9 @@ public class UserManager {
     }
 
     /**
-     * This method returns a User object by constructing it using the data from the document snapshot
-     * @param document
-     * the FireStore document to retrieve the user details from
-     * @return
-     * the user constructed using info from document
-     */
-    private User userFromSnapshot(DocumentSnapshot document){
-        Map<String, Object> contact = (Map<String, Object>) document.get("Contacts");
-
-        // update firebase and other stuff
-        String description = document.getString("UserDescription");
-        String name = document.getString("UserName");
-
-        // if no contacts assert error
-        assert contact != null;
-        return new User(
-                name,
-                document.getId(),
-                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()),
-                description);
-    }
-
-    /**
-     * Queries the subscribers of the given experiment
-     * @param expId
-     * ID of experiment
-     * @param callback
-     * the user data is passed as a parameter of the method in the callback
+     * Queries the subscribers of the given experiment.
+     * @param expId the user to query experiments for
+     * @param callback the user data is passed as a parameter of the method in the callback
      */
     @SuppressWarnings("unchecked")
     public void queryExperimentSubs(String expId, OnUserListReadyListener callback){
@@ -274,15 +243,11 @@ public class UserManager {
     /**
      * Updates (or creates if not existing) the local user. This method will update the user stored in memory, locally, and in FireStore.
      * If the user's Id already exist, then the exist user document will be updated(replaced).
-     * <b>Notes:</b>
-     * 1. Changing user id or creating new users requires UserReadyCalled to be registered to LocalUserManager
-     * 2. Upon changing user id, user should be given the option to permanently delete the old profile. Then be switched to the new profile
-     * @throws ContextNotSetException
-     * throws exception if no context has ever been set for this LocalUserManager
-     * @param newUser
-     * user to be made or updated
-     * @param callback
-     * The user data is passed as a parameter of the method in the callback
+     * <b>Note:</b> Changing user id or creating new users requires UserReadyCalled to be registered to LocalUserManager
+     * <b>Note2:</b> Upon changing user id, user should be given the option to permanently delete the old profile. Then be switched to the new profile
+     * @throws ContextNotSetException Throws exception if no context has ever been set for this LocalUserManager
+     * @param newUser user to be made or updated
+     * @param callback the user data is passed as a parameter of the method in the callback
      */
     public void updateUser(User newUser, OnUserReadyListener callback){
         if (pref == null){
@@ -316,5 +281,24 @@ public class UserManager {
                 }
             }
         });
+    }
+
+    /**
+     * This method returns a User object by constructing it using the data from the document snapshot.
+     * @param document the Firestore document to retrieve the user details from
+     * @return constructed using info from document
+     */
+    private User userFromSnapshot(DocumentSnapshot document){
+        Map<String, Object> contact = (Map<String, Object> )document.get("Contacts");
+        // update firebase and other stuff
+        String description = document.getString("UserDescription");
+        String name = document.getString("UserName");
+
+        // if no contacts assert error
+        assert contact != null;
+        User temp = new User(name, document.getId(),
+                new UserContactInfo(contact.get("CityName").toString(), contact.get("Email").toString()
+                ), description);
+        return temp;
     }
 }

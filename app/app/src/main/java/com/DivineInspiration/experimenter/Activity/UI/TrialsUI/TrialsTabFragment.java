@@ -75,8 +75,8 @@ public class TrialsTabFragment extends Fragment implements Observer {
       trialList.addAll((List<Trial>) data);
       Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
 
-      if (adapter != null) {
-          adapter.notifyDataSetChanged();
-      }
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

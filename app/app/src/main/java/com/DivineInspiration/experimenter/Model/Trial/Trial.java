@@ -30,7 +30,12 @@ public abstract class Trial implements Serializable {
 
     /**
      * Constructor
-     * @param trialId:String, userId:String, trialOwnerName:String, trialExperimentID:String, date:LocalDate, location:GeoPoint
+     * @param trialId the trial ID
+     * @param userId the user id of the user performing the trial
+     * @param trialOwnerName the name of the user performing the trial
+     * @param trialExperimentID the experiment id of the experiment the trial is being done for
+     * @param date the date the trial was performed
+     * @param location the location coordinates of the trial
      */
     public Trial(String trialId, String userId, String trialOwnerName, String trialExperimentID, LocalDate date, LatLng location){
         this.trialID = trialId;
@@ -67,9 +72,9 @@ public abstract class Trial implements Serializable {
 
     /**
      * Basic trial constructor
-     * @param userId:String (unique user ID)
-     * @param trialOwnerName:String (name of experimenter that conducted this trial)
-     * @param experimentId:String (unique ID of the experiment)
+     * @param userId (unique user ID)
+     * @param trialOwnerName (name of experimenter that conducted this trial)
+     * @param experimentId (unique ID of the experiment)
      */
     public Trial(String userId, String trialOwnerName, String experimentId){
         this.trialUserID = userId;
@@ -82,7 +87,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * If trial is ignored
-     * @return :boolean (state of is ignored)
+     * @return state of is ignored
      */
     public boolean isIgnored() {
         return ignored;
@@ -90,7 +95,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Sets if the trial is ignored
-     * @param ignored:boolean (new state of ignored in trial)
+     * @param ignored new state of ignored in trial
      */
     public void setIgnored(boolean ignored) {
         this.ignored = ignored;
@@ -117,13 +122,13 @@ public abstract class Trial implements Serializable {
 
     /**
      * Gets the type of this trial
-     * @return :String (The experiment ID)
+     * @return  (The experiment ID)
      */
     public String getTrialType() { return trialType; }
 
     /**
      * Gets the ID of the trial
-     * @return :String (The trial ID)
+     * @return The trial ID
      */
     public String getTrialID() {
         return trialID;
@@ -131,7 +136,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Trial date getter
-     * @return :LocalDate (gets the trial date as a Java Date class)
+     * @return gets the trial date as a Java Date class
      */
     public LocalDate getTrialDate() {
         return trialDate;
@@ -139,7 +144,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Gets the person doing the trial
-     * @return :String (ID of the trial's user)
+     * @return ID of the trial's user
      */
     public String getTrialUserID() {
         return trialUserID;
@@ -147,7 +152,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Gets the experiment of this trial
-     * @return :String (The experiment ID)
+     * @return the experiment ID the trial is preformed for
      */
     public String getTrialExperimentID() {
         return trialExperimentID;
@@ -155,7 +160,7 @@ public abstract class Trial implements Serializable {
 
     /**
      * Gets the Experimenter of this trial
-     * @return :String (The Owner Name)
+     * @return the name of user who performed the trial
      */
     public String getTrialOwnerName() {
         return trialOwnerName;
