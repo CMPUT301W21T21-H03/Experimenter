@@ -1,6 +1,5 @@
 package com.DivineInspiration.experimenter.Activity.UI.TrialsUI;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A custom RecyclerView Adapter class. Displays a list of trials. Used by
+ * {@link com.DivineInspiration.experimenter.Activity.UI.TrialsUI.TrialsTabFragment}
+ * to create display trials.
+ * @see <a href="https://developer.android.com/guide/topics/ui/layout/recyclerview"> https://developer.android.com/guide/topics/ui/layout/recyclerview </a>
+ */
 public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.ViewHolder> {
 
     private List<Trial> trials = new ArrayList<>();
@@ -41,6 +45,12 @@ public class TrialListAdapter extends RecyclerView.Adapter<TrialListAdapter.View
         super();
     }
 
+    /**
+     * Constructor
+     * @param trials
+     * @param callback
+     * @param experiment
+     */
     public TrialListAdapter(List<Trial> trials, TrialManager.OnTrialListReadyListener callback, Experiment experiment) {
         super();
 

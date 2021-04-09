@@ -73,7 +73,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
 
     String message;
     String measure;
-    CommandFromString.QRTrialCommand command;
+
 
 
     @Override
