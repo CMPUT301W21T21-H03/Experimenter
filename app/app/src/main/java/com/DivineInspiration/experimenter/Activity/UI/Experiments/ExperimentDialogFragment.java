@@ -56,8 +56,8 @@ public class ExperimentDialogFragment extends DialogFragment {
     private String currentExpSelection;
 
     // Options for the status of the experiment (will be displayed in a drop-down fashion).
-    private String[] statusOptions = {"On going", "Hidden"};
-    private String[] statusValues = {Experiment.ONGOING, Experiment.HIDDEN};
+    private final String[] statusOptions = {"On going", "Hidden"};
+    private final String[] statusValues = {Experiment.ONGOING, Experiment.HIDDEN};
     private String currentStatusSelection;
 
     private TextInputLayout nameInput;
@@ -135,8 +135,14 @@ public class ExperimentDialogFragment extends DialogFragment {
                     validFlag = false;
                 }
 
+
+                try{
                 if (minTrial.length() == 0 || Integer.parseInt(minTrial.getText().toString()) <= 0) {
-                    countInput.setError("A valid number is required!");
+                    countInput.setError("A positive number is needed.");
+                    validFlag = false;
+                }}
+                catch (IllegalArgumentException e){
+                    countInput.setError("The number entered is too large.");
                     validFlag = false;
                 }
 
@@ -148,7 +154,7 @@ public class ExperimentDialogFragment extends DialogFragment {
                 if (exp == null) {  // Here, we create a new experiment using info entered in the dialog
                     // Construct a new Experiment object and add it using experiment manager
                     Experiment temp = new Experiment(editExperimentNameText, localUser.getUserId(), localUser.getUserName(), editExperimentAboutText, currentExpSelection, editCityText, Integer.parseInt(minTrial.getText().toString()), requireGeo.isChecked(), Experiment.ONGOING);
-                    expManager.getInstance().addExperiment(temp, successful -> {
+                    expManager.addExperiment(temp, successful -> {
                         if (successful) {
                             // Show success message at bottom of screen
                             showAlert(false, "Created new experiment!");

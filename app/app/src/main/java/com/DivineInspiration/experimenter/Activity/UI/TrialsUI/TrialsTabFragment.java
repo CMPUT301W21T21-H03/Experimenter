@@ -82,6 +82,7 @@ public class TrialsTabFragment extends Fragment implements Observer {
       Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
       trialList.clear();
       trialList.addAll((List<Trial>) data);
+      trialList.sort((t1, t2)-> -t1.getTrialID().compareTo(t2.getTrialID()));
       Log.d("woah trial tab", "" +   ((List<Trial>) data).size());  //DEBUG
 
         if (adapter != null) {
