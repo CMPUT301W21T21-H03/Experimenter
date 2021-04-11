@@ -672,6 +672,7 @@ public class CreateTrialDialogFragment extends DialogFragment implements EasyPer
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 callback.onLocationReady(locationResult.getLastLocation());
+                locProvider.removeLocationUpdates(this);
             }
         }, Looper.getMainLooper());
 
