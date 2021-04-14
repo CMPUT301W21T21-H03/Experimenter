@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black2"
+    android:fitsSystemWindows="true">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/expAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#28282B"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+
+            android:id="@+id/expCollapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:overScrollMode="never"
+            app:contentScrim="#28282B"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:orientation="vertical"
+                android:weightSum="2"
+                app:layout_collapseMode="parallax">
+                <TextView
+                    android:id="@+id/experimentName_expFrag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Experiment Name"
+                    android:textSize="24sp"
+                    tools:textStyle="bold" />
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/ownerName_expFrag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Owner Name"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/expFragSubCount"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="#subscribersNum" />
+
+
+                        <TextView
+                            android:id="@+id/status_exp"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Status:" />
+
+
+
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|right"
+                        android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/profile"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="top|right"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/user"
+                                android:backgroundTint="@color/beige1"
+                                android:clickable="true"
+                                app:layout_constraintEnd_toStartOf="@+id/setting"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/setting"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/settings"
+                                android:backgroundTint="@color/beige1"
+                                android:clickable="true"
+                                android:defaultFocusHighlightEnabled="false"
+                                android:focusable="true"
+                                android:visibility="visible"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/subscribeSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:background="@drawable/rounded_button"
+                            android:backgroundTint="@color/black1"
+                            android:text="Subscribe"
+                            android:textAlignment="center"
+                            android:textColor="@color/beige1" />
+                    </LinearLayout>
+                </FrameLayout>
+                <View
+                    android:id="@+id/sectionDivideLineName_expFrag"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:layout_marginVertical="8dp"
+                    android:layout_weight="1"
+                    android:background="@color/gray" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/experimentRegion_expFrag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Region" />
+
+
+                    <TextView
+                        android:id="@+id/trialType_expFrag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Trial Type" />
+
+                    <TextView
+                        android:id="@+id/trialNumber_expFrag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+                        android:text="#trialsNum" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/sectionDivideLineAbout_expFrag"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:layout_marginVertical="4dp"
+                    android:layout_weight="1"
+                    android:background="@color/gray" />
+
+                <TextView
+                    android:id="@+id/experimentDescription_expFrag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="About" />
+
+            </LinearLayout>
+
+            <com.DivineInspiration.experimenter.Activity.UI.NonClickableToolbar
+
+                android:id="@+id/expToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:layout_collapseMode="pin" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/Tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black1"
+            app:layout_constraintTop_toBottomOf="@+id/expAppbar"
+            app:tabIndicatorAnimationMode="linear"
+            app:tabIndicatorColor="#ea6962"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+            app:tabTextColor="@color/beige1"
+
+            />
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/expPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/experiment_fragment_add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/red1"
+        android:src="@android:drawable/ic_input_add"
+        android:visibility="invisible"
+        app:borderWidth="0dp"
+        app:rippleColor="@color/beige1"
+        app:tint="@color/white" />
+
+
+    <!--        <include-->
+    <!--            android:id="@+id/subscription_experiment_list"-->
+    <!--            layout="@layout/experiment_list"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:visibility="invisible"-->
+    <!--            tools:layout_editor_absoluteY="212dp" />-->
+
+
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fab"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="bottom|right"-->
+    <!--        android:layout_marginRight="10dp"-->
+    <!--        android:layout_marginBottom="10dp"-->
+    <!--        android:backgroundTint="@color/red1"-->
+    <!--        android:src="@drawable/ic_home_black_24dp"-->
+    <!--        app:rippleColor="@color/beige1"-->
+    <!--        app:borderWidth="0dp"-->
+    <!--        app:tint="@color/white" />-->
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

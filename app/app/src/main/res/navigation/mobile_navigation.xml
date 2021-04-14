@@ -8,7 +8,7 @@
         android:id="@+id/navigation_home"
         android:name="com.DivineInspiration.experimenter.Activity.UI.Profile.ProfileFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/profile_fragment" >
         <action
             android:id="@+id/homeToExp"
             app:destination="@id/navigation_experimentFragment"
@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_scan"
-        android:name="com.DivineInspiration.experimenter.Activity.UI.Scan.ScanFragment"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.QRBarCode.ScanFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_scan" />
+        tools:layout="@layout/scan_fragment" />
 
     <fragment
 
@@ -36,9 +36,15 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_experimentFragment"
-        android:name="com.DivineInspiration.experimenter.Activity.UI.Profile.NavigationExperimentFragment"
+        android:name="com.DivineInspiration.experimenter.Activity.UI.Experiments.ExperimentFragment"
         android:label="fragment_navigation_experiment"
-        tools:layout="@layout/fragment_navigation_experiment" />
+        tools:layout="@layout/experiment_fragment" >
+        <action
+            android:id="@+id/expTouser"
+            app:destination="@id/navigation_home"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
+    </fragment>
 
     <!-- TODO Implement back button -->
 </navigation>

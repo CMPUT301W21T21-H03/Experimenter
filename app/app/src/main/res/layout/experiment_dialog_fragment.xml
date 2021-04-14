@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/black1" >
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/qrNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/gray"
+                    app:hintTextColor="@color/beige1"
+                    app:counterOverflowTextColor="@color/red1"
+                    app:boxStrokeColor="@color/beige1"
+                    app:errorTextColor="@color/red1"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="100"
+                    app:counterTextColor="@color/beige1"
+                    app:counterOverflowTextAppearance="@color/red1"
+                    app:errorEnabled="true"
+                    >
+                    <EditText
+                        android:id="@+id/editExperimentName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/black1"
+                        android:maxLength="100"
+                        android:hint="Experiment Name"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/beige1"
+
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:id="@+id/editRegionInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/gray"
+                    app:hintTextColor="@color/beige1"
+                    app:counterOverflowTextColor="@color/red1"
+                    app:boxStrokeColor="@color/beige1"
+                    app:errorTextColor="@color/red1"
+                    app:errorEnabled="true"
+                    app:counterEnabled="true"
+                    app:counterTextColor="@color/beige1"
+                    app:counterMaxLength="100"
+                    >
+
+                    <EditText
+                        android:id="@+id/editExperimentCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/black1"
+                        android:hint="Region"
+                        android:inputType="textPersonName"
+                        android:maxLength="100"
+                        android:textColor="@color/beige1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editAboutInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/gray"
+                    app:hintTextColor="@color/beige1"
+                    app:counterOverflowTextColor="@color/red1"
+                    app:boxStrokeColor="@color/beige1"
+                    app:errorTextColor="@color/red1"
+                    app:counterEnabled="true"
+                    app:counterTextColor="@color/beige1"
+                    app:counterMaxLength="500"
+                    >
+                    <EditText
+                        android:id="@+id/editExperimentAbout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/black1"
+                        android:hint="About"
+                        android:inputType="textMultiLine"
+                        android:maxLength="500"
+                        android:textColor="@color/beige1"
+                        android:textColorHint="@color/gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Spinner
+                    android:id="@+id/editExperimentSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="18dp"/>
+
+                <CheckBox
+                    android:id="@+id/editExperimentGeo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:gravity="center"
+                    android:text="Require Geolocation"
+                    android:textColor="@color/beige1" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/gray"
+                    app:hintTextColor="@color/beige1"
+                    app:counterOverflowTextColor="@color/red1"
+                    app:boxStrokeColor="@color/beige1"
+                    app:errorTextColor="@color/red1"
+                    android:id="@+id/expCountInput"
+                    >
+                    <EditText
+                        android:id="@+id/editExperimentMin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:backgroundTint="@color/black1"
+
+                        android:hint="Minimum Trial Count"
+                        android:inputType="number"
+                        android:textColor="@color/beige1"
+                        android:textColorHint="@color/gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Spinner
+                    android:id="@+id/statusSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="18dp"/>
+                <LinearLayout
+                    android:id="@+id/ownerButtons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:visibility="gone">
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/deleteExp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Delete"
+                        android:backgroundTint="@color/black3"
+                        android:layout_weight="1"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/endExp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="End"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/black3"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--https://www.geeksforgeeks.org/cardview-in-android-with-example/
+on usage of card view
+-->
+
+
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trialItemCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@android:style/Widget.Material.Button.Borderless"
+    app:cardPreventCornerOverlap="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:focusable="true"
+    android:clickable="true"
+    android:backgroundTint="@color/black3"
+    android:layout_marginVertical="5dp"
+    android:layout_marginHorizontal="9dp"
+    app:cardCornerRadius="8dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/trialContentHolder"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:gravity="end">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:id="@+id/trialResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trial Result"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/experimenterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="Experimenter name"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/trialDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Date"
+                android:textSize="9dp" />
+
+            <TextView
+                android:id="@+id/trialCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:text=""
+                android:textSize="10dp" />
+        </FrameLayout>
+
+<Button
+    android:id="@+id/trialBan"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Ban User"
+    android:textSize="14sp"
+    android:minWidth="0dp"
+    android:minHeight="0dp"
+    android:visibility="gone"
+   />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

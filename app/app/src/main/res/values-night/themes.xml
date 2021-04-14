@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Experimenter" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Experimenter" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="colorPrimary">#32302f</item>
         <item name="colorPrimaryVariant">#21201f</item>
         <item name="colorOnPrimary">#fbf1c7</item>
@@ -10,15 +10,29 @@
         <item name="colorSecondary">#fb4934</item>
         <item name="colorSecondaryVariant">#fb4934</item>
         <item name="colorOnSecondary">#fb4934</item>
-        <item name="android:textColor">#fefae7</item>
+        <item name="android:textColor">@color/beige1</item>
+        <item name="android:colorControlActivated">@color/red1</item>
+
+
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
 
     </style>
+
+
+    <style name="dialogColor" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background"> @color/black1</item>
+    </style>
+
+
     <color name="red1">#fb4934 </color>
     <color name="beige1">#fbf1c7</color>
     <color name="black1">#3c3836</color>
     <color name="gray">#928374</color>
+    <color name="black2">#282828</color>
+    <color name="black3">#504945</color>
+    <color name="lightBlue">#83a598</color>
+    <color name="green1">#8ec07c</color>
 </resources>

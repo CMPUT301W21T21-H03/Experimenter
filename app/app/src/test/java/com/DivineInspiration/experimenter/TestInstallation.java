@@ -4,10 +4,14 @@ import android.util.Log;
 
 import com.google.firebase.installations.FirebaseInstallations;
 
+import org.junit.Test;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class TestInstallation {
+
+    //TODO WHAT IS THIS???
     public static long testInstallation(){
         final AtomicLong output = new AtomicLong(0);
         final AtomicBoolean done = new AtomicBoolean(false);

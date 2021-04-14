@@ -2,6 +2,9 @@ package com.DivineInspiration.experimenter.Model;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A class holding user profile information.
+ */
 public class User {
     private String userId;
     private String userName;
@@ -9,11 +12,10 @@ public class User {
     private UserContactInfo contactInfo;
 
     /**
-     * User contructor
-     * @param username
-     * name of the person
-     * @param contactUserInfo
-     * contact info on that person
+     * User constructor
+     * @param username name of the user
+     * @param contactUserInfo the contact info of the user
+     * @param description the user description
      */
     public User(String username, String userId, UserContactInfo contactUserInfo, String description) {
         this.userId = userId;
@@ -22,22 +24,19 @@ public class User {
         this.description = description;
     }
 
-
     /**
-     * Default constructor when initing user
-     * @param userId
-     * userID
+     * Default constructor when initializing the user
+     * @param userId ID of user
      */
-    public User(String userId){
+    public User(String userId) {
         this.userId = userId;
-        userName = "UserName";
+        userName = "Anonymous";
         contactInfo = new UserContactInfo();
         description = "";
-
     }
 
     /**
-     * Default constructor when no arguments are given, mostly for testing
+     * Mock object constructor for testing purposes
      */
     public User() {
         userId = "defaultId";
@@ -48,8 +47,7 @@ public class User {
 
     /**
      * Gets contact info of user
-     * @return
-     * Contact person class of user
+     * @return contact info of user
      */
     public UserContactInfo getContactInfo() {
         return contactInfo;
@@ -57,8 +55,7 @@ public class User {
 
     /**
      * Sets new contact info of person
-     * @param contactInfo
-     * new contact info
+     * @param contactInfo new contact info
      */
     public void setContactInfo(UserContactInfo contactInfo) {
         this.contactInfo = contactInfo;
@@ -66,26 +63,23 @@ public class User {
 
     /**
      * Gets name of user
-     * @return
-     * username
+     * @return name of the user
      */
     public String getUserName() {
         return userName;
     }
 
     /**
-     * Sets username
-     * @param userName
-     * username
+     * Sets a new username for the user
+     * @param userName the new name of the user
      */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
     /**
-     * Gets ID of user
-     * @return
-     * user ID
+     * Gets the ID of user
+     * @return ID of user
      */
     public String getUserId() {
         return userId;
@@ -93,8 +87,7 @@ public class User {
 
     /**
      * Returns a formatted user string
-     * @return
-     * formatted string
+     * @return formatted string
      */
     @NotNull
     @Override
@@ -103,18 +96,16 @@ public class User {
     }
 
     /**
-     * Gets the User description
-     * @return
-     * the user description
+     * Gets the user description
+     * @return the user description
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     * Sets the user description
-     * @param newDescription
-     * the new user description
+     * Sets a new user description
+     * @param newDescription the new user description
      */
     public void setDescription(String newDescription){
         this.description = newDescription;

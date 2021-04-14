@@ -1,53 +1,86 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
-import com.DivineInspiration.experimenter.Model.User;
+import android.annotation.SuppressLint;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.UUID;
+import com.google.android.gms.maps.model.LatLng;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.time.LocalDate;
+
+/**
+ * A class representing an experiment trial completed by a user. Holds a floating point value.
+ */
 public class MeasurementTrial extends Trial {
-    public ArrayList<Float> measurements = new ArrayList<Float>();
+    private double value;
 
     /**
-     * Constructor
-     * @param trialUser
-     * user of this trial
+     * The constructor
+     * @param trialID
+     * ID of trial
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
      * @param trialExperimentID
-     * id of experiment
+     * ID of the experiment
+     * @param trialDate
+     * date of when the trial occurred
+     * @param value
+     * measurement value
+     * @param location
+     * location of where the trial occurred
      */
-    public MeasurementTrial(User trialUser, String trialExperimentID) {
-        this.trialID = UUID.randomUUID().toString();
-        this.trialDate = new Date();
-        this.trialUser = trialUser;
+    public MeasurementTrial(String trialID, String trialUserID,String trialOwnerName ,String trialExperimentID, LocalDate trialDate, double value, LatLng location){
+        super(trialID, trialUserID, trialOwnerName ,trialExperimentID, trialDate, location);
+        this.trialType = Trial.MEASURE;
+        this.value = value;
+    }
+
+    /**
+     * The constructor
+     * @param trialUserID
+     * ID of user
+     * @param trialOwnerName
+     * name of the experimenter that did the trial
+     * @param trialExperimentID
+     * ID of the experiment
+     * @param value
+     * measurement value
+     * @param location
+     * location of where the trial occurred
+     */
+    public MeasurementTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, double value, LatLng location) {
+        super(trialUserID, trialOwnerName ,trialExperimentID);
+        this.trialType = Trial.MEASURE;
         this.trialExperimentID = trialExperimentID;
+        this.value = value;
+        this.location = location;
     }
 
     /**
-     * Adds measurement to measurements
-     * @param: measurement
+     * Gets current value of the measurement
+     * @return value 
      */
-    public void addMeasurement(float measurement) {
-        measurements.add(measurement);
+    public double getValue() {
+        return value;
     }
 
     /**
-     * Gets all measurements
-     * @return: measurements:ArrayList<Float>
+     * Sets value of the measurement
+     * @param newValue :double (new measurement)
      */
-    public ArrayList<Float> getMeasurements() {
-        return measurements;
+    public void setValue(double newValue) {
+        value = newValue;
     }
 
     /**
-     * Return the average measurement
-     * @return: average measurement
+     * String representation of trial
+     * @return pretty print of trial
      */
-    public float getAverageMeasurement() {
-        float total = 0;
-        for (float measurement : measurements) {
-            total += measurement;
-        }
-        return total / measurements.size();
+    @SuppressLint("DefaultLocale")
+    @NotNull
+    public String toString(){
+        return String.format("MeasureTrial %s: %.3f, date: %s", trialID, value, trialDate.toString());
     }
 }

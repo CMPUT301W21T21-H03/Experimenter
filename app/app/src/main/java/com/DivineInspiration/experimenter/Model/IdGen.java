@@ -3,24 +3,31 @@ package com.DivineInspiration.experimenter.Model;
 
 import android.util.Log;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.installations.FirebaseInstallations;
 
+import kotlin.NotImplementedError;
+
+/**
+ * This class is used to generate unique Id's for users, experiments, trials & comments
+ */
 public class IdGen {
+
+    private static int counter = (int) (System.currentTimeMillis() % 1296);
 
     /**
      * Event listener
      */
     public interface onIdReadyListener {
-        public void onIdReady(String id);
+        void onIdReady(String id);
     }
 
     /**
      * Generates a user id, a 53 bit long. Where the first 32 bits is epoch time, in seconds.
      * The latter 20 bits are first 4 digit of firebase installation id(base 64) loosely converted to base 36
      * @param callable
-     * ????
+     * callback function
      */
-    //TODO should userId be stored as long or a string?
     public static void genUserId(onIdReadyListener callable){
         /*
         Name: Rajeev Singh
@@ -37,7 +44,6 @@ public class IdGen {
         Usage: To use callback interface to handle async functions
          */
         FirebaseInstallations.getInstance().getId().addOnCompleteListener(task -> {
-            Log.d("stuff","entering gen user id");
             long output = 0;
             if (task.isSuccessful()){
                 String fid = task.getResult();
@@ -61,10 +67,8 @@ public class IdGen {
             else{
                 output=(-1);
             }
-            Log.d("stuff","exiting genUser id");
            callable.onIdReady(base10To36(output));
         });
-
     }
 
     /**
@@ -75,28 +79,29 @@ public class IdGen {
      * the experiment ID string
      */
     public static String genExperimentId(String userId){
-
-        // TODO This is not necessarilly unique. Should it be?
-        return "EXP" + base10To36((System.currentTimeMillis()/1000)) +userId.substring(3);
+        counter = (counter + 1) % 1296;
+        // This is not necessarily unique. Should it be?
+        return "EXP" + base10To36((System.currentTimeMillis()/1000))+base10To36(counter) +userId.substring(5);
     }
 
     /**
      * Generates the trial ID
-     * @param user
-     * trial belong to this user
-     * @param trialsCount
-     * the number of trials
+     * @param userId
+     * ID of user
      * @return
-     * a large int
+     * a large int as a string
      */
-    public static long genTrialsId(User user, int trialsCount){
-        return 0L;
+    public static String genTrialsId(String userId){
+        counter = (counter + 1) % 1296;
+        return "TRI" + base10To36((System.currentTimeMillis()/1000)) +base10To36(counter)+userId.substring(5);
     }
 
     /**
-     * converts a long in base10 to base36 as a string
-     * @param source The number to be converted
-     * @return converted string
+     * Converts a long in base10 to base36 as a string
+     * @param source
+     * the number to be converted
+     * @return
+     * converted string
      */
     public static String base10To36(long source) {
         StringBuilder out = new StringBuilder();
@@ -114,9 +119,21 @@ public class IdGen {
     }
 
     /**
+     * @param experimentID
+     * ID of experiment
+     * @return
+     * the unique comment ID
+     */
+    public static String genCommentId(String experimentID) {
+        return "COM" + base10To36((System.currentTimeMillis()/1000)) + experimentID.substring(3);
+    }
+
+    /**
      * Converts a base36 String to a base10 long
-     * @param source String to be converted
-     * @return converted string.
+     * @param source
+     * string to be converted
+     * @return
+     * converted string
      */
     public static long base36To10(String source){
         long output = 0;

@@ -1,24 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/black1"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/experiment_status_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Experiment Status"
-        android:textAlignment="center"
-        android:textSize="30sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/expList"
+    <!--    https://github.com/PhilJay/MPAndroidChart/issues/1147#issuecomment-227452773
+    fixing scollview and graph-->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/list_item" />
+        android:layout_gravity="center_horizontal"
+        android:fillViewport="true">
 
-</LinearLayout>
+        <FrameLayout
+            android:id="@+id/statFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:animateLayoutChanges="true">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/statBackButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/arrow_back"
+                android:elevation="20dp"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/graphHolder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/statHolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/statButtonGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="40dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/lineGraphButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="@color/black3"
+                        android:text="Line graph" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/histogramButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="@color/black3"
+                        android:text="Histogram" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
+
+
+        </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

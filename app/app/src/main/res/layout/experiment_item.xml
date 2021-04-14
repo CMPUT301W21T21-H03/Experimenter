@@ -19,24 +19,65 @@ on usage of card view
         android:focusable="true"
         android:clickable="true"
         android:backgroundTint="@color/black3"
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="9dp"
+    app:cardCornerRadius="8dp"
       >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:paddingHorizontal="10dp"
-            android:paddingVertical="18dp">
-
+            android:paddingVertical="10dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/expListTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Experiment Title"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="17.5sp"
+                android:textStyle="bold"
+               />
+            <TextView
+                android:id="@+id/expListOwnerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Owner: owner name"
+                android:textSize="13sp"
+                />
+            <TextView
+                android:id="@+id/expListType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trial type: counting?"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:id="@+id/locationInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Region: place holder - Geolocation ✓"
+                android:textSize="12sp"
+                />
+            <View
+                android:id="@+id/sectionDivideLineName_home"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:layout_marginVertical="4dp"
+                android:layout_weight="1"
+                android:background="@color/gray" />
+            <TextView
+                android:id="@+id/expListAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="a very long description for this experiment. It might include a lot of words so that it might span multiplw lines, we should probably limit number of characters, perhaps. Blah blah blah. Here, I'll add some more words so that is will hopefully take more than 3 lines to display"
+                android:textSize="12sp"
+                android:ellipsize="end"
+                android:maxLines="3"
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                />
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>

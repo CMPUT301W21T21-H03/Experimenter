@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black1"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <CheckBox
+            android:id="@+id/checkBoxTrial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:text="Submit Geo-Location"
+            android:textColor="@color/beige1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/binomial_pass_button"
+            android:layout_width="105dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/black2"
+            android:text="Pass"
+            android:textColor="@color/beige1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/increase_trial_value" />
+
+        <Button
+            android:id="@+id/binomial_fail_button"
+            android:layout_width="105dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/black2"
+            android:text="Fail"
+            android:textColor="@color/beige1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/decrease_trial_value" />
+
+        <TextView
+            android:id="@+id/binomial_fail_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAlignment="textStart"
+            android:layout_marginStart="20dp"
+            android:text="0"
+            android:textSize="30dp"
+            app:layout_constraintStart_toEndOf="@+id/binomial_fail_decrement"
+            app:layout_constraintTop_toBottomOf="@+id/binomial_fail_button" />
+
+        <TextView
+            android:id="@+id/binomial_pass_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAlignment="textEnd"
+            android:layout_marginEnd="20dp"
+            android:text="0"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toStartOf="@+id/binomial_pass_decrement"
+            app:layout_constraintTop_toBottomOf="@+id/binomial_pass_button" />
+
+        <Button
+            android:id="@+id/binomial_pass_decrement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/black2"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="-"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/binomial_pass_textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/binomial_pass_button" />
+
+        <Button
+            android:id="@+id/binomial_fail_decrement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/black2"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="-"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/binomial_fail_textView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/binomial_fail_button" />
+
+        <TextView
+            android:id="@+id/value_trial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="1"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="@+id/decrease_trial_value"
+            app:layout_constraintEnd_toStartOf="@+id/increase_trial_value"
+            app:layout_constraintStart_toEndOf="@+id/decrease_trial_value"
+            app:layout_constraintTop_toBottomOf="@+id/valueHolder" />
+
+        <Button
+            android:id="@+id/increase_trial_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/black2"
+            android:text="+"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/valueHolder" />
+
+        <Button
+            android:id="@+id/decrease_trial_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/black2"
+            android:text="-"
+            android:textSize="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/valueHolder" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/valueHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/gray"
+            app:boxStrokeColor="@color/beige1"
+            app:counterOverflowTextAppearance="@color/red1"
+            app:counterTextColor="@color/beige1"
+            app:errorEnabled="true"
+            app:hintTextColor="@color/beige1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxTrial">
+
+
+            <EditText
+                android:id="@+id/editMeasurementValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@color/black2"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="Value"
+                android:inputType="numberDecimal|numberSigned"
+                android:textAlignment="gravity"
+                android:textColor="@color/beige1"
+                android:textColorHint="@color/beige1"
+                android:textSize="20dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/qr_code_generator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:backgroundTint="@color/black2"
+        android:capitalize="words"
+        android:text="Make QR"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toStartOf="@+id/barCodeButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <Button
+        android:id="@+id/barCodeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:backgroundTint="@color/black2"
+        android:capitalize="words"
+        android:text="Register Barcode"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/qr_code_generator"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <TextView
+        android:id="@+id/locationWarning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black2"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:text="Warning"
+        android:textColor="@color/red1"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qr_code_generator" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

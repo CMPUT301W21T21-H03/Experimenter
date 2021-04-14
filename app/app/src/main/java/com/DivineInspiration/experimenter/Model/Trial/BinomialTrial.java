@@ -1,75 +1,61 @@
 package com.DivineInspiration.experimenter.Model.Trial;
 
-import com.DivineInspiration.experimenter.Model.User;
-import java.util.Date;
-import java.util.UUID;
+import com.google.android.gms.maps.model.LatLng;
 
+import java.time.LocalDate;
+import java.util.Random;
+
+/**
+ * A class representing an experiment trial completed by a user. Holds a boolean value indicating
+ * the success or failure of the trial.
+ */
 public class BinomialTrial extends Trial {
-    private int success;
-    private int failure;
+    private boolean pass;
 
     /**
      * Constructor
-     * @param trialUser
-     * user of this trial
-     * @param trialExperimentID
-     * id of experiment
+     * @param trialID the trial ID
+     * @param trialUserID the user id of the user performing the trial
+     * @param trialOwnerName the name of the user performing the trial
+     * @param trialExperimentID the experiment id of the experiment the trial is being done for
+     * @param trialDate date the trial was carried out
+     * @param pass whether the binomial trial passed ot failed
+     * @param location the location coordinates of the trial
      */
-    public BinomialTrial(User trialUser, String trialExperimentID) {
-        this.trialID = UUID.randomUUID().toString();
-        this.trialDate = new Date();
-        this.trialUser = trialUser;
-        this.trialExperimentID = trialExperimentID;
-        this.success = 0;
-        this.failure = 0;
+    public BinomialTrial(String trialID, String trialUserID, String trialOwnerName, String trialExperimentID, LocalDate trialDate, boolean pass, LatLng location){
+        super(trialID, trialUserID,trialOwnerName ,trialExperimentID, trialDate,location);
+        this.trialType = Trial.BINOMIAL;
+        this.pass = pass;
     }
 
     /**
-     * Gets no. of successes
-     * @return: success
+     * Constructor
+     * @param trialUserID the user id of the user performing the trial
+     * @param trialOwnerName the name of the user performing the trial
+     * @param trialExperimentID the experiment id of the experiment the trial is being done for
+     * @param pass whether the binomial trial passed ot failed
+     * @param location the location coordinates of the trial
      */
-    public int getSuccess() {
-        return success;
+    public BinomialTrial(String trialUserID,String trialOwnerName ,String trialExperimentID, boolean pass, LatLng location) {
+        super(trialUserID, trialOwnerName, trialExperimentID);
+        this.trialType = Trial.BINOMIAL;
+        this.pass = pass;
+        this.location = location;
     }
 
     /**
-     * Gets no. of failures
-     * @return: failure
+     * Gets the pass (i.e. the result of the trial)
+     * @return pass or fail
      */
-    public int getFailure() {
-        return failure;
+    public boolean getPass() {
+        return pass;
     }
 
     /**
-     * Gets total no. of success and failures
-     * @return: success + failure
+     * Sets pass
+     * @param newVal new pass
      */
-    public int getTotalCount() {
-        return success + failure;
-    }
-
-    /**
-     * Gets the success ratio
-     * @return: success / success + failure
-     */
-    public int getSuccessRatio() {
-        if (getTotalCount() == 0)
-            return 0;
-        int ratio = (int) (((float)success / getTotalCount()) * 100);
-        return ratio;
-    }
-
-    /**
-     * Increments success by one
-     */
-    public void addSuccess() {
-        ++success;
-    }
-
-    /**
-     * Increments failure by one
-     */
-    public void addFailure() {
-        ++failure;
+    public void setPass(boolean newVal) {
+        pass = newVal;
     }
 }
