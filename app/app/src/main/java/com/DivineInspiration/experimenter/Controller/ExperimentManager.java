@@ -125,6 +125,24 @@ public class ExperimentManager extends ArrayList<Experiment> {
         });
     }
 
+    public void deleteAllExperimentFromOwnerId(String id){
+        db.collection("Experiments").whereEqualTo("OwnerID", id).get().addOnCompleteListener(task -> {
+            for(QueryDocumentSnapshot snapshot : task.getResult()){
+                Log.d("woah",snapshot.getId());
+                snapshot.getReference().delete();
+            }
+        });
+    }
+    public void deleteAllExperimentFromTitle(String title){
+        db.collection("Experiments").get().addOnCompleteListener(task -> {
+           for (QueryDocumentSnapshot snapshot : task.getResult()){
+               if(snapshot.getString("ExperimentName").contains(title)){
+                    snapshot.getReference().delete();
+               }
+           }
+        });
+    }
+
     /**
      * Banning the user from the experiment (ie masking the results)
      * @param userId ID of user

@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity  {
 
         // Log.d("ALERT", "Main created!");
 
+//        ExperimentManager.getInstance().deleteAllExperimentFromTitle("test");
+
         // Create directory for QR code images
         File dir = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "/QRCodes");
         if (!dir.exists()) {

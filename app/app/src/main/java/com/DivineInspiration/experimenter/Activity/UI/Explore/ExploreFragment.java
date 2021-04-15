@@ -106,6 +106,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
                     shownList.add(dataList.get(i));
                 }
             }
+
             // Store the new filtered result and refresh adapter
             exploreListAdapter.setData(shownList);
             exploreListAdapter.notifyDataSetChanged();
@@ -120,6 +121,7 @@ public class ExploreFragment extends Fragment implements ExperimentManager.OnExp
      */
     @Override
     public void onExperimentsReady(List<Experiment> queryList) {
+        queryList.sort((e1, e2)-> -e1.getExperimentID().compareTo(e2.getExperimentID()));
         dataList = queryList;
         shownList = queryList;
         exploreListAdapter.setData(shownList);
