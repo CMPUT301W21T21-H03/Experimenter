@@ -122,13 +122,11 @@ public class GraphMaker {
         switch (trials.get(0).getTrialType()) {
             case Trial.COUNT:
                 return makeCountLineGraph(trialsDateBucket, context);
-
             case Trial.BINOMIAL:
                 return makeBinomialLineGraph(trialsDateBucket, context);
             case Trial.MEASURE://switch abuse
             case Trial.NONNEGATIVE:
                 return makeCandlestick(trialsDateBucket, context);
-
             default:
                 return null;
         }
@@ -149,6 +147,7 @@ public class GraphMaker {
         https://medium.com/@neerajmoudgil/candlestick-chart-using-philjay-mpandroidchart-library-how-to-bf657ddf3a28
         how make candle stick chart with MPandroid
          */
+        Log.d("woah","entering make candle stick");
 
         LocalDate currentDate = trialsBucket.get(0).get(0).getTrialDate();
         LocalDate lastDate = trialsBucket.get(trialsBucket.size() - 1).get(0).getTrialDate();
@@ -167,9 +166,13 @@ public class GraphMaker {
                 currentTrials.addAll(trialsBucket.get(dateIndex));
                 dateIndex++;
             }
+
             lineEntry.add(new Entry(entryIndex, (float) StatsMaker.calcMean(currentTrials)));
-            double[] quartiles = StatsMaker.calcQuartiles(currentTrials);
-            candleEntries.add(new CandleEntry(entryIndex, (float) quartiles[1], (float) quartiles[0], (float) quartiles[1], (float) quartiles[0]));
+            if(currentTrials.size() > 3)
+            {
+                double[] quartiles = StatsMaker.calcQuartiles(currentTrials);
+                candleEntries.add(new CandleEntry(entryIndex, (float) quartiles[1], (float) quartiles[0], (float) quartiles[1], (float) quartiles[0]));
+            }
             dates.add(shortFormatter.format(currentDate));
             entryIndex++;
             currentDate = currentDate.plusDays(1);

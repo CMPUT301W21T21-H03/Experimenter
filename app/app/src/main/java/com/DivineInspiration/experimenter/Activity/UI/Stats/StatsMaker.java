@@ -2,7 +2,6 @@ package com.DivineInspiration.experimenter.Activity.UI.Stats;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -108,7 +107,6 @@ public class StatsMaker {
         return val;
     }
 
-
     /**
      * Calculates the standard deviation of all the trials
      * @param trials
@@ -116,7 +114,6 @@ public class StatsMaker {
      * @return standard deviation of the value in the ist of trials given.
      */
     public static double calcStd(List<Trial> trials) {
-
         double mean = calcMean(trials);
         List<Double> values = getDoubles(trials);
         double SS = 0;
@@ -133,6 +130,10 @@ public class StatsMaker {
      * @return A double[4], which is Q1, Q3, Min, Max of values in the list of trials, in order.
      */
     public static double[] calcQuartiles(List<Trial> trials) {
+        if(trials.size() < 3){
+            throw new IllegalArgumentException("not enough values to determine quartiles.");
+        }
+
         List<Double> values = sortDouble(getDoubles(trials));
         int size = values.size();
         List<Double> upper = values.subList((size / 2) + (size % 2 == 1? 1:0), size);

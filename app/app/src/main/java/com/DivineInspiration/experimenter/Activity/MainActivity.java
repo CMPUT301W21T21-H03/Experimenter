@@ -54,42 +54,44 @@ public class MainActivity extends AppCompatActivity {
         // Log.d("ALERT", "Main created!");
 
 //        ExperimentManager.getInstance().deleteAllExperimentFromTitle("test");
-
-        UserManager.getInstance().initializeLocalUser(user -> {
-            Experiment measureDemo = new Experiment(IdGen.genExperimentId(user.getUserId()), "Demo Measurement Experiment", user.getUserId(), user.getUserName(),
-                    "A Demo Measurement Experiment for presentation.", Trial.MEASURE, "Demolandia", 300, true, Experiment.ONGOING);
-
-            ExperimentManager.getInstance().addExperiment(measureDemo, done -> {
-            });
-
-            double[] vals = {2, 2.3, 4, 5.1, 1, 2.1, 6, 5.6, 7, 3, 8, 2.3, 1, 4.2, 6.2, 9, 5, 3.4, 4.8, 7, 3.5, 6.1, 3.4, 2.9, 6, 9, 3.6, 2.9, 2.4, 3.8, 1.9, 0.4, 7.3, 5.5};
-
-            TrialManager trialManager = TrialManager.getInstance();
-            Random rng = new Random();
-
-            for (Double val : vals) {
-                trialManager.addTrial(
-                        new MeasurementTrial(IdGen.genTrialsId(user.getUserId()),
-                                user.getUserId(),
-                                user.getUserName(),
-                                measureDemo.getExperimentID(),
-                                LocalDate.now().plusDays(rng.nextInt(40) - 20),
-                                val, new LatLng(rng.nextDouble() * 180 - 90, rng.nextDouble() * 360 - 180)), null);
-            }
-
-            Experiment binomialDemo =  new Experiment(IdGen.genExperimentId(user.getUserId()), "Demo Binomial Experiment", user.getUserId(), user.getUserName(),
-                    "A Demo Measurement Experiment for presentation.", Trial.BINOMIAL, "Demolandia, Binomial Prov.", 300, true, Experiment.ONGOING);
-
-            for (int i = 0;  i < 100; i++){
-                trialManager.addTrial(
-                        new BinomialTrial(IdGen.genTrialsId(user.getUserId()),
-                                user.getUserId(),
-                                user.getUserName(),
-                                measureDemo.getExperimentID(),
-                                LocalDate.now().plusDays(rng.nextInt(40) - 20),
-                                rng.nextBoolean(), new LatLng(rng.nextDouble() * 180 - 90, rng.nextDouble() * 360 - 180)), null);
-            }
-        });
+//        UserManager.getInstance().setContext(this);
+//        UserManager.getInstance().initializeLocalUser(user -> {
+//            Experiment measureDemo = new Experiment(IdGen.genExperimentId(user.getUserId()), "Demo Measurement Experiment", user.getUserId(), user.getUserName(),
+//                    "A Demo Measurement Experiment for presentation.", Trial.MEASURE, "Demolandia", 300, true, Experiment.ONGOING);
+//
+//            ExperimentManager.getInstance().addExperiment(measureDemo, done -> {
+//            });
+//
+//            double[] vals = {2, 2.3, 4, 5.1, 1, 2.1, 6, 5.6, 7, 3, 8, 2.3, 1, 4.2, 6.2, 9, 5, 3.4, 4.8, 7, 3.5, 6.1, 3.4, 2.9, 6, 9, 3.6, 2.9, 2.4, 3.8, 1.9, 0.4, 7.3, 5.5};
+//
+//            TrialManager trialManager = TrialManager.getInstance();
+//            Random rng = new Random();
+//
+//            for (Double val : vals) {
+//                trialManager.addTrial(
+//                        new MeasurementTrial(IdGen.genTrialsId(user.getUserId()),
+//                                user.getUserId(),
+//                                user.getUserName(),
+//                                measureDemo.getExperimentID(),
+//                                LocalDate.now().plusDays(rng.nextInt(40) - 20),
+//                                val, new LatLng(rng.nextDouble() * 180 - 90, rng.nextDouble() * 360 - 180)), trials -> {});
+//            }
+//
+//            Experiment binomialDemo =  new Experiment(IdGen.genExperimentId(user.getUserId()), "Demo Binomial Experiment", user.getUserId(), user.getUserName(),
+//                    "A Demo Measurement Experiment for presentation.", Trial.BINOMIAL, "Demolandia, Binomial Prov.", 300, true, Experiment.ONGOING);
+//
+//            ExperimentManager.getInstance().addExperiment(binomialDemo, done -> {
+//            });
+//            for (int i = 0;  i < 100; i++){
+//                trialManager.addTrial(
+//                        new BinomialTrial(IdGen.genTrialsId(user.getUserId()),
+//                                user.getUserId(),
+//                                user.getUserName(),
+//                                binomialDemo.getExperimentID(),
+//                                LocalDate.now().plusDays(rng.nextInt(40) - 20),
+//                                rng.nextBoolean(), new LatLng(rng.nextDouble() * 180 - 90, rng.nextDouble() * 360 - 180)), trial ->{});
+//            }
+//        });
 
         // Create directory for QR code images
         File dir = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "/QRCodes");
@@ -102,6 +104,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d("Files QR", "directory already exists - " + dir.getPath());
         }
-
     }
 }
