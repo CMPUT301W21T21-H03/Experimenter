@@ -4,9 +4,13 @@
 
 ![badge](https://github.com/CMPUT301W21T21-H03/DivineInspiration/workflows/AndroidTests/badge.svg) ![badge](https://api.travis-ci.com/CMPUT301W21T21-H03/DivineInspiration.svg?branch=master&status=created) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![Issues](https://img.shields.io/github/contributors/CMPUT301W21T21-H03/DivineInspiration) [![Issues](https://img.shields.io/github/issues/CMPUT301W21T21-H03/DivineInspiration)](https://github.com/CMPUT301W21T21-H03/DivineInspiration/issues) 
 
-An Java-Android app that does experiments and tests.
-
-
+An Java-Android app that does experiments and tests.   
+# Screenshots   
+![Image 3](https://user-images.githubusercontent.com/45904426/128582917-8e096021-b18e-429d-8c39-121846fc60fe.PNG)
+![Image 4](https://user-images.githubusercontent.com/45904426/128582918-2396357d-dd9e-4ad5-af5f-aa2cc173e9c7.PNG)
+![Image 5](https://user-images.githubusercontent.com/45904426/128582921-f14bb4f0-b3a3-48ac-99c7-809ab58fbd72.PNG)
+![Image 1](https://user-images.githubusercontent.com/45904426/128582924-edd53152-197c-4eb7-8929-119849116bde.PNG)
+![Image 2](https://user-images.githubusercontent.com/45904426/128582925-57155eb5-da49-4880-85a3-1f25e688fee8.PNG)
 
 ## Guide
 
