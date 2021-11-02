@@ -2,7 +2,7 @@
 
 <img src="img/logo.png" alt="logo" width=200 />
 
-![badge](https://github.com/CMPUT301W21T21-H03/DivineInspiration/workflows/AndroidTests/badge.svg) ![badge](https://api.travis-ci.com/CMPUT301W21T21-H03/DivineInspiration.svg?branch=master&status=created) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![Issues](https://img.shields.io/github/contributors/CMPUT301W21T21-H03/DivineInspiration) [![Issues](https://img.shields.io/github/issues/CMPUT301W21T21-H03/DivineInspiration)](https://github.com/CMPUT301W21T21-H03/DivineInspiration/issues) 
+![badge](https://github.com/CMPUT301W21T21-H03/DivineInspiration/workflows/AndroidTests/badge.svg) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![Issues](https://img.shields.io/github/contributors/CMPUT301W21T21-H03/DivineInspiration) [![Issues](https://img.shields.io/github/issues/CMPUT301W21T21-H03/DivineInspiration)](https://github.com/CMPUT301W21T21-H03/DivineInspiration/issues) 
 
 An Java-Android app that does experiments and tests.   
 # Screenshots   
